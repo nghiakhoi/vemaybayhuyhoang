@@ -7,7 +7,7 @@ class Content extends Component {
                 <div className="wrapper-header-version-3">
                     <div className="header-search-tour">
                         <div className="intravel-destination-search">
-                            <div className="intravel-destination-bgimage" style={{ backgroundImage: 'url(/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_roma.jpg)' }} />
+                            <div className="intravel-destination-bgimage" style={{ backgroundImage: 'url(/images/tour_destination_roma.jpg)' }} />
                             <div className="intravel-destination-bgimage2 transparent" />
                             <div className="intravel-destination-search-inner">
                                 <div className="iw-logo-home">
@@ -38,18 +38,18 @@ class Content extends Component {
                     <span className="caret theme-bg" />
                                                 </span>
                                             </li>
-                                            <li className="destination-menu-item " data-destination-slug="paris" data-destination-backgroundimg="/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_paris.jpg">
-                                                <span>Paris
+                                            <li className="destination-menu-item " data-destination-slug="paris" data-destination-backgroundimg="http://inwavethemes.com/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_roma.jpg">
+                                                <span>Hà Nội
                     <span className="caret theme-bg" />
                                                 </span>
                                             </li>
                                             <li className="destination-menu-item active" data-destination-slug="rome" data-destination-backgroundimg="http://inwavethemes.com/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_paris.jpg">
-                                                <span>Rome
+                                                <span>Đà Nẵng
                     <span className="caret theme-bg" />
                                                 </span>
                                             </li>
                                             <li className="destination-menu-item " data-destination-slug="san-francisco" data-destination-backgroundimg="/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_california.jpg">
-                                                <span>San Francisco
+                                                <span>Thành phố Hồ Chí Minh
                     <span className="caret theme-bg" />
                                                 </span>
                                             </li>
