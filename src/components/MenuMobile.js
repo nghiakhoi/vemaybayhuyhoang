@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
-
-class Nav extends Component {
+class MenuMobile extends Component {
     render() {
         return (
             <nav className="off-canvas-menu st-menu">
@@ -14,7 +13,7 @@ class Nav extends Component {
                 </h2>
                 <ul id="menu-main-menu" className="canvas-menu">
                     <li id="menu-item-1309" className="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-948 current_page_item menu-item-has-children menu-item-1309 selected active ">
-                        <a href="/wordpress/intravel/home/">Home</a>
+                        <a href="/wordpress/intravel/home/">Trang chủ mobile</a>
                         <ul className="sub-menu child-nav dropdown-nav">
                             <li id="menu-item-1447" className="menu-item menu-item-type-post_type menu-item-object-page menu-item-1447">
                                 <a href="/wordpress/intravel/home/home-v2/">Home v2</a>
@@ -132,4 +131,4 @@ class Nav extends Component {
     }
 }
 
-export default Nav;
+export default MenuMobile;

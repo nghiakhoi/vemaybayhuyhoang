@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import '../css/App.css';
-import Nav from './Nav';
 import Content from './Content';
+import MenuMobile from './MenuMobile';
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <Nav />
+        <MenuMobile />
         <Content />
       </div>
     );
