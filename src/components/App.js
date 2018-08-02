@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import '../css/App.css';
-import Content from './Content';
+import Home from './Home';
 import MenuMobile from './MenuMobile';
 import axios from 'axios';
+import Booking from './Booking';
 
 
 class App extends Component {
@@ -46,7 +47,8 @@ class App extends Component {
     return (
       <div className="App">
         <MenuMobile />
-        <Content />
+        
+        <Booking />
       </div>
     );
   }

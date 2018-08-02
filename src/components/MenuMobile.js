@@ -6,7 +6,7 @@ class MenuMobile extends Component {
             <nav className="off-canvas-menu st-menu">
                 <h2 className="canvas-menu-title">Main Menu
     <span className="text-right">
-                        <a href="#" id="off-canvas-close">
+                        <a href="" id="off-canvas-close">
                             <i className="fa fa-times" />
                         </a>
                     </span>
