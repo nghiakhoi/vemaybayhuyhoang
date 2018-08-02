@@ -12,10 +12,10 @@ class BookingContent extends Component {
                                     <form id="orderForm" method="get" action="http://inwavethemes.com/wordpress/intravel/home/tours/" name="orderForm">
                                         <select className="tours-order iw-select-2 select2-hidden-accessible" name="order" tabIndex={-1} aria-hidden="true">
                                             <option value="desc">Descending</option>
-                                            <option value="asc" selected>Ascending</option>
+                                            <option value="asc" >Ascending</option>
                                         </select><span className="select2 select2-container select2-container--default" dir="ltr" style={{ width: 109 }}><span className="selection"><span className="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabIndex={0} aria-labelledby="select2-order-nh-container"><span className="select2-selection__rendered" id="select2-order-nh-container" title="Ascending">Ascending</span><span className="select2-selection__arrow" role="presentation"><b role="presentation" /></span></span></span><span className="dropdown-wrapper" aria-hidden="true" /></span>
                                         <select className="tours-orderby iw-select-2 select2-hidden-accessible" name="orderby" tabIndex={-1} aria-hidden="true">
-                                            <option value selected>Ordering</option>
+                                            <option value >Ordering</option>
                                             <option value="date">Date</option>
                                             <option value="price">Price</option>
                                             <option value="rating">Rating</option>
@@ -28,7 +28,7 @@ class BookingContent extends Component {
                                                     <li className="theme-bg active">
                                                         <i className="icon ion-navicon" />
                                                     </li>
-                                                    <li className>
+                                                    <li >
                                                         <a href="#" className="tours-layout layout-grid"><i className="icon ion-grid" /></a>
                                                     </li>
                                                 </ul>
@@ -288,12 +288,12 @@ class BookingContent extends Component {
                                     <a href="http://inwavethemes.com/wordpress/intravel/home/tour-type/beaches-islands/" className="tag-link-68 tag-link-position-2" title="3 topics" style={{ fontSize: '8pt' }}>Beaches &amp; Islands</a>
                                     <a href="http://inwavethemes.com/wordpress/intravel/home/tour-type/family-tours/" className="tag-link-45 tag-link-position-3" title="7 topics" style={{ fontSize: '18.5pt' }}>Family Tours</a>
                                     <a href="http://inwavethemes.com/wordpress/intravel/home/tour-type/history-culture/" className="tag-link-44 tag-link-position-4" title="6 topics" style={{ fontSize: '16.75pt' }}>History &amp; Culture</a>
-                                    <a href="http://inwavethemes.com/wordpress/intravel/home/tour-type/sightseeing-tours/" className="tag-link-62 tag-link-position-5" title="9 topics" style={{ fontSize: '22pt' }}>Sightseeing tours</a></div></aside><aside id="destinations-2" className="widget tour_destinations"><h3 className="widget-title"><span>Popular destinations</span></h3><div className="destination-widget"><div className="destination-item iw-effect-1"><img src="http://inwavethemes.com/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_usa-270x300.jpg" alt /><div className="destination-info" style={{ bottom: 76 }}><div className="info-active"><h4>USA</h4><div className="destination-widget-rating">
+                                    <a href="http://inwavethemes.com/wordpress/intravel/home/tour-type/sightseeing-tours/" className="tag-link-62 tag-link-position-5" title="9 topics" style={{ fontSize: '22pt' }}>Sightseeing tours</a></div></aside><aside id="destinations-2" className="widget tour_destinations"><h3 className="widget-title"><span>Popular destinations</span></h3><div className="destination-widget"><div className="destination-item iw-effect-1"><img src="http://inwavethemes.com/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_usa-270x300.jpg"  /><div className="destination-info" style={{ bottom: 76 }}><div className="info-active"><h4>USA</h4><div className="destination-widget-rating">
                                         <div className="iw-star-rating">
                                             <span className="rating" style={{ width: '99%' }} />
                                         </div>
                                         <div className="clearfix" />
-                                    </div></div><div className="destination-to-detail"><a href="http://inwavethemes.com/wordpress/intravel/home/destination/usa/">Discover <i className="icon ion-arrow-right-c" /></a></div></div></div><div className="destination-item iw-effect-1"><img src="http://inwavethemes.com/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_california-270x300.jpg" alt /><div className="destination-info" style={{ bottom: 111 }}><div className="info-active"><h4>San Francisco</h4><div className="destination-parent"><a href="http://inwavethemes.com/wordpress/intravel/home/destination/usa/">USA</a></div><div className="destination-widget-rating">
+                                    </div></div><div className="destination-to-detail"><a href="http://inwavethemes.com/wordpress/intravel/home/destination/usa/">Discover <i className="icon ion-arrow-right-c" /></a></div></div></div><div className="destination-item iw-effect-1"><img src="http://inwavethemes.com/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_california-270x300.jpg"  /><div className="destination-info" style={{ bottom: 111 }}><div className="info-active"><h4>San Francisco</h4><div className="destination-parent"><a href="http://inwavethemes.com/wordpress/intravel/home/destination/usa/">USA</a></div><div className="destination-widget-rating">
                                         <div className="iw-star-rating">
                                             <span className="rating" style={{ width: '75%' }} />
                                         </div>
@@ -301,7 +301,7 @@ class BookingContent extends Component {
                                     </div></div><div className="destination-to-detail"><a href="http://inwavethemes.com/wordpress/intravel/home/destination/san-francisco/">Discover <i className="icon ion-arrow-right-c" /></a></div></div></div><div className="clearfix" /></div></aside><aside id="intravel_tours-2" className="widget widget_intravel_tours"><h3 className="widget-title"><span>Most reviewed tours</span></h3>        <div className="iw-travel-tours-widget">
                                         <div className="iw-tour-item iw-effect-img">
                                             <div className="tour-thumnail effect-1">
-                                                <img src="http://inwavethemes.com/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_roma-600x600.jpg" alt />
+                                                <img src="http://inwavethemes.com/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_roma-600x600.jpg"  />
                                             </div>
                                             <div className="tour-info">
                                                 <h3 className="title"><a className="theme-color" href="http://inwavethemes.com/wordpress/intravel/home/tours/rome-city-sightseeing-tours-bike-tour/">Rome City Sightseeing Tours Bike Tour</a></h3>
@@ -320,7 +320,7 @@ class BookingContent extends Component {
                                         </div>
                                         <div className="iw-tour-item iw-effect-img">
                                             <div className="tour-thumnail effect-1">
-                                                <img src="http://inwavethemes.com/wordpress/intravel/wp-content/uploads/2016/09/tour_san_francisco_3-1-600x600.jpg" alt />
+                                                <img src="http://inwavethemes.com/wordpress/intravel/wp-content/uploads/2016/09/tour_san_francisco_3-1-600x600.jpg"  />
                                             </div>
                                             <div className="tour-info">
                                                 <h3 className="title"><a className="theme-color" href="http://inwavethemes.com/wordpress/intravel/home/tours/san-francisco-museum-of-modern-art/">San Francisco Museum of Modern Art</a></h3>
@@ -339,7 +339,7 @@ class BookingContent extends Component {
                                         </div>
                                         <div className="iw-tour-item iw-effect-img">
                                             <div className="tour-thumnail effect-1">
-                                                <img src="http://inwavethemes.com/wordpress/intravel/wp-content/uploads/2016/06/tour_venice_1-600x600.jpg" alt />
+                                                <img src="http://inwavethemes.com/wordpress/intravel/wp-content/uploads/2016/06/tour_venice_1-600x600.jpg"  />
                                             </div>
                                             <div className="tour-info">
                                                 <h3 className="title"><a className="theme-color" href="http://inwavethemes.com/wordpress/intravel/home/tours/5-night-the-magic-of-venice-tour/">5 days 4 Nights The Magic of Venice Tour</a></h3>

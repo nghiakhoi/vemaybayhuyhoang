@@ -83,8 +83,8 @@ class Slider extends Component {
                                         </div>
                                         <div className="tour-type-field">
                                             <i className="ion-ios-paper-outline" />
-                                            <select className="form-control js-selected " name="tour_type">
-                                                <option value>Tour type</option>
+                                            <select className="form-control js-selected " defaultValue="a" name="tour_type">
+                                                <option value="a">Tour type</option>
                                                 <option value="adventure-travel">Adventure Travel</option>
                                                 <option value="beaches-islands">Beaches &amp; Islands</option>
                                                 <option value="family-tours">Family Tours</option>

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import Home from '../components/Home';
+import Booking from '../components/Booking';
 
 class DieuHuongURL extends Component {
     render() {
@@ -7,8 +9,7 @@ class DieuHuongURL extends Component {
             <Router>
                 <div>
                     <Route exact path="/" component={Home} />
-                    <Route path="/about" component={About} />
-                    <Route path="/topics" component={Topics} />
+                    <Route exact path="/booking" component={Booking} />
                 </div>
             </Router>
         );

@@ -47,8 +47,8 @@ class App extends Component {
     return (
       <div className="App">
         <MenuMobile />
-        
-        <Booking />
+        <Home />
+        {/* <Booking /> */}
       </div>
     );
   }
