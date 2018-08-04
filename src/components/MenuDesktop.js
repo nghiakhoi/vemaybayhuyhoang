@@ -19,7 +19,7 @@ class MenuDesktop extends Component {
                                 <div className="iw-main-menu">
                                     <ul id="menu-main-menu-1" className="iw-nav-menu  nav-menu nav navbar-nav">
                                         <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-948 current_page_item menu-item-has-children menu-item-1309 selected active ">
-                                            <a href="/wordpress/intravel/home/">Trang chủ
+                                            <a href="/">Trang chủ
                                                 <small className="icon-arrow" />
                                             </a>
                                             <ul className="sub-menu child-nav dropdown-nav">
@@ -38,7 +38,7 @@ class MenuDesktop extends Component {
                                             </ul>
                                         </li>
                                         <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-1102">
-                                            <a href="/wordpress/intravel/home/destinations/">Destinations
+                                            <a href="/booking">Booking
             <small className="icon-arrow" />
                                             </a>
                                             <ul className="sub-menu child-nav dropdown-nav">

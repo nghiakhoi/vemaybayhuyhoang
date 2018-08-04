@@ -1,6 +1,173 @@
 import React, { Component } from 'react';
+import BookingItem from './BookingItem';
+import axios from 'axios';
+
+const getTicketDataVN = () =>
+    axios.get('http://localhost:4000/vn')
+        .then((res) => res.data)
+const getTicketDataJS = () =>
+    axios.get('http://localhost:4000/js')
+        .then((res) => res.data)
+const getTicketDataVJ = () =>
+    axios.get('http://localhost:4000/vj')
+        .then((res) => res.data)
 
 class BookingContent extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: null
+        }
+    }
+
+    componentWillMount() {
+
+        if (this.state.data === null) {
+            getTicketDataJS().then((kq) => {
+                var mangjson = [];
+                //mangjson.push(kq[0]);
+                var tempflyno = "";
+                var tempprice = "";
+                var tempdeptime = "";
+                var tempdestime = "";
+                for (var key in kq[0]) {
+                    tempflyno = kq[0][key]['air_code'];
+                    tempprice = kq[0][key]['baseprice'];
+                    tempdeptime = kq[0][key]['deptime'];
+                    tempdestime = kq[0][key]['destime'];
+                    for (var key1 in kq[0]) {
+                        if (tempflyno === kq[0][key1]['air_code'] && tempprice < kq[0][key1]['baseprice'] && tempdeptime === kq[0][key1]['deptime'] && tempdestime === kq[0][key1]['destime']) {
+                            mangjson.push(kq[0][key]);
+                            tempflyno = kq[0][key]['air_code'];
+                            tempprice = kq[0][key]['baseprice'];
+                            tempdeptime = kq[0][key]['deptime'];
+                            tempdestime = kq[0][key]['destime'];
+                        } else {
+                            tempflyno = kq[0][key]['air_code'];
+                            tempprice = kq[0][key]['baseprice'];
+                            tempdeptime = kq[0][key]['deptime'];
+                            tempdestime = kq[0][key]['destime'];
+                        }
+                    }
+
+
+
+                }
+                this.setState({
+                    data: mangjson
+                });
+            });
+            getTicketDataVJ().then((kq) => {
+                var mangjson = [];
+                //mangjson.push(kq[0]);
+                var tempflyno = "";
+                var tempprice = "";
+                var tempdeptime = "";
+                var tempdestime = "";
+                for (var key in kq[0]) {
+                    tempflyno = kq[0][key]['flightno'];
+                    tempprice = kq[0][key]['baseprice'];
+                    tempdeptime = kq[0][key]['deptime'];
+                    tempdestime = kq[0][key]['destime'];
+                    for (var key1 in kq[0]) {
+                        if (tempflyno === kq[0][key1]['flightno'] && tempprice < kq[0][key1]['baseprice'] && tempdeptime === kq[0][key1]['deptime'] && tempdestime === kq[0][key1]['destime']) {
+                            mangjson.push(kq[0][key]);
+                            tempflyno = kq[0][key]['flightno'];
+                            tempprice = kq[0][key]['baseprice'];
+                            tempdeptime = kq[0][key]['deptime'];
+                            tempdestime = kq[0][key]['destime'];
+                        } else {
+                            tempflyno = kq[0][key]['flightno'];
+                            tempprice = kq[0][key]['baseprice'];
+                            tempdeptime = kq[0][key]['deptime'];
+                            tempdestime = kq[0][key]['destime'];
+                        }
+                    }
+
+
+
+                }
+                this.setState({
+                    data: mangjson
+                });
+            });
+            getTicketDataVN().then((kq) => {
+                var mangjson = [];
+                //mangjson.push(kq[0]);
+                var tempflyno = "";
+                var tempprice = 0;
+                var tempdeptime = "";
+                var tempdestime = "";
+                var tempitem = "";
+                var dem = 0;
+                var size = Object.keys(kq[0]).length;
+
+                for (var key1 in kq[0]) {
+
+                    if (tempdeptime == "" && tempdestime == "") {
+                        tempflyno = kq[0][key1]['flightno'];
+                        tempprice = kq[0][key1]['baseprice'];
+                        tempdeptime = kq[0][key1]['deptime'];
+                        tempdestime = kq[0][key1]['destime'];
+                        tempitem = kq[0][key1];
+                    }
+
+                    if (tempflyno == kq[0][key1]['flightno']) {
+                        if (tempprice <= kq[0][key1]['baseprice']) {
+                            dem++;
+                        }else{
+                            tempflyno = kq[0][key1]['flightno'];
+                            tempprice = kq[0][key1]['baseprice'];
+                            tempdeptime = kq[0][key1]['deptime'];
+                            tempdestime = kq[0][key1]['destime'];
+                            tempitem = kq[0][key1];
+                            dem++;
+                        }
+
+                    } else {
+                        mangjson.push(tempitem);
+                        tempflyno = kq[0][key1]['flightno'];
+                        tempprice = kq[0][key1]['baseprice'];
+                        tempdeptime = kq[0][key1]['deptime'];
+                        tempdestime = kq[0][key1]['destime'];
+                        tempitem = kq[0][key1];
+                        dem++;
+                    }
+                    if(dem===size){
+                        mangjson.push(tempitem);
+                    }
+
+                }
+                this.setState({
+                    data: mangjson
+                });
+            });
+        }
+    }
+
+    printData = () => {
+        if (this.state.data !== null) {
+            console.log(this.state.data);
+            return this.state.data.map((value, key) =>
+                (
+                    <BookingItem
+                        key={key}
+                        flightid={value.flightid}
+                        flightno={value.flightno}
+                        air_code={value.air_code}
+                        airline={value.airline}
+                        baseprice={value.baseprice}
+                        datefull={value.datefull}
+                        depcode={value.depcode}
+                        descode={value.descode}
+                        deptime={value.deptime}
+                        destime={value.destime}
+                        duration={value.duration}
+                    />
+                )
+            );
+        }
+    }
     render() {
         return (
             <div className="iw-tour-listing">
@@ -39,226 +206,11 @@ class BookingContent extends Component {
                                     </form>
                                 </div>
                                 <div className="tour-listing-row">
-                                    <div className="tour-item">
-                                        <div className="image-wrap">
-                                            <div className="img" style={{ background: 'url("http://inwavethemes.com/wordpress/intravel/wp-content/uploads/2016/09/tour_san_francisco_3-1-600x560.jpg") no-repeat center center / cover' }} />
-                                            <div className="booking-action">
-                                                <a className="link-to-detail theme-bg" href="http://inwavethemes.com/wordpress/intravel/home/tours/san-francisco-museum-of-modern-art/">
-                                                    Book now                  </a>
-                                            </div>
-                                        </div>
-                                        <div className="tour-info-wrap">
-                                            <div className="info-top">
-                                                <h3 className="title"><a className="theme-color" href="http://inwavethemes.com/wordpress/intravel/home/tours/san-francisco-museum-of-modern-art/">San Francisco Museum of Modern Art</a></h3>
-                                                <div className="post-meta">
-                                                    <ul>
-                                                        <li>
-                                                            <div className="iwt-rating">
-                                                                <div className="iw-star-rating"><span className="rating" style={{ width: '80%' }} /></div>                              </div>
-                                                        </li>
-                                                        <li className="destinations">
-                                                            <i className="fa fa-map-marker"> </i>
-                                                            <a href="http://inwavethemes.com/wordpress/intravel/home/destination/san-francisco/" className="destination">San Francisco</a> / <a href="http://inwavethemes.com/wordpress/intravel/home/destination/usa/" className="destination">USA</a>                              </li>
-                                                        <li>
-                                                            <span className="duration"><i className="fa fa-clock-o" aria-hidden="true" /> 01 day</span>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div className="description">Founded in 1935, the San Francisco Museum of Modern Art was the first museum on the West Coast dedicated to…</div>
-                                            </div>
-                                            <div className="tour-price-vote">
-                                                <div className="price-tour theme-color">50,00$</div>
-                                                <div className="tour-social">
-                                                    <ul className="socials">
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="clearfix" />
-                                    </div>
-                                    <div className="tour-item">
-                                        <div className="image-wrap">
-                                            <div className="img" style={{ background: 'url("http://inwavethemes.com/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_roma-600x560.jpg") no-repeat center center / cover' }} />
-                                            <div className="booking-action">
-                                                <a className="link-to-detail theme-bg" href="http://inwavethemes.com/wordpress/intravel/home/tours/rome-city-sightseeing-tours-bike-tour/">
-                                                    Book now                  </a>
-                                            </div>
-                                        </div>
-                                        <div className="tour-info-wrap">
-                                            <div className="info-top">
-                                                <h3 className="title"><a className="theme-color" href="http://inwavethemes.com/wordpress/intravel/home/tours/rome-city-sightseeing-tours-bike-tour/">Rome City Sightseeing Tours Bike Tour</a></h3>
-                                                <div className="post-meta">
-                                                    <ul>
-                                                        <li>
-                                                            <div className="iwt-rating">
-                                                                <div className="iw-star-rating"><span className="rating" style={{ width: '100%' }} /></div>                              </div>
-                                                        </li>
-                                                        <li className="destinations">
-                                                            <i className="fa fa-map-marker"> </i>
-                                                            <a href="http://inwavethemes.com/wordpress/intravel/home/destination/italy/" className="destination">Italy</a> / <a href="http://inwavethemes.com/wordpress/intravel/home/destination/rome/" className="destination">Rome</a>                              </li>
-                                                        <li>
-                                                            <span className="duration"><i className="fa fa-clock-o" aria-hidden="true" /> 01 day</span>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div className="description">This Rome bike tour combines top sights with a few lesser-known attractions and alleyways for an interesting and active way…</div>
-                                            </div>
-                                            <div className="tour-price-vote">
-                                                <div className="price-tour theme-color">50,00$</div>
-                                                <div className="tour-social">
-                                                    <ul className="socials">
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="clearfix" />
-                                    </div>
-                                    <div className="tour-item">
-                                        <div className="image-wrap">
-                                            <div className="img" style={{ background: 'url("http://inwavethemes.com/wordpress/intravel/wp-content/uploads/2016/10/tour_destination_duba_2i-600x560.jpg") no-repeat center center / cover' }} />
-                                            <div className="booking-action">
-                                                <a className="link-to-detail theme-bg" href="http://inwavethemes.com/wordpress/intravel/home/tours/dubai-saver-city-sightseeing-tour-and-desert-safari/">
-                                                    Book now                  </a>
-                                            </div>
-                                        </div>
-                                        <div className="tour-info-wrap">
-                                            <div className="info-top">
-                                                <h3 className="title"><a className="theme-color" href="http://inwavethemes.com/wordpress/intravel/home/tours/dubai-saver-city-sightseeing-tour-and-desert-safari/">Dubai Saver : City Sightseeing Tour and Desert Safari</a></h3>
-                                                <div className="post-meta">
-                                                    <ul>
-                                                        <li>
-                                                            <div className="iwt-rating">
-                                                                <div className="iw-star-rating"><span className="rating" /></div>                              </div>
-                                                        </li>
-                                                        <li className="destinations">
-                                                            <i className="fa fa-map-marker"> </i>
-                                                            <a href="http://inwavethemes.com/wordpress/intravel/home/destination/dubai/" className="destination">Dubai</a> / <a href="http://inwavethemes.com/wordpress/intravel/home/destination/uae/" className="destination">UAE</a>                              </li>
-                                                    </ul>
-                                                </div>
-                                                <div className="description">Embark on a desert safari and see Dubai’s highlights with this Dubai Super Saver, combining two popular tours at a…</div>
-                                            </div>
-                                            <div className="tour-price-vote">
-                                                <div className="price-tour theme-color">159,00$</div>
-                                                <div className="tour-social">
-                                                    <ul className="socials">
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="clearfix" />
-                                    </div>
-                                    <div className="tour-item">
-                                        <div className="image-wrap">
-                                            <div className="img" style={{ background: 'url("http://inwavethemes.com/wordpress/intravel/wp-content/uploads/2016/09/tour_rome_3-600x560.jpg") no-repeat center center / cover' }} />
-                                            <div className="booking-action">
-                                                <a className="link-to-detail theme-bg" href="http://inwavethemes.com/wordpress/intravel/home/tours/5-day-italy-trip-pompeii-capri-naples-and-sorrento/">
-                                                    Book now                  </a>
-                                            </div>
-                                        </div>
-                                        <div className="tour-info-wrap">
-                                            <div className="info-top">
-                                                <h3 className="title"><a className="theme-color" href="http://inwavethemes.com/wordpress/intravel/home/tours/5-day-italy-trip-pompeii-capri-naples-and-sorrento/">5-Days Trip: Pompeii, Capri, Naples and Sorrento</a></h3>
-                                                <div className="post-meta">
-                                                    <ul>
-                                                        <li>
-                                                            <div className="iwt-rating">
-                                                                <div className="iw-star-rating"><span className="rating" /></div>                              </div>
-                                                        </li>
-                                                        <li className="destinations">
-                                                            <i className="fa fa-map-marker"> </i>
-                                                            <a href="http://inwavethemes.com/wordpress/intravel/home/destination/italy/" className="destination">Italy</a> / <a href="http://inwavethemes.com/wordpress/intravel/home/destination/rome/" className="destination">Rome</a>                              </li>
-                                                        <li>
-                                                            <span className="duration"><i className="fa fa-clock-o" aria-hidden="true" /> 5 days - 4 nights</span>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div className="description">See some of the top destinations on the Italian coast on this 5-day tour from Rome to the Campania region.…</div>
-                                            </div>
-                                            <div className="tour-price-vote">
-                                                <div className="price-tour theme-color">774,00$</div>
-                                                <div className="tour-social">
-                                                    <ul className="socials">
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="clearfix" />
-                                    </div>
-                                    <div className="tour-item">
-                                        <div className="image-wrap">
-                                            <div className="img" style={{ background: 'url("http://inwavethemes.com/wordpress/intravel/wp-content/uploads/2016/06/tour_venice_1-600x560.jpg") no-repeat center center / cover' }} />
-                                            <div className="booking-action">
-                                                <a className="link-to-detail theme-bg" href="http://inwavethemes.com/wordpress/intravel/home/tours/5-night-the-magic-of-venice-tour/">
-                                                    Book now                  </a>
-                                            </div>
-                                        </div>
-                                        <div className="tour-info-wrap">
-                                            <div className="info-top">
-                                                <h3 className="title"><a className="theme-color" href="http://inwavethemes.com/wordpress/intravel/home/tours/5-night-the-magic-of-venice-tour/">5 days 4 Nights The Magic of Venice Tour</a></h3>
-                                                <div className="post-meta">
-                                                    <ul>
-                                                        <li>
-                                                            <div className="iwt-rating">
-                                                                <div className="iw-star-rating"><span className="rating" /></div>                              </div>
-                                                        </li>
-                                                        <li className="destinations">
-                                                            <i className="fa fa-map-marker"> </i>
-                                                            <a href="http://inwavethemes.com/wordpress/intravel/home/destination/italy/" className="destination">Italy</a> / <a href="http://inwavethemes.com/wordpress/intravel/home/destination/venice/" className="destination">Venice</a>                              </li>
-                                                        <li>
-                                                            <span className="duration"><i className="fa fa-clock-o" aria-hidden="true" /> 5 days - 4 nights</span>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div className="description">Venice is actually a group of fascinating small islands, Sandy beaches washed by the Adriatic Sea, where art and history…</div>
-                                            </div>
-                                            <div className="tour-price-vote">
-                                                <div className="price-tour theme-color">1.654,50$</div>
-                                                <div className="tour-social">
-                                                    <ul className="socials">
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="clearfix" />
-                                    </div>
-                                    <div className="tour-item">
-                                        <div className="image-wrap">
-                                            <div className="img" style={{ background: 'url("http://inwavethemes.com/wordpress/intravel/wp-content/uploads/2016/06/tour_amsterdam_2-600x560.jpg") no-repeat center center / cover' }} />
-                                            <div className="booking-action">
-                                                <a className="link-to-detail theme-bg" href="http://inwavethemes.com/wordpress/intravel/home/tours/4-day-tour-of-amsterdam-and-zaanse-schans/">
-                                                    Book now                  </a>
-                                            </div>
-                                        </div>
-                                        <div className="tour-info-wrap">
-                                            <div className="info-top">
-                                                <h3 className="title"><a className="theme-color" href="http://inwavethemes.com/wordpress/intravel/home/tours/4-day-tour-of-amsterdam-and-zaanse-schans/">4-Days Tour of Amsterdam and Zaanse Schans</a></h3>
-                                                <div className="post-meta">
-                                                    <ul>
-                                                        <li>
-                                                            <div className="iwt-rating">
-                                                                <div className="iw-star-rating"><span className="rating" /></div>                              </div>
-                                                        </li>
-                                                        <li className="destinations">
-                                                            <i className="fa fa-map-marker"> </i>
-                                                            <a href="http://inwavethemes.com/wordpress/intravel/home/destination/amsterdam/" className="destination">Amsterdam</a> / <a href="http://inwavethemes.com/wordpress/intravel/home/destination/the_netherlands/" className="destination">The Netherlands</a>                              </li>
-                                                        <li>
-                                                            <span className="duration"><i className="fa fa-clock-o" aria-hidden="true" /> 4 days - 3 nights</span>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div className="description">Enjoy a 4-day trip to visit, Amsterdam, Zaanse Schans and Zaandam. Stay in Zaandam at your choice of either a…</div>
-                                            </div>
-                                            <div className="tour-price-vote">
-                                                <div className="price-tour theme-color">418,50$</div>
-                                                <div className="tour-social">
-                                                    <ul className="socials">
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="clearfix" />
-                                    </div>
-                                </div>                    <div className="page-nav">
+                                    {this.printData()}
+
+
+                                </div>
+                                <div className="page-nav">
                                     <span className="page-numbers current">1</span>
                                     <a className="page-numbers" href="http://inwavethemes.com/wordpress/intravel/home/tours/page/2/?layout=list">2</a>
                                     <a className="next page-numbers" href="http://inwavethemes.com/wordpress/intravel/home/tours/page/2/?layout=list"><i className="fa fa-angle-right" /></a>                        <div style={{ clear: 'both' }} />
@@ -288,12 +240,12 @@ class BookingContent extends Component {
                                     <a href="http://inwavethemes.com/wordpress/intravel/home/tour-type/beaches-islands/" className="tag-link-68 tag-link-position-2" title="3 topics" style={{ fontSize: '8pt' }}>Beaches &amp; Islands</a>
                                     <a href="http://inwavethemes.com/wordpress/intravel/home/tour-type/family-tours/" className="tag-link-45 tag-link-position-3" title="7 topics" style={{ fontSize: '18.5pt' }}>Family Tours</a>
                                     <a href="http://inwavethemes.com/wordpress/intravel/home/tour-type/history-culture/" className="tag-link-44 tag-link-position-4" title="6 topics" style={{ fontSize: '16.75pt' }}>History &amp; Culture</a>
-                                    <a href="http://inwavethemes.com/wordpress/intravel/home/tour-type/sightseeing-tours/" className="tag-link-62 tag-link-position-5" title="9 topics" style={{ fontSize: '22pt' }}>Sightseeing tours</a></div></aside><aside id="destinations-2" className="widget tour_destinations"><h3 className="widget-title"><span>Popular destinations</span></h3><div className="destination-widget"><div className="destination-item iw-effect-1"><img src="http://inwavethemes.com/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_usa-270x300.jpg"  /><div className="destination-info" style={{ bottom: 76 }}><div className="info-active"><h4>USA</h4><div className="destination-widget-rating">
+                                    <a href="http://inwavethemes.com/wordpress/intravel/home/tour-type/sightseeing-tours/" className="tag-link-62 tag-link-position-5" title="9 topics" style={{ fontSize: '22pt' }}>Sightseeing tours</a></div></aside><aside id="destinations-2" className="widget tour_destinations"><h3 className="widget-title"><span>Popular destinations</span></h3><div className="destination-widget"><div className="destination-item iw-effect-1"><img src="http://inwavethemes.com/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_usa-270x300.jpg" /><div className="destination-info" style={{ bottom: 76 }}><div className="info-active"><h4>USA</h4><div className="destination-widget-rating">
                                         <div className="iw-star-rating">
                                             <span className="rating" style={{ width: '99%' }} />
                                         </div>
                                         <div className="clearfix" />
-                                    </div></div><div className="destination-to-detail"><a href="http://inwavethemes.com/wordpress/intravel/home/destination/usa/">Discover <i className="icon ion-arrow-right-c" /></a></div></div></div><div className="destination-item iw-effect-1"><img src="http://inwavethemes.com/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_california-270x300.jpg"  /><div className="destination-info" style={{ bottom: 111 }}><div className="info-active"><h4>San Francisco</h4><div className="destination-parent"><a href="http://inwavethemes.com/wordpress/intravel/home/destination/usa/">USA</a></div><div className="destination-widget-rating">
+                                    </div></div><div className="destination-to-detail"><a href="http://inwavethemes.com/wordpress/intravel/home/destination/usa/">Discover <i className="icon ion-arrow-right-c" /></a></div></div></div><div className="destination-item iw-effect-1"><img src="http://inwavethemes.com/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_california-270x300.jpg" /><div className="destination-info" style={{ bottom: 111 }}><div className="info-active"><h4>San Francisco</h4><div className="destination-parent"><a href="http://inwavethemes.com/wordpress/intravel/home/destination/usa/">USA</a></div><div className="destination-widget-rating">
                                         <div className="iw-star-rating">
                                             <span className="rating" style={{ width: '75%' }} />
                                         </div>
@@ -301,7 +253,7 @@ class BookingContent extends Component {
                                     </div></div><div className="destination-to-detail"><a href="http://inwavethemes.com/wordpress/intravel/home/destination/san-francisco/">Discover <i className="icon ion-arrow-right-c" /></a></div></div></div><div className="clearfix" /></div></aside><aside id="intravel_tours-2" className="widget widget_intravel_tours"><h3 className="widget-title"><span>Most reviewed tours</span></h3>        <div className="iw-travel-tours-widget">
                                         <div className="iw-tour-item iw-effect-img">
                                             <div className="tour-thumnail effect-1">
-                                                <img src="http://inwavethemes.com/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_roma-600x600.jpg"  />
+                                                <img src="http://inwavethemes.com/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_roma-600x600.jpg" />
                                             </div>
                                             <div className="tour-info">
                                                 <h3 className="title"><a className="theme-color" href="http://inwavethemes.com/wordpress/intravel/home/tours/rome-city-sightseeing-tours-bike-tour/">Rome City Sightseeing Tours Bike Tour</a></h3>
@@ -320,7 +272,7 @@ class BookingContent extends Component {
                                         </div>
                                         <div className="iw-tour-item iw-effect-img">
                                             <div className="tour-thumnail effect-1">
-                                                <img src="http://inwavethemes.com/wordpress/intravel/wp-content/uploads/2016/09/tour_san_francisco_3-1-600x600.jpg"  />
+                                                <img src="http://inwavethemes.com/wordpress/intravel/wp-content/uploads/2016/09/tour_san_francisco_3-1-600x600.jpg" />
                                             </div>
                                             <div className="tour-info">
                                                 <h3 className="title"><a className="theme-color" href="http://inwavethemes.com/wordpress/intravel/home/tours/san-francisco-museum-of-modern-art/">San Francisco Museum of Modern Art</a></h3>
@@ -339,7 +291,7 @@ class BookingContent extends Component {
                                         </div>
                                         <div className="iw-tour-item iw-effect-img">
                                             <div className="tour-thumnail effect-1">
-                                                <img src="http://inwavethemes.com/wordpress/intravel/wp-content/uploads/2016/06/tour_venice_1-600x600.jpg"  />
+                                                <img src="http://inwavethemes.com/wordpress/intravel/wp-content/uploads/2016/06/tour_venice_1-600x600.jpg" />
                                             </div>
                                             <div className="tour-info">
                                                 <h3 className="title"><a className="theme-color" href="http://inwavethemes.com/wordpress/intravel/home/tours/5-night-the-magic-of-venice-tour/">5 days 4 Nights The Magic of Venice Tour</a></h3>

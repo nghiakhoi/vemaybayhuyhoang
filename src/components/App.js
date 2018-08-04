@@ -4,51 +4,21 @@ import Home from './Home';
 import MenuMobile from './MenuMobile';
 import axios from 'axios';
 import Booking from './Booking';
+import DieuHuongURL from '../router/DieuHuongURL';
+
+const getTicketData = () => 
+  axios.get('http://localhost:4000/vn')
+    .then((res) => res.data)
 
 
 class App extends Component {
+
+
   render() {
-    axios.get('http://localhost:4000/js')
-  .then(function (response) {
-    // handle success
-    console.log(response);
-  })
-  .catch(function (error) {
-    // handle error
-    console.log(error);
-  })
-  .then(function () {
-    // always executed
-  });
-  axios.get('http://localhost:4000/vj')
-  .then(function (response) {
-    // handle success
-    console.log(response);
-  })
-  .catch(function (error) {
-    // handle error
-    console.log(error);
-  })
-  .then(function () {
-    // always executed
-  });
-  axios.get('http://localhost:4000/vn')
-  .then(function (response) {
-    // handle success
-    console.log(response);
-  })
-  .catch(function (error) {
-    // handle error
-    console.log(error);
-  })
-  .then(function () {
-    // always executed
-  });
     return (
       <div className="App">
         <MenuMobile />
-        <Home />
-        {/* <Booking /> */}
+        <DieuHuongURL />
       </div>
     );
   }
