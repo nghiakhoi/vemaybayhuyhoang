@@ -14,7 +14,7 @@ class BookingItem extends Component {
                 <div className="tour-info-wrap">
                     <div className="info-top">
                         <h3 className="title">
-                            <a className="theme-color" href="http://inwavethemes.com/wordpress/intravel/home/tours/san-francisco-museum-of-modern-art/">{this.props.flightno}</a>
+                            <a className="theme-color" href="http://inwavethemes.com/wordpress/intravel/home/tours/san-francisco-museum-of-modern-art/">{this.props.airline}</a>
                         </h3>
                         <div className="post-meta">
                             <ul>
@@ -33,7 +33,7 @@ class BookingItem extends Component {
                         <div className="description">Founded in 1935, the San Francisco Museum of Modern Art was the first museum on the West Coast dedicated to…</div>
                     </div>
                     <div className="tour-price-vote">
-                        <div className="price-tour theme-color">50,00$</div>
+                        <div className="price-tour theme-color">{this.props.baseprice}</div>
                         <div className="tour-social">
                             <ul className="socials">
                             </ul>

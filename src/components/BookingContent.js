@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import BookingItem from './BookingItem';
 import axios from 'axios';
+var sortJsonArray = require('sort-json-array');
 
 const getTicketDataVN = () =>
     axios.get('http://localhost:4000/vn')
@@ -16,83 +17,25 @@ class BookingContent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: null
+            data: null,
+            vj: false,
+            js: false,
+            vn: false
         }
     }
 
     componentWillMount() {
+        function sortedByAttr(property){
+            return function (x, y) {
 
+                return ((x[property] === y[property]) ? 0 : ((x[property] > y[property]) ? 1 : -1));
+        
+            };
+         }
+        var mangjson = [];
         if (this.state.data === null) {
             getTicketDataJS().then((kq) => {
-                var mangjson = [];
-                //mangjson.push(kq[0]);
-                var tempflyno = "";
-                var tempprice = "";
-                var tempdeptime = "";
-                var tempdestime = "";
-                for (var key in kq[0]) {
-                    tempflyno = kq[0][key]['air_code'];
-                    tempprice = kq[0][key]['baseprice'];
-                    tempdeptime = kq[0][key]['deptime'];
-                    tempdestime = kq[0][key]['destime'];
-                    for (var key1 in kq[0]) {
-                        if (tempflyno === kq[0][key1]['air_code'] && tempprice < kq[0][key1]['baseprice'] && tempdeptime === kq[0][key1]['deptime'] && tempdestime === kq[0][key1]['destime']) {
-                            mangjson.push(kq[0][key]);
-                            tempflyno = kq[0][key]['air_code'];
-                            tempprice = kq[0][key]['baseprice'];
-                            tempdeptime = kq[0][key]['deptime'];
-                            tempdestime = kq[0][key]['destime'];
-                        } else {
-                            tempflyno = kq[0][key]['air_code'];
-                            tempprice = kq[0][key]['baseprice'];
-                            tempdeptime = kq[0][key]['deptime'];
-                            tempdestime = kq[0][key]['destime'];
-                        }
-                    }
 
-
-
-                }
-                this.setState({
-                    data: mangjson
-                });
-            });
-            getTicketDataVJ().then((kq) => {
-                var mangjson = [];
-                //mangjson.push(kq[0]);
-                var tempflyno = "";
-                var tempprice = "";
-                var tempdeptime = "";
-                var tempdestime = "";
-                for (var key in kq[0]) {
-                    tempflyno = kq[0][key]['flightno'];
-                    tempprice = kq[0][key]['baseprice'];
-                    tempdeptime = kq[0][key]['deptime'];
-                    tempdestime = kq[0][key]['destime'];
-                    for (var key1 in kq[0]) {
-                        if (tempflyno === kq[0][key1]['flightno'] && tempprice < kq[0][key1]['baseprice'] && tempdeptime === kq[0][key1]['deptime'] && tempdestime === kq[0][key1]['destime']) {
-                            mangjson.push(kq[0][key]);
-                            tempflyno = kq[0][key]['flightno'];
-                            tempprice = kq[0][key]['baseprice'];
-                            tempdeptime = kq[0][key]['deptime'];
-                            tempdestime = kq[0][key]['destime'];
-                        } else {
-                            tempflyno = kq[0][key]['flightno'];
-                            tempprice = kq[0][key]['baseprice'];
-                            tempdeptime = kq[0][key]['deptime'];
-                            tempdestime = kq[0][key]['destime'];
-                        }
-                    }
-
-
-
-                }
-                this.setState({
-                    data: mangjson
-                });
-            });
-            getTicketDataVN().then((kq) => {
-                var mangjson = [];
                 //mangjson.push(kq[0]);
                 var tempflyno = "";
                 var tempprice = 0;
@@ -100,7 +43,67 @@ class BookingContent extends Component {
                 var tempdestime = "";
                 var tempitem = "";
                 var dem = 0;
-                var size = Object.keys(kq[0]).length;
+                var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+
+                for (var key1 in kq[0]) {
+
+                    if (tempdeptime == "" && tempdestime == "") {
+                        tempflyno = kq[0][key1]['air_code'];
+                        tempprice = kq[0][key1]['baseprice'];
+                        tempdeptime = kq[0][key1]['deptime'];
+                        tempdestime = kq[0][key1]['destime'];
+                        tempitem = kq[0][key1];
+                    }
+
+                    if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                        if (tempprice <= kq[0][key1]['baseprice']) {
+                            dem++;
+                        } else {
+                            tempflyno = kq[0][key1]['air_code'];
+                            tempprice = kq[0][key1]['baseprice'];
+                            tempdeptime = kq[0][key1]['deptime'];
+                            tempdestime = kq[0][key1]['destime'];
+                            tempitem = kq[0][key1];
+                            dem++;
+                        }
+
+                    } else {
+                        mangjson.push(tempitem);
+                        tempflyno = kq[0][key1]['air_code'];
+                        tempprice = kq[0][key1]['baseprice'];
+                        tempdeptime = kq[0][key1]['deptime'];
+                        tempdestime = kq[0][key1]['destime'];
+                        tempitem = kq[0][key1];
+                        dem++;
+                    }
+                    if (dem === size) {
+                        mangjson.push(tempitem);
+                    }
+
+                }
+                this.setState({
+                    data: mangjson.sort(sortedByAttr('baseprice')),
+                    js: true
+                });
+            }).then((res)=>{if(this.state.js===true||this.state.vj===true||this.state.vn===true){
+                this.setState({
+                    data: this.state.data.sort(sortedByAttr('baseprice'))
+                });
+            }}).catch((err)=>{
+                this.setState({
+                    js: true
+                });
+            });
+            getTicketDataVJ().then((kq) => {
+
+                //mangjson.push(kq[0]);
+                var tempflyno = "";
+                var tempprice = 0;
+                var tempdeptime = "";
+                var tempdestime = "";
+                var tempitem = "";
+                var dem = 0;
+                var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
 
                 for (var key1 in kq[0]) {
 
@@ -115,7 +118,7 @@ class BookingContent extends Component {
                     if (tempflyno == kq[0][key1]['flightno']) {
                         if (tempprice <= kq[0][key1]['baseprice']) {
                             dem++;
-                        }else{
+                        } else {
                             tempflyno = kq[0][key1]['flightno'];
                             tempprice = kq[0][key1]['baseprice'];
                             tempdeptime = kq[0][key1]['deptime'];
@@ -133,16 +136,94 @@ class BookingContent extends Component {
                         tempitem = kq[0][key1];
                         dem++;
                     }
-                    if(dem===size){
+                    if (dem === size) {
                         mangjson.push(tempitem);
                     }
 
                 }
                 this.setState({
-                    data: mangjson
+                    data: mangjson.sort(sortedByAttr('baseprice')),
+                    vj: true
+                });
+            }).then((res)=>{if(this.state.js===true||this.state.vj===true||this.state.vn===true){
+                this.setState({
+                    data: this.state.data.sort(sortedByAttr('baseprice'))
+                });
+            }}).catch((err)=>{
+                this.setState({
+                    js: true
+                });
+            });
+            getTicketDataVN().then((kq) => {
+
+                //mangjson.push(kq[0]);
+                var tempflyno = "";
+                var tempprice = 0;
+                var tempdeptime = "";
+                var tempdestime = "";
+                var tempitem = "";
+                var dem = 0;
+                var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+
+                for (var key1 in kq[0]) {
+
+                    if (tempdeptime == "" && tempdestime == "") {
+                        tempflyno = kq[0][key1]['flightno'];
+                        tempprice = kq[0][key1]['baseprice'];
+                        tempdeptime = kq[0][key1]['deptime'];
+                        tempdestime = kq[0][key1]['destime'];
+                        tempitem = kq[0][key1];
+                    }
+
+                    if (tempflyno == kq[0][key1]['flightno']) {
+                        if (tempprice <= kq[0][key1]['baseprice']) {
+                            dem++;
+                        } else {
+                            tempflyno = kq[0][key1]['flightno'];
+                            tempprice = kq[0][key1]['baseprice'];
+                            tempdeptime = kq[0][key1]['deptime'];
+                            tempdestime = kq[0][key1]['destime'];
+                            tempitem = kq[0][key1];
+                            dem++;
+                        }
+
+                    } else {
+                        mangjson.push(tempitem);
+                        tempflyno = kq[0][key1]['flightno'];
+                        tempprice = kq[0][key1]['baseprice'];
+                        tempdeptime = kq[0][key1]['deptime'];
+                        tempdestime = kq[0][key1]['destime'];
+                        tempitem = kq[0][key1];
+                        dem++;
+                    }
+                    if (dem === size) {
+                        mangjson.push(tempitem);
+                    }
+
+                }
+                this.setState({
+                    data: mangjson.sort(sortedByAttr('baseprice')),
+                    vn: true
+                });
+            }).then((res)=>{if(this.state.js===true||this.state.vj===true||this.state.vn===true){
+                this.setState({
+                    data: this.state.data.sort(sortedByAttr('baseprice'))
+                });
+            }}).catch((err)=>{
+                this.setState({
+                    js: true
                 });
             });
         }
+
+    }
+
+    componentDidMount() {
+       
+            this.setState({
+                data: sortJsonArray(this.state.data, 'baseprice', 'asc')
+            });
+        
     }
 
     printData = () => {
