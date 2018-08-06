@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
+import jetstarlogo from'../images/jetstarlogo.png';
+import vietjetlogo from'../images/vietjetlogo.png';
+import vietnamairlinelogo from'../images/vietnamairlinelogo.png';
+
 
 class BookingItem extends Component {
-    render() {
+    render() { 
+        var logo = this.props.airline==="Vietjet"?vietjetlogo:this.props.airline==="Jetstar"?jetstarlogo:vietnamairlinelogo;
         return (
             <div className="tour-item">
                 <div className="image-wrap">
-                    <div className="img" style={{ background: 'url("http://inwavethemes.com/wordpress/intravel/wp-content/uploads/2016/09/tour_san_francisco_3-1-600x560.jpg") no-repeat center center / cover' }} />
+                    <div className="img" style={{ background: 'url("'+logo+'") no-repeat center center / 100% 65%' }} />
                     <div className="booking-action">
                         <a className="link-to-detail theme-bg" href="http://inwavethemes.com/wordpress/intravel/home/tours/san-francisco-museum-of-modern-art/">
-                            Book now                  </a>
+                            Chọn vé này                  </a>
                     </div>
                 </div>
                 <div className="tour-info-wrap">
