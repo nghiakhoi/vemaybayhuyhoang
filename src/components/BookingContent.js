@@ -4,16 +4,16 @@ import axios from 'axios';
 var sortJsonArray = require('sort-json-array');
 
 const getTicketDataVN = () =>
-    //axios.get('https://vemaybayhuyhoang.herokuapp.com/vn')
-    axios.get('http://localhost:4000/vn')
+    axios.get('https://vemaybayhuyhoang.herokuapp.com/vn')
+    //axios.get('http://localhost:4000/vn')
         .then((res) => res.data)
 const getTicketDataJS = () =>
-    //axios.get('https://vemaybayhuyhoang.herokuapp.com/js')
-    axios.get('http://localhost:4000/js')
+    axios.get('https://vemaybayhuyhoang.herokuapp.com/js')
+    //axios.get('http://localhost:4000/js')
         .then((res) => res.data)
 const getTicketDataVJ = () =>
-    //axios.get('https://vemaybayhuyhoang.herokuapp.com/vj')
-    axios.get('http://localhost:4000/vj')
+    axios.get('https://vemaybayhuyhoang.herokuapp.com/vj')
+    //axios.get('http://localhost:4000/vj')
         .then((res) => res.data)
 
 class BookingContent extends Component {
