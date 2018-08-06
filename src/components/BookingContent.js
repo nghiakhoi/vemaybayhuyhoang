@@ -4,13 +4,13 @@ import axios from 'axios';
 var sortJsonArray = require('sort-json-array');
 
 const getTicketDataVN = () =>
-    axios.get('/vn')
+    axios.get('https://vemaybayhuyhoang.herokuapp.com/vn')
         .then((res) => res.data)
 const getTicketDataJS = () =>
-    axios.get('/js')
+    axios.get('https://vemaybayhuyhoang.herokuapp.com/js')
         .then((res) => res.data)
 const getTicketDataVJ = () =>
-    axios.get('/vj')
+    axios.get('https://vemaybayhuyhoang.herokuapp.com/vj')
         .then((res) => res.data)
 
 class BookingContent extends Component {
@@ -218,17 +218,11 @@ class BookingContent extends Component {
 
     }
 
-    componentDidMount() {
-       
-            this.setState({
-                data: sortJsonArray(this.state.data, 'baseprice', 'asc')
-            });
-        
-    }
+   
 
     printData = () => {
         if (this.state.data !== null) {
-            console.log(this.state.data);
+            
             return this.state.data.map((value, key) =>
                 (
                     <BookingItem
