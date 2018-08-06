@@ -4,13 +4,13 @@ import axios from 'axios';
 var sortJsonArray = require('sort-json-array');
 
 const getTicketDataVN = () =>
-    axios.get('http://localhost:4000/vn')
+    axios.get('/vn')
         .then((res) => res.data)
 const getTicketDataJS = () =>
-    axios.get('http://localhost:4000/js')
+    axios.get('/js')
         .then((res) => res.data)
 const getTicketDataVJ = () =>
-    axios.get('http://localhost:4000/vj')
+    axios.get('/vj')
         .then((res) => res.data)
 
 class BookingContent extends Component {
