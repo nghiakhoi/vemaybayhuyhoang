@@ -1,19 +1,25 @@
 import React, { Component } from 'react';
 import BookingItem from './BookingItem';
 import axios from 'axios';
-var sortJsonArray = require('sort-json-array');
 
 const getTicketDataVN = () =>
-    axios.get('https://vemaybayhuyhoang.herokuapp.com/vn')
-    //axios.get('http://localhost:4000/vn')
+    //axios.get('https://vemaybayhuyhoang.herokuapp.com/vn')
+    axios.get('/vn')
         .then((res) => res.data)
 const getTicketDataJS = () =>
-    axios.get('https://vemaybayhuyhoang.herokuapp.com/js')
-    //axios.get('http://localhost:4000/js')
+    //axios.get('https://vemaybayhuyhoang.herokuapp.com/js')
+    axios.get('/js')
         .then((res) => res.data)
 const getTicketDataVJ = () =>
-    axios.get('https://vemaybayhuyhoang.herokuapp.com/vj')
-    //axios.get('http://localhost:4000/vj')
+    //axios.get('https://vemaybayhuyhoang.herokuapp.com/vj')
+    axios.get('/vj')
+        .then((res) => res.data)
+const postTicket = () =>
+    //axios.get('https://vemaybayhuyhoang.herokuapp.com/vj')
+    axios.post('/vn', {
+        firstName: 'Fred',
+        lastName: 'Flintstone'
+    })
         .then((res) => res.data)
 
 class BookingContent extends Component {
@@ -28,13 +34,13 @@ class BookingContent extends Component {
     }
 
     componentWillMount() {
-        function sortedByAttr(property){
+        function sortedByAttr(property) {
             return function (x, y) {
 
                 return ((x[property] === y[property]) ? 0 : ((x[property] > y[property]) ? 1 : -1));
-        
+
             };
-         }
+        }
         var mangjson = [];
         if (this.state.data === null) {
             getTicketDataJS().then((kq) => {
@@ -88,11 +94,13 @@ class BookingContent extends Component {
                     data: mangjson.sort(sortedByAttr('baseprice')),
                     js: true
                 });
-            }).then((res)=>{if(this.state.js===true||this.state.vj===true||this.state.vn===true){
-                this.setState({
-                    data: this.state.data.sort(sortedByAttr('baseprice'))
-                });
-            }}).catch((err)=>{
+            }).then((res) => {
+                if (this.state.js === true || this.state.vj === true || this.state.vn === true) {
+                    this.setState({
+                        data: this.state.data.sort(sortedByAttr('baseprice'))
+                    });
+                }
+            }).catch((err) => {
                 this.setState({
                     js: true
                 });
@@ -148,11 +156,13 @@ class BookingContent extends Component {
                     data: mangjson.sort(sortedByAttr('baseprice')),
                     vj: true
                 });
-            }).then((res)=>{if(this.state.js===true||this.state.vj===true||this.state.vn===true){
-                this.setState({
-                    data: this.state.data.sort(sortedByAttr('baseprice'))
-                });
-            }}).catch((err)=>{
+            }).then((res) => {
+                if (this.state.js === true || this.state.vj === true || this.state.vn === true) {
+                    this.setState({
+                        data: this.state.data.sort(sortedByAttr('baseprice'))
+                    });
+                }
+            }).catch((err) => {
                 this.setState({
                     js: true
                 });
@@ -208,11 +218,13 @@ class BookingContent extends Component {
                     data: mangjson.sort(sortedByAttr('baseprice')),
                     vn: true
                 });
-            }).then((res)=>{if(this.state.js===true||this.state.vj===true||this.state.vn===true){
-                this.setState({
-                    data: this.state.data.sort(sortedByAttr('baseprice'))
-                });
-            }}).catch((err)=>{
+            }).then((res) => {
+                if (this.state.js === true || this.state.vj === true || this.state.vn === true) {
+                    this.setState({
+                        data: this.state.data.sort(sortedByAttr('baseprice'))
+                    });
+                }
+            }).catch((err) => {
                 this.setState({
                     js: true
                 });
@@ -221,11 +233,13 @@ class BookingContent extends Component {
 
     }
 
-   
+    handleClick = () => {
+        postTicket().then((resp) => { console.log(resp) });
+    }
 
     printData = () => {
         if (this.state.data !== null) {
-            
+
             return this.state.data.map((value, key) =>
                 (
                     <BookingItem
@@ -255,6 +269,7 @@ class BookingContent extends Component {
                             <div className="col-sm-12 col-xs-12 col-lg-9 col-md-8 blog-content">
                                 <div className="tour-order-layout-form">
                                     <form id="orderForm" method="get" action="http://inwavethemes.com/wordpress/intravel/home/tours/" name="orderForm">
+                                    <input type="button" value="OK" onClick={()=>{this.handleClick()}} />
                                         <select className="tours-order iw-select-2 select2-hidden-accessible" name="order" tabIndex={-1} aria-hidden="true">
                                             <option value="desc">Descending</option>
                                             <option value="asc" >Ascending</option>
@@ -266,7 +281,8 @@ class BookingContent extends Component {
                                             <option value="rating">Rating</option>
                                             <option value="popularity">Popularity</option>
                                             <option value="title">Title</option>
-                                        </select><span className="select2 select2-container select2-container--default" dir="ltr" style={{ width: 95 }}><span className="selection"><span className="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabIndex={0} aria-labelledby="select2-orderby-xl-container"><span className="select2-selection__rendered" id="select2-orderby-xl-container" title="Ordering">Ordering</span><span className="select2-selection__arrow" role="presentation"><b role="presentation" /></span></span></span><span className="dropdown-wrapper" aria-hidden="true" /></span>
+                                        </select>
+                                        <span className="select2 select2-container select2-container--default" dir="ltr" style={{ width: 95 }}><span className="selection"><span className="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabIndex={0} aria-labelledby="select2-orderby-xl-container"><span className="select2-selection__rendered" id="select2-orderby-xl-container" title="Ordering">Ordering</span><span className="select2-selection__arrow" role="presentation"><b role="presentation" /></span></span></span><span className="dropdown-wrapper" aria-hidden="true" /></span>
                                         <div className="layout-switcher">
                                             <div className="layout-switcher">
                                                 <ul>
