@@ -1,7 +1,45 @@
 import React, { Component } from 'react';
+import {
+    BrowserRouter as Router,
+    Route,
+    Link,
+    Redirect,
+    withRouter
+} from "react-router-dom";
 
 class Slider extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            isRedirect: false,
+            des: ''
+        }
+    }
+
+    isChange = (event) => {
+        console.log(event.target.value);
+        var name = event.target.name;
+        var value = event.target.value;
+        this.setState({
+            [name]: value
+        });
+        localStorage.setItem(name,value);
+    }
+
+    handleClick = () => {
+        var chieudi = this.state.des;
+        this.setState({
+            isRedirect: true
+        });
+        
+    }
+
     render() {
+        if (this.state.isRedirect) {
+            return <Redirect to="/booking" />;
+        }
+        localStorage.setItem("test","hahaha1");
+        console.log(localStorage.getItem("test"));
         return (
             <div className="header-search-tour">
                 <div className="intravel-destination-search">
@@ -79,7 +117,7 @@ class Slider extends Component {
                                     <div className="col-md-8 col-sm-12 col-xs-12">
                                         <div className="search-field">
                                             <i className="ion-search" />
-                                            <input type="text" placeholder="Enter tour name" name="s" defaultValue />
+                                            <input type="text" onChange={(event) => this.isChange(event)} placeholder="Enter tour name" aria-describedby="name_text" id="des" name="des" defaultValue="" />
                                         </div>
                                         <div className="tour-type-field">
                                             <i className="ion-ios-paper-outline" />
@@ -117,7 +155,7 @@ class Slider extends Component {
                                         </div>
                                         <div className="iw-search-now">
                                             <i className="ion-paper-airplane" />
-                                            <button className="theme-bg">Search</button>
+                                            <button onClick={() =>  this.handleClick() } className="theme-bg">Search</button>
                                         </div>
                                     </div>
                                 </div>

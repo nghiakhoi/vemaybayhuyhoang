@@ -4,15 +4,15 @@ import axios from 'axios';
 
 const getTicketDataVN = () =>
     //axios.get('https://vemaybayhuyhoang.herokuapp.com/vn')
-    axios.get('/vn')
+    axios.get('http://localhost:4000/vn')
         .then((res) => res.data)
 const getTicketDataJS = () =>
     //axios.get('https://vemaybayhuyhoang.herokuapp.com/js')
-    axios.get('/js')
+    axios.get('http://localhost:4000/js')
         .then((res) => res.data)
 const getTicketDataVJ = () =>
     //axios.get('https://vemaybayhuyhoang.herokuapp.com/vj')
-    axios.get('/vj')
+    axios.get('http://localhost:4000/vj')
         .then((res) => res.data)
 const postTicket = () =>
     //axios.get('https://vemaybayhuyhoang.herokuapp.com/vj')
@@ -44,7 +44,8 @@ class BookingContent extends Component {
         var mangjson = [];
         if (this.state.data === null) {
             getTicketDataJS().then((kq) => {
-
+                console.log("js");
+                console.log(kq);
                 //mangjson.push(kq[0]);
                 var tempflyno = "";
                 var tempprice = 0;
@@ -106,7 +107,8 @@ class BookingContent extends Component {
                 });
             });
             getTicketDataVJ().then((kq) => {
-
+                console.log("vj");
+                console.log(kq);
                 //mangjson.push(kq[0]);
                 var tempflyno = "";
                 var tempprice = 0;
@@ -168,7 +170,8 @@ class BookingContent extends Component {
                 });
             });
             getTicketDataVN().then((kq) => {
-
+                console.log("vn");
+                console.log(kq);
                 //mangjson.push(kq[0]);
                 var tempflyno = "";
                 var tempprice = 0;
@@ -234,11 +237,13 @@ class BookingContent extends Component {
     }
 
     handleClick = () => {
+        console.log(localStorage.getItem("des"));
         postTicket().then((resp) => { console.log(resp) });
     }
 
     printData = () => {
         if (this.state.data !== null) {
+            //console.log(this.state.data);
 
             return this.state.data.map((value, key) =>
                 (
@@ -246,7 +251,7 @@ class BookingContent extends Component {
                         key={key}
                         flightid={value.flightid}
                         flightno={value.flightno}
-                        air_code={value.air_code}
+                        aircode={value.air_code}
                         airline={value.airline}
                         baseprice={value.baseprice}
                         datefull={value.datefull}
