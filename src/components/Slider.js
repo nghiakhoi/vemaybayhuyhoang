@@ -117,7 +117,10 @@ class Slider extends Component {
                                     <div className="col-md-8 col-sm-12 col-xs-12">
                                         <div className="search-field">
                                             <i className="ion-search" />
+                                            <input type="text" onChange={(event) => this.isChange(event)} placeholder="Enter tour name" aria-describedby="name_text" id="des" name="dep" defaultValue="" />
                                             <input type="text" onChange={(event) => this.isChange(event)} placeholder="Enter tour name" aria-describedby="name_text" id="des" name="des" defaultValue="" />
+                                            <input type="text" onChange={(event) => this.isChange(event)} placeholder="Enter tour name" aria-describedby="name_text" id="des" name="datetime" defaultValue="" />
+                                            <input type="text" onChange={(event) => this.isChange(event)} placeholder="Enter tour name" aria-describedby="name_text" id="des" name="adult" defaultValue="" />
                                         </div>
                                         <div className="tour-type-field">
                                             <i className="ion-ios-paper-outline" />
@@ -140,7 +143,7 @@ class Slider extends Component {
                                         <div className="destination-field">
                                             <select className="form-control js-selected " name="destination">
                                                 <option value>Destination</option>
-                                                <option value="amsterdam">Amsterdam</option>
+                                                <option value="amsterdam"><div data-destination-slug="amsterdam" data-destination-backgroundimg="/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_amsterdam.jpg">Amsterdam</div></option>
                                                 <option value="dubai">Dubai</option>
                                                 <option value="france">France</option>
                                                 <option value="italy">Italy</option>

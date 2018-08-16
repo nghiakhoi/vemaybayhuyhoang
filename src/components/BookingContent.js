@@ -14,11 +14,31 @@ const getTicketDataVJ = () =>
     //axios.get('https://vemaybayhuyhoang.herokuapp.com/vj')
     axios.get('http://localhost:4000/vj')
         .then((res) => res.data)
-const postTicket = () =>
+const postTicketvn = () =>
     //axios.get('https://vemaybayhuyhoang.herokuapp.com/vj')
     axios.post('/vn', {
-        firstName: 'Fred',
-        lastName: 'Flintstone'
+        dep: localStorage.getItem("dep"),
+        des: localStorage.getItem("des"),
+        datetime: localStorage.getItem("datetime"),
+        adult: localStorage.getItem("adult"),
+    })
+        .then((res) => res.data)
+const postTicketjs = () =>
+    //axios.get('https://vemaybayhuyhoang.herokuapp.com/vj')
+    axios.post('/js', {
+        dep: localStorage.getItem("dep"),
+        des: localStorage.getItem("des"),
+        datetime: localStorage.getItem("datetime"),
+        adult: localStorage.getItem("adult"),
+    })
+        .then((res) => res.data)
+const postTicketvj = () =>
+    //axios.get('https://vemaybayhuyhoang.herokuapp.com/vj')
+    axios.post('/vj', {
+        dep: localStorage.getItem("dep"),
+        des: localStorage.getItem("des"),
+        datetime: localStorage.getItem("datetime"),
+        adult: localStorage.getItem("adult"),
     })
         .then((res) => res.data)
 
@@ -43,7 +63,7 @@ class BookingContent extends Component {
         }
         var mangjson = [];
         if (this.state.data === null) {
-            getTicketDataJS().then((kq) => {
+            postTicketvn().then((kq) => {
                 console.log("js");
                 console.log(kq);
                 //mangjson.push(kq[0]);
@@ -106,8 +126,8 @@ class BookingContent extends Component {
                     js: true
                 });
             });
-            getTicketDataVJ().then((kq) => {
-                console.log("vj");
+            postTicketjs().then((kq) => {
+                console.log("js");
                 console.log(kq);
                 //mangjson.push(kq[0]);
                 var tempflyno = "";
@@ -121,18 +141,18 @@ class BookingContent extends Component {
                 for (var key1 in kq[0]) {
 
                     if (tempdeptime == "" && tempdestime == "") {
-                        tempflyno = kq[0][key1]['flightno'];
+                        tempflyno = kq[0][key1]['air_code'];
                         tempprice = kq[0][key1]['baseprice'];
                         tempdeptime = kq[0][key1]['deptime'];
                         tempdestime = kq[0][key1]['destime'];
                         tempitem = kq[0][key1];
                     }
 
-                    if (tempflyno == kq[0][key1]['flightno']) {
+                    if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
                         if (tempprice <= kq[0][key1]['baseprice']) {
                             dem++;
                         } else {
-                            tempflyno = kq[0][key1]['flightno'];
+                            tempflyno = kq[0][key1]['air_code'];
                             tempprice = kq[0][key1]['baseprice'];
                             tempdeptime = kq[0][key1]['deptime'];
                             tempdestime = kq[0][key1]['destime'];
@@ -142,7 +162,7 @@ class BookingContent extends Component {
 
                     } else {
                         mangjson.push(tempitem);
-                        tempflyno = kq[0][key1]['flightno'];
+                        tempflyno = kq[0][key1]['air_code'];
                         tempprice = kq[0][key1]['baseprice'];
                         tempdeptime = kq[0][key1]['deptime'];
                         tempdestime = kq[0][key1]['destime'];
@@ -156,7 +176,7 @@ class BookingContent extends Component {
                 }
                 this.setState({
                     data: mangjson.sort(sortedByAttr('baseprice')),
-                    vj: true
+                    js: true
                 });
             }).then((res) => {
                 if (this.state.js === true || this.state.vj === true || this.state.vn === true) {
@@ -169,8 +189,8 @@ class BookingContent extends Component {
                     js: true
                 });
             });
-            getTicketDataVN().then((kq) => {
-                console.log("vn");
+            postTicketvj().then((kq) => {
+                console.log("js");
                 console.log(kq);
                 //mangjson.push(kq[0]);
                 var tempflyno = "";
@@ -184,18 +204,18 @@ class BookingContent extends Component {
                 for (var key1 in kq[0]) {
 
                     if (tempdeptime == "" && tempdestime == "") {
-                        tempflyno = kq[0][key1]['flightno'];
+                        tempflyno = kq[0][key1]['air_code'];
                         tempprice = kq[0][key1]['baseprice'];
                         tempdeptime = kq[0][key1]['deptime'];
                         tempdestime = kq[0][key1]['destime'];
                         tempitem = kq[0][key1];
                     }
 
-                    if (tempflyno == kq[0][key1]['flightno']) {
+                    if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
                         if (tempprice <= kq[0][key1]['baseprice']) {
                             dem++;
                         } else {
-                            tempflyno = kq[0][key1]['flightno'];
+                            tempflyno = kq[0][key1]['air_code'];
                             tempprice = kq[0][key1]['baseprice'];
                             tempdeptime = kq[0][key1]['deptime'];
                             tempdestime = kq[0][key1]['destime'];
@@ -205,7 +225,7 @@ class BookingContent extends Component {
 
                     } else {
                         mangjson.push(tempitem);
-                        tempflyno = kq[0][key1]['flightno'];
+                        tempflyno = kq[0][key1]['air_code'];
                         tempprice = kq[0][key1]['baseprice'];
                         tempdeptime = kq[0][key1]['deptime'];
                         tempdestime = kq[0][key1]['destime'];
@@ -219,7 +239,7 @@ class BookingContent extends Component {
                 }
                 this.setState({
                     data: mangjson.sort(sortedByAttr('baseprice')),
-                    vn: true
+                    js: true
                 });
             }).then((res) => {
                 if (this.state.js === true || this.state.vj === true || this.state.vn === true) {
@@ -232,13 +252,14 @@ class BookingContent extends Component {
                     js: true
                 });
             });
+            
         }
 
     }
 
     handleClick = () => {
         console.log(localStorage.getItem("des"));
-        postTicket().then((resp) => { console.log(resp) });
+        //postTicket().then((resp) => { console.log(resp) });
     }
 
     printData = () => {
