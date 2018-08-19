@@ -23,7 +23,7 @@ class Slider extends Component {
         this.setState({
             [name]: value
         });
-        localStorage.setItem(name,value);
+        localStorage.setItem(name, value);
     }
 
     handleClick = () => {
@@ -31,14 +31,14 @@ class Slider extends Component {
         this.setState({
             isRedirect: true
         });
-        
+
     }
 
     render() {
         if (this.state.isRedirect) {
             return <Redirect to="/booking" />;
         }
-        localStorage.setItem("test","hahaha1");
+        localStorage.setItem("test", "hahaha1");
         console.log(localStorage.getItem("test"));
         return (
             <div className="header-search-tour">
@@ -111,38 +111,41 @@ class Slider extends Component {
                                     </li>
                                 </ul>
                             </div>
-                            <form className="destination-search-form" action="/wordpress/intravel/wp-admin/admin-ajax.php?action=intravel_search_tour" method="post">
+                            <form autocomplete="off" className="destination-search-form" action="/wordpress/intravel/wp-admin/admin-ajax.php?action=intravel_search_tour" method="post">
                                 <span className="icon-click" />
                                 <div className="row">
-                                    <div className="col-md-8 col-sm-12 col-xs-12">
-                                        <div className="search-field">
-                                            <i className="ion-search" />
-                                            <input type="text" onChange={(event) => this.isChange(event)} placeholder="Enter tour name" aria-describedby="name_text" id="des" name="dep" defaultValue="" />
-                                            <input type="text" onChange={(event) => this.isChange(event)} placeholder="Enter tour name" aria-describedby="name_text" id="des" name="des" defaultValue="" />
-                                            <input type="text" onChange={(event) => this.isChange(event)} placeholder="Enter tour name" aria-describedby="name_text" id="des" name="datetime" defaultValue="" />
-                                            <input type="text" onChange={(event) => this.isChange(event)} placeholder="Enter tour name" aria-describedby="name_text" id="des" name="adult" defaultValue="" />
+                                    <div className="col-md-12 col-sm-12 col-xs-12">
+                                        <div className="col-md-6 col-sm-6 col-xs-6">
+                                            <div className="tour-type-field">
+                                                <input id="ctl00_UcRightV31_RbOneWay" type="radio" checked="checked" name="ways" className="ctl00$UcRightV31$RoundTrip" value="RbOneWay" />
+                                                <label style={{"color":"white"}} for="ctl00_UcRightV31_RbOneWay">Một chiều</label>
+                                            </div>
                                         </div>
-                                        <div className="tour-type-field">
-                                            <i className="ion-ios-paper-outline" />
-                                            <select className="form-control js-selected " defaultValue="a" name="tour_type">
-                                                <option value="a">Tour type</option>
-                                                <option value="adventure-travel">Adventure Travel</option>
-                                                <option value="beaches-islands">Beaches &amp; Islands</option>
-                                                <option value="family-tours">Family Tours</option>
-                                                <option value="history-culture">History &amp; Culture</option>
-                                                <option value="nature">Nature &amp; wildlife</option>
-                                                <option value="sightseeing-tours">Sightseeing tours</option>
-                                            </select>
+                                        <div className="col-md-6 col-sm-6 col-xs-6">
+                                            <div className="tour-type-field">
+                                                <input id="ctl00_UcRightV31_RbOneWay" type="radio" name="ways" className="ctl00$UcRightV31$RoundTrip" value="RbOneWay" />
+                                                <label style={{"color":"white"}} for="ctl00_UcRightV31_RbOneWay">Khứ hồi</label>
+                                            </div>
                                         </div>
-                                        <div className="iw-departure">
-                                            <input name="start_date" type="text" placeholder="Tour start date" className="iw-search-arrival has-date-picker" />
-                                            <i className="ion-calendar" />
+                                        <div className="col-md-6 col-sm-6 col-xs-12">
+                                            <div className="tour-type-field">
+                                                <i className="ion-ios-paper-outline" />
+                                                <select className="form-control js-selected " defaultValue="0" name="tour_type">
+                                                    <option value="0">Điểm khởi hành</option>
+                                                    <option value="adventure-travel">Adventure Travel</option>
+                                                    <option value="beaches-islands">Beaches &amp; Islands</option>
+                                                    <option value="family-tours">Family Tours</option>
+                                                    <option value="history-culture">History &amp; Culture</option>
+                                                    <option value="nature">Nature &amp; wildlife</option>
+                                                    <option value="sightseeing-tours">Sightseeing tours</option>
+                                                </select>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div className="col-md-4 col-sm-12 col-xs-12">
-                                        <div className="destination-field">
-                                            <select className="form-control js-selected " name="destination">
-                                                <option value>Destination</option>
+                                        <div className="col-md-6 col-sm-6 col-xs-12">
+                                            
+                                            <div className="destination-field">
+                                            <select className="form-control js-selected" defaultValue="0" name="destination">
+                                                <option value="0">Điểm đến</option>
                                                 <option value="amsterdam"><div data-destination-slug="amsterdam" data-destination-backgroundimg="/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_amsterdam.jpg">Amsterdam</div></option>
                                                 <option value="dubai">Dubai</option>
                                                 <option value="france">France</option>
@@ -156,11 +159,52 @@ class Slider extends Component {
                                                 <option value="venice">Venice</option>
                                             </select>
                                         </div>
-                                        <div className="iw-search-now">
-                                            <i className="ion-paper-airplane" />
-                                            <button onClick={() =>  this.handleClick() } className="theme-bg">Search</button>
                                         </div>
+
+                                        <div className="col-md-6 col-sm-6 col-xs-12">
+                                            <div className="iw-departure">
+                                                <input name="start_date" type="text" readonly="readonly" placeholder="Ngày đi" className="iw-search-arrival has-date-picker" />
+                                                <i className="ion-calendar" />
+                                            </div>
+                                        </div>
+                                        <div className="col-md-6 col-sm-6 col-xs-12">
+                                            <div className="iw-departure">
+                                                <input name="start_date" type="text" readonly="readonly" placeholder="Ngày về" className="iw-search-arrival has-date-picker" />
+                                                <i className="ion-calendar" />
+                                            </div>
+                                        </div>
+                                        <div className="col-md-6 col-sm-6 col-xs-12">
+                                            <div className="search-field">
+                                                <input type="text" onChange={(event) => this.isChange(event)} placeholder="Số lượng người lớn" aria-describedby="name_text" id="adult" name="adult" defaultValue="" />
+                                            </div>
+                                        </div>
+                                        <div className="col-md-6 col-sm-6 col-xs-12">
+                                            <div className="search-field">
+                                                <input type="text" onChange={(event) => this.isChange(event)} placeholder="Số lượng trẻ em" aria-describedby="name_text" id="des" name="dep" defaultValue="" />
+                                            </div>
+                                        </div>
+                                        <div className="col-md-6 col-sm-6 col-xs-12">
+                                            <div className="search-field">
+                                                <input type="text" onChange={(event) => this.isChange(event)} placeholder="Số lượng em bé" aria-describedby="name_text" id="datetime" name="dep" defaultValue="" />
+                                            </div>
+                                        </div>
+                                        <div className="col-md-6 col-sm-6 col-xs-12">
+                                            <div className="search-field">
+                                                <input type="text" onChange={(event) => this.isChange(event)} placeholder="Đặc biệt" aria-describedby="name_text" id="adult" name="dep" defaultValue="" />
+                                            </div>
+                                        </div>
+                                        <div className="col-md-12 col-sm-12 col-xs-12">
+                                            <div className="iw-search-now">
+                                                
+                                                <button onClick={() => this.handleClick()} className="theme-bg"><i className="ion-paper-airplane" /> Search</button>
+                                            </div>
+                                        </div>
+
+
+
+
                                     </div>
+
                                 </div>
                             </form>
                         </div>
