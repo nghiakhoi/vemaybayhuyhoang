@@ -553,13 +553,14 @@
   padding-left:30px;
   padding-top:5px;
   padding-left: 29px;
-  margin-right: 7px;
   margin-bottom: 12px;
+  float:  left;
+  width:  100%;
   }.destination-search-form .search-field
   i{left:10px;position:absolute;top: 94px;}.destination-search-form .tour-type-field{float:left;height:38px;position:relative;width: 100%;display:  flex;justify-content:  center;}.destination-search-form .tour-type-field
   i{color:rgb(131,131,131);left:10px;position:absolute;top: 6px;z-index:99;}.select2-container.form-control{padding:0;border:none;height:40px;line-height:40px;-webkit-border-radius:0;border-radius:0}.select2-container a.select2-choice{display:inline-block;height:40px;width:100%;line-height:40px;-webkit-border-radius:0;border-radius:0;border:1px
   solid #ebebeb !important}.select2-container .select2-choice .select2-chosen{height:100%}.destination-search-form .tour-type-field .select2-container--default .select2-selection--single .select2-selection__rendered{padding-left:30px;line-height:38px}.destination-search-form .destination-field .select2-container--default .select2-selection--single{background:#fff none repeat scroll 0 0;height: 38px;line-height:38px;padding-left:15px;text-align:left;border-radius:2px;}.destination-search-form .select2-container .select2-choice{border-radius:3px;padding-left:28px;line-height:36px;text-align:left}.destination-search-form .select2-search
-  input{background:none;padding-bottom:0;padding-top:0}.destination-search-form .destination-field .select2-container .select2-selection--single .select2-selection__rendered{line-height: 38px;}.destination-search-form .col-md-3{margin-left:-10px}.destination-search-form .tour-type-field .select2-container--default .select2-selection--single{border-radius:2px;height:38px}.destination-search-form .icon-click{border-bottom:8px solid rgba(0, 0, 0, 0);border-right:8px solid rgba(0, 0, 0, 0.4);border-top:8px solid rgba(0, 0, 0, 0);content:"";position:absolute;right:100%;top: 144px;}.destination-search-form .tour-type-field .select2-container{margin-top: 0px;text-align:left;width: 100% !important;}.iw-departure{float:left;margin-right: 4px;margin-top:12px;position:relative;}.iw-departure
+  input{background:none;padding-bottom:0;padding-top:0}.destination-search-form .destination-field .select2-container .select2-selection--single .select2-selection__rendered{line-height: 38px;}.destination-search-form .col-md-3{margin-left:-10px}.destination-search-form .tour-type-field .select2-container--default .select2-selection--single{border-radius:2px;height:38px}.destination-search-form .icon-click{border-bottom:8px solid rgba(0, 0, 0, 0);border-right:8px solid rgba(0, 0, 0, 0.4);border-top:8px solid rgba(0, 0, 0, 0);content:"";position:absolute;right:100%;top: 144px;}.destination-search-form .tour-type-field .select2-container{margin-top: 0px;text-align:left;width: 100% !important;}.iw-departure{float:left;margin-top:12px;position:relative;width:  100%;}.iw-departure
   i{position:absolute;left:10px;top:4px}.iw-departure
   input{border:0
   none;border-radius:2px;color:rgb(68, 68, 68);height:38px;padding-left:30px;width:160px}.destination-search-form .search-field  ::-webkit-input-placeholder,
@@ -567,7 +568,7 @@
   .iw-departure :-moz-placeholder{color:rgb(68, 68, 68);opacity:1}.destination-search-form .search-field  ::-moz-placeholder ,
   .iw-departure ::-moz-placeholder{color:rgb(68, 68, 68);opacity:1}.destination-search-form .search-field  :-ms-input-placeholder ,
   .iw-departure :-ms-input-placeholder{color:rgb(68, 68, 68)}.destination-search-form .iw-departure
-  input{width: 102%;height:38px;}.destination-search-form .destination-field{position:relative}.destination-search-form .select2-container{width: 100%;border-radius:2px;height:38px;}.destination-search-form .destination-field:after{content:"";font-family:"Ionicons";position:absolute;top:5px;left:10px}.destination-search-form .destination-field
+  input{width: 100%;height:38px;}.destination-search-form .destination-field{position:relative}.destination-search-form .select2-container{width: 100%;border-radius:2px;height:38px;}.destination-search-form .destination-field:after{content:"";font-family:"Ionicons";position:absolute;top:5px;left:10px}.destination-search-form .destination-field
   i{position:absolute;top:6px;left:10px}.destination-search-form .destination-field>input{border:0
   none;border-radius:2px;color:rgb(0,0,0);float:left;height:38px;padding-left:30px;padding-top:5px;width:170px}.iw-search-now{position:relative}.iw-search-now
   button{border:0

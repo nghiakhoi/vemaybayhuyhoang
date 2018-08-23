@@ -111,20 +111,20 @@ class Slider extends Component {
                                     </li>
                                 </ul>
                             </div>
-                            <form autocomplete="off" className="destination-search-form" action="/wordpress/intravel/wp-admin/admin-ajax.php?action=intravel_search_tour" method="post">
+                            <form autoComplete="off" className="destination-search-form" action="/wordpress/intravel/wp-admin/admin-ajax.php?action=intravel_search_tour" method="post">
                                 <span className="icon-click" />
                                 <div className="row">
                                     <div className="col-md-12 col-sm-12 col-xs-12">
                                         <div className="col-md-6 col-sm-6 col-xs-6">
                                             <div className="tour-type-field">
-                                                <input id="ctl00_UcRightV31_RbOneWay" type="radio" checked="checked" name="ways" className="ctl00$UcRightV31$RoundTrip" value="RbOneWay" />
-                                                <label style={{"color":"white"}} for="ctl00_UcRightV31_RbOneWay">Một chiều</label>
+                                                <input id="ctl00_UcRightV31_RbOneWay" type="radio" defaultChecked="checked" name="motchieu" className="ctl00$UcRightV31$RoundTrip" value="RbOneWay" />
+                                                <label style={{"color":"white"}} >Một chiều</label>
                                             </div>
                                         </div>
                                         <div className="col-md-6 col-sm-6 col-xs-6">
                                             <div className="tour-type-field">
-                                                <input id="ctl00_UcRightV31_RbOneWay" type="radio" name="ways" className="ctl00$UcRightV31$RoundTrip" value="RbOneWay" />
-                                                <label style={{"color":"white"}} for="ctl00_UcRightV31_RbOneWay">Khứ hồi</label>
+                                                <input id="ctl00_UcRightV31_RbOneWay" type="radio" name="khuhoi" className="ctl00$UcRightV31$RoundTrip" value="RbOneWay" />
+                                                <label style={{"color":"white"}} >Khứ hồi</label>
                                             </div>
                                         </div>
                                         <div className="col-md-6 col-sm-6 col-xs-12">
@@ -146,7 +146,7 @@ class Slider extends Component {
                                             <div className="destination-field">
                                             <select className="form-control js-selected" defaultValue="0" name="destination">
                                                 <option value="0">Điểm đến</option>
-                                                <option value="amsterdam"><div data-destination-slug="amsterdam" data-destination-backgroundimg="/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_amsterdam.jpg">Amsterdam</div></option>
+                                                <option value="amsterdam">Amsterdam</option>
                                                 <option value="dubai">Dubai</option>
                                                 <option value="france">France</option>
                                                 <option value="italy">Italy</option>
@@ -163,13 +163,13 @@ class Slider extends Component {
 
                                         <div className="col-md-6 col-sm-6 col-xs-12">
                                             <div className="iw-departure">
-                                                <input name="start_date" type="text" readonly="readonly" placeholder="Ngày đi" className="iw-search-arrival has-date-picker" />
+                                                <input name="start_date" type="text" readOnly placeholder="Ngày đi" className="iw-search-arrival has-date-picker" />
                                                 <i className="ion-calendar" />
                                             </div>
                                         </div>
                                         <div className="col-md-6 col-sm-6 col-xs-12">
                                             <div className="iw-departure">
-                                                <input name="start_date" type="text" readonly="readonly" placeholder="Ngày về" className="iw-search-arrival has-date-picker" />
+                                                <input name="start_date" type="text" readOnly placeholder="Ngày về" className="iw-search-arrival has-date-picker" />
                                                 <i className="ion-calendar" />
                                             </div>
                                         </div>
