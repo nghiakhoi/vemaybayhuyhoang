@@ -147,6 +147,30 @@
     <script type="text/javascript" src="%PUBLIC_URL%/js/min_5.js"></script>
     <script type="text/javascript" src="%PUBLIC_URL%/js/min_6.js"></script>
     
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            jQuery("#des").on("select2:select", function (e) {
+                var select_val = jQuery(e.currentTarget).val();
+                console.log(select_val);
+                localStorage.setItem("des", select_val);
+            });
+            jQuery("#dep").on("select2:select", function (e) {
+                var select_val = jQuery(e.currentTarget).val();
+                console.log(select_val);
+                localStorage.setItem("dep", select_val);
+            });
+            jQuery("#datedep").on("change", function (e) {
+                //var select_val = jQuery(e.currentTarget).val();
+                //console.log(select_val);
+                localStorage.setItem("datedep", jQuery(this).val());
+            });
+            jQuery("#datedes").on("change", function (e) {
+                //var select_val = jQuery(e.currentTarget).val();
+                //console.log(select_val);
+                localStorage.setItem("datedes", jQuery(this).val());
+            });
+        });
+    </script>
 
   </body>
 </html>

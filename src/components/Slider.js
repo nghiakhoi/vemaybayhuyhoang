@@ -12,7 +12,11 @@ class Slider extends Component {
         super(props);
         this.state = {
             isRedirect: false,
-            des: ''
+            des: '',
+            dep: '',
+            datedes: '',
+            datedep: '',
+            adult: ''
         }
     }
 
@@ -27,7 +31,11 @@ class Slider extends Component {
     }
 
     handleClick = () => {
-        var chieudi = this.state.des;
+        var des = this.state.des;
+        var dep = this.state.dep;
+        var datedes = this.state.datedes;
+        var datedep = this.state.datedep;
+        var adult = this.state.adult;
         this.setState({
             isRedirect: true
         });
@@ -38,8 +46,6 @@ class Slider extends Component {
         if (this.state.isRedirect) {
             return <Redirect to="/booking" />;
         }
-        localStorage.setItem("test", "hahaha1");
-        console.log(localStorage.getItem("test"));
         return (
             <div className="header-search-tour">
                 <div className="intravel-destination-search">
@@ -117,20 +123,20 @@ class Slider extends Component {
                                     <div className="col-md-12 col-sm-12 col-xs-12">
                                         <div className="col-md-6 col-sm-6 col-xs-6">
                                             <div className="tour-type-field">
-                                                <input id="ctl00_UcRightV31_RbOneWay" type="radio" defaultChecked="checked" name="motchieu" className="ctl00$UcRightV31$RoundTrip" value="RbOneWay" />
-                                                <label style={{"color":"white"}} >Một chiều</label>
+                                                <input id="motchieu" onChange={(event) => this.isChange(event)} type="radio" defaultChecked="checked"value="0" name="ways" className="ctl00$UcRightV31$RoundTrip"  />
+                                                <label htmlFor="motchieu" style={{"color":"white"}} >Một chiều</label>
                                             </div>
                                         </div>
                                         <div className="col-md-6 col-sm-6 col-xs-6">
                                             <div className="tour-type-field">
-                                                <input id="ctl00_UcRightV31_RbOneWay" type="radio" name="khuhoi" className="ctl00$UcRightV31$RoundTrip" value="RbOneWay" />
-                                                <label style={{"color":"white"}} >Khứ hồi</label>
+                                                <input id="haichieu" onChange={(event) => this.isChange(event)} type="radio" name="ways" value="1" className="ctl00$UcRightV31$RoundTrip"  />
+                                                <label htmlFor="haichieu" style={{"color":"white"}} >Khứ hồi</label>
                                             </div>
                                         </div>
                                         <div className="col-md-6 col-sm-6 col-xs-12">
                                             <div className="tour-type-field">
                                                 <i className="ion-ios-paper-outline" />
-                                                <select className="form-control js-selected " defaultValue="0" name="tour_type">
+                                                <select onClick={(event) => this.isClicked(event)} className="form-control js-selected " defaultValue="0" id="dep" name="dep">
                                                     <option value="0">Điểm khởi hành</option>
                                                     <option value="adventure-travel">Adventure Travel</option>
                                                     <option value="beaches-islands">Beaches &amp; Islands</option>
@@ -144,7 +150,7 @@ class Slider extends Component {
                                         <div className="col-md-6 col-sm-6 col-xs-12">
                                             
                                             <div className="destination-field">
-                                            <select className="form-control js-selected" defaultValue="0" name="destination">
+                                            <select onClick={(event) => this.isClicked(event)} className="form-control js-selected" defaultValue="0" id="des" name="des">
                                                 <option value="0">Điểm đến</option>
                                                 <option value="amsterdam">Amsterdam</option>
                                                 <option value="dubai">Dubai</option>
@@ -163,34 +169,48 @@ class Slider extends Component {
 
                                         <div className="col-md-6 col-sm-6 col-xs-12">
                                             <div className="iw-departure">
-                                                <input name="start_date" type="text" readOnly placeholder="Ngày đi" className="iw-search-arrival has-date-picker" />
+                                                <input id="datedep" name="datedep" type="text" readOnly placeholder="Ngày đi" className="iw-search-arrival has-date-picker" />
                                                 <i className="ion-calendar" />
                                             </div>
                                         </div>
                                         <div className="col-md-6 col-sm-6 col-xs-12">
                                             <div className="iw-departure">
-                                                <input name="start_date" type="text" readOnly placeholder="Ngày về" className="iw-search-arrival has-date-picker" />
+                                                <input id="datedes" name="datedes" type="text" readOnly placeholder="Ngày về" className="iw-search-arrival has-date-picker" />
                                                 <i className="ion-calendar" />
                                             </div>
                                         </div>
                                         <div className="col-md-6 col-sm-6 col-xs-12">
                                             <div className="search-field">
                                                 <input type="text" onChange={(event) => this.isChange(event)} placeholder="Số lượng người lớn" aria-describedby="name_text" id="adult" name="adult" defaultValue="" />
+                                                <select className="form-control " defaultValue="0" name="destination">
+                                                <option value="0">Điểm đến</option>
+                                                <option value="amsterdam">Amsterdam</option>
+                                                <option value="dubai">Dubai</option>
+                                                <option value="france">France</option>
+                                                <option value="italy">Italy</option>
+                                                <option value="paris">Paris</option>
+                                                <option value="rome">Rome</option>
+                                                <option value="san-francisco">San Francisco</option>
+                                                <option value="the_netherlands">The Netherlands</option>
+                                                <option value="uae">UAE</option>
+                                                <option value="usa">USA</option>
+                                                <option value="venice">Venice</option>
+                                            </select>
                                             </div>
                                         </div>
                                         <div className="col-md-6 col-sm-6 col-xs-12">
                                             <div className="search-field">
-                                                <input type="text" onChange={(event) => this.isChange(event)} placeholder="Số lượng trẻ em" aria-describedby="name_text" id="des" name="dep" defaultValue="" />
+                                                <input type="text" onChange={(event) => this.isChange(event)} placeholder="Số lượng trẻ em" aria-describedby="name_text" id="adult" name="adult" defaultValue="" />
                                             </div>
                                         </div>
                                         <div className="col-md-6 col-sm-6 col-xs-12">
                                             <div className="search-field">
-                                                <input type="text" onChange={(event) => this.isChange(event)} placeholder="Số lượng em bé" aria-describedby="name_text" id="datetime" name="dep" defaultValue="" />
+                                                <input type="text" onChange={(event) => this.isChange(event)} placeholder="Số lượng em bé" aria-describedby="name_text" id="treem" name="NameTreEm" defaultValue="" />
                                             </div>
                                         </div>
                                         <div className="col-md-6 col-sm-6 col-xs-12">
                                             <div className="search-field">
-                                                <input type="text" onChange={(event) => this.isChange(event)} placeholder="Đặc biệt" aria-describedby="name_text" id="adult" name="dep" defaultValue="" />
+                                                <input type="text" onChange={(event) => this.isChange(event)} placeholder="Đặc biệt" aria-describedby="name_text" id="EmBe" name="NameEmbe" defaultValue="" />
                                             </div>
                                         </div>
                                         <div className="col-md-12 col-sm-12 col-xs-12">
