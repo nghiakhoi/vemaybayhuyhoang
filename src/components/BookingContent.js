@@ -19,7 +19,7 @@ const postTicketvn = () =>
     axios.post('/vn', {
         dep: localStorage.getItem("dep"),
         des: localStorage.getItem("des"),
-        datetime: localStorage.getItem("datetime"),
+        datedep: localStorage.getItem("datedep"),
         adult: localStorage.getItem("adult"),
     })
         .then((res) => res.data)
@@ -28,7 +28,7 @@ const postTicketjs = () =>
     axios.post('/js', {
         dep: localStorage.getItem("dep"),
         des: localStorage.getItem("des"),
-        datetime: localStorage.getItem("datetime"),
+        datedep: localStorage.getItem("datedep"),
         adult: localStorage.getItem("adult"),
     })
         .then((res) => res.data)
@@ -37,7 +37,7 @@ const postTicketvj = () =>
     axios.post('/vj', {
         dep: localStorage.getItem("dep"),
         des: localStorage.getItem("des"),
-        datetime: localStorage.getItem("datetime"),
+        datedep: localStorage.getItem("datedep"),
         adult: localStorage.getItem("adult"),
     })
         .then((res) => res.data)
