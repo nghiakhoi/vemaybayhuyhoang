@@ -42,10 +42,21 @@ class Slider extends Component {
 
     }
 
+    componentDidMount() {
+        localStorage.setItem("adult", 1);
+    }
+
+
     render() {
         if (this.state.isRedirect) {
             return <Redirect to="/booking" />;
         }
+        var maxpersearchadult = Array.apply(null, { length: 10 }).map((k, i) => {
+            return <option key={i} value={i + 1}>{i + 1}</option>
+        });
+        var maxpersearchother = Array.apply(null, { length: 10 }).map((k, i) => {
+            return <option key={i} value={i}>{i}</option>
+        });
         return (
             <div className="header-search-tour">
                 <div className="intravel-destination-search">
@@ -120,110 +131,104 @@ class Slider extends Component {
                             <form autoComplete="off" className="destination-search-form" action="/wordpress/intravel/wp-admin/admin-ajax.php?action=intravel_search_tour" method="post">
                                 <span className="icon-click" />
                                 <div className="row">
-                                    <div className="col-md-12 col-sm-12 col-xs-12">
-                                        <div className="col-md-6 col-sm-6 col-xs-6">
-                                            <div className="tour-type-field">
-                                                <input id="motchieu" onChange={(event) => this.isChange(event)} type="radio" defaultChecked="checked"value="0" name="ways" className="ctl00$UcRightV31$RoundTrip"  />
-                                                <label htmlFor="motchieu" style={{"color":"white"}} >Một chiều</label>
-                                            </div>
+
+
+                                    <div className="col-xs-12 col-sm-3 col-md-4">
+                                        <legend className="title-search">
+                                            1. Hành trình bay
+                                        </legend>
+                                        <label htmlFor="dep" style={{ "color": "white" }} >Điểm khởi hành</label>
+                                        <div className="tour-type-field">
+
+                                            <select className="form-control js-selected " defaultValue="0" id="dep" name="dep">
+                                                <option value="SGN">SGN</option>
+                                                <option value="adventure-travel">Adventure Travel</option>
+                                                <option value="beaches-islands">Beaches &amp; Islands</option>
+                                                <option value="family-tours">Family Tours</option>
+                                                <option value="history-culture">History &amp; Culture</option>
+                                                <option value="nature">Nature &amp; wildlife</option>
+                                                <option value="sightseeing-tours">Sightseeing tours</option>
+                                            </select>
                                         </div>
-                                        <div className="col-md-6 col-sm-6 col-xs-6">
-                                            <div className="tour-type-field">
-                                                <input id="haichieu" onChange={(event) => this.isChange(event)} type="radio" name="ways" value="1" className="ctl00$UcRightV31$RoundTrip"  />
-                                                <label htmlFor="haichieu" style={{"color":"white"}} >Khứ hồi</label>
-                                            </div>
+                                        <label htmlFor="des" style={{ "color": "white" }} >Điểm đến</label>
+                                        <div className="destination-field">
+                                            <select className="form-control js-selected" defaultValue="0" id="des" name="des">
+                                                <option value="HAN">HAN</option>
+                                                <option value="dubai">Dubai</option>
+                                                <option value="france">France</option>
+                                                <option value="italy">Italy</option>
+                                                <option value="paris">Paris</option>
+                                                <option value="rome">Rome</option>
+                                                <option value="san-francisco">San Francisco</option>
+                                                <option value="the_netherlands">The Netherlands</option>
+                                                <option value="uae">UAE</option>
+                                                <option value="usa">USA</option>
+                                                <option value="venice">Venice</option>
+                                            </select>
                                         </div>
-                                        <div className="col-md-6 col-sm-6 col-xs-12">
-                                            <div className="tour-type-field">
-                                                <i className="ion-ios-paper-outline" />
-                                                <select onClick={(event) => this.isClicked(event)} className="form-control js-selected " defaultValue="0" id="dep" name="dep">
-                                                    <option value="0">Điểm khởi hành</option>
-                                                    <option value="adventure-travel">Adventure Travel</option>
-                                                    <option value="beaches-islands">Beaches &amp; Islands</option>
-                                                    <option value="family-tours">Family Tours</option>
-                                                    <option value="history-culture">History &amp; Culture</option>
-                                                    <option value="nature">Nature &amp; wildlife</option>
-                                                    <option value="sightseeing-tours">Sightseeing tours</option>
+                                    </div>
+
+                                    <div className="col-xs-12 col-sm-3 col-md-4">
+                                        <legend className="title-search">
+                                            2. Thời gian bay
+                                        </legend>
+                                        <label htmlFor="datedep" style={{ "color": "white" }} >Ngày đi</label>
+                                        <div className="iw-departure">
+                                            <input id="datedep" name="datedep" type="text" readOnly placeholder="Ngày đi" className="iw-search-arrival has-date-picker" />
+                                        </div>
+                                        <label htmlFor="datedes" style={{ "color": "white" }} >
+                                            <input className="" type="checkbox" />
+                                            Khứ hồi
+                                        </label>
+                                        <div className="iw-departure thelastitem">
+                                            <input id="datedes" name="datedes" type="text" readOnly placeholder="Ngày về" className="iw-search-arrival has-date-picker" />
+                                        </div>
+                                    </div>
+
+                                    <div className="col-xs-12 col-sm-6 col-md-4">
+                                        <legend className="title-search">
+                                            3. Số hành khách
+                                        </legend>
+                                        <div className="col-xs-12 col-sm-4 col-md-4">
+                                            <label htmlFor="adult" style={{ "color": "white" }} >Người lớn</label>
+                                            <div className="search-field">
+                                                <select onChange={(event) => this.isChange(event)} className="form-control " id="adult" name="adult" defaultValue="">
+                                                    {maxpersearchadult}
                                                 </select>
                                             </div>
                                         </div>
-                                        <div className="col-md-6 col-sm-6 col-xs-12">
-                                            
-                                            <div className="destination-field">
-                                            <select onClick={(event) => this.isClicked(event)} className="form-control js-selected" defaultValue="0" id="des" name="des">
-                                                <option value="0">Điểm đến</option>
-                                                <option value="amsterdam">Amsterdam</option>
-                                                <option value="dubai">Dubai</option>
-                                                <option value="france">France</option>
-                                                <option value="italy">Italy</option>
-                                                <option value="paris">Paris</option>
-                                                <option value="rome">Rome</option>
-                                                <option value="san-francisco">San Francisco</option>
-                                                <option value="the_netherlands">The Netherlands</option>
-                                                <option value="uae">UAE</option>
-                                                <option value="usa">USA</option>
-                                                <option value="venice">Venice</option>
-                                            </select>
-                                        </div>
-                                        </div>
-
-                                        <div className="col-md-6 col-sm-6 col-xs-12">
-                                            <div className="iw-departure">
-                                                <input id="datedep" name="datedep" type="text" readOnly placeholder="Ngày đi" className="iw-search-arrival has-date-picker" />
-                                                <i className="ion-calendar" />
-                                            </div>
-                                        </div>
-                                        <div className="col-md-6 col-sm-6 col-xs-12">
-                                            <div className="iw-departure">
-                                                <input id="datedes" name="datedes" type="text" readOnly placeholder="Ngày về" className="iw-search-arrival has-date-picker" />
-                                                <i className="ion-calendar" />
-                                            </div>
-                                        </div>
-                                        <div className="col-md-6 col-sm-6 col-xs-12">
+                                        <div className="col-xs-12 col-sm-4 col-md-4">
+                                            <label htmlFor="children" style={{ "color": "white" }} >Trẻ em</label>
                                             <div className="search-field">
-                                                <input type="text" onChange={(event) => this.isChange(event)} placeholder="Số lượng người lớn" aria-describedby="name_text" id="adult" name="adult" defaultValue="" />
-                                                <select className="form-control " defaultValue="0" name="destination">
-                                                <option value="0">Điểm đến</option>
-                                                <option value="amsterdam">Amsterdam</option>
-                                                <option value="dubai">Dubai</option>
-                                                <option value="france">France</option>
-                                                <option value="italy">Italy</option>
-                                                <option value="paris">Paris</option>
-                                                <option value="rome">Rome</option>
-                                                <option value="san-francisco">San Francisco</option>
-                                                <option value="the_netherlands">The Netherlands</option>
-                                                <option value="uae">UAE</option>
-                                                <option value="usa">USA</option>
-                                                <option value="venice">Venice</option>
-                                            </select>
+                                                <select onChange={(event) => this.isChange(event)} className="form-control " id="children" name="children" defaultValue="">
+                                                    {maxpersearchother}
+                                                </select>
                                             </div>
                                         </div>
-                                        <div className="col-md-6 col-sm-6 col-xs-12">
+                                        <div className="col-xs-12 col-sm-4 col-md-4">
+                                            <label htmlFor="baby" style={{ "color": "white" }} >Em bé</label>
                                             <div className="search-field">
-                                                <input type="text" onChange={(event) => this.isChange(event)} placeholder="Số lượng trẻ em" aria-describedby="name_text" id="adult" name="adult" defaultValue="" />
+                                                <select onChange={(event) => this.isChange(event)} className="form-control " id="baby" name="baby" defaultValue="">
+                                                    {maxpersearchother}
+                                                </select>
                                             </div>
                                         </div>
-                                        <div className="col-md-6 col-sm-6 col-xs-12">
-                                            <div className="search-field">
-                                                <input type="text" onChange={(event) => this.isChange(event)} placeholder="Số lượng em bé" aria-describedby="name_text" id="treem" name="NameTreEm" defaultValue="" />
-                                            </div>
-                                        </div>
-                                        <div className="col-md-6 col-sm-6 col-xs-12">
-                                            <div className="search-field">
-                                                <input type="text" onChange={(event) => this.isChange(event)} placeholder="Đặc biệt" aria-describedby="name_text" id="EmBe" name="NameEmbe" defaultValue="" />
-                                            </div>
-                                        </div>
-                                        <div className="col-md-12 col-sm-12 col-xs-12">
+                                        <div className="col-xs-12 col-sm-12 col-md-12">
                                             <div className="iw-search-now">
-                                                
+
                                                 <button onClick={() => this.handleClick()} className="theme-bg"><i className="ion-paper-airplane" /> Search</button>
                                             </div>
                                         </div>
 
 
 
-
                                     </div>
+
+
+
+
+
+
 
                                 </div>
                             </form>
