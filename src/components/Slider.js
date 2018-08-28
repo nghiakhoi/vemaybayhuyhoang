@@ -141,29 +141,31 @@ class Slider extends Component {
                                         <div className="tour-type-field">
 
                                             <select className="form-control js-selected " defaultValue="0" id="dep" name="dep">
-                                                <option value="SGN">SGN</option>
-                                                <option value="adventure-travel">Adventure Travel</option>
-                                                <option value="beaches-islands">Beaches &amp; Islands</option>
-                                                <option value="family-tours">Family Tours</option>
-                                                <option value="history-culture">History &amp; Culture</option>
-                                                <option value="nature">Nature &amp; wildlife</option>
-                                                <option value="sightseeing-tours">Sightseeing tours</option>
+                                                <option value="0">Điểm khởi hành</option>
+                                                <option value="SGN">Hồ Chí Minh(SGN)</option>
+                                                <option value="HAN">Hà Nội(HAN)</option>
+                                                <option value="DAD">Đà Nẵng(DAD)</option>
+                                                <option value="VCL">Chu Lai(VCL)</option>
+                                                <option value="CXR">Nha Trang(CXR)</option>
+                                                <option value="PQC">Phú Quốc(PQC)</option>
+                                                <option value="HUI">Huế(HUI)</option>
+                                                <option value="PXU">Pleiku(PXU)</option>
+                                                <option value="UIH">Quy Nhơn(UIH)</option>
                                             </select>
                                         </div>
                                         <label htmlFor="des" style={{ "color": "white" }} >Điểm đến</label>
                                         <div className="destination-field">
                                             <select className="form-control js-selected" defaultValue="0" id="des" name="des">
-                                                <option value="HAN">HAN</option>
-                                                <option value="dubai">Dubai</option>
-                                                <option value="france">France</option>
-                                                <option value="italy">Italy</option>
-                                                <option value="paris">Paris</option>
-                                                <option value="rome">Rome</option>
-                                                <option value="san-francisco">San Francisco</option>
-                                                <option value="the_netherlands">The Netherlands</option>
-                                                <option value="uae">UAE</option>
-                                                <option value="usa">USA</option>
-                                                <option value="venice">Venice</option>
+                                                <option value="0">Điểm khởi hành</option>
+                                                <option value="SGN">Hồ Chí Minh(SGN)</option>
+                                                <option value="HAN">Hà Nội(HAN)</option>
+                                                <option value="DAD">Đà Nẵng(DAD)</option>
+                                                <option value="VCL">Chu Lai(VCL)</option>
+                                                <option value="CXR">Nha Trang(CXR)</option>
+                                                <option value="PQC">Phú Quốc(PQC)</option>
+                                                <option value="HUI">Huế(HUI)</option>
+                                                <option value="PXU">Pleiku(PXU)</option>
+                                                <option value="UIH">Quy Nhơn(UIH)</option>
                                             </select>
                                         </div>
                                     </div>

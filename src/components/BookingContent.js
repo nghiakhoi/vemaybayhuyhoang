@@ -42,6 +42,41 @@ const postTicketvj = () =>
     })
         .then((res) => res.data)
 
+const formatDate = function formatDate(date) {            // function for reusability
+    var d = date.getUTCDate().toString(),           // getUTCDate() returns 1 - 31
+        m = (date.getUTCMonth() + 1).toString(),    // getUTCMonth() returns 0 - 11
+        y = date.getUTCFullYear().toString(),       // getUTCFullYear() returns a 4-digit year
+        formatted = '';
+    if (d.length === 1) {                           // pad to two digits if needed
+        d = '0' + d;
+    }
+    if (m.length === 1) {                           // pad to two digits if needed
+        m = '0' + m;
+    }
+    formatted = d + '-' + m + '-' + y;              // concatenate for output
+    return formatted;
+}
+
+const compareTwoDay = (date) => {
+    var parts = date.split("-");
+    return new Date(parts[2], parts[1] - 1, parts[0]);
+}
+const getTodayddmmyyyy = () => {
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1; //January is 0!
+
+    var yyyy = today.getFullYear();
+    if (dd < 10) {
+        dd = '0' + dd;
+    }
+    if (mm < 10) {
+        mm = '0' + mm;
+    }
+    var today = dd + '-' + mm + '-' + yyyy;
+    return today;
+}
+
 class BookingContent extends Component {
     constructor(props) {
         super(props);
@@ -49,7 +84,8 @@ class BookingContent extends Component {
             data: null,
             vj: false,
             js: false,
-            vn: false
+            vn: false,
+            datasmallestprice: null
         }
     }
 
@@ -64,8 +100,6 @@ class BookingContent extends Component {
         var mangjson = [];
         if (this.state.data === null) {
             postTicketvn().then((kq) => {
-                console.log("js");
-                console.log(kq);
                 //mangjson.push(kq[0]);
                 var tempflyno = "";
                 var tempprice = 0;
@@ -118,7 +152,8 @@ class BookingContent extends Component {
             }).then((res) => {
                 if (this.state.js === true || this.state.vj === true || this.state.vn === true) {
                     this.setState({
-                        data: this.state.data.sort(sortedByAttr('baseprice'))
+                        data: this.state.data.sort(sortedByAttr('baseprice')),
+                        datasmallestprice: this.state.data[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0,-2)
                     });
                 }
             }).catch((err) => {
@@ -127,8 +162,6 @@ class BookingContent extends Component {
                 });
             });
             postTicketjs().then((kq) => {
-                console.log("js");
-                console.log(kq);
                 //mangjson.push(kq[0]);
                 var tempflyno = "";
                 var tempprice = 0;
@@ -181,7 +214,8 @@ class BookingContent extends Component {
             }).then((res) => {
                 if (this.state.js === true || this.state.vj === true || this.state.vn === true) {
                     this.setState({
-                        data: this.state.data.sort(sortedByAttr('baseprice'))
+                        data: this.state.data.sort(sortedByAttr('baseprice')),
+                        datasmallestprice: this.state.data[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0,-2)
                     });
                 }
             }).catch((err) => {
@@ -190,8 +224,6 @@ class BookingContent extends Component {
                 });
             });
             postTicketvj().then((kq) => {
-                console.log("js");
-                console.log(kq);
                 //mangjson.push(kq[0]);
                 var tempflyno = "";
                 var tempprice = 0;
@@ -244,7 +276,8 @@ class BookingContent extends Component {
             }).then((res) => {
                 if (this.state.js === true || this.state.vj === true || this.state.vn === true) {
                     this.setState({
-                        data: this.state.data.sort(sortedByAttr('baseprice'))
+                        data: this.state.data.sort(sortedByAttr('baseprice')),
+                        datasmallestprice: this.state.data[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0,-2)
                     });
                 }
             }).catch((err) => {
@@ -252,14 +285,15 @@ class BookingContent extends Component {
                     js: true
                 });
             });
-            
+
         }
 
     }
 
-    handleClick = () => {
-        console.log(localStorage.getItem("des"));
-        //postTicket().then((resp) => { console.log(resp) });
+    handleClick = (event) => {
+
+        localStorage.setItem("datedep", event.target.value);
+        window.location.reload();
     }
 
     printData = () => {
@@ -281,46 +315,77 @@ class BookingContent extends Component {
                         deptime={value.deptime}
                         destime={value.destime}
                         duration={value.duration}
+                        datefull={value.datefull}
                     />
                 )
             );
         }
     }
+   
     render() {
+
+        var daychoose = localStorage.getItem('datedep');
+        var mangngayngaytoi = [];
+        var mangngayngaylui = [];
+        for (var i = 1; i <= 3; i++) {
+            var newdate = new Date(daychoose.split("-").reverse().join("-"));
+            var newdateplus1 = newdate.setDate(newdate.getDate() + i);
+            var testdate = new Date(newdateplus1);
+            var formattedDate = formatDate(testdate);
+            mangngayngaytoi.push(formattedDate);
+        }
+        for (var i = 3; i > 0; i--) {
+            var newdate = new Date(daychoose.split("-").reverse().join("-"));
+            var newdateplus1 = newdate.setDate(newdate.getDate() - i);
+            var testdate = new Date(newdateplus1);
+            var formattedDate = formatDate(testdate);
+            mangngayngaylui.push(formattedDate);
+
+        }
         return (
             <div className="iw-tour-listing">
                 <div className="iw-tours-content">
                     <div className=" container">
                         <div className="row">
                             <div className="col-sm-12 col-xs-12 col-lg-9 col-md-8 blog-content">
+                                <h3 style={{ "color": "black" }} className="">Chặng bay {localStorage.getItem("dep")} → {localStorage.getItem("des")} ngày {localStorage.getItem("datedep")}</h3>
                                 <div className="tour-order-layout-form">
-                                    <form id="orderForm" method="get" action="http://inwavethemes.com/wordpress/intravel/home/tours/" name="orderForm">
-                                    <input type="button" value="OK" onClick={()=>{this.handleClick()}} />
-                                        <select className="tours-order iw-select-2 select2-hidden-accessible" name="order" tabIndex={-1} aria-hidden="true">
-                                            <option value="desc">Descending</option>
-                                            <option value="asc" >Ascending</option>
-                                        </select><span className="select2 select2-container select2-container--default" dir="ltr" style={{ width: 109 }}><span className="selection"><span className="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabIndex={0} aria-labelledby="select2-order-nh-container"><span className="select2-selection__rendered" id="select2-order-nh-container" title="Ascending">Ascending</span><span className="select2-selection__arrow" role="presentation"><b role="presentation" /></span></span></span><span className="dropdown-wrapper" aria-hidden="true" /></span>
-                                        <select className="tours-orderby iw-select-2 select2-hidden-accessible" name="orderby" tabIndex={-1} aria-hidden="true">
-                                            <option value >Ordering</option>
-                                            <option value="date">Date</option>
-                                            <option value="price">Price</option>
-                                            <option value="rating">Rating</option>
-                                            <option value="popularity">Popularity</option>
-                                            <option value="title">Title</option>
-                                        </select>
-                                        <span className="select2 select2-container select2-container--default" dir="ltr" style={{ width: 95 }}><span className="selection"><span className="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabIndex={0} aria-labelledby="select2-orderby-xl-container"><span className="select2-selection__rendered" id="select2-orderby-xl-container" title="Ordering">Ordering</span><span className="select2-selection__arrow" role="presentation"><b role="presentation" /></span></span></span><span className="dropdown-wrapper" aria-hidden="true" /></span>
-                                        <div className="layout-switcher">
-                                            <div className="layout-switcher">
-                                                <ul>
-                                                    <li className="theme-bg active">
-                                                        <i className="icon ion-navicon" />
-                                                    </li>
-                                                    <li >
-                                                        <a href="#" className="tours-layout layout-grid"><i className="icon ion-grid" /></a>
-                                                    </li>
-                                                </ul>
-                                                <input type="hidden" name="layout" defaultValue="list" />
+                                    <form >
+                                        <div className="col-sm-12 col-xs-12 col-lg-12 col-md-12" style={{ "marginBottom": "5px" }}>
+                                            {
+                                                mangngayngaylui.map((i, k) => {
+                                                    if (compareTwoDay(i) < compareTwoDay(getTodayddmmyyyy())) {
+                                                        return (
+                                                            <div key={k} className=" col-md-1-chia7" >
+                                                                <input type="button" style={{ "padding": "6px 12px" }} className="btn disabled btn-block btn-info" value={i} />
+                                                            </div>
+                                                        )
+                                                    } else {
+                                                        return (
+                                                            <div key={k} className=" col-md-1-chia7" >
+                                                                <input onClick={(event) => { this.handleClick(event) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={i} />
+                                                            </div>
+                                                        )
+                                                    }
+
+                                                })
+
+                                            }
+
+                                            <div className=" col-md-1-chia7" >
+                                                <input type="button" onClick={(event) => { this.handleClick(event) }} style={{ "padding": "6px 12px" }} className="btn btn-block btn-primary newlinebtn" value={daychoose + " " + this.state.datasmallestprice + " VND"} />
                                             </div>
+                                            {
+                                                mangngayngaytoi.map((i, k) => {
+                                                    return (
+                                                        <div key={k} className=" col-md-1-chia7" >
+                                                            <input type="button" onClick={(event) => { this.handleClick(event) }} style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={i + " " + this.state.datasmallestprice + " VND"} />
+                                                        </div>
+                                                    )
+                                                })
+
+                                            }
+
                                         </div>
                                         <div className="clearfix" />
                                     </form>
