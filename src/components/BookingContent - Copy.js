@@ -8,6 +8,9 @@ import {
     Redirect,
     withRouter
 } from "react-router-dom";
+import jetstarlogo from '../images/jetstarsmall.png';
+import vietjetlogo from '../images/vietjetsmall.png';
+import vietnamairlinelogo from '../images/vietnamairlinesmall.png';
 
 
 const postTicketvn = () =>
@@ -141,7 +144,13 @@ class BookingContent extends Component {
             datasmallestprice4: null,
             datasmallestprice5: null,
             datasmallestprice6: null,
-        
+            imgsmallprice: null,
+            imgsmallprice1: null,
+            imgsmallprice2: null,
+            imgsmallprice3: null,
+            imgsmallprice4: null,
+            imgsmallprice5: null,
+            imgsmallprice6: null,
         }
     }
 
@@ -221,7 +230,7 @@ class BookingContent extends Component {
                     this.setState({
                         data: this.state.data.sort(sortedByAttr('baseprice')),
                         datasmallestprice: this.state.data[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
-                        
+                        imgsmallprice: this.state.data[0].air_code
                     });
                 }
             }).catch((err) => {
@@ -284,7 +293,7 @@ class BookingContent extends Component {
                     this.setState({
                         data: this.state.data.sort(sortedByAttr('baseprice')),
                         datasmallestprice: this.state.data[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
-                        
+                        imgsmallprice: this.state.data[0].air_code
                     });
                 }
             }).catch((err) => {
@@ -347,7 +356,7 @@ class BookingContent extends Component {
                     this.setState({
                         data: this.state.data.sort(sortedByAttr('baseprice')),
                         datasmallestprice: this.state.data[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
-                        
+                        imgsmallprice: this.state.data[0].air_code
                     });
                 }
             }).catch((err) => {
@@ -426,7 +435,7 @@ class BookingContent extends Component {
                     this.setState({
                         data1: this.state.data1.sort(sortedByAttr('baseprice')),
                         datasmallestprice1: this.state.data1[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
-                        
+                        imgsmallprice1: this.state.data1[0].air_code
                     });
                 }
             }).catch((err) => {
@@ -489,7 +498,7 @@ class BookingContent extends Component {
                     this.setState({
                         data1: this.state.data1.sort(sortedByAttr('baseprice')),
                         datasmallestprice1: this.state.data1[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
-                        
+                        imgsmallprice1: this.state.data1[0].air_code
                     });
                 }
             }).catch((err) => {
@@ -550,7 +559,7 @@ class BookingContent extends Component {
                     this.setState({
                         data1: this.state.data1.sort(sortedByAttr('baseprice')),
                         datasmallestprice1: this.state.data1[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
-                        
+                        imgsmallprice1: this.state.data1[0].air_code
                     });
                 }
             }).catch((err) => {
@@ -615,7 +624,7 @@ class BookingContent extends Component {
                     this.setState({
                         data2: this.state.data2.sort(sortedByAttr('baseprice')),
                         datasmallestprice2: this.state.data2[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
-                        
+                        imgsmallprice2: this.state.data2[0].air_code
                     });
                 }
             }).catch((err) => {
@@ -678,7 +687,7 @@ class BookingContent extends Component {
                     this.setState({
                         data2: this.state.data2.sort(sortedByAttr('baseprice')),
                         datasmallestprice2: this.state.data2[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
-                        
+                        imgsmallprice2: this.state.data2[0].air_code
                     });
                 }
             }).catch((err) => {
@@ -739,7 +748,7 @@ class BookingContent extends Component {
                     this.setState({
                         data2: this.state.data2.sort(sortedByAttr('baseprice')),
                         datasmallestprice2: this.state.data2[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
-                        
+                        imgsmallprice2: this.state.data2[0].air_code
                     });
                 }
             }).catch((err) => {
@@ -804,7 +813,7 @@ class BookingContent extends Component {
                     this.setState({
                         data3: this.state.data3.sort(sortedByAttr('baseprice')),
                         datasmallestprice3: this.state.data3[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
-                        
+                        imgsmallprice3: this.state.data3[0].air_code
                     });
                 }
             }).catch((err) => {
@@ -867,7 +876,7 @@ class BookingContent extends Component {
                     this.setState({
                         data3: this.state.data3.sort(sortedByAttr('baseprice')),
                         datasmallestprice3: this.state.data3[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
-                        
+                        imgsmallprice3: this.state.data3[0].air_code
                     });
                 }
             }).catch((err) => {
@@ -928,7 +937,7 @@ class BookingContent extends Component {
                     this.setState({
                         data3: this.state.data3.sort(sortedByAttr('baseprice')),
                         datasmallestprice3: this.state.data3[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
-                        
+                        imgsmallprice3: this.state.data3[0].air_code
                     });
                 }
             }).catch((err) => {
@@ -993,7 +1002,7 @@ class BookingContent extends Component {
                     this.setState({
                         data4: this.state.data4.sort(sortedByAttr('baseprice')),
                         datasmallestprice4: this.state.data4[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
-                        
+                        imgsmallprice4: this.state.data4[0].air_code
                     });
                 }
             }).catch((err) => {
@@ -1056,7 +1065,7 @@ class BookingContent extends Component {
                     this.setState({
                         data4: this.state.data4.sort(sortedByAttr('baseprice')),
                         datasmallestprice4: this.state.data4[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
-                        
+                        imgsmallprice4: this.state.data4[0].air_code
                     });
                 }
             }).catch((err) => {
@@ -1117,7 +1126,7 @@ class BookingContent extends Component {
                     this.setState({
                         data4: this.state.data4.sort(sortedByAttr('baseprice')),
                         datasmallestprice4: this.state.data4[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
-                        
+                        imgsmallprice4: this.state.data4[0].air_code
                     });
                 }
             }).catch((err) => {
@@ -1182,7 +1191,7 @@ class BookingContent extends Component {
                     this.setState({
                         data5: this.state.data5.sort(sortedByAttr('baseprice')),
                         datasmallestprice5: this.state.data5[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
-                        
+                        imgsmallprice5: this.state.data5[0].air_code
                     });
                 }
             }).catch((err) => {
@@ -1245,7 +1254,7 @@ class BookingContent extends Component {
                     this.setState({
                         data5: this.state.data5.sort(sortedByAttr('baseprice')),
                         datasmallestprice5: this.state.data5[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
-                        
+                        imgsmallprice5: this.state.data5[0].air_code
                     });
                 }
             }).catch((err) => {
@@ -1306,7 +1315,7 @@ class BookingContent extends Component {
                     this.setState({
                         data5: this.state.data5.sort(sortedByAttr('baseprice')),
                         datasmallestprice5: this.state.data5[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
-                        
+                        imgsmallprice5: this.state.data5[0].air_code
                     });
                 }
             }).catch((err) => {
@@ -1371,7 +1380,7 @@ class BookingContent extends Component {
                     this.setState({
                         data6: this.state.data6.sort(sortedByAttr('baseprice')),
                         datasmallestprice6: this.state.data6[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
-                        
+                        imgsmallprice6: this.state.data6[0].air_code
                     });
                 }
             }).catch((err) => {
@@ -1434,7 +1443,7 @@ class BookingContent extends Component {
                     this.setState({
                         data6: this.state.data6.sort(sortedByAttr('baseprice')),
                         datasmallestprice6: this.state.data6[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
-                        
+                        imgsmallprice6: this.state.data6[0].air_code
                     });
                 }
             }).catch((err) => {
@@ -1495,7 +1504,7 @@ class BookingContent extends Component {
                     this.setState({
                         data6: this.state.data6.sort(sortedByAttr('baseprice')),
                         datasmallestprice6: this.state.data6[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
-                        
+                        imgsmallprice6: this.state.data6[0].air_code
                     });
                 }
             }).catch((err) => {
@@ -1580,6 +1589,7 @@ class BookingContent extends Component {
                                                             return (
                                                                 <div key={k} className=" col-md-1-chia7" >
                                                                     <input type="button" onClick={(event) => { this.handleClick(event) }} style={{ "padding": "6px 12px" }} className="btn btn-block btn-primary newlinebtn" value={this.state.datasmallestprice !== null ? daychoosedforloop + " " + this.state.datasmallestprice + " VND" : daychoosedforloop} />
+                                                                    <img src={this.state.imgsmallprice=="VJ"?vietjetlogo:this.state.imgsmallprice=="VN"?vietnamairlinelogo:this.state.imgsmallprice=="BL"?jetstarlogo:""} />
                                                                 </div>
                                                             )
                                                         } else {
@@ -1588,6 +1598,7 @@ class BookingContent extends Component {
                                                                 return (
                                                                     <div key={k} className=" col-md-1-chia7" >
                                                                         <input onClick={(event) => { this.handleClick(event) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={this.state.datasmallestprice1 !== null ? i + " " + this.state.datasmallestprice1 + " VND" : i} />
+                                                                        <img src={this.state.imgsmallprice1=="VJ"?vietjetlogo:this.state.imgsmallprice1=="VN"?vietnamairlinelogo:this.state.imgsmallprice1=="BL"?jetstarlogo:""} />
                                                                     </div>
                                                                 )
                                                             }
@@ -1596,6 +1607,7 @@ class BookingContent extends Component {
                                                                 return (
                                                                     <div key={k} className=" col-md-1-chia7" >
                                                                         <input onClick={(event) => { this.handleClick(event) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={this.state.datasmallestprice2 !== null ? i + " " + this.state.datasmallestprice2 + " VND" : i} />
+                                                                        <img src={this.state.imgsmallprice2=="VJ"?vietjetlogo:this.state.imgsmallprice2=="VN"?vietnamairlinelogo:this.state.imgsmallprice2=="BL"?jetstarlogo:""} />
                                                                     </div>
                                                                 )
                                                             }
@@ -1604,6 +1616,7 @@ class BookingContent extends Component {
                                                                 return (
                                                                     <div key={k} className=" col-md-1-chia7" >
                                                                         <input onClick={(event) => { this.handleClick(event) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={this.state.datasmallestprice3 !== null ? i + " " + this.state.datasmallestprice3 + " VND" : i} />
+                                                                        <img src={this.state.imgsmallprice3=="VJ"?vietjetlogo:this.state.imgsmallprice3=="VN"?vietnamairlinelogo:this.state.imgsmallprice3=="BL"?jetstarlogo:""} />
                                                                     </div>
                                                                 )
                                                             }
@@ -1612,6 +1625,7 @@ class BookingContent extends Component {
                                                                 return (
                                                                     <div key={k} className=" col-md-1-chia7" >
                                                                         <input onClick={(event) => { this.handleClick(event) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={this.state.datasmallestprice4 !== null ? i + " " + this.state.datasmallestprice4 + " VND" : i} />
+                                                                        <img src={this.state.imgsmallprice4=="VJ"?vietjetlogo:this.state.imgsmallprice4=="VN"?vietnamairlinelogo:this.state.imgsmallprice4=="BL"?jetstarlogo:""} />
                                                                     </div>
                                                                 )
                                                             }
@@ -1620,6 +1634,7 @@ class BookingContent extends Component {
                                                                 return (
                                                                     <div key={k} className=" col-md-1-chia7" >
                                                                         <input onClick={(event) => { this.handleClick(event) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={this.state.datasmallestprice5 !== null ? i + " " + this.state.datasmallestprice5 + " VND" : i} />
+                                                                        <img src={this.state.imgsmallprice5=="VJ"?vietjetlogo:this.state.imgsmallprice5=="VN"?vietnamairlinelogo:this.state.imgsmallprice5=="BL"?jetstarlogo:""} />
                                                                     </div>
                                                                 )
                                                             }
@@ -1628,6 +1643,7 @@ class BookingContent extends Component {
                                                                 return (
                                                                     <div key={k} className=" col-md-1-chia7" >
                                                                         <input onClick={(event) => { this.handleClick(event) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={this.state.datasmallestprice6 !== null ? i + " " + this.state.datasmallestprice6 + " VND" : i} />
+                                                                        <img src={this.state.imgsmallprice6=="VJ"?vietjetlogo:this.state.imgsmallprice6=="VN"?vietnamairlinelogo:this.state.imgsmallprice6=="BL"?jetstarlogo:""} />
                                                                     </div>
                                                                 )
                                                             }
