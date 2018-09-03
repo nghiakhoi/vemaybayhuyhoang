@@ -16,9 +16,29 @@ class Slider extends Component {
             dep: '',
             datedes: '',
             datedep: '',
-            adult: ''
-        }
+            adult: '',
+            direction: false,
+            setvalue:0
+                    }
+        this.handleInputChange = this.handleInputChange.bind(this);
     }
+     
+
+    handleInputChange(event) {
+        const target = event.target;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
+        const name = target.name;
+
+        this.setState({
+          [name]: value,
+          setvalue:!this.state.setvalue
+            
+        },function(){
+            this.state.direction==0?localStorage.removeItem("datedes"):""
+        });
+        localStorage.setItem(name,this.state.setvalue==0?1:0);
+        
+      }
 
     isChange = (event) => {
         console.log(event.target.value);
@@ -41,13 +61,22 @@ class Slider extends Component {
         });
 
     }
+ 
 
     componentDidMount() {
         localStorage.setItem("adult", 1);
+        localStorage.setItem("direction",0);
     }
+
+    
+    componentWillMount() {
+        localStorage.setItem("direction", 0);
+    }
+    
 
 
     render() {
+        
         if (this.state.isRedirect) {
             return <Redirect to="/booking" />;
         }
@@ -178,13 +207,29 @@ class Slider extends Component {
                                         <div className="iw-departure">
                                             <input id="datedep" name="datedep" type="text" readOnly placeholder="Ngày đi" className="iw-search-arrival has-date-picker" />
                                         </div>
-                                        <label htmlFor="datedes" style={{ "color": "white" }} >
-                                            <input className="" type="checkbox" />
-                                            Khứ hồi
+                                        <label>
+                                        Khứ hồi :
+                                        <input
+                                            name="direction"
+                                            type="checkbox"
+                                           value={this.state.setvalue}
+                                            checked={this.state.direction}
+                                            onChange={this.handleInputChange} />
                                         </label>
+                                        <br />
+                                      
+           
+
+                                   
+
+                                        {this.state.setvalue==1?
                                         <div className="iw-departure thelastitem">
-                                            <input id="datedes" name="datedes" type="text" readOnly placeholder="Ngày về" className="iw-search-arrival has-date-picker" />
-                                        </div>
+                                            <input id="datedes" name="datedes" type="text" value="Ngày về" readOnly placeholder="Ngày về" className="iw-search-arrival has-date-picker" />
+                                        </div>:
+                                        <div className="iw-departure thelastitem">
+                                        <input id="datedes" disabled name="datedes" value="Ngày về" type="text" readOnly placeholder="Ngày về" className="iw-search-arrival has-date-picker" />
+                                    </div>
+                                    }
                                     </div>
 
                                     <div className="col-xs-12 col-sm-6 col-md-4">
@@ -222,7 +267,10 @@ class Slider extends Component {
                                             </div>
                                         </div>
 
+                                             
+        
 
+      
 
                                     </div>
 
@@ -240,6 +288,7 @@ class Slider extends Component {
             </div>
         );
     }
+    
 }
 
 export default Slider;

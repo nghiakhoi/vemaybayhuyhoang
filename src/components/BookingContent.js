@@ -9,76 +9,35 @@ import {
     withRouter
 } from "react-router-dom";
 
+const postTicket = (airlinecode, dep, des, adult, direction = 0, datedep, datedes) =>
+    axios.post(airlinecode, {
+        dep: dep,
+        des: des,
+        datedep: datedep,
+        datedes: datedes,
+        adult: adult,
+        direction: direction,
+    }).then((res) => res.data)
 
-const postTicketvn = () =>
-    //axios.get('https://vemaybayhuyhoang.herokuapp.com/vj')
-    axios.post('/vn', {
-        dep: localStorage.getItem("dep"),
-        des: localStorage.getItem("des"),
-        datedep: localStorage.getItem("datedep"),
-        adult: localStorage.getItem("adult"),
-    })
-        .then((res) => res.data)
-const postTicketjs = () =>
-    //axios.get('https://vemaybayhuyhoang.herokuapp.com/vj')
-    axios.post('/js', {
-        dep: localStorage.getItem("dep"),
-        des: localStorage.getItem("des"),
-        datedep: localStorage.getItem("datedep"),
-        adult: localStorage.getItem("adult"),
-    })
-        .then((res) => res.data)
-const postTicketvj = () =>
-    //axios.get('https://vemaybayhuyhoang.herokuapp.com/vj')
-    axios.post('/vj', {
-        dep: localStorage.getItem("dep"),
-        des: localStorage.getItem("des"),
-        datedep: localStorage.getItem("datedep"),
-        adult: localStorage.getItem("adult"),
-    })
-        .then((res) => res.data)
-
-const postTicketvnWithDate = (date) =>
-    //axios.get('https://vemaybayhuyhoang.herokuapp.com/vj')
-    axios.post('/vn', {
-        dep: localStorage.getItem("dep"),
-        des: localStorage.getItem("des"),
-        datedep: date,
-        adult: localStorage.getItem("adult"),
-    })
-        .then((res) => res.data)
-const postTicketvjWithDate = (date) =>
-    //axios.get('https://vemaybayhuyhoang.herokuapp.com/vj')
-    axios.post('/vj', {
-        dep: localStorage.getItem("dep"),
-        des: localStorage.getItem("des"),
-        datedep: date,
-        adult: localStorage.getItem("adult"),
-    })
-        .then((res) => res.data)
-const postTicketjsWithDate = (date) =>
-    //axios.get('https://vemaybayhuyhoang.herokuapp.com/vj')
-    axios.post('/js', {
-        dep: localStorage.getItem("dep"),
-        des: localStorage.getItem("des"),
-        datedep: date,
-        adult: localStorage.getItem("adult"),
-    })
-        .then((res) => res.data)
-
-const formatDate = function formatDate(date) {            // function for reusability
-    var d = date.getUTCDate().toString(),           // getUTCDate() returns 1 - 31
-        m = (date.getUTCMonth() + 1).toString(),    // getUTCMonth() returns 0 - 11
-        y = date.getUTCFullYear().toString(),       // getUTCFullYear() returns a 4-digit year
+const formatDate = function formatDate(date) {
+    var d = date.getUTCDate().toString(),
+        m = (date.getUTCMonth() + 1).toString(),
+        y = date.getUTCFullYear().toString(),
         formatted = '';
-    if (d.length === 1) {                           // pad to two digits if needed
+    if (d.length === 1) {
         d = '0' + d;
     }
-    if (m.length === 1) {                           // pad to two digits if needed
+    if (m.length === 1) {
         m = '0' + m;
     }
-    formatted = d + '-' + m + '-' + y;              // concatenate for output
+    formatted = d + '-' + m + '-' + y;
     return formatted;
+}
+
+const sortedByAttr = (property) => {
+    return function (x, y) {
+        return ((x[property] === y[property]) ? 0 : ((x[property] > y[property]) ? 1 : -1));
+    };
 }
 
 const compareTwoDay = (date) => {
@@ -88,7 +47,7 @@ const compareTwoDay = (date) => {
 const getTodayddmmyyyy = () => {
     var today = new Date();
     var dd = today.getDate();
-    var mm = today.getMonth() + 1; //January is 0!
+    var mm = today.getMonth() + 1;
 
     var yyyy = today.getFullYear();
     if (dd < 10) {
@@ -106,7 +65,9 @@ class BookingContent extends Component {
         super(props);
         this.state = {
             data: null,
+            datakhuhoi: null,
             notData: "Không tìm thấy dữ liệu nào",
+            direction: 0,
             vj: false,
             vj1: false,
             vj2: false,
@@ -140,9 +101,2747 @@ class BookingContent extends Component {
             datasmallestprice3: null,
             datasmallestprice4: null,
             datasmallestprice5: null,
-            datasmallestprice6: null,
-        
+            datasmallestprice6: null
+
         }
+    }
+
+    getJsonTicketFromAPI = (dep, des, adult, direction, datedep, datedes) => {
+        var mangjson = [];
+        var dep = dep;
+        var des = des;
+        var datedep = datedep;
+        var datedes = datedes;
+        var adult = adult;
+        var direction = direction;
+        postTicket("/vn", dep, des, adult, direction, datedep, datedes).then((kq) => {
+            var tempflyno = "";
+            var tempprice = 0;
+            var tempdeptime = "";
+            var tempdestime = "";
+            var tempitem = "";
+            var dem = 0;
+            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+
+            for (var key1 in kq[0]) {
+
+                if (tempdeptime == "" && tempdestime == "") {
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                }
+
+                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                    if (tempprice <= kq[0][key1]['baseprice']) {
+                        dem++;
+                    } else {
+                        tempflyno = kq[0][key1]['air_code'];
+                        tempprice = kq[0][key1]['baseprice'];
+                        tempdeptime = kq[0][key1]['deptime'];
+                        tempdestime = kq[0][key1]['destime'];
+                        tempitem = kq[0][key1];
+                        dem++;
+                    }
+
+                } else {
+                    mangjson.push(tempitem);
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                    dem++;
+                }
+                if (dem === size) {
+                    mangjson.push(tempitem);
+                }
+
+            }
+            this.setState({
+                data: mangjson.sort(sortedByAttr('baseprice')),
+                vn: true
+            });
+        }).then((res) => {
+            if (this.state.js === true || this.state.vj === true || this.state.vn === true) {
+                this.setState({
+                    data: this.state.data.sort(sortedByAttr('baseprice')),
+                    datasmallestprice: this.state.data[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
+
+                });
+            }
+        }).catch((err) => {
+            this.setState({
+                vn: true
+            });
+        });
+        postTicket("/js", dep, des, adult, direction, datedep, datedes).then((kq) => {
+            //mangjson.push(kq[0]);
+            var tempflyno = "";
+            var tempprice = 0;
+            var tempdeptime = "";
+            var tempdestime = "";
+            var tempitem = "";
+            var dem = 0;
+            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+
+            for (var key1 in kq[0]) {
+
+                if (tempdeptime == "" && tempdestime == "") {
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                }
+
+                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                    if (tempprice <= kq[0][key1]['baseprice']) {
+                        dem++;
+                    } else {
+                        tempflyno = kq[0][key1]['air_code'];
+                        tempprice = kq[0][key1]['baseprice'];
+                        tempdeptime = kq[0][key1]['deptime'];
+                        tempdestime = kq[0][key1]['destime'];
+                        tempitem = kq[0][key1];
+                        dem++;
+                    }
+
+                } else {
+                    mangjson.push(tempitem);
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                    dem++;
+                }
+                if (dem === size) {
+                    mangjson.push(tempitem);
+                }
+
+            }
+            this.setState({
+                data: mangjson.sort(sortedByAttr('baseprice')),
+                js: true
+            });
+        }).then((res) => {
+            if (this.state.js === true || this.state.vj === true || this.state.vn === true) {
+                this.setState({
+                    data: this.state.data.sort(sortedByAttr('baseprice')),
+                    datasmallestprice: this.state.data[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
+
+                });
+            }
+        }).catch((err) => {
+            this.setState({
+                js: true
+            });
+        });
+        postTicket("/vj", dep, des, adult, direction, datedep, datedes).then((kq) => {
+            //mangjson.push(kq[0]);
+            var tempflyno = "";
+            var tempprice = 0;
+            var tempdeptime = "";
+            var tempdestime = "";
+            var tempitem = "";
+            var dem = 0;
+            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+
+            for (var key1 in kq[0]) {
+
+                if (tempdeptime == "" && tempdestime == "") {
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                }
+
+                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                    if (tempprice <= kq[0][key1]['baseprice']) {
+                        dem++;
+                    } else {
+                        tempflyno = kq[0][key1]['air_code'];
+                        tempprice = kq[0][key1]['baseprice'];
+                        tempdeptime = kq[0][key1]['deptime'];
+                        tempdestime = kq[0][key1]['destime'];
+                        tempitem = kq[0][key1];
+                        dem++;
+                    }
+
+                } else {
+                    mangjson.push(tempitem);
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                    dem++;
+                }
+                if (dem === size) {
+                    mangjson.push(tempitem);
+                }
+
+            }
+            this.setState({
+                data: mangjson.sort(sortedByAttr('baseprice')),
+                vj: true
+            });
+        }).then((res) => {
+            if (this.state.js === true || this.state.vj === true || this.state.vn === true) {
+                this.setState({
+                    data: this.state.data.sort(sortedByAttr('baseprice')),
+                    datasmallestprice: this.state.data[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
+
+                });
+            }
+        }).catch((err) => {
+            this.setState({
+                vj: true
+            });
+        });
+    }
+    getJsonTicketFromAPIKhuHoi = (dep, des, adult, direction, datedep, datedes) => {
+        var mangjson = [];
+        var dep = dep;
+        var des = des;
+        var datedep = datedep;
+        var datedes = datedes;
+        var adult = adult;
+        var direction = direction;
+        postTicket("/vn", dep, des, adult, direction, datedep, datedes).then((kq) => {
+            var tempflyno = "";
+            var tempprice = 0;
+            var tempdeptime = "";
+            var tempdestime = "";
+            var tempitem = "";
+            var dem = 0;
+            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+
+            for (var key1 in kq[0]) {
+
+                if (tempdeptime == "" && tempdestime == "") {
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                }
+
+                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                    if (tempprice <= kq[0][key1]['baseprice']) {
+                        dem++;
+                    } else {
+                        tempflyno = kq[0][key1]['air_code'];
+                        tempprice = kq[0][key1]['baseprice'];
+                        tempdeptime = kq[0][key1]['deptime'];
+                        tempdestime = kq[0][key1]['destime'];
+                        tempitem = kq[0][key1];
+                        dem++;
+                    }
+
+                } else {
+                    mangjson.push(tempitem);
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                    dem++;
+                }
+                if (dem === size) {
+                    mangjson.push(tempitem);
+                }
+
+            }
+            this.setState({
+                datakhuhoi: mangjson.sort(sortedByAttr('baseprice')),
+                vnkhuhoi: true
+            });
+        }).then((res) => {
+            if (this.state.jskhuhoi === true || this.state.vjkhuhoi === true || this.state.vnkhuhoi === true) {
+                this.setState({
+                    datakhuhoi: this.state.datakhuhoi.sort(sortedByAttr('baseprice')),
+                    datasmallestpricekhuhoi: this.state.datakhuhoi[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
+
+                });
+            }
+        }).catch((err) => {
+            this.setState({
+                vnkhuhoi: true
+            });
+        });
+        postTicket("/js", dep, des, adult, direction, datedep, datedes).then((kq) => {
+            //mangjson.push(kq[0]);
+            var tempflyno = "";
+            var tempprice = 0;
+            var tempdeptime = "";
+            var tempdestime = "";
+            var tempitem = "";
+            var dem = 0;
+            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+
+            for (var key1 in kq[0]) {
+
+                if (tempdeptime == "" && tempdestime == "") {
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                }
+
+                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                    if (tempprice <= kq[0][key1]['baseprice']) {
+                        dem++;
+                    } else {
+                        tempflyno = kq[0][key1]['air_code'];
+                        tempprice = kq[0][key1]['baseprice'];
+                        tempdeptime = kq[0][key1]['deptime'];
+                        tempdestime = kq[0][key1]['destime'];
+                        tempitem = kq[0][key1];
+                        dem++;
+                    }
+
+                } else {
+                    mangjson.push(tempitem);
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                    dem++;
+                }
+                if (dem === size) {
+                    mangjson.push(tempitem);
+                }
+
+            }
+            this.setState({
+                datakhuhoi: mangjson.sort(sortedByAttr('baseprice')),
+                jskhuhoi: true
+            });
+        }).then((res) => {
+            if (this.state.jskhuhoi === true || this.state.vjkhuhoi === true || this.state.vnkhuhoi === true) {
+                this.setState({
+                    datakhuhoi: this.state.datakhuhoi.sort(sortedByAttr('baseprice')),
+                    datasmallestpricekhuhoi: this.state.datakhuhoi[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
+
+                });
+            }
+        }).catch((err) => {
+            this.setState({
+                jskhuhoi: true
+            });
+        });
+        postTicket("/vj", dep, des, adult, direction, datedep, datedes).then((kq) => {
+            //mangjson.push(kq[0]);
+            var tempflyno = "";
+            var tempprice = 0;
+            var tempdeptime = "";
+            var tempdestime = "";
+            var tempitem = "";
+            var dem = 0;
+            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+
+            for (var key1 in kq[0]) {
+
+                if (tempdeptime == "" && tempdestime == "") {
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                }
+
+                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                    if (tempprice <= kq[0][key1]['baseprice']) {
+                        dem++;
+                    } else {
+                        tempflyno = kq[0][key1]['air_code'];
+                        tempprice = kq[0][key1]['baseprice'];
+                        tempdeptime = kq[0][key1]['deptime'];
+                        tempdestime = kq[0][key1]['destime'];
+                        tempitem = kq[0][key1];
+                        dem++;
+                    }
+
+                } else {
+                    mangjson.push(tempitem);
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                    dem++;
+                }
+                if (dem === size) {
+                    mangjson.push(tempitem);
+                }
+
+            }
+            this.setState({
+                datakhuhoi: mangjson.sort(sortedByAttr('baseprice')),
+                vjkhuhoi: true
+            });
+        }).then((res) => {
+            if (this.state.jskhuhoi === true || this.state.vjkhuhoi === true || this.state.vnkhuhoi === true) {
+                this.setState({
+                    datakhuhoi: this.state.datakhuhoi.sort(sortedByAttr('baseprice')),
+                    datasmallestpricekhuhoi: this.state.datakhuhoi[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
+
+                });
+            }
+        }).catch((err) => {
+            this.setState({
+                vjkhuhoi: true
+            });
+        });
+    }
+    getJsonTicketFromAPIPosition1 = (dep, des, adult, direction, datedep, datedes) => {
+        var mangjson = [];
+        var dep = dep;
+        var des = des;
+        var datedep = datedep;
+        var datedes = datedes;
+        var adult = adult;
+        var direction = direction;
+        postTicket("/vn", dep, des, adult, direction, datedep, datedes).then((kq) => {
+            var tempflyno = "";
+            var tempprice = 0;
+            var tempdeptime = "";
+            var tempdestime = "";
+            var tempitem = "";
+            var dem = 0;
+            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+
+            for (var key1 in kq[0]) {
+
+                if (tempdeptime == "" && tempdestime == "") {
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                }
+
+                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                    if (tempprice <= kq[0][key1]['baseprice']) {
+                        dem++;
+                    } else {
+                        tempflyno = kq[0][key1]['air_code'];
+                        tempprice = kq[0][key1]['baseprice'];
+                        tempdeptime = kq[0][key1]['deptime'];
+                        tempdestime = kq[0][key1]['destime'];
+                        tempitem = kq[0][key1];
+                        dem++;
+                    }
+
+                } else {
+                    mangjson.push(tempitem);
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                    dem++;
+                }
+                if (dem === size) {
+                    mangjson.push(tempitem);
+                }
+            }
+            this.setState({
+                data1: mangjson.sort(sortedByAttr('baseprice')),
+                vn1: true
+            });
+        }).then((res) => {
+            if (this.state.js1 === true || this.state.vj1 === true || this.state.vn1 === true) {
+                this.setState({
+                    data1: this.state.data1.sort(sortedByAttr('baseprice')),
+                    datasmallestprice1: this.state.data1[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
+
+                });
+            }
+        }).catch((err) => {
+            this.setState({
+                vn1: true
+            });
+        });
+        postTicket("/js", dep, des, adult, direction, datedep, datedes).then((kq) => {
+            //mangjson.push(kq[0]);
+            var tempflyno = "";
+            var tempprice = 0;
+            var tempdeptime = "";
+            var tempdestime = "";
+            var tempitem = "";
+            var dem = 0;
+            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+
+            for (var key1 in kq[0]) {
+
+                if (tempdeptime == "" && tempdestime == "") {
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                }
+
+                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                    if (tempprice <= kq[0][key1]['baseprice']) {
+                        dem++;
+                    } else {
+                        tempflyno = kq[0][key1]['air_code'];
+                        tempprice = kq[0][key1]['baseprice'];
+                        tempdeptime = kq[0][key1]['deptime'];
+                        tempdestime = kq[0][key1]['destime'];
+                        tempitem = kq[0][key1];
+                        dem++;
+                    }
+
+                } else {
+                    mangjson.push(tempitem);
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                    dem++;
+                }
+                if (dem === size) {
+                    mangjson.push(tempitem);
+                }
+            }
+            this.setState({
+                data1: mangjson.sort(sortedByAttr('baseprice')),
+                js1: true
+            });
+        }).then((res) => {
+            if (this.state.js1 === true || this.state.vj1 === true || this.state.vn1 === true) {
+                this.setState({
+                    data1: this.state.data1.sort(sortedByAttr('baseprice')),
+                    datasmallestprice1: this.state.data1[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
+
+                });
+            }
+        }).catch((err) => {
+            this.setState({
+                js1: true
+            });
+        });
+        postTicket("/vj", dep, des, adult, direction, datedep, datedes).then((kq) => {
+            //mangjson.push(kq[0]);
+            var tempflyno = "";
+            var tempprice = 0;
+            var tempdeptime = "";
+            var tempdestime = "";
+            var tempitem = "";
+            var dem = 0;
+            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+
+            for (var key1 in kq[0]) {
+
+                if (tempdeptime == "" && tempdestime == "") {
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                }
+
+                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                    if (tempprice <= kq[0][key1]['baseprice']) {
+                        dem++;
+                    } else {
+                        tempflyno = kq[0][key1]['air_code'];
+                        tempprice = kq[0][key1]['baseprice'];
+                        tempdeptime = kq[0][key1]['deptime'];
+                        tempdestime = kq[0][key1]['destime'];
+                        tempitem = kq[0][key1];
+                        dem++;
+                    }
+
+                } else {
+                    mangjson.push(tempitem);
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                    dem++;
+                }
+                if (dem === size) {
+                    mangjson.push(tempitem);
+                }
+            }
+            this.setState({
+                data1: mangjson.sort(sortedByAttr('baseprice')),
+                vj1: true
+            });
+        }).then((res) => {
+            if (this.state.js1 === true || this.state.vj1 === true || this.state.vn1 === true) {
+                this.setState({
+                    data1: this.state.data1.sort(sortedByAttr('baseprice')),
+                    datasmallestprice1: this.state.data1[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
+
+                });
+            }
+        }).catch((err) => {
+            this.setState({
+                vj1: true
+            });
+        });
+    }
+    getJsonTicketFromAPIPosition2 = (dep, des, adult, direction, datedep, datedes) => {
+        var mangjson = [];
+        var dep = dep;
+        var des = des;
+        var datedep = datedep;
+        var datedes = datedes;
+        var adult = adult;
+        var direction = direction;
+        postTicket("/vn", dep, des, adult, direction, datedep, datedes).then((kq) => {
+            var tempflyno = "";
+            var tempprice = 0;
+            var tempdeptime = "";
+            var tempdestime = "";
+            var tempitem = "";
+            var dem = 0;
+            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+
+            for (var key1 in kq[0]) {
+
+                if (tempdeptime == "" && tempdestime == "") {
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                }
+
+                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                    if (tempprice <= kq[0][key1]['baseprice']) {
+                        dem++;
+                    } else {
+                        tempflyno = kq[0][key1]['air_code'];
+                        tempprice = kq[0][key1]['baseprice'];
+                        tempdeptime = kq[0][key1]['deptime'];
+                        tempdestime = kq[0][key1]['destime'];
+                        tempitem = kq[0][key1];
+                        dem++;
+                    }
+
+                } else {
+                    mangjson.push(tempitem);
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                    dem++;
+                }
+                if (dem === size) {
+                    mangjson.push(tempitem);
+                }
+
+            }
+            this.setState({
+                data2: mangjson.sort(sortedByAttr('baseprice')),
+                vn2: true
+            });
+        }).then((res) => {
+            if (this.state.js2 === true || this.state.vj2 === true || this.state.vn2 === true) {
+                this.setState({
+                    data2: this.state.data2.sort(sortedByAttr('baseprice')),
+                    datasmallestprice2: this.state.data2[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
+
+                });
+            }
+        }).catch((err) => {
+            this.setState({
+                vn2: true
+            });
+        });
+        postTicket("/js", dep, des, adult, direction, datedep, datedes).then((kq) => {
+            //mangjson.push(kq[0]);
+            var tempflyno = "";
+            var tempprice = 0;
+            var tempdeptime = "";
+            var tempdestime = "";
+            var tempitem = "";
+            var dem = 0;
+            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+
+            for (var key1 in kq[0]) {
+
+                if (tempdeptime == "" && tempdestime == "") {
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                }
+
+                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                    if (tempprice <= kq[0][key1]['baseprice']) {
+                        dem++;
+                    } else {
+                        tempflyno = kq[0][key1]['air_code'];
+                        tempprice = kq[0][key1]['baseprice'];
+                        tempdeptime = kq[0][key1]['deptime'];
+                        tempdestime = kq[0][key1]['destime'];
+                        tempitem = kq[0][key1];
+                        dem++;
+                    }
+
+                } else {
+                    mangjson.push(tempitem);
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                    dem++;
+                }
+                if (dem === size) {
+                    mangjson.push(tempitem);
+                }
+
+            }
+            this.setState({
+                data2: mangjson.sort(sortedByAttr('baseprice')),
+                js2: true
+            });
+        }).then((res) => {
+            if (this.state.js2 === true || this.state.vj2 === true || this.state.vn2 === true) {
+                this.setState({
+                    data2: this.state.data2.sort(sortedByAttr('baseprice')),
+                    datasmallestprice2: this.state.data2[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
+
+                });
+            }
+        }).catch((err) => {
+            this.setState({
+                js2: true
+            });
+        });
+        postTicket("/vj", dep, des, adult, direction, datedep, datedes).then((kq) => {
+            //mangjson.push(kq[0]);
+            var tempflyno = "";
+            var tempprice = 0;
+            var tempdeptime = "";
+            var tempdestime = "";
+            var tempitem = "";
+            var dem = 0;
+            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+
+            for (var key1 in kq[0]) {
+
+                if (tempdeptime == "" && tempdestime == "") {
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                }
+
+                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                    if (tempprice <= kq[0][key1]['baseprice']) {
+                        dem++;
+                    } else {
+                        tempflyno = kq[0][key1]['air_code'];
+                        tempprice = kq[0][key1]['baseprice'];
+                        tempdeptime = kq[0][key1]['deptime'];
+                        tempdestime = kq[0][key1]['destime'];
+                        tempitem = kq[0][key1];
+                        dem++;
+                    }
+
+                } else {
+                    mangjson.push(tempitem);
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                    dem++;
+                }
+                if (dem === size) {
+                    mangjson.push(tempitem);
+                }
+
+            }
+            this.setState({
+                data2: mangjson.sort(sortedByAttr('baseprice')),
+                vj2: true
+            });
+        }).then((res) => {
+            if (this.state.js2 === true || this.state.vj2 === true || this.state.vn2 === true) {
+                this.setState({
+                    data2: this.state.data2.sort(sortedByAttr('baseprice')),
+                    datasmallestprice2: this.state.data2[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
+
+                });
+            }
+        }).catch((err) => {
+            this.setState({
+                vj2: true
+            });
+        });
+    }
+    getJsonTicketFromAPIPosition3 = (dep, des, adult, direction, datedep, datedes) => {
+        var mangjson = [];
+        var dep = dep;
+        var des = des;
+        var datedep = datedep;
+        var datedes = datedes;
+        var adult = adult;
+        var direction = direction;
+        postTicket("/vn", dep, des, adult, direction, datedep, datedes).then((kq) => {
+            var tempflyno = "";
+            var tempprice = 0;
+            var tempdeptime = "";
+            var tempdestime = "";
+            var tempitem = "";
+            var dem = 0;
+            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+
+            for (var key1 in kq[0]) {
+
+                if (tempdeptime == "" && tempdestime == "") {
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                }
+
+                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                    if (tempprice <= kq[0][key1]['baseprice']) {
+                        dem++;
+                    } else {
+                        tempflyno = kq[0][key1]['air_code'];
+                        tempprice = kq[0][key1]['baseprice'];
+                        tempdeptime = kq[0][key1]['deptime'];
+                        tempdestime = kq[0][key1]['destime'];
+                        tempitem = kq[0][key1];
+                        dem++;
+                    }
+
+                } else {
+                    mangjson.push(tempitem);
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                    dem++;
+                }
+                if (dem === size) {
+                    mangjson.push(tempitem);
+                }
+
+            }
+            this.setState({
+                data3: mangjson.sort(sortedByAttr('baseprice')),
+                vn3: true
+            });
+        }).then((res) => {
+            if (this.state.js3 === true || this.state.vj3 === true || this.state.vn3 === true) {
+                this.setState({
+                    data3: this.state.data3.sort(sortedByAttr('baseprice')),
+                    datasmallestprice3: this.state.data3[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
+
+                });
+            }
+        }).catch((err) => {
+            this.setState({
+                vn3: true
+            });
+        });
+        postTicket("/js", dep, des, adult, direction, datedep, datedes).then((kq) => {
+            //mangjson.push(kq[0]);
+            var tempflyno = "";
+            var tempprice = 0;
+            var tempdeptime = "";
+            var tempdestime = "";
+            var tempitem = "";
+            var dem = 0;
+            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+
+            for (var key1 in kq[0]) {
+
+                if (tempdeptime == "" && tempdestime == "") {
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                }
+
+                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                    if (tempprice <= kq[0][key1]['baseprice']) {
+                        dem++;
+                    } else {
+                        tempflyno = kq[0][key1]['air_code'];
+                        tempprice = kq[0][key1]['baseprice'];
+                        tempdeptime = kq[0][key1]['deptime'];
+                        tempdestime = kq[0][key1]['destime'];
+                        tempitem = kq[0][key1];
+                        dem++;
+                    }
+
+                } else {
+                    mangjson.push(tempitem);
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                    dem++;
+                }
+                if (dem === size) {
+                    mangjson.push(tempitem);
+                }
+
+            }
+            this.setState({
+                data3: mangjson.sort(sortedByAttr('baseprice')),
+                js3: true
+            });
+        }).then((res) => {
+            if (this.state.js3 === true || this.state.vj3 === true || this.state.vn3 === true) {
+                this.setState({
+                    data3: this.state.data3.sort(sortedByAttr('baseprice')),
+                    datasmallestprice3: this.state.data3[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
+
+                });
+            }
+        }).catch((err) => {
+            this.setState({
+                js3: true
+            });
+        });
+        postTicket("/vj", dep, des, adult, direction, datedep, datedes).then((kq) => {
+            //mangjson.push(kq[0]);
+            var tempflyno = "";
+            var tempprice = 0;
+            var tempdeptime = "";
+            var tempdestime = "";
+            var tempitem = "";
+            var dem = 0;
+            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+
+            for (var key1 in kq[0]) {
+
+                if (tempdeptime == "" && tempdestime == "") {
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                }
+
+                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                    if (tempprice <= kq[0][key1]['baseprice']) {
+                        dem++;
+                    } else {
+                        tempflyno = kq[0][key1]['air_code'];
+                        tempprice = kq[0][key1]['baseprice'];
+                        tempdeptime = kq[0][key1]['deptime'];
+                        tempdestime = kq[0][key1]['destime'];
+                        tempitem = kq[0][key1];
+                        dem++;
+                    }
+
+                } else {
+                    mangjson.push(tempitem);
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                    dem++;
+                }
+                if (dem === size) {
+                    mangjson.push(tempitem);
+                }
+
+            }
+            this.setState({
+                data3: mangjson.sort(sortedByAttr('baseprice')),
+                vj3: true
+            });
+        }).then((res) => {
+            if (this.state.js3 === true || this.state.vj3 === true || this.state.vn3 === true) {
+                this.setState({
+                    data3: this.state.data3.sort(sortedByAttr('baseprice')),
+                    datasmallestprice3: this.state.data3[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
+
+                });
+            }
+        }).catch((err) => {
+            this.setState({
+                vj3: true
+            });
+        });
+    }
+    getJsonTicketFromAPIPosition4 = (dep, des, adult, direction, datedep, datedes) => {
+        var mangjson = [];
+        var dep = dep;
+        var des = des;
+        var datedep = datedep;
+        var datedes = datedes;
+        var adult = adult;
+        var direction = direction;
+        postTicket("/vn", dep, des, adult, direction, datedep, datedes).then((kq) => {
+            var tempflyno = "";
+            var tempprice = 0;
+            var tempdeptime = "";
+            var tempdestime = "";
+            var tempitem = "";
+            var dem = 0;
+            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+
+            for (var key1 in kq[0]) {
+
+                if (tempdeptime == "" && tempdestime == "") {
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                }
+
+                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                    if (tempprice <= kq[0][key1]['baseprice']) {
+                        dem++;
+                    } else {
+                        tempflyno = kq[0][key1]['air_code'];
+                        tempprice = kq[0][key1]['baseprice'];
+                        tempdeptime = kq[0][key1]['deptime'];
+                        tempdestime = kq[0][key1]['destime'];
+                        tempitem = kq[0][key1];
+                        dem++;
+                    }
+
+                } else {
+                    mangjson.push(tempitem);
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                    dem++;
+                }
+                if (dem === size) {
+                    mangjson.push(tempitem);
+                }
+
+            }
+            this.setState({
+                data4: mangjson.sort(sortedByAttr('baseprice')),
+                vn4: true
+            });
+        }).then((res) => {
+            if (this.state.js4 === true || this.state.vj4 === true || this.state.vn4 === true) {
+                this.setState({
+                    data4: this.state.data4.sort(sortedByAttr('baseprice')),
+                    datasmallestprice4: this.state.data4[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
+
+                });
+            }
+        }).catch((err) => {
+            this.setState({
+                vn4: true
+            });
+        });
+        postTicket("/js", dep, des, adult, direction, datedep, datedes).then((kq) => {
+            //mangjson.push(kq[0]);
+            var tempflyno = "";
+            var tempprice = 0;
+            var tempdeptime = "";
+            var tempdestime = "";
+            var tempitem = "";
+            var dem = 0;
+            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+
+            for (var key1 in kq[0]) {
+
+                if (tempdeptime == "" && tempdestime == "") {
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                }
+
+                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                    if (tempprice <= kq[0][key1]['baseprice']) {
+                        dem++;
+                    } else {
+                        tempflyno = kq[0][key1]['air_code'];
+                        tempprice = kq[0][key1]['baseprice'];
+                        tempdeptime = kq[0][key1]['deptime'];
+                        tempdestime = kq[0][key1]['destime'];
+                        tempitem = kq[0][key1];
+                        dem++;
+                    }
+
+                } else {
+                    mangjson.push(tempitem);
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                    dem++;
+                }
+                if (dem === size) {
+                    mangjson.push(tempitem);
+                }
+
+            }
+            this.setState({
+                data4: mangjson.sort(sortedByAttr('baseprice')),
+                js4: true
+            });
+        }).then((res) => {
+            if (this.state.js4 === true || this.state.vj4 === true || this.state.vn4 === true) {
+                this.setState({
+                    data4: this.state.data4.sort(sortedByAttr('baseprice')),
+                    datasmallestprice4: this.state.data4[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
+
+                });
+            }
+        }).catch((err) => {
+            this.setState({
+                js4: true
+            });
+        });
+        postTicket("/vj", dep, des, adult, direction, datedep, datedes).then((kq) => {
+            //mangjson.push(kq[0]);
+            var tempflyno = "";
+            var tempprice = 0;
+            var tempdeptime = "";
+            var tempdestime = "";
+            var tempitem = "";
+            var dem = 0;
+            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+
+            for (var key1 in kq[0]) {
+
+                if (tempdeptime == "" && tempdestime == "") {
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                }
+
+                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                    if (tempprice <= kq[0][key1]['baseprice']) {
+                        dem++;
+                    } else {
+                        tempflyno = kq[0][key1]['air_code'];
+                        tempprice = kq[0][key1]['baseprice'];
+                        tempdeptime = kq[0][key1]['deptime'];
+                        tempdestime = kq[0][key1]['destime'];
+                        tempitem = kq[0][key1];
+                        dem++;
+                    }
+
+                } else {
+                    mangjson.push(tempitem);
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                    dem++;
+                }
+                if (dem === size) {
+                    mangjson.push(tempitem);
+                }
+
+            }
+            this.setState({
+                data4: mangjson.sort(sortedByAttr('baseprice')),
+                vj4: true
+            });
+        }).then((res) => {
+            if (this.state.js4 === true || this.state.vj4 === true || this.state.vn4 === true) {
+                this.setState({
+                    data4: this.state.data4.sort(sortedByAttr('baseprice')),
+                    datasmallestprice4: this.state.data4[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
+
+                });
+            }
+        }).catch((err) => {
+            this.setState({
+                vj4: true
+            });
+        });
+    }
+    getJsonTicketFromAPIPosition5 = (dep, des, adult, direction, datedep, datedes) => {
+        var mangjson = [];
+        var dep = dep;
+        var des = des;
+        var datedep = datedep;
+        var datedes = datedes;
+        var adult = adult;
+        var direction = direction;
+        postTicket("/vn", dep, des, adult, direction, datedep, datedes).then((kq) => {
+            var tempflyno = "";
+            var tempprice = 0;
+            var tempdeptime = "";
+            var tempdestime = "";
+            var tempitem = "";
+            var dem = 0;
+            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+
+            for (var key1 in kq[0]) {
+
+                if (tempdeptime == "" && tempdestime == "") {
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                }
+
+                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                    if (tempprice <= kq[0][key1]['baseprice']) {
+                        dem++;
+                    } else {
+                        tempflyno = kq[0][key1]['air_code'];
+                        tempprice = kq[0][key1]['baseprice'];
+                        tempdeptime = kq[0][key1]['deptime'];
+                        tempdestime = kq[0][key1]['destime'];
+                        tempitem = kq[0][key1];
+                        dem++;
+                    }
+
+                } else {
+                    mangjson.push(tempitem);
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                    dem++;
+                }
+                if (dem === size) {
+                    mangjson.push(tempitem);
+                }
+
+            }
+            this.setState({
+                data5: mangjson.sort(sortedByAttr('baseprice')),
+                vn5: true
+            });
+        }).then((res) => {
+            if (this.state.js5 === true || this.state.vj5 === true || this.state.vn5 === true) {
+                this.setState({
+                    data5: this.state.data5.sort(sortedByAttr('baseprice')),
+                    datasmallestprice5: this.state.data5[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
+
+                });
+            }
+        }).catch((err) => {
+            this.setState({
+                vn5: true
+            });
+        });
+        postTicket("/js", dep, des, adult, direction, datedep, datedes).then((kq) => {
+            //mangjson.push(kq[0]);
+            var tempflyno = "";
+            var tempprice = 0;
+            var tempdeptime = "";
+            var tempdestime = "";
+            var tempitem = "";
+            var dem = 0;
+            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+
+            for (var key1 in kq[0]) {
+
+                if (tempdeptime == "" && tempdestime == "") {
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                }
+
+                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                    if (tempprice <= kq[0][key1]['baseprice']) {
+                        dem++;
+                    } else {
+                        tempflyno = kq[0][key1]['air_code'];
+                        tempprice = kq[0][key1]['baseprice'];
+                        tempdeptime = kq[0][key1]['deptime'];
+                        tempdestime = kq[0][key1]['destime'];
+                        tempitem = kq[0][key1];
+                        dem++;
+                    }
+
+                } else {
+                    mangjson.push(tempitem);
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                    dem++;
+                }
+                if (dem === size) {
+                    mangjson.push(tempitem);
+                }
+
+            }
+            this.setState({
+                data5: mangjson.sort(sortedByAttr('baseprice')),
+                js5: true
+            });
+        }).then((res) => {
+            if (this.state.js5 === true || this.state.vj5 === true || this.state.vn5 === true) {
+                this.setState({
+                    data5: this.state.data5.sort(sortedByAttr('baseprice')),
+                    datasmallestprice5: this.state.data5[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
+
+                });
+            }
+        }).catch((err) => {
+            this.setState({
+                js5: true
+            });
+        });
+        postTicket("/vj", dep, des, adult, direction, datedep, datedes).then((kq) => {
+            //mangjson.push(kq[0]);
+            var tempflyno = "";
+            var tempprice = 0;
+            var tempdeptime = "";
+            var tempdestime = "";
+            var tempitem = "";
+            var dem = 0;
+            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+
+            for (var key1 in kq[0]) {
+
+                if (tempdeptime == "" && tempdestime == "") {
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                }
+
+                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                    if (tempprice <= kq[0][key1]['baseprice']) {
+                        dem++;
+                    } else {
+                        tempflyno = kq[0][key1]['air_code'];
+                        tempprice = kq[0][key1]['baseprice'];
+                        tempdeptime = kq[0][key1]['deptime'];
+                        tempdestime = kq[0][key1]['destime'];
+                        tempitem = kq[0][key1];
+                        dem++;
+                    }
+
+                } else {
+                    mangjson.push(tempitem);
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                    dem++;
+                }
+                if (dem === size) {
+                    mangjson.push(tempitem);
+                }
+
+            }
+            this.setState({
+                data5: mangjson.sort(sortedByAttr('baseprice')),
+                vj5: true
+            });
+        }).then((res) => {
+            if (this.state.js5 === true || this.state.vj5 === true || this.state.vn5 === true) {
+                this.setState({
+                    data5: this.state.data5.sort(sortedByAttr('baseprice')),
+                    datasmallestprice5: this.state.data5[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
+
+                });
+            }
+        }).catch((err) => {
+            this.setState({
+                vj5: true
+            });
+        });
+    }
+    getJsonTicketFromAPIPosition6 = (dep, des, adult, direction, datedep, datedes) => {
+        var mangjson = [];
+        var dep = dep;
+        var des = des;
+        var datedep = datedep;
+        var datedes = datedes;
+        var adult = adult;
+        var direction = direction;
+        postTicket("/vn", dep, des, adult, direction, datedep, datedes).then((kq) => {
+            var tempflyno = "";
+            var tempprice = 0;
+            var tempdeptime = "";
+            var tempdestime = "";
+            var tempitem = "";
+            var dem = 0;
+            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+
+            for (var key1 in kq[0]) {
+
+                if (tempdeptime == "" && tempdestime == "") {
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                }
+
+                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                    if (tempprice <= kq[0][key1]['baseprice']) {
+                        dem++;
+                    } else {
+                        tempflyno = kq[0][key1]['air_code'];
+                        tempprice = kq[0][key1]['baseprice'];
+                        tempdeptime = kq[0][key1]['deptime'];
+                        tempdestime = kq[0][key1]['destime'];
+                        tempitem = kq[0][key1];
+                        dem++;
+                    }
+
+                } else {
+                    mangjson.push(tempitem);
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                    dem++;
+                }
+                if (dem === size) {
+                    mangjson.push(tempitem);
+                }
+
+            }
+            this.setState({
+                data6: mangjson.sort(sortedByAttr('baseprice')),
+                vn6: true
+            });
+        }).then((res) => {
+            if (this.state.js6 === true || this.state.vj6 === true || this.state.vn6 === true) {
+                this.setState({
+                    data6: this.state.data6.sort(sortedByAttr('baseprice')),
+                    datasmallestprice6: this.state.data6[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
+
+                });
+            }
+        }).catch((err) => {
+            this.setState({
+                vn6: true
+            });
+        });
+        postTicket("/js", dep, des, adult, direction, datedep, datedes).then((kq) => {
+            //mangjson.push(kq[0]);
+            var tempflyno = "";
+            var tempprice = 0;
+            var tempdeptime = "";
+            var tempdestime = "";
+            var tempitem = "";
+            var dem = 0;
+            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+
+            for (var key1 in kq[0]) {
+
+                if (tempdeptime == "" && tempdestime == "") {
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                }
+
+                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                    if (tempprice <= kq[0][key1]['baseprice']) {
+                        dem++;
+                    } else {
+                        tempflyno = kq[0][key1]['air_code'];
+                        tempprice = kq[0][key1]['baseprice'];
+                        tempdeptime = kq[0][key1]['deptime'];
+                        tempdestime = kq[0][key1]['destime'];
+                        tempitem = kq[0][key1];
+                        dem++;
+                    }
+
+                } else {
+                    mangjson.push(tempitem);
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                    dem++;
+                }
+                if (dem === size) {
+                    mangjson.push(tempitem);
+                }
+
+            }
+            this.setState({
+                data6: mangjson.sort(sortedByAttr('baseprice')),
+                js6: true
+            });
+        }).then((res) => {
+            if (this.state.js6 === true || this.state.vj6 === true || this.state.vn6 === true) {
+                this.setState({
+                    data6: this.state.data6.sort(sortedByAttr('baseprice')),
+                    datasmallestprice6: this.state.data6[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
+
+                });
+            }
+        }).catch((err) => {
+            this.setState({
+                js6: true
+            });
+        });
+        postTicket("/vj", dep, des, adult, direction, datedep, datedes).then((kq) => {
+            //mangjson.push(kq[0]);
+            var tempflyno = "";
+            var tempprice = 0;
+            var tempdeptime = "";
+            var tempdestime = "";
+            var tempitem = "";
+            var dem = 0;
+            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+
+            for (var key1 in kq[0]) {
+
+                if (tempdeptime == "" && tempdestime == "") {
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                }
+
+                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                    if (tempprice <= kq[0][key1]['baseprice']) {
+                        dem++;
+                    } else {
+                        tempflyno = kq[0][key1]['air_code'];
+                        tempprice = kq[0][key1]['baseprice'];
+                        tempdeptime = kq[0][key1]['deptime'];
+                        tempdestime = kq[0][key1]['destime'];
+                        tempitem = kq[0][key1];
+                        dem++;
+                    }
+
+                } else {
+                    mangjson.push(tempitem);
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                    dem++;
+                }
+                if (dem === size) {
+                    mangjson.push(tempitem);
+                }
+
+            }
+            this.setState({
+                data6: mangjson.sort(sortedByAttr('baseprice')),
+                vj6: true
+            });
+        }).then((res) => {
+            if (this.state.js6 === true || this.state.vj6 === true || this.state.vn6 === true) {
+                this.setState({
+                    data6: this.state.data6.sort(sortedByAttr('baseprice')),
+                    datasmallestprice6: this.state.data6[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
+
+                });
+            }
+        }).catch((err) => {
+            this.setState({
+                vj6: true
+            });
+        });
+    }
+    getJsonTicketFromAPIPosition1KhuHoi = (dep, des, adult, direction, datedep, datedes) => {
+        var mangjson = [];
+        var dep = dep;
+        var des = des;
+        var datedep = datedep;
+        var datedes = datedes;
+        var adult = adult;
+        var direction = direction;
+        postTicket("/vn", dep, des, adult, direction, datedep, datedes).then((kq) => {
+            var tempflyno = "";
+            var tempprice = 0;
+            var tempdeptime = "";
+            var tempdestime = "";
+            var tempitem = "";
+            var dem = 0;
+            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+
+            for (var key1 in kq[0]) {
+
+                if (tempdeptime == "" && tempdestime == "") {
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                }
+
+                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                    if (tempprice <= kq[0][key1]['baseprice']) {
+                        dem++;
+                    } else {
+                        tempflyno = kq[0][key1]['air_code'];
+                        tempprice = kq[0][key1]['baseprice'];
+                        tempdeptime = kq[0][key1]['deptime'];
+                        tempdestime = kq[0][key1]['destime'];
+                        tempitem = kq[0][key1];
+                        dem++;
+                    }
+
+                } else {
+                    mangjson.push(tempitem);
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                    dem++;
+                }
+                if (dem === size) {
+                    mangjson.push(tempitem);
+                }
+            }
+            this.setState({
+                data1khuhoi: mangjson.sort(sortedByAttr('baseprice')),
+                vn1khuhoi: true
+            });
+        }).then((res) => {
+            if (this.state.js1khuhoi === true || this.state.vj1khuhoi === true || this.state.vn1khuhoi === true) {
+                this.setState({
+                    data1khuhoi: this.state.data1khuhoi.sort(sortedByAttr('baseprice')),
+                    datasmallestprice1khuhoi: this.state.data1khuhoi[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
+
+                });
+            }
+        }).catch((err) => {
+            this.setState({
+                vn1khuhoi: true
+            });
+        });
+        postTicket("/js", dep, des, adult, direction, datedep, datedes).then((kq) => {
+            //mangjson.push(kq[0]);
+            var tempflyno = "";
+            var tempprice = 0;
+            var tempdeptime = "";
+            var tempdestime = "";
+            var tempitem = "";
+            var dem = 0;
+            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+
+            for (var key1 in kq[0]) {
+
+                if (tempdeptime == "" && tempdestime == "") {
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                }
+
+                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                    if (tempprice <= kq[0][key1]['baseprice']) {
+                        dem++;
+                    } else {
+                        tempflyno = kq[0][key1]['air_code'];
+                        tempprice = kq[0][key1]['baseprice'];
+                        tempdeptime = kq[0][key1]['deptime'];
+                        tempdestime = kq[0][key1]['destime'];
+                        tempitem = kq[0][key1];
+                        dem++;
+                    }
+
+                } else {
+                    mangjson.push(tempitem);
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                    dem++;
+                }
+                if (dem === size) {
+                    mangjson.push(tempitem);
+                }
+            }
+            this.setState({
+                data1khuhoi: mangjson.sort(sortedByAttr('baseprice')),
+                js1khuhoi: true
+            });
+        }).then((res) => {
+            if (this.state.js1khuhoi === true || this.state.vj1khuhoi === true || this.state.vn1khuhoi === true) {
+                this.setState({
+                    data1khuhoi: this.state.data1khuhoi.sort(sortedByAttr('baseprice')),
+                    datasmallestprice1khuhoi: this.state.data1khuhoi[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
+
+                });
+            }
+        }).catch((err) => {
+            this.setState({
+                js1khuhoi: true
+            });
+        });
+        postTicket("/vj", dep, des, adult, direction, datedep, datedes).then((kq) => {
+            //mangjson.push(kq[0]);
+            var tempflyno = "";
+            var tempprice = 0;
+            var tempdeptime = "";
+            var tempdestime = "";
+            var tempitem = "";
+            var dem = 0;
+            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+
+            for (var key1 in kq[0]) {
+
+                if (tempdeptime == "" && tempdestime == "") {
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                }
+
+                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                    if (tempprice <= kq[0][key1]['baseprice']) {
+                        dem++;
+                    } else {
+                        tempflyno = kq[0][key1]['air_code'];
+                        tempprice = kq[0][key1]['baseprice'];
+                        tempdeptime = kq[0][key1]['deptime'];
+                        tempdestime = kq[0][key1]['destime'];
+                        tempitem = kq[0][key1];
+                        dem++;
+                    }
+
+                } else {
+                    mangjson.push(tempitem);
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                    dem++;
+                }
+                if (dem === size) {
+                    mangjson.push(tempitem);
+                }
+            }
+            this.setState({
+                data1khuhoi: mangjson.sort(sortedByAttr('baseprice')),
+                vj1khuhoi: true
+            });
+        }).then((res) => {
+            if (this.state.js1khuhoi === true || this.state.vj1khuhoi === true || this.state.vn1khuhoi === true) {
+                this.setState({
+                    data1khuhoi: this.state.data1khuhoi.sort(sortedByAttr('baseprice')),
+                    datasmallestprice1khuhoi: this.state.data1khuhoi[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
+
+                });
+            }
+        }).catch((err) => {
+            this.setState({
+                vj1khuhoi: true
+            });
+        });
+    }
+    getJsonTicketFromAPIPosition2KhuHoi = (dep, des, adult, direction, datedep, datedes) => {
+        var mangjson = [];
+        var dep = dep;
+        var des = des;
+        var datedep = datedep;
+        var datedes = datedes;
+        var adult = adult;
+        var direction = direction;
+        postTicket("/vn", dep, des, adult, direction, datedep, datedes).then((kq) => {
+            var tempflyno = "";
+            var tempprice = 0;
+            var tempdeptime = "";
+            var tempdestime = "";
+            var tempitem = "";
+            var dem = 0;
+            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+
+            for (var key1 in kq[0]) {
+
+                if (tempdeptime == "" && tempdestime == "") {
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                }
+
+                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                    if (tempprice <= kq[0][key1]['baseprice']) {
+                        dem++;
+                    } else {
+                        tempflyno = kq[0][key1]['air_code'];
+                        tempprice = kq[0][key1]['baseprice'];
+                        tempdeptime = kq[0][key1]['deptime'];
+                        tempdestime = kq[0][key1]['destime'];
+                        tempitem = kq[0][key1];
+                        dem++;
+                    }
+
+                } else {
+                    mangjson.push(tempitem);
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                    dem++;
+                }
+                if (dem === size) {
+                    mangjson.push(tempitem);
+                }
+            }
+            this.setState({
+                data2khuhoi: mangjson.sort(sortedByAttr('baseprice')),
+                vn2khuhoi: true
+            });
+        }).then((res) => {
+            if (this.state.js2khuhoi === true || this.state.vj2khuhoi === true || this.state.vn2khuhoi === true) {
+                this.setState({
+                    data2khuhoi: this.state.data2khuhoi.sort(sortedByAttr('baseprice')),
+                    datasmallestprice2khuhoi: this.state.data2khuhoi[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
+
+                });
+            }
+        }).catch((err) => {
+            this.setState({
+                vn2khuhoi: true
+            });
+        });
+        postTicket("/js", dep, des, adult, direction, datedep, datedes).then((kq) => {
+            //mangjson.push(kq[0]);
+            var tempflyno = "";
+            var tempprice = 0;
+            var tempdeptime = "";
+            var tempdestime = "";
+            var tempitem = "";
+            var dem = 0;
+            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+
+            for (var key1 in kq[0]) {
+
+                if (tempdeptime == "" && tempdestime == "") {
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                }
+
+                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                    if (tempprice <= kq[0][key1]['baseprice']) {
+                        dem++;
+                    } else {
+                        tempflyno = kq[0][key1]['air_code'];
+                        tempprice = kq[0][key1]['baseprice'];
+                        tempdeptime = kq[0][key1]['deptime'];
+                        tempdestime = kq[0][key1]['destime'];
+                        tempitem = kq[0][key1];
+                        dem++;
+                    }
+
+                } else {
+                    mangjson.push(tempitem);
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                    dem++;
+                }
+                if (dem === size) {
+                    mangjson.push(tempitem);
+                }
+            }
+            this.setState({
+                data2khuhoi: mangjson.sort(sortedByAttr('baseprice')),
+                js2khuhoi: true
+            });
+        }).then((res) => {
+            if (this.state.js2khuhoi === true || this.state.vj2khuhoi === true || this.state.vn2khuhoi === true) {
+                this.setState({
+                    data2khuhoi: this.state.data2khuhoi.sort(sortedByAttr('baseprice')),
+                    datasmallestprice2khuhoi: this.state.data2khuhoi[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
+
+                });
+            }
+        }).catch((err) => {
+            this.setState({
+                js2khuhoi: true
+            });
+        });
+        postTicket("/vj", dep, des, adult, direction, datedep, datedes).then((kq) => {
+            //mangjson.push(kq[0]);
+            var tempflyno = "";
+            var tempprice = 0;
+            var tempdeptime = "";
+            var tempdestime = "";
+            var tempitem = "";
+            var dem = 0;
+            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+
+            for (var key1 in kq[0]) {
+
+                if (tempdeptime == "" && tempdestime == "") {
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                }
+
+                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                    if (tempprice <= kq[0][key1]['baseprice']) {
+                        dem++;
+                    } else {
+                        tempflyno = kq[0][key1]['air_code'];
+                        tempprice = kq[0][key1]['baseprice'];
+                        tempdeptime = kq[0][key1]['deptime'];
+                        tempdestime = kq[0][key1]['destime'];
+                        tempitem = kq[0][key1];
+                        dem++;
+                    }
+
+                } else {
+                    mangjson.push(tempitem);
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                    dem++;
+                }
+                if (dem === size) {
+                    mangjson.push(tempitem);
+                }
+            }
+            this.setState({
+                data2khuhoi: mangjson.sort(sortedByAttr('baseprice')),
+                vj2khuhoi: true
+            });
+        }).then((res) => {
+            if (this.state.js2khuhoi === true || this.state.vj2khuhoi === true || this.state.vn2khuhoi === true) {
+                this.setState({
+                    data2khuhoi: this.state.data2khuhoi.sort(sortedByAttr('baseprice')),
+                    datasmallestprice2khuhoi: this.state.data2khuhoi[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
+
+                });
+            }
+        }).catch((err) => {
+            this.setState({
+                vj2khuhoi: true
+            });
+        });
+    }
+    getJsonTicketFromAPIPosition3KhuHoi = (dep, des, adult, direction, datedep, datedes) => {
+        var mangjson = [];
+        var dep = dep;
+        var des = des;
+        var datedep = datedep;
+        var datedes = datedes;
+        var adult = adult;
+        var direction = direction;
+        postTicket("/vn", dep, des, adult, direction, datedep, datedes).then((kq) => {
+            var tempflyno = "";
+            var tempprice = 0;
+            var tempdeptime = "";
+            var tempdestime = "";
+            var tempitem = "";
+            var dem = 0;
+            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+
+            for (var key1 in kq[0]) {
+
+                if (tempdeptime == "" && tempdestime == "") {
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                }
+
+                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                    if (tempprice <= kq[0][key1]['baseprice']) {
+                        dem++;
+                    } else {
+                        tempflyno = kq[0][key1]['air_code'];
+                        tempprice = kq[0][key1]['baseprice'];
+                        tempdeptime = kq[0][key1]['deptime'];
+                        tempdestime = kq[0][key1]['destime'];
+                        tempitem = kq[0][key1];
+                        dem++;
+                    }
+
+                } else {
+                    mangjson.push(tempitem);
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                    dem++;
+                }
+                if (dem === size) {
+                    mangjson.push(tempitem);
+                }
+            }
+            this.setState({
+                data3khuhoi: mangjson.sort(sortedByAttr('baseprice')),
+                vn3khuhoi: true
+            });
+        }).then((res) => {
+            if (this.state.js3khuhoi === true || this.state.vj3khuhoi === true || this.state.vn3khuhoi === true) {
+                this.setState({
+                    data3khuhoi: this.state.data3khuhoi.sort(sortedByAttr('baseprice')),
+                    datasmallestprice3khuhoi: this.state.data3khuhoi[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
+
+                });
+            }
+        }).catch((err) => {
+            this.setState({
+                vn3khuhoi: true
+            });
+        });
+        postTicket("/js", dep, des, adult, direction, datedep, datedes).then((kq) => {
+            //mangjson.push(kq[0]);
+            var tempflyno = "";
+            var tempprice = 0;
+            var tempdeptime = "";
+            var tempdestime = "";
+            var tempitem = "";
+            var dem = 0;
+            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+
+            for (var key1 in kq[0]) {
+
+                if (tempdeptime == "" && tempdestime == "") {
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                }
+
+                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                    if (tempprice <= kq[0][key1]['baseprice']) {
+                        dem++;
+                    } else {
+                        tempflyno = kq[0][key1]['air_code'];
+                        tempprice = kq[0][key1]['baseprice'];
+                        tempdeptime = kq[0][key1]['deptime'];
+                        tempdestime = kq[0][key1]['destime'];
+                        tempitem = kq[0][key1];
+                        dem++;
+                    }
+
+                } else {
+                    mangjson.push(tempitem);
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                    dem++;
+                }
+                if (dem === size) {
+                    mangjson.push(tempitem);
+                }
+            }
+            this.setState({
+                data3khuhoi: mangjson.sort(sortedByAttr('baseprice')),
+                js3khuhoi: true
+            });
+        }).then((res) => {
+            if (this.state.js3khuhoi === true || this.state.vj3khuhoi === true || this.state.vn3khuhoi === true) {
+                this.setState({
+                    data3khuhoi: this.state.data3khuhoi.sort(sortedByAttr('baseprice')),
+                    datasmallestprice3khuhoi: this.state.data3khuhoi[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
+
+                });
+            }
+        }).catch((err) => {
+            this.setState({
+                js3khuhoi: true
+            });
+        });
+        postTicket("/vj", dep, des, adult, direction, datedep, datedes).then((kq) => {
+            //mangjson.push(kq[0]);
+            var tempflyno = "";
+            var tempprice = 0;
+            var tempdeptime = "";
+            var tempdestime = "";
+            var tempitem = "";
+            var dem = 0;
+            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+
+            for (var key1 in kq[0]) {
+
+                if (tempdeptime == "" && tempdestime == "") {
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                }
+
+                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                    if (tempprice <= kq[0][key1]['baseprice']) {
+                        dem++;
+                    } else {
+                        tempflyno = kq[0][key1]['air_code'];
+                        tempprice = kq[0][key1]['baseprice'];
+                        tempdeptime = kq[0][key1]['deptime'];
+                        tempdestime = kq[0][key1]['destime'];
+                        tempitem = kq[0][key1];
+                        dem++;
+                    }
+
+                } else {
+                    mangjson.push(tempitem);
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                    dem++;
+                }
+                if (dem === size) {
+                    mangjson.push(tempitem);
+                }
+            }
+            this.setState({
+                data3khuhoi: mangjson.sort(sortedByAttr('baseprice')),
+                vj3khuhoi: true
+            });
+        }).then((res) => {
+            if (this.state.js3khuhoi === true || this.state.vj3khuhoi === true || this.state.vn3khuhoi === true) {
+                this.setState({
+                    data3khuhoi: this.state.data3khuhoi.sort(sortedByAttr('baseprice')),
+                    datasmallestprice3khuhoi: this.state.data3khuhoi[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
+
+                });
+            }
+        }).catch((err) => {
+            this.setState({
+                vj3khuhoi: true
+            });
+        });
+    }
+    getJsonTicketFromAPIPosition4KhuHoi = (dep, des, adult, direction, datedep, datedes) => {
+        var mangjson = [];
+        var dep = dep;
+        var des = des;
+        var datedep = datedep;
+        var datedes = datedes;
+        var adult = adult;
+        var direction = direction;
+        postTicket("/vn", dep, des, adult, direction, datedep, datedes).then((kq) => {
+            var tempflyno = "";
+            var tempprice = 0;
+            var tempdeptime = "";
+            var tempdestime = "";
+            var tempitem = "";
+            var dem = 0;
+            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+
+            for (var key1 in kq[0]) {
+
+                if (tempdeptime == "" && tempdestime == "") {
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                }
+
+                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                    if (tempprice <= kq[0][key1]['baseprice']) {
+                        dem++;
+                    } else {
+                        tempflyno = kq[0][key1]['air_code'];
+                        tempprice = kq[0][key1]['baseprice'];
+                        tempdeptime = kq[0][key1]['deptime'];
+                        tempdestime = kq[0][key1]['destime'];
+                        tempitem = kq[0][key1];
+                        dem++;
+                    }
+
+                } else {
+                    mangjson.push(tempitem);
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                    dem++;
+                }
+                if (dem === size) {
+                    mangjson.push(tempitem);
+                }
+            }
+            this.setState({
+                data4khuhoi: mangjson.sort(sortedByAttr('baseprice')),
+                vn4khuhoi: true
+            });
+        }).then((res) => {
+            if (this.state.js4khuhoi === true || this.state.vj4khuhoi === true || this.state.vn4khuhoi === true) {
+                this.setState({
+                    data4khuhoi: this.state.data4khuhoi.sort(sortedByAttr('baseprice')),
+                    datasmallestprice4khuhoi: this.state.data4khuhoi[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
+
+                });
+            }
+        }).catch((err) => {
+            this.setState({
+                vn4khuhoi: true
+            });
+        });
+        postTicket("/js", dep, des, adult, direction, datedep, datedes).then((kq) => {
+            //mangjson.push(kq[0]);
+            var tempflyno = "";
+            var tempprice = 0;
+            var tempdeptime = "";
+            var tempdestime = "";
+            var tempitem = "";
+            var dem = 0;
+            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+
+            for (var key1 in kq[0]) {
+
+                if (tempdeptime == "" && tempdestime == "") {
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                }
+
+                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                    if (tempprice <= kq[0][key1]['baseprice']) {
+                        dem++;
+                    } else {
+                        tempflyno = kq[0][key1]['air_code'];
+                        tempprice = kq[0][key1]['baseprice'];
+                        tempdeptime = kq[0][key1]['deptime'];
+                        tempdestime = kq[0][key1]['destime'];
+                        tempitem = kq[0][key1];
+                        dem++;
+                    }
+
+                } else {
+                    mangjson.push(tempitem);
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                    dem++;
+                }
+                if (dem === size) {
+                    mangjson.push(tempitem);
+                }
+            }
+            this.setState({
+                data4khuhoi: mangjson.sort(sortedByAttr('baseprice')),
+                js4khuhoi: true
+            });
+        }).then((res) => {
+            if (this.state.js4khuhoi === true || this.state.vj4khuhoi === true || this.state.vn4khuhoi === true) {
+                this.setState({
+                    data4khuhoi: this.state.data4khuhoi.sort(sortedByAttr('baseprice')),
+                    datasmallestprice4khuhoi: this.state.data4khuhoi[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
+
+                });
+            }
+        }).catch((err) => {
+            this.setState({
+                js4khuhoi: true
+            });
+        });
+        postTicket("/vj", dep, des, adult, direction, datedep, datedes).then((kq) => {
+            //mangjson.push(kq[0]);
+            var tempflyno = "";
+            var tempprice = 0;
+            var tempdeptime = "";
+            var tempdestime = "";
+            var tempitem = "";
+            var dem = 0;
+            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+
+            for (var key1 in kq[0]) {
+
+                if (tempdeptime == "" && tempdestime == "") {
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                }
+
+                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                    if (tempprice <= kq[0][key1]['baseprice']) {
+                        dem++;
+                    } else {
+                        tempflyno = kq[0][key1]['air_code'];
+                        tempprice = kq[0][key1]['baseprice'];
+                        tempdeptime = kq[0][key1]['deptime'];
+                        tempdestime = kq[0][key1]['destime'];
+                        tempitem = kq[0][key1];
+                        dem++;
+                    }
+
+                } else {
+                    mangjson.push(tempitem);
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                    dem++;
+                }
+                if (dem === size) {
+                    mangjson.push(tempitem);
+                }
+            }
+            this.setState({
+                data4khuhoi: mangjson.sort(sortedByAttr('baseprice')),
+                vj4khuhoi: true
+            });
+        }).then((res) => {
+            if (this.state.js4khuhoi === true || this.state.vj4khuhoi === true || this.state.vn4khuhoi === true) {
+                this.setState({
+                    data4khuhoi: this.state.data4khuhoi.sort(sortedByAttr('baseprice')),
+                    datasmallestprice4khuhoi: this.state.data4khuhoi[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
+
+                });
+            }
+        }).catch((err) => {
+            this.setState({
+                vj4khuhoi: true
+            });
+        });
+    }
+    getJsonTicketFromAPIPosition5KhuHoi = (dep, des, adult, direction, datedep, datedes) => {
+        var mangjson = [];
+        var dep = dep;
+        var des = des;
+        var datedep = datedep;
+        var datedes = datedes;
+        var adult = adult;
+        var direction = direction;
+        postTicket("/vn", dep, des, adult, direction, datedep, datedes).then((kq) => {
+            var tempflyno = "";
+            var tempprice = 0;
+            var tempdeptime = "";
+            var tempdestime = "";
+            var tempitem = "";
+            var dem = 0;
+            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+
+            for (var key1 in kq[0]) {
+
+                if (tempdeptime == "" && tempdestime == "") {
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                }
+
+                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                    if (tempprice <= kq[0][key1]['baseprice']) {
+                        dem++;
+                    } else {
+                        tempflyno = kq[0][key1]['air_code'];
+                        tempprice = kq[0][key1]['baseprice'];
+                        tempdeptime = kq[0][key1]['deptime'];
+                        tempdestime = kq[0][key1]['destime'];
+                        tempitem = kq[0][key1];
+                        dem++;
+                    }
+
+                } else {
+                    mangjson.push(tempitem);
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                    dem++;
+                }
+                if (dem === size) {
+                    mangjson.push(tempitem);
+                }
+            }
+            this.setState({
+                data5khuhoi: mangjson.sort(sortedByAttr('baseprice')),
+                vn5khuhoi: true
+            });
+        }).then((res) => {
+            if (this.state.js5khuhoi === true || this.state.vj5khuhoi === true || this.state.vn5khuhoi === true) {
+                this.setState({
+                    data5khuhoi: this.state.data5khuhoi.sort(sortedByAttr('baseprice')),
+                    datasmallestprice5khuhoi: this.state.data5khuhoi[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
+
+                });
+            }
+        }).catch((err) => {
+            this.setState({
+                vn5khuhoi: true
+            });
+        });
+        postTicket("/js", dep, des, adult, direction, datedep, datedes).then((kq) => {
+            //mangjson.push(kq[0]);
+            var tempflyno = "";
+            var tempprice = 0;
+            var tempdeptime = "";
+            var tempdestime = "";
+            var tempitem = "";
+            var dem = 0;
+            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+
+            for (var key1 in kq[0]) {
+
+                if (tempdeptime == "" && tempdestime == "") {
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                }
+
+                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                    if (tempprice <= kq[0][key1]['baseprice']) {
+                        dem++;
+                    } else {
+                        tempflyno = kq[0][key1]['air_code'];
+                        tempprice = kq[0][key1]['baseprice'];
+                        tempdeptime = kq[0][key1]['deptime'];
+                        tempdestime = kq[0][key1]['destime'];
+                        tempitem = kq[0][key1];
+                        dem++;
+                    }
+
+                } else {
+                    mangjson.push(tempitem);
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                    dem++;
+                }
+                if (dem === size) {
+                    mangjson.push(tempitem);
+                }
+            }
+            this.setState({
+                data5khuhoi: mangjson.sort(sortedByAttr('baseprice')),
+                js5khuhoi: true
+            });
+        }).then((res) => {
+            if (this.state.js5khuhoi === true || this.state.vj5khuhoi === true || this.state.vn5khuhoi === true) {
+                this.setState({
+                    data5khuhoi: this.state.data5khuhoi.sort(sortedByAttr('baseprice')),
+                    datasmallestprice5khuhoi: this.state.data5khuhoi[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
+
+                });
+            }
+        }).catch((err) => {
+            this.setState({
+                js5khuhoi: true
+            });
+        });
+        postTicket("/vj", dep, des, adult, direction, datedep, datedes).then((kq) => {
+            //mangjson.push(kq[0]);
+            var tempflyno = "";
+            var tempprice = 0;
+            var tempdeptime = "";
+            var tempdestime = "";
+            var tempitem = "";
+            var dem = 0;
+            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+
+            for (var key1 in kq[0]) {
+
+                if (tempdeptime == "" && tempdestime == "") {
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                }
+
+                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                    if (tempprice <= kq[0][key1]['baseprice']) {
+                        dem++;
+                    } else {
+                        tempflyno = kq[0][key1]['air_code'];
+                        tempprice = kq[0][key1]['baseprice'];
+                        tempdeptime = kq[0][key1]['deptime'];
+                        tempdestime = kq[0][key1]['destime'];
+                        tempitem = kq[0][key1];
+                        dem++;
+                    }
+
+                } else {
+                    mangjson.push(tempitem);
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                    dem++;
+                }
+                if (dem === size) {
+                    mangjson.push(tempitem);
+                }
+            }
+            this.setState({
+                data5khuhoi: mangjson.sort(sortedByAttr('baseprice')),
+                vj5khuhoi: true
+            });
+        }).then((res) => {
+            if (this.state.js5khuhoi === true || this.state.vj5khuhoi === true || this.state.vn5khuhoi === true) {
+                this.setState({
+                    data5khuhoi: this.state.data5khuhoi.sort(sortedByAttr('baseprice')),
+                    datasmallestprice5khuhoi: this.state.data5khuhoi[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
+
+                });
+            }
+        }).catch((err) => {
+            this.setState({
+                vj5khuhoi: true
+            });
+        });
+    }
+    getJsonTicketFromAPIPosition6KhuHoi = (dep, des, adult, direction, datedep, datedes) => {
+        var mangjson = [];
+        var dep = dep;
+        var des = des;
+        var datedep = datedep;
+        var datedes = datedes;
+        var adult = adult;
+        var direction = direction;
+        postTicket("/vn", dep, des, adult, direction, datedep, datedes).then((kq) => {
+            var tempflyno = "";
+            var tempprice = 0;
+            var tempdeptime = "";
+            var tempdestime = "";
+            var tempitem = "";
+            var dem = 0;
+            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+
+            for (var key1 in kq[0]) {
+
+                if (tempdeptime == "" && tempdestime == "") {
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                }
+
+                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                    if (tempprice <= kq[0][key1]['baseprice']) {
+                        dem++;
+                    } else {
+                        tempflyno = kq[0][key1]['air_code'];
+                        tempprice = kq[0][key1]['baseprice'];
+                        tempdeptime = kq[0][key1]['deptime'];
+                        tempdestime = kq[0][key1]['destime'];
+                        tempitem = kq[0][key1];
+                        dem++;
+                    }
+
+                } else {
+                    mangjson.push(tempitem);
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                    dem++;
+                }
+                if (dem === size) {
+                    mangjson.push(tempitem);
+                }
+            }
+            this.setState({
+                data6khuhoi: mangjson.sort(sortedByAttr('baseprice')),
+                vn6khuhoi: true
+            });
+        }).then((res) => {
+            if (this.state.js6khuhoi === true || this.state.vj6khuhoi === true || this.state.vn6khuhoi === true) {
+                this.setState({
+                    data6khuhoi: this.state.data6khuhoi.sort(sortedByAttr('baseprice')),
+                    datasmallestprice6khuhoi: this.state.data6khuhoi[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
+
+                });
+            }
+        }).catch((err) => {
+            this.setState({
+                vn6khuhoi: true
+            });
+        });
+        postTicket("/js", dep, des, adult, direction, datedep, datedes).then((kq) => {
+            //mangjson.push(kq[0]);
+            var tempflyno = "";
+            var tempprice = 0;
+            var tempdeptime = "";
+            var tempdestime = "";
+            var tempitem = "";
+            var dem = 0;
+            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+
+            for (var key1 in kq[0]) {
+
+                if (tempdeptime == "" && tempdestime == "") {
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                }
+
+                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                    if (tempprice <= kq[0][key1]['baseprice']) {
+                        dem++;
+                    } else {
+                        tempflyno = kq[0][key1]['air_code'];
+                        tempprice = kq[0][key1]['baseprice'];
+                        tempdeptime = kq[0][key1]['deptime'];
+                        tempdestime = kq[0][key1]['destime'];
+                        tempitem = kq[0][key1];
+                        dem++;
+                    }
+
+                } else {
+                    mangjson.push(tempitem);
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                    dem++;
+                }
+                if (dem === size) {
+                    mangjson.push(tempitem);
+                }
+            }
+            this.setState({
+                data6khuhoi: mangjson.sort(sortedByAttr('baseprice')),
+                js6khuhoi: true
+            });
+        }).then((res) => {
+            if (this.state.js6khuhoi === true || this.state.vj6khuhoi === true || this.state.vn6khuhoi === true) {
+                this.setState({
+                    data6khuhoi: this.state.data6khuhoi.sort(sortedByAttr('baseprice')),
+                    datasmallestprice6khuhoi: this.state.data6khuhoi[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
+
+                });
+            }
+        }).catch((err) => {
+            this.setState({
+                js6khuhoi: true
+            });
+        });
+        postTicket("/vj", dep, des, adult, direction, datedep, datedes).then((kq) => {
+            //mangjson.push(kq[0]);
+            var tempflyno = "";
+            var tempprice = 0;
+            var tempdeptime = "";
+            var tempdestime = "";
+            var tempitem = "";
+            var dem = 0;
+            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+
+            for (var key1 in kq[0]) {
+
+                if (tempdeptime == "" && tempdestime == "") {
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                }
+
+                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                    if (tempprice <= kq[0][key1]['baseprice']) {
+                        dem++;
+                    } else {
+                        tempflyno = kq[0][key1]['air_code'];
+                        tempprice = kq[0][key1]['baseprice'];
+                        tempdeptime = kq[0][key1]['deptime'];
+                        tempdestime = kq[0][key1]['destime'];
+                        tempitem = kq[0][key1];
+                        dem++;
+                    }
+
+                } else {
+                    mangjson.push(tempitem);
+                    tempflyno = kq[0][key1]['air_code'];
+                    tempprice = kq[0][key1]['baseprice'];
+                    tempdeptime = kq[0][key1]['deptime'];
+                    tempdestime = kq[0][key1]['destime'];
+                    tempitem = kq[0][key1];
+                    dem++;
+                }
+                if (dem === size) {
+                    mangjson.push(tempitem);
+                }
+            }
+            this.setState({
+                data6khuhoi: mangjson.sort(sortedByAttr('baseprice')),
+                vj6khuhoi: true
+            });
+        }).then((res) => {
+            if (this.state.js6khuhoi === true || this.state.vj6khuhoi === true || this.state.vn6khuhoi === true) {
+                this.setState({
+                    data6khuhoi: this.state.data6khuhoi.sort(sortedByAttr('baseprice')),
+                    datasmallestprice6khuhoi: this.state.data6khuhoi[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
+
+                });
+            }
+        }).catch((err) => {
+            this.setState({
+                vj6khuhoi: true
+            });
+        });
     }
 
     componentWillMount() {
@@ -150,212 +2849,18 @@ class BookingContent extends Component {
         if (!localStorage.getItem("dep") || !localStorage.getItem("des")) {
             return <Redirect to="/" />;
         }
-
-        function sortedByAttr(property) {
-            return function (x, y) {
-
-                return ((x[property] === y[property]) ? 0 : ((x[property] > y[property]) ? 1 : -1));
-
-            };
-        }
-        var mangjson = [];
-        var mangjson1 = [];
-        var mangjson2 = [];
-        var mangjson3 = [];
-        var mangjson4 = [];
-        var mangjson5 = [];
-        var mangjson6 = [];
+        var dep = localStorage.getItem("dep");
+        var des = localStorage.getItem("des");
+        var datedep = localStorage.getItem('datedep') ? localStorage.getItem('datedep') : getTodayddmmyyyy();
+        var datedes = localStorage.getItem('datedes') ? localStorage.getItem('datedes') : getTodayddmmyyyy();
+        var adult = localStorage.getItem("adult");
+        var direction = localStorage.getItem("direction") ? localStorage.getItem("direction") : 0;
+        this.setState({
+            direction: direction
+        });
         if (this.state.data === null) {
-            postTicketvn().then((kq) => {
-                //mangjson.push(kq[0]);
-                var tempflyno = "";
-                var tempprice = 0;
-                var tempdeptime = "";
-                var tempdestime = "";
-                var tempitem = "";
-                var dem = 0;
-                var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
-
-                for (var key1 in kq[0]) {
-
-                    if (tempdeptime == "" && tempdestime == "") {
-                        tempflyno = kq[0][key1]['air_code'];
-                        tempprice = kq[0][key1]['baseprice'];
-                        tempdeptime = kq[0][key1]['deptime'];
-                        tempdestime = kq[0][key1]['destime'];
-                        tempitem = kq[0][key1];
-                    }
-
-                    if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
-                        if (tempprice <= kq[0][key1]['baseprice']) {
-                            dem++;
-                        } else {
-                            tempflyno = kq[0][key1]['air_code'];
-                            tempprice = kq[0][key1]['baseprice'];
-                            tempdeptime = kq[0][key1]['deptime'];
-                            tempdestime = kq[0][key1]['destime'];
-                            tempitem = kq[0][key1];
-                            dem++;
-                        }
-
-                    } else {
-                        mangjson.push(tempitem);
-                        tempflyno = kq[0][key1]['air_code'];
-                        tempprice = kq[0][key1]['baseprice'];
-                        tempdeptime = kq[0][key1]['deptime'];
-                        tempdestime = kq[0][key1]['destime'];
-                        tempitem = kq[0][key1];
-                        dem++;
-                    }
-                    if (dem === size) {
-                        mangjson.push(tempitem);
-                    }
-
-                }
-                this.setState({
-                    data: mangjson.sort(sortedByAttr('baseprice')),
-                    js: true
-                });
-            }).then((res) => {
-                if (this.state.js === true || this.state.vj === true || this.state.vn === true) {
-                    this.setState({
-                        data: this.state.data.sort(sortedByAttr('baseprice')),
-                        datasmallestprice: this.state.data[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
-                        
-                    });
-                }
-            }).catch((err) => {
-                this.setState({
-                    js: true
-                });
-            });
-            postTicketjs().then((kq) => {
-                //mangjson.push(kq[0]);
-                var tempflyno = "";
-                var tempprice = 0;
-                var tempdeptime = "";
-                var tempdestime = "";
-                var tempitem = "";
-                var dem = 0;
-                var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
-
-                for (var key1 in kq[0]) {
-
-                    if (tempdeptime == "" && tempdestime == "") {
-                        tempflyno = kq[0][key1]['air_code'];
-                        tempprice = kq[0][key1]['baseprice'];
-                        tempdeptime = kq[0][key1]['deptime'];
-                        tempdestime = kq[0][key1]['destime'];
-                        tempitem = kq[0][key1];
-                    }
-
-                    if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
-                        if (tempprice <= kq[0][key1]['baseprice']) {
-                            dem++;
-                        } else {
-                            tempflyno = kq[0][key1]['air_code'];
-                            tempprice = kq[0][key1]['baseprice'];
-                            tempdeptime = kq[0][key1]['deptime'];
-                            tempdestime = kq[0][key1]['destime'];
-                            tempitem = kq[0][key1];
-                            dem++;
-                        }
-
-                    } else {
-                        mangjson.push(tempitem);
-                        tempflyno = kq[0][key1]['air_code'];
-                        tempprice = kq[0][key1]['baseprice'];
-                        tempdeptime = kq[0][key1]['deptime'];
-                        tempdestime = kq[0][key1]['destime'];
-                        tempitem = kq[0][key1];
-                        dem++;
-                    }
-                    if (dem === size) {
-                        mangjson.push(tempitem);
-                    }
-
-                }
-                this.setState({
-                    data: mangjson.sort(sortedByAttr('baseprice')),
-                    js: true
-                });
-            }).then((res) => {
-                if (this.state.js === true || this.state.vj === true || this.state.vn === true) {
-                    this.setState({
-                        data: this.state.data.sort(sortedByAttr('baseprice')),
-                        datasmallestprice: this.state.data[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
-                        
-                    });
-                }
-            }).catch((err) => {
-                this.setState({
-                    js: true
-                });
-            });
-            postTicketvj().then((kq) => {
-                //mangjson.push(kq[0]);
-                var tempflyno = "";
-                var tempprice = 0;
-                var tempdeptime = "";
-                var tempdestime = "";
-                var tempitem = "";
-                var dem = 0;
-                var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
-
-                for (var key1 in kq[0]) {
-
-                    if (tempdeptime == "" && tempdestime == "") {
-                        tempflyno = kq[0][key1]['air_code'];
-                        tempprice = kq[0][key1]['baseprice'];
-                        tempdeptime = kq[0][key1]['deptime'];
-                        tempdestime = kq[0][key1]['destime'];
-                        tempitem = kq[0][key1];
-                    }
-
-                    if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
-                        if (tempprice <= kq[0][key1]['baseprice']) {
-                            dem++;
-                        } else {
-                            tempflyno = kq[0][key1]['air_code'];
-                            tempprice = kq[0][key1]['baseprice'];
-                            tempdeptime = kq[0][key1]['deptime'];
-                            tempdestime = kq[0][key1]['destime'];
-                            tempitem = kq[0][key1];
-                            dem++;
-                        }
-
-                    } else {
-                        mangjson.push(tempitem);
-                        tempflyno = kq[0][key1]['air_code'];
-                        tempprice = kq[0][key1]['baseprice'];
-                        tempdeptime = kq[0][key1]['deptime'];
-                        tempdestime = kq[0][key1]['destime'];
-                        tempitem = kq[0][key1];
-                        dem++;
-                    }
-                    if (dem === size) {
-                        mangjson.push(tempitem);
-                    }
-
-                }
-                this.setState({
-                    data: mangjson.sort(sortedByAttr('baseprice')),
-                    js: true
-                });
-            }).then((res) => {
-                if (this.state.js === true || this.state.vj === true || this.state.vn === true) {
-                    this.setState({
-                        data: this.state.data.sort(sortedByAttr('baseprice')),
-                        datasmallestprice: this.state.data[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
-                        
-                    });
-                }
-            }).catch((err) => {
-                this.setState({
-                    js: true
-                });
-            });
-
+            //get data from day choosen
+            this.getJsonTicketFromAPI(dep, des, adult, direction, datedep, datedes);
 
             // get data from other day
             var daychoose = localStorage.getItem('datedep') ? localStorage.getItem('datedep') : getTodayddmmyyyy();
@@ -371,1142 +2876,47 @@ class BookingContent extends Component {
             }
 
             //VÉ RẺ VỊ TRÍ 1
-            postTicketvjWithDate(mang7ngay[0]).then((kq) => {
-                //mangjson.push(kq[0]);
-                var tempflyno = "";
-                var tempprice = 0;
-                var tempdeptime = "";
-                var tempdestime = "";
-                var tempitem = "";
-                var dem = 0;
-                var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
-
-                for (var key1 in kq[0]) {
-
-                    if (tempdeptime == "" && tempdestime == "") {
-                        tempflyno = kq[0][key1]['air_code'];
-                        tempprice = kq[0][key1]['baseprice'];
-                        tempdeptime = kq[0][key1]['deptime'];
-                        tempdestime = kq[0][key1]['destime'];
-                        tempitem = kq[0][key1];
-                    }
-
-                    if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
-                        if (tempprice <= kq[0][key1]['baseprice']) {
-                            dem++;
-                        } else {
-                            tempflyno = kq[0][key1]['air_code'];
-                            tempprice = kq[0][key1]['baseprice'];
-                            tempdeptime = kq[0][key1]['deptime'];
-                            tempdestime = kq[0][key1]['destime'];
-                            tempitem = kq[0][key1];
-                            dem++;
-                        }
-
-                    } else {
-                        mangjson1.push(tempitem);
-                        tempflyno = kq[0][key1]['air_code'];
-                        tempprice = kq[0][key1]['baseprice'];
-                        tempdeptime = kq[0][key1]['deptime'];
-                        tempdestime = kq[0][key1]['destime'];
-                        tempitem = kq[0][key1];
-                        dem++;
-                    }
-                    if (dem === size) {
-                        mangjson1.push(tempitem);
-                    }
-
-                }
-                this.setState({
-                    data1: mangjson1.sort(sortedByAttr('baseprice')),
-                    vj1: true
-                });
-            }).then((res) => {
-                if (this.state.js1 === true || this.state.vj1 === true || this.state.vn1 === true) {
-                    this.setState({
-                        data1: this.state.data1.sort(sortedByAttr('baseprice')),
-                        datasmallestprice1: this.state.data1[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
-                        
-                    });
-                }
-            }).catch((err) => {
-                this.setState({
-                    vj1: true
-                });
-            });
-            postTicketvnWithDate(mang7ngay[0]).then((kq) => {
-                //mangjson.push(kq[0]);
-                var tempflyno = "";
-                var tempprice = 0;
-                var tempdeptime = "";
-                var tempdestime = "";
-                var tempitem = "";
-                var dem = 0;
-                var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
-
-                for (var key1 in kq[0]) {
-
-                    if (tempdeptime == "" && tempdestime == "") {
-                        tempflyno = kq[0][key1]['air_code'];
-                        tempprice = kq[0][key1]['baseprice'];
-                        tempdeptime = kq[0][key1]['deptime'];
-                        tempdestime = kq[0][key1]['destime'];
-                        tempitem = kq[0][key1];
-                    }
-
-                    if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
-                        if (tempprice <= kq[0][key1]['baseprice']) {
-                            dem++;
-                        } else {
-                            tempflyno = kq[0][key1]['air_code'];
-                            tempprice = kq[0][key1]['baseprice'];
-                            tempdeptime = kq[0][key1]['deptime'];
-                            tempdestime = kq[0][key1]['destime'];
-                            tempitem = kq[0][key1];
-                            dem++;
-                        }
-
-                    } else {
-                        mangjson1.push(tempitem);
-                        tempflyno = kq[0][key1]['air_code'];
-                        tempprice = kq[0][key1]['baseprice'];
-                        tempdeptime = kq[0][key1]['deptime'];
-                        tempdestime = kq[0][key1]['destime'];
-                        tempitem = kq[0][key1];
-                        dem++;
-                    }
-                    if (dem === size) {
-                        mangjson1.push(tempitem);
-                    }
-
-                }
-                this.setState({
-                    data1: mangjson1.sort(sortedByAttr('baseprice')),
-                    vn1: true
-                });
-            }).then((res) => {
-                if (this.state.js1 === true || this.state.vj1 === true || this.state.vn1 === true) {
-                    this.setState({
-                        data1: this.state.data1.sort(sortedByAttr('baseprice')),
-                        datasmallestprice1: this.state.data1[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
-                        
-                    });
-                }
-            }).catch((err) => {
-                this.setState({
-                    vn1: true
-                });
-            });
-            postTicketjsWithDate(mang7ngay[0]).then((kq) => {
-                var tempflyno = "";
-                var tempprice = 0;
-                var tempdeptime = "";
-                var tempdestime = "";
-                var tempitem = "";
-                var dem = 0;
-                var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
-
-                for (var key1 in kq[0]) {
-
-                    if (tempdeptime == "" && tempdestime == "") {
-                        tempflyno = kq[0][key1]['air_code'];
-                        tempprice = kq[0][key1]['baseprice'];
-                        tempdeptime = kq[0][key1]['deptime'];
-                        tempdestime = kq[0][key1]['destime'];
-                        tempitem = kq[0][key1];
-                    }
-
-                    if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
-                        if (tempprice <= kq[0][key1]['baseprice']) {
-                            dem++;
-                        } else {
-                            tempflyno = kq[0][key1]['air_code'];
-                            tempprice = kq[0][key1]['baseprice'];
-                            tempdeptime = kq[0][key1]['deptime'];
-                            tempdestime = kq[0][key1]['destime'];
-                            tempitem = kq[0][key1];
-                            dem++;
-                        }
-
-                    } else {
-                        mangjson1.push(tempitem);
-                        tempflyno = kq[0][key1]['air_code'];
-                        tempprice = kq[0][key1]['baseprice'];
-                        tempdeptime = kq[0][key1]['deptime'];
-                        tempdestime = kq[0][key1]['destime'];
-                        tempitem = kq[0][key1];
-                        dem++;
-                    }
-                    if (dem === size) {
-                        mangjson1.push(tempitem);
-                    }
-                }
-                this.setState({
-                    data1: mangjson1.sort(sortedByAttr('baseprice')),
-                    js1: true
-                });
-            }).then((res) => {
-                if (this.state.js1 === true || this.state.vj1 === true || this.state.vn1 === true) {
-                    this.setState({
-                        data1: this.state.data1.sort(sortedByAttr('baseprice')),
-                        datasmallestprice1: this.state.data1[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
-                        
-                    });
-                }
-            }).catch((err) => {
-                this.setState({
-                    js1: true
-                });
-            });
-
+            this.getJsonTicketFromAPIPosition1(dep, des, adult, direction, mang7ngay[0], datedes);
             //VÉ RẺ VỊ TRÍ 2
-            postTicketvjWithDate(mang7ngay[1]).then((kq) => {
-                //mangjson.push(kq[0]);
-                var tempflyno = "";
-                var tempprice = 0;
-                var tempdeptime = "";
-                var tempdestime = "";
-                var tempitem = "";
-                var dem = 0;
-                var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
-
-                for (var key1 in kq[0]) {
-
-                    if (tempdeptime == "" && tempdestime == "") {
-                        tempflyno = kq[0][key1]['air_code'];
-                        tempprice = kq[0][key1]['baseprice'];
-                        tempdeptime = kq[0][key1]['deptime'];
-                        tempdestime = kq[0][key1]['destime'];
-                        tempitem = kq[0][key1];
-                    }
-
-                    if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
-                        if (tempprice <= kq[0][key1]['baseprice']) {
-                            dem++;
-                        } else {
-                            tempflyno = kq[0][key1]['air_code'];
-                            tempprice = kq[0][key1]['baseprice'];
-                            tempdeptime = kq[0][key1]['deptime'];
-                            tempdestime = kq[0][key1]['destime'];
-                            tempitem = kq[0][key1];
-                            dem++;
-                        }
-
-                    } else {
-                        mangjson2.push(tempitem);
-                        tempflyno = kq[0][key1]['air_code'];
-                        tempprice = kq[0][key1]['baseprice'];
-                        tempdeptime = kq[0][key1]['deptime'];
-                        tempdestime = kq[0][key1]['destime'];
-                        tempitem = kq[0][key1];
-                        dem++;
-                    }
-                    if (dem === size) {
-                        mangjson2.push(tempitem);
-                    }
-
-                }
-                this.setState({
-                    data2: mangjson2.sort(sortedByAttr('baseprice')),
-                    vj2: true
-                });
-            }).then((res) => {
-                if (this.state.js2 === true || this.state.vj2 === true || this.state.vn2 === true) {
-                    this.setState({
-                        data2: this.state.data2.sort(sortedByAttr('baseprice')),
-                        datasmallestprice2: this.state.data2[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
-                        
-                    });
-                }
-            }).catch((err) => {
-                this.setState({
-                    vj2: true
-                });
-            });
-            postTicketvnWithDate(mang7ngay[1]).then((kq) => {
-                //mangjson.push(kq[0]);
-                var tempflyno = "";
-                var tempprice = 0;
-                var tempdeptime = "";
-                var tempdestime = "";
-                var tempitem = "";
-                var dem = 0;
-                var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
-
-                for (var key1 in kq[0]) {
-
-                    if (tempdeptime == "" && tempdestime == "") {
-                        tempflyno = kq[0][key1]['air_code'];
-                        tempprice = kq[0][key1]['baseprice'];
-                        tempdeptime = kq[0][key1]['deptime'];
-                        tempdestime = kq[0][key1]['destime'];
-                        tempitem = kq[0][key1];
-                    }
-
-                    if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
-                        if (tempprice <= kq[0][key1]['baseprice']) {
-                            dem++;
-                        } else {
-                            tempflyno = kq[0][key1]['air_code'];
-                            tempprice = kq[0][key1]['baseprice'];
-                            tempdeptime = kq[0][key1]['deptime'];
-                            tempdestime = kq[0][key1]['destime'];
-                            tempitem = kq[0][key1];
-                            dem++;
-                        }
-
-                    } else {
-                        mangjson2.push(tempitem);
-                        tempflyno = kq[0][key1]['air_code'];
-                        tempprice = kq[0][key1]['baseprice'];
-                        tempdeptime = kq[0][key1]['deptime'];
-                        tempdestime = kq[0][key1]['destime'];
-                        tempitem = kq[0][key1];
-                        dem++;
-                    }
-                    if (dem === size) {
-                        mangjson2.push(tempitem);
-                    }
-
-                }
-                this.setState({
-                    data2: mangjson2.sort(sortedByAttr('baseprice')),
-                    vn2: true
-                });
-            }).then((res) => {
-                if (this.state.js2 === true || this.state.vj2 === true || this.state.vn2 === true) {
-                    this.setState({
-                        data2: this.state.data2.sort(sortedByAttr('baseprice')),
-                        datasmallestprice2: this.state.data2[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
-                        
-                    });
-                }
-            }).catch((err) => {
-                this.setState({
-                    vn2: true
-                });
-            });
-            postTicketjsWithDate(mang7ngay[1]).then((kq) => {
-                var tempflyno = "";
-                var tempprice = 0;
-                var tempdeptime = "";
-                var tempdestime = "";
-                var tempitem = "";
-                var dem = 0;
-                var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
-
-                for (var key1 in kq[0]) {
-
-                    if (tempdeptime == "" && tempdestime == "") {
-                        tempflyno = kq[0][key1]['air_code'];
-                        tempprice = kq[0][key1]['baseprice'];
-                        tempdeptime = kq[0][key1]['deptime'];
-                        tempdestime = kq[0][key1]['destime'];
-                        tempitem = kq[0][key1];
-                    }
-
-                    if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
-                        if (tempprice <= kq[0][key1]['baseprice']) {
-                            dem++;
-                        } else {
-                            tempflyno = kq[0][key1]['air_code'];
-                            tempprice = kq[0][key1]['baseprice'];
-                            tempdeptime = kq[0][key1]['deptime'];
-                            tempdestime = kq[0][key1]['destime'];
-                            tempitem = kq[0][key1];
-                            dem++;
-                        }
-
-                    } else {
-                        mangjson2.push(tempitem);
-                        tempflyno = kq[0][key1]['air_code'];
-                        tempprice = kq[0][key1]['baseprice'];
-                        tempdeptime = kq[0][key1]['deptime'];
-                        tempdestime = kq[0][key1]['destime'];
-                        tempitem = kq[0][key1];
-                        dem++;
-                    }
-                    if (dem === size) {
-                        mangjson2.push(tempitem);
-                    }
-                }
-                this.setState({
-                    data2: mangjson2.sort(sortedByAttr('baseprice')),
-                    js2: true
-                });
-            }).then((res) => {
-                if (this.state.js2 === true || this.state.vj2 === true || this.state.vn2 === true) {
-                    this.setState({
-                        data2: this.state.data2.sort(sortedByAttr('baseprice')),
-                        datasmallestprice2: this.state.data2[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
-                        
-                    });
-                }
-            }).catch((err) => {
-                this.setState({
-                    js2: true
-                });
-            });
-
+            this.getJsonTicketFromAPIPosition2(dep, des, adult, direction, mang7ngay[1], datedes);
             //VÉ RẺ VỊ TRÍ 3
-            postTicketvjWithDate(mang7ngay[2]).then((kq) => {
-                //mangjson.push(kq[0]);
-                var tempflyno = "";
-                var tempprice = 0;
-                var tempdeptime = "";
-                var tempdestime = "";
-                var tempitem = "";
-                var dem = 0;
-                var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
-
-                for (var key1 in kq[0]) {
-
-                    if (tempdeptime == "" && tempdestime == "") {
-                        tempflyno = kq[0][key1]['air_code'];
-                        tempprice = kq[0][key1]['baseprice'];
-                        tempdeptime = kq[0][key1]['deptime'];
-                        tempdestime = kq[0][key1]['destime'];
-                        tempitem = kq[0][key1];
-                    }
-
-                    if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
-                        if (tempprice <= kq[0][key1]['baseprice']) {
-                            dem++;
-                        } else {
-                            tempflyno = kq[0][key1]['air_code'];
-                            tempprice = kq[0][key1]['baseprice'];
-                            tempdeptime = kq[0][key1]['deptime'];
-                            tempdestime = kq[0][key1]['destime'];
-                            tempitem = kq[0][key1];
-                            dem++;
-                        }
-
-                    } else {
-                        mangjson3.push(tempitem);
-                        tempflyno = kq[0][key1]['air_code'];
-                        tempprice = kq[0][key1]['baseprice'];
-                        tempdeptime = kq[0][key1]['deptime'];
-                        tempdestime = kq[0][key1]['destime'];
-                        tempitem = kq[0][key1];
-                        dem++;
-                    }
-                    if (dem === size) {
-                        mangjson3.push(tempitem);
-                    }
-
-                }
-                this.setState({
-                    data3: mangjson3.sort(sortedByAttr('baseprice')),
-                    vj3: true
-                });
-            }).then((res) => {
-                if (this.state.js3 === true || this.state.vj3 === true || this.state.vn3 === true) {
-                    this.setState({
-                        data3: this.state.data3.sort(sortedByAttr('baseprice')),
-                        datasmallestprice3: this.state.data3[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
-                        
-                    });
-                }
-            }).catch((err) => {
-                this.setState({
-                    vj3: true
-                });
-            });
-            postTicketvnWithDate(mang7ngay[2]).then((kq) => {
-                //mangjson.push(kq[0]);
-                var tempflyno = "";
-                var tempprice = 0;
-                var tempdeptime = "";
-                var tempdestime = "";
-                var tempitem = "";
-                var dem = 0;
-                var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
-
-                for (var key1 in kq[0]) {
-
-                    if (tempdeptime == "" && tempdestime == "") {
-                        tempflyno = kq[0][key1]['air_code'];
-                        tempprice = kq[0][key1]['baseprice'];
-                        tempdeptime = kq[0][key1]['deptime'];
-                        tempdestime = kq[0][key1]['destime'];
-                        tempitem = kq[0][key1];
-                    }
-
-                    if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
-                        if (tempprice <= kq[0][key1]['baseprice']) {
-                            dem++;
-                        } else {
-                            tempflyno = kq[0][key1]['air_code'];
-                            tempprice = kq[0][key1]['baseprice'];
-                            tempdeptime = kq[0][key1]['deptime'];
-                            tempdestime = kq[0][key1]['destime'];
-                            tempitem = kq[0][key1];
-                            dem++;
-                        }
-
-                    } else {
-                        mangjson3.push(tempitem);
-                        tempflyno = kq[0][key1]['air_code'];
-                        tempprice = kq[0][key1]['baseprice'];
-                        tempdeptime = kq[0][key1]['deptime'];
-                        tempdestime = kq[0][key1]['destime'];
-                        tempitem = kq[0][key1];
-                        dem++;
-                    }
-                    if (dem === size) {
-                        mangjson3.push(tempitem);
-                    }
-
-                }
-                this.setState({
-                    data3: mangjson3.sort(sortedByAttr('baseprice')),
-                    vn3: true
-                });
-            }).then((res) => {
-                if (this.state.js3 === true || this.state.vj3 === true || this.state.vn3 === true) {
-                    this.setState({
-                        data3: this.state.data3.sort(sortedByAttr('baseprice')),
-                        datasmallestprice3: this.state.data3[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
-                        
-                    });
-                }
-            }).catch((err) => {
-                this.setState({
-                    vn3: true
-                });
-            });
-            postTicketjsWithDate(mang7ngay[2]).then((kq) => {
-                var tempflyno = "";
-                var tempprice = 0;
-                var tempdeptime = "";
-                var tempdestime = "";
-                var tempitem = "";
-                var dem = 0;
-                var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
-
-                for (var key1 in kq[0]) {
-
-                    if (tempdeptime == "" && tempdestime == "") {
-                        tempflyno = kq[0][key1]['air_code'];
-                        tempprice = kq[0][key1]['baseprice'];
-                        tempdeptime = kq[0][key1]['deptime'];
-                        tempdestime = kq[0][key1]['destime'];
-                        tempitem = kq[0][key1];
-                    }
-
-                    if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
-                        if (tempprice <= kq[0][key1]['baseprice']) {
-                            dem++;
-                        } else {
-                            tempflyno = kq[0][key1]['air_code'];
-                            tempprice = kq[0][key1]['baseprice'];
-                            tempdeptime = kq[0][key1]['deptime'];
-                            tempdestime = kq[0][key1]['destime'];
-                            tempitem = kq[0][key1];
-                            dem++;
-                        }
-
-                    } else {
-                        mangjson3.push(tempitem);
-                        tempflyno = kq[0][key1]['air_code'];
-                        tempprice = kq[0][key1]['baseprice'];
-                        tempdeptime = kq[0][key1]['deptime'];
-                        tempdestime = kq[0][key1]['destime'];
-                        tempitem = kq[0][key1];
-                        dem++;
-                    }
-                    if (dem === size) {
-                        mangjson3.push(tempitem);
-                    }
-                }
-                this.setState({
-                    data3: mangjson3.sort(sortedByAttr('baseprice')),
-                    js3: true
-                });
-            }).then((res) => {
-                if (this.state.js3 === true || this.state.vj3 === true || this.state.vn3 === true) {
-                    this.setState({
-                        data3: this.state.data3.sort(sortedByAttr('baseprice')),
-                        datasmallestprice3: this.state.data3[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
-                        
-                    });
-                }
-            }).catch((err) => {
-                this.setState({
-                    js3: true
-                });
-            });
-
+            this.getJsonTicketFromAPIPosition3(dep, des, adult, direction, mang7ngay[2], datedes);
             //VÉ RẺ VỊ TRÍ 4
-            postTicketvjWithDate(mang7ngay[3]).then((kq) => {
-                //mangjson.push(kq[0]);
-                var tempflyno = "";
-                var tempprice = 0;
-                var tempdeptime = "";
-                var tempdestime = "";
-                var tempitem = "";
-                var dem = 0;
-                var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
-
-                for (var key1 in kq[0]) {
-
-                    if (tempdeptime == "" && tempdestime == "") {
-                        tempflyno = kq[0][key1]['air_code'];
-                        tempprice = kq[0][key1]['baseprice'];
-                        tempdeptime = kq[0][key1]['deptime'];
-                        tempdestime = kq[0][key1]['destime'];
-                        tempitem = kq[0][key1];
-                    }
-
-                    if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
-                        if (tempprice <= kq[0][key1]['baseprice']) {
-                            dem++;
-                        } else {
-                            tempflyno = kq[0][key1]['air_code'];
-                            tempprice = kq[0][key1]['baseprice'];
-                            tempdeptime = kq[0][key1]['deptime'];
-                            tempdestime = kq[0][key1]['destime'];
-                            tempitem = kq[0][key1];
-                            dem++;
-                        }
-
-                    } else {
-                        mangjson4.push(tempitem);
-                        tempflyno = kq[0][key1]['air_code'];
-                        tempprice = kq[0][key1]['baseprice'];
-                        tempdeptime = kq[0][key1]['deptime'];
-                        tempdestime = kq[0][key1]['destime'];
-                        tempitem = kq[0][key1];
-                        dem++;
-                    }
-                    if (dem === size) {
-                        mangjson4.push(tempitem);
-                    }
-
-                }
-                this.setState({
-                    data4: mangjson4.sort(sortedByAttr('baseprice')),
-                    vj4: true
-                });
-            }).then((res) => {
-                if (this.state.js4 === true || this.state.vj4 === true || this.state.vn4 === true) {
-                    this.setState({
-                        data4: this.state.data4.sort(sortedByAttr('baseprice')),
-                        datasmallestprice4: this.state.data4[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
-                        
-                    });
-                }
-            }).catch((err) => {
-                this.setState({
-                    vj4: true
-                });
-            });
-            postTicketvnWithDate(mang7ngay[3]).then((kq) => {
-                //mangjson.push(kq[0]);
-                var tempflyno = "";
-                var tempprice = 0;
-                var tempdeptime = "";
-                var tempdestime = "";
-                var tempitem = "";
-                var dem = 0;
-                var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
-
-                for (var key1 in kq[0]) {
-
-                    if (tempdeptime == "" && tempdestime == "") {
-                        tempflyno = kq[0][key1]['air_code'];
-                        tempprice = kq[0][key1]['baseprice'];
-                        tempdeptime = kq[0][key1]['deptime'];
-                        tempdestime = kq[0][key1]['destime'];
-                        tempitem = kq[0][key1];
-                    }
-
-                    if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
-                        if (tempprice <= kq[0][key1]['baseprice']) {
-                            dem++;
-                        } else {
-                            tempflyno = kq[0][key1]['air_code'];
-                            tempprice = kq[0][key1]['baseprice'];
-                            tempdeptime = kq[0][key1]['deptime'];
-                            tempdestime = kq[0][key1]['destime'];
-                            tempitem = kq[0][key1];
-                            dem++;
-                        }
-
-                    } else {
-                        mangjson4.push(tempitem);
-                        tempflyno = kq[0][key1]['air_code'];
-                        tempprice = kq[0][key1]['baseprice'];
-                        tempdeptime = kq[0][key1]['deptime'];
-                        tempdestime = kq[0][key1]['destime'];
-                        tempitem = kq[0][key1];
-                        dem++;
-                    }
-                    if (dem === size) {
-                        mangjson4.push(tempitem);
-                    }
-
-                }
-                this.setState({
-                    data4: mangjson4.sort(sortedByAttr('baseprice')),
-                    vn4: true
-                });
-            }).then((res) => {
-                if (this.state.js4 === true || this.state.vj4 === true || this.state.vn4 === true) {
-                    this.setState({
-                        data4: this.state.data4.sort(sortedByAttr('baseprice')),
-                        datasmallestprice4: this.state.data4[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
-                        
-                    });
-                }
-            }).catch((err) => {
-                this.setState({
-                    vn4: true
-                });
-            });
-            postTicketjsWithDate(mang7ngay[3]).then((kq) => {
-                var tempflyno = "";
-                var tempprice = 0;
-                var tempdeptime = "";
-                var tempdestime = "";
-                var tempitem = "";
-                var dem = 0;
-                var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
-
-                for (var key1 in kq[0]) {
-
-                    if (tempdeptime == "" && tempdestime == "") {
-                        tempflyno = kq[0][key1]['air_code'];
-                        tempprice = kq[0][key1]['baseprice'];
-                        tempdeptime = kq[0][key1]['deptime'];
-                        tempdestime = kq[0][key1]['destime'];
-                        tempitem = kq[0][key1];
-                    }
-
-                    if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
-                        if (tempprice <= kq[0][key1]['baseprice']) {
-                            dem++;
-                        } else {
-                            tempflyno = kq[0][key1]['air_code'];
-                            tempprice = kq[0][key1]['baseprice'];
-                            tempdeptime = kq[0][key1]['deptime'];
-                            tempdestime = kq[0][key1]['destime'];
-                            tempitem = kq[0][key1];
-                            dem++;
-                        }
-
-                    } else {
-                        mangjson4.push(tempitem);
-                        tempflyno = kq[0][key1]['air_code'];
-                        tempprice = kq[0][key1]['baseprice'];
-                        tempdeptime = kq[0][key1]['deptime'];
-                        tempdestime = kq[0][key1]['destime'];
-                        tempitem = kq[0][key1];
-                        dem++;
-                    }
-                    if (dem === size) {
-                        mangjson4.push(tempitem);
-                    }
-                }
-                this.setState({
-                    data3: mangjson4.sort(sortedByAttr('baseprice')),
-                    js4: true
-                });
-            }).then((res) => {
-                if (this.state.js4 === true || this.state.vj4 === true || this.state.vn4 === true) {
-                    this.setState({
-                        data4: this.state.data4.sort(sortedByAttr('baseprice')),
-                        datasmallestprice4: this.state.data4[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
-                        
-                    });
-                }
-            }).catch((err) => {
-                this.setState({
-                    js4: true
-                });
-            });
-
+            this.getJsonTicketFromAPIPosition4(dep, des, adult, direction, mang7ngay[3], datedes);
             //VÉ RẺ VỊ TRÍ 5
-            postTicketvjWithDate(mang7ngay[4]).then((kq) => {
-                //mangjson.push(kq[0]);
-                var tempflyno = "";
-                var tempprice = 0;
-                var tempdeptime = "";
-                var tempdestime = "";
-                var tempitem = "";
-                var dem = 0;
-                var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
-
-                for (var key1 in kq[0]) {
-
-                    if (tempdeptime == "" && tempdestime == "") {
-                        tempflyno = kq[0][key1]['air_code'];
-                        tempprice = kq[0][key1]['baseprice'];
-                        tempdeptime = kq[0][key1]['deptime'];
-                        tempdestime = kq[0][key1]['destime'];
-                        tempitem = kq[0][key1];
-                    }
-
-                    if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
-                        if (tempprice <= kq[0][key1]['baseprice']) {
-                            dem++;
-                        } else {
-                            tempflyno = kq[0][key1]['air_code'];
-                            tempprice = kq[0][key1]['baseprice'];
-                            tempdeptime = kq[0][key1]['deptime'];
-                            tempdestime = kq[0][key1]['destime'];
-                            tempitem = kq[0][key1];
-                            dem++;
-                        }
-
-                    } else {
-                        mangjson5.push(tempitem);
-                        tempflyno = kq[0][key1]['air_code'];
-                        tempprice = kq[0][key1]['baseprice'];
-                        tempdeptime = kq[0][key1]['deptime'];
-                        tempdestime = kq[0][key1]['destime'];
-                        tempitem = kq[0][key1];
-                        dem++;
-                    }
-                    if (dem === size) {
-                        mangjson5.push(tempitem);
-                    }
-
-                }
-                this.setState({
-                    data5: mangjson5.sort(sortedByAttr('baseprice')),
-                    vj5: true
-                });
-            }).then((res) => {
-                if (this.state.js5 === true || this.state.vj5 === true || this.state.vn5 === true) {
-                    this.setState({
-                        data5: this.state.data5.sort(sortedByAttr('baseprice')),
-                        datasmallestprice5: this.state.data5[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
-                        
-                    });
-                }
-            }).catch((err) => {
-                this.setState({
-                    vj5: true
-                });
-            });
-            postTicketvnWithDate(mang7ngay[4]).then((kq) => {
-                //mangjson.push(kq[0]);
-                var tempflyno = "";
-                var tempprice = 0;
-                var tempdeptime = "";
-                var tempdestime = "";
-                var tempitem = "";
-                var dem = 0;
-                var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
-
-                for (var key1 in kq[0]) {
-
-                    if (tempdeptime == "" && tempdestime == "") {
-                        tempflyno = kq[0][key1]['air_code'];
-                        tempprice = kq[0][key1]['baseprice'];
-                        tempdeptime = kq[0][key1]['deptime'];
-                        tempdestime = kq[0][key1]['destime'];
-                        tempitem = kq[0][key1];
-                    }
-
-                    if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
-                        if (tempprice <= kq[0][key1]['baseprice']) {
-                            dem++;
-                        } else {
-                            tempflyno = kq[0][key1]['air_code'];
-                            tempprice = kq[0][key1]['baseprice'];
-                            tempdeptime = kq[0][key1]['deptime'];
-                            tempdestime = kq[0][key1]['destime'];
-                            tempitem = kq[0][key1];
-                            dem++;
-                        }
-
-                    } else {
-                        mangjson5.push(tempitem);
-                        tempflyno = kq[0][key1]['air_code'];
-                        tempprice = kq[0][key1]['baseprice'];
-                        tempdeptime = kq[0][key1]['deptime'];
-                        tempdestime = kq[0][key1]['destime'];
-                        tempitem = kq[0][key1];
-                        dem++;
-                    }
-                    if (dem === size) {
-                        mangjson5.push(tempitem);
-                    }
-
-                }
-                this.setState({
-                    data5: mangjson5.sort(sortedByAttr('baseprice')),
-                    vn5: true
-                });
-            }).then((res) => {
-                if (this.state.js5 === true || this.state.vj5 === true || this.state.vn5 === true) {
-                    this.setState({
-                        data5: this.state.data5.sort(sortedByAttr('baseprice')),
-                        datasmallestprice5: this.state.data5[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
-                        
-                    });
-                }
-            }).catch((err) => {
-                this.setState({
-                    vn5: true
-                });
-            });
-            postTicketjsWithDate(mang7ngay[4]).then((kq) => {
-                var tempflyno = "";
-                var tempprice = 0;
-                var tempdeptime = "";
-                var tempdestime = "";
-                var tempitem = "";
-                var dem = 0;
-                var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
-
-                for (var key1 in kq[0]) {
-
-                    if (tempdeptime == "" && tempdestime == "") {
-                        tempflyno = kq[0][key1]['air_code'];
-                        tempprice = kq[0][key1]['baseprice'];
-                        tempdeptime = kq[0][key1]['deptime'];
-                        tempdestime = kq[0][key1]['destime'];
-                        tempitem = kq[0][key1];
-                    }
-
-                    if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
-                        if (tempprice <= kq[0][key1]['baseprice']) {
-                            dem++;
-                        } else {
-                            tempflyno = kq[0][key1]['air_code'];
-                            tempprice = kq[0][key1]['baseprice'];
-                            tempdeptime = kq[0][key1]['deptime'];
-                            tempdestime = kq[0][key1]['destime'];
-                            tempitem = kq[0][key1];
-                            dem++;
-                        }
-
-                    } else {
-                        mangjson5.push(tempitem);
-                        tempflyno = kq[0][key1]['air_code'];
-                        tempprice = kq[0][key1]['baseprice'];
-                        tempdeptime = kq[0][key1]['deptime'];
-                        tempdestime = kq[0][key1]['destime'];
-                        tempitem = kq[0][key1];
-                        dem++;
-                    }
-                    if (dem === size) {
-                        mangjson5.push(tempitem);
-                    }
-                }
-                this.setState({
-                    data3: mangjson5.sort(sortedByAttr('baseprice')),
-                    js5: true
-                });
-            }).then((res) => {
-                if (this.state.js5 === true || this.state.vj5 === true || this.state.vn5 === true) {
-                    this.setState({
-                        data5: this.state.data5.sort(sortedByAttr('baseprice')),
-                        datasmallestprice5: this.state.data5[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
-                        
-                    });
-                }
-            }).catch((err) => {
-                this.setState({
-                    js5: true
-                });
-            });
-
+            this.getJsonTicketFromAPIPosition5(dep, des, adult, direction, mang7ngay[4], datedes);
             //VÉ RẺ VỊ TRÍ 6
-            postTicketvjWithDate(mang7ngay[5]).then((kq) => {
-                //mangjson.push(kq[0]);
-                var tempflyno = "";
-                var tempprice = 0;
-                var tempdeptime = "";
-                var tempdestime = "";
-                var tempitem = "";
-                var dem = 0;
-                var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+            this.getJsonTicketFromAPIPosition6(dep, des, adult, direction, mang7ngay[5], datedes);
 
-                for (var key1 in kq[0]) {
 
-                    if (tempdeptime == "" && tempdestime == "") {
-                        tempflyno = kq[0][key1]['air_code'];
-                        tempprice = kq[0][key1]['baseprice'];
-                        tempdeptime = kq[0][key1]['deptime'];
-                        tempdestime = kq[0][key1]['destime'];
-                        tempitem = kq[0][key1];
-                    }
-
-                    if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
-                        if (tempprice <= kq[0][key1]['baseprice']) {
-                            dem++;
-                        } else {
-                            tempflyno = kq[0][key1]['air_code'];
-                            tempprice = kq[0][key1]['baseprice'];
-                            tempdeptime = kq[0][key1]['deptime'];
-                            tempdestime = kq[0][key1]['destime'];
-                            tempitem = kq[0][key1];
-                            dem++;
-                        }
-
-                    } else {
-                        mangjson6.push(tempitem);
-                        tempflyno = kq[0][key1]['air_code'];
-                        tempprice = kq[0][key1]['baseprice'];
-                        tempdeptime = kq[0][key1]['deptime'];
-                        tempdestime = kq[0][key1]['destime'];
-                        tempitem = kq[0][key1];
-                        dem++;
-                    }
-                    if (dem === size) {
-                        mangjson6.push(tempitem);
-                    }
-
+            if(direction == 1){
+               this.getJsonTicketFromAPIKhuHoi(des, dep, adult, direction, datedes, datedep);
+               // get data from other day Khứ hồi
+            var daychooseKhuHoi = localStorage.getItem('datedes') ? localStorage.getItem('datedes') : localStorage.getItem('datedep');
+            var mang7ngaykhuhoi = [];
+            for (var i = 1; i <= 7; i++) {
+                var newdate = new Date(daychooseKhuHoi.split("-").reverse().join("-"));
+                var newdateplus1 = newdate.setDate(newdate.getDate() - 4 + i);
+                var testdate = new Date(newdateplus1);
+                var formattedDate = formatDate(testdate);
+                if (formattedDate != daychooseKhuHoi) {
+                    mang7ngaykhuhoi.push(formattedDate);
                 }
-                this.setState({
-                    data6: mangjson6.sort(sortedByAttr('baseprice')),
-                    vj6: true
-                });
-            }).then((res) => {
-                if (this.state.js6 === true || this.state.vj6 === true || this.state.vn6 === true) {
-                    this.setState({
-                        data6: this.state.data6.sort(sortedByAttr('baseprice')),
-                        datasmallestprice6: this.state.data6[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
-                        
-                    });
-                }
-            }).catch((err) => {
-                this.setState({
-                    vj6: true
-                });
-            });
-            postTicketvnWithDate(mang7ngay[5]).then((kq) => {
-                //mangjson.push(kq[0]);
-                var tempflyno = "";
-                var tempprice = 0;
-                var tempdeptime = "";
-                var tempdestime = "";
-                var tempitem = "";
-                var dem = 0;
-                var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+            }
 
-                for (var key1 in kq[0]) {
-
-                    if (tempdeptime == "" && tempdestime == "") {
-                        tempflyno = kq[0][key1]['air_code'];
-                        tempprice = kq[0][key1]['baseprice'];
-                        tempdeptime = kq[0][key1]['deptime'];
-                        tempdestime = kq[0][key1]['destime'];
-                        tempitem = kq[0][key1];
-                    }
-
-                    if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
-                        if (tempprice <= kq[0][key1]['baseprice']) {
-                            dem++;
-                        } else {
-                            tempflyno = kq[0][key1]['air_code'];
-                            tempprice = kq[0][key1]['baseprice'];
-                            tempdeptime = kq[0][key1]['deptime'];
-                            tempdestime = kq[0][key1]['destime'];
-                            tempitem = kq[0][key1];
-                            dem++;
-                        }
-
-                    } else {
-                        mangjson6.push(tempitem);
-                        tempflyno = kq[0][key1]['air_code'];
-                        tempprice = kq[0][key1]['baseprice'];
-                        tempdeptime = kq[0][key1]['deptime'];
-                        tempdestime = kq[0][key1]['destime'];
-                        tempitem = kq[0][key1];
-                        dem++;
-                    }
-                    if (dem === size) {
-                        mangjson6.push(tempitem);
-                    }
-
-                }
-                this.setState({
-                    data6: mangjson6.sort(sortedByAttr('baseprice')),
-                    vn6: true
-                });
-            }).then((res) => {
-                if (this.state.js6 === true || this.state.vj6 === true || this.state.vn6 === true) {
-                    this.setState({
-                        data6: this.state.data6.sort(sortedByAttr('baseprice')),
-                        datasmallestprice6: this.state.data6[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
-                        
-                    });
-                }
-            }).catch((err) => {
-                this.setState({
-                    vn6: true
-                });
-            });
-            postTicketjsWithDate(mang7ngay[5]).then((kq) => {
-                var tempflyno = "";
-                var tempprice = 0;
-                var tempdeptime = "";
-                var tempdestime = "";
-                var tempitem = "";
-                var dem = 0;
-                var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
-
-                for (var key1 in kq[0]) {
-
-                    if (tempdeptime == "" && tempdestime == "") {
-                        tempflyno = kq[0][key1]['air_code'];
-                        tempprice = kq[0][key1]['baseprice'];
-                        tempdeptime = kq[0][key1]['deptime'];
-                        tempdestime = kq[0][key1]['destime'];
-                        tempitem = kq[0][key1];
-                    }
-
-                    if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
-                        if (tempprice <= kq[0][key1]['baseprice']) {
-                            dem++;
-                        } else {
-                            tempflyno = kq[0][key1]['air_code'];
-                            tempprice = kq[0][key1]['baseprice'];
-                            tempdeptime = kq[0][key1]['deptime'];
-                            tempdestime = kq[0][key1]['destime'];
-                            tempitem = kq[0][key1];
-                            dem++;
-                        }
-
-                    } else {
-                        mangjson6.push(tempitem);
-                        tempflyno = kq[0][key1]['air_code'];
-                        tempprice = kq[0][key1]['baseprice'];
-                        tempdeptime = kq[0][key1]['deptime'];
-                        tempdestime = kq[0][key1]['destime'];
-                        tempitem = kq[0][key1];
-                        dem++;
-                    }
-                    if (dem === size) {
-                        mangjson6.push(tempitem);
-                    }
-                }
-                this.setState({
-                    data3: mangjson6.sort(sortedByAttr('baseprice')),
-                    js6: true
-                });
-            }).then((res) => {
-                if (this.state.js6 === true || this.state.vj6 === true || this.state.vn6 === true) {
-                    this.setState({
-                        data6: this.state.data6.sort(sortedByAttr('baseprice')),
-                        datasmallestprice6: this.state.data6[0].baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
-                        
-                    });
-                }
-            }).catch((err) => {
-                this.setState({
-                    js6: true
-                });
-            });
-
-
-
-
+            //VÉ RẺ VỊ TRÍ 1 KHỨ HỒI
+            this.getJsonTicketFromAPIPosition1KhuHoi(dep, des, adult, direction, mang7ngaykhuhoi[0], datedes);
+            //VÉ RẺ VỊ TRÍ 2 KHỨ HỒI
+            this.getJsonTicketFromAPIPosition2KhuHoi(dep, des, adult, direction, mang7ngaykhuhoi[1], datedes);
+            //VÉ RẺ VỊ TRÍ 3 KHỨ HỒI
+            this.getJsonTicketFromAPIPosition3KhuHoi(dep, des, adult, direction, mang7ngaykhuhoi[2], datedes);
+            //VÉ RẺ VỊ TRÍ 4 KHỨ HỒI
+            this.getJsonTicketFromAPIPosition4KhuHoi(dep, des, adult, direction, mang7ngaykhuhoi[3], datedes);
+            //VÉ RẺ VỊ TRÍ 5 KHỨ HỒI
+            this.getJsonTicketFromAPIPosition5KhuHoi(dep, des, adult, direction, mang7ngaykhuhoi[4], datedes);
+            //VÉ RẺ VỊ TRÍ 6 KHỨ HỒI
+            this.getJsonTicketFromAPIPosition6KhuHoi(dep, des, adult, direction, mang7ngaykhuhoi[5], datedes);
+            }
         }
 
     }
@@ -1516,11 +2926,41 @@ class BookingContent extends Component {
         localStorage.setItem("datedep", parts[0]);
         window.location.reload();
     }
+    handleClickKhuHoi = (event) => {
+        var parts = event.target.value.split(" ");
+        localStorage.setItem("datedes", parts[0]);
+        window.location.reload();
+    }
 
     printData = () => {
         if (this.state.data !== null) {
 
             return this.state.data.map((value, key) =>
+                (
+                    <BookingItem
+                        key={key}
+                        flightid={value.flightid}
+                        flightno={value.flightno}
+                        aircode={value.air_code}
+                        airline={value.airline}
+                        baseprice={value.baseprice}
+                        datefull={value.datefull}
+                        depcode={value.depcode}
+                        descode={value.descode}
+                        deptime={value.deptime}
+                        destime={value.destime}
+                        duration={value.duration}
+                        datefull={value.datefull}
+                    />
+                )
+            );
+        }
+    }
+
+    printDataKhuHoi = () => {
+        if (this.state.datakhuhoi !== null) {
+
+            return this.state.datakhuhoi.map((value, key) =>
                 (
                     <BookingItem
                         key={key}
@@ -1554,6 +2994,17 @@ class BookingContent extends Component {
             mang7ngay.push(formattedDate);
         }
         var demvitri = 0;
+
+        var daychoosedforloopkhuhoi = localStorage.getItem('datedes') ? localStorage.getItem('datedes') : localStorage.getItem('datedep');
+        var mang7ngaykhuhoi = [];
+        for (var i = 1; i <= 7; i++) {
+            var newdate = new Date(daychoosedforloopkhuhoi.split("-").reverse().join("-"));
+            var newdateplus1 = newdate.setDate(newdate.getDate() - 4 + i);
+            var testdate = new Date(newdateplus1);
+            var formattedDate = formatDate(testdate);
+            mang7ngaykhuhoi.push(formattedDate);
+        }
+        var demvitrikhuhoi = 0;
         return (
             <div className="iw-tour-listing">
                 <div className="iw-tours-content">
@@ -1642,20 +3093,111 @@ class BookingContent extends Component {
 
 
                                         </div>
-                                        
+
                                         <div className="clearfix" />
                                     </form>
                                 </div>
                                 <div className="tour-listing-row">
                                     {this.state.data !== null && this.state.data.length !== 0 ? this.printData() : this.state.notData}
+                                </div>
+                                {
+                                    this.state.direction == 1 ?
+                                        <React.Fragment>
+                                            <h3 style={{ "color": "black" }} className="">Chặng bay khứ hồi {localStorage.getItem("des")} → {localStorage.getItem("dep")} ngày {localStorage.getItem("datedes")}</h3>
+                                            <div className="tour-order-layout-form">
+                                                <form >
+                                                    <div className="col-sm-12 col-xs-12 col-lg-12 col-md-12" style={{ "marginBottom": "5px" }}>
+                                                        {
+
+                                                            mang7ngaykhuhoi.map((i, k) => {
+                                                                if (compareTwoDay(i).getTime() < compareTwoDay(getTodayddmmyyyy()).getTime()) {
+                                                                    demvitrikhuhoi++;
+                                                                    return (
+                                                                        <div key={k} className=" col-md-1-chia7" >
+                                                                            <input type="button" style={{ "padding": "6px 12px" }} className="btn disabled btn-block btn-info" value={i} />
+                                                                        </div>
+                                                                    )
+                                                                } else {
+                                                                    if (compareTwoDay(i).getTime() == compareTwoDay(daychoosedforloopkhuhoi).getTime()) {
+                                                                        demvitrikhuhoi++;
+                                                                        return (
+                                                                            <div key={k} className=" col-md-1-chia7" >
+                                                                                <input type="button" onClick={(event) => { this.handleClickKhuHoi(event) }} style={{ "padding": "6px 12px" }} className="btn btn-block btn-primary newlinebtn" value={this.state.datasmallestpricekhuhoi !== null ? daychoosedforloopkhuhoi + " " + this.state.datasmallestpricekhuhoi + " VND" : daychoosedforloopkhuhoi} />
+                                                                            </div>
+                                                                        )
+                                                                    } else {
+                                                                        if (demvitrikhuhoi == 0) {
+                                                                            demvitrikhuhoi++;
+                                                                            return (
+                                                                                <div key={k} className=" col-md-1-chia7" >
+                                                                                    <input onClick={(event) => { this.handleClickKhuHoi(event) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={this.state.datasmallestprice1khuhoi !== null ? i + " " + this.state.datasmallestprice1khuhoi + " VND" : i} />
+                                                                                </div>
+                                                                            )
+                                                                        }
+                                                                        if (demvitrikhuhoi == 1) {
+                                                                            demvitrikhuhoi++;
+                                                                            return (
+                                                                                <div key={k} className=" col-md-1-chia7" >
+                                                                                    <input onClick={(event) => { this.handleClickKhuHoi(event) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={this.state.datasmallestprice2khuhoi !== null ? i + " " + this.state.datasmallestprice2khuhoi + " VND" : i} />
+                                                                                </div>
+                                                                            )
+                                                                        }
+                                                                        if (demvitrikhuhoi == 2) {
+                                                                            demvitrikhuhoi++;
+                                                                            return (
+                                                                                <div key={k} className=" col-md-1-chia7" >
+                                                                                    <input onClick={(event) => { this.handleClickKhuHoi(event) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={this.state.datasmallestprice3khuhoi !== null ? i + " " + this.state.datasmallestprice3khuhoi + " VND" : i} />
+                                                                                </div>
+                                                                            )
+                                                                        }
+                                                                        if (demvitrikhuhoi == 4) {
+                                                                            demvitrikhuhoi++;
+                                                                            return (
+                                                                                <div key={k} className=" col-md-1-chia7" >
+                                                                                    <input onClick={(event) => { this.handleClickKhuHoi(event) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={this.state.datasmallestprice4khuhoi !== null ? i + " " + this.state.datasmallestprice4khuhoi + " VND" : i} />
+                                                                                </div>
+                                                                            )
+                                                                        }
+                                                                        if (demvitrikhuhoi == 5) {
+                                                                            demvitrikhuhoi++;
+                                                                            return (
+                                                                                <div key={k} className=" col-md-1-chia7" >
+                                                                                    <input onClick={(event) => { this.handleClickKhuHoi(event) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={this.state.datasmallestprice5khuhoi !== null ? i + " " + this.state.datasmallestprice5khuhoi + " VND" : i} />
+                                                                                </div>
+                                                                            )
+                                                                        }
+                                                                        if (demvitrikhuhoi == 6) {
+                                                                            demvitrikhuhoi++;
+                                                                            return (
+                                                                                <div key={k} className=" col-md-1-chia7" >
+                                                                                    <input onClick={(event) => { this.handleClickKhuHoi(event) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={this.state.datasmallestprice6khuhoi !== null ? i + " " + this.state.datasmallestprice6khuhoi + " VND" : i} />
+                                                                                </div>
+                                                                            )
+                                                                        }
+
+                                                                    }
+
+                                                                }
+
+                                                            })
+
+                                                        }
 
 
-                                </div>
-                                <div className="page-nav">
-                                    <span className="page-numbers current">1</span>
-                                    <a className="page-numbers" href="http://inwavethemes.com/wordpress/intravel/home/tours/page/2/?layout=list">2</a>
-                                    <a className="next page-numbers" href="http://inwavethemes.com/wordpress/intravel/home/tours/page/2/?layout=list"><i className="fa fa-angle-right" /></a>                        <div style={{ clear: 'both' }} />
-                                </div>
+                                                    </div>
+
+                                                    <div className="clearfix" />
+                                                </form>
+                                            </div>
+                                            <div className="tour-listing-row">
+                                                {this.state.data !== null && this.state.data.length !== 0 ? this.printDataKhuHoi() : this.state.notData}
+                                            </div>
+                                        </React.Fragment>
+                                        :
+                                        ""
+                                }
+
+
                             </div>
                             <div className="col-sm-12 col-xs-12 col-lg-3 col-md-4 tour-sidebar">
                                 <aside id="it-search-form-14" className="widget widget_tour_search_form"><h3 className="widget-title"><span>FIND YOUR TOURS</span></h3>        <div className="tour-search-form-wrap">
