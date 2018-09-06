@@ -9,7 +9,7 @@ class MenuDesktop extends Component {
                         <div className="col-md-4 col-sm-6 col-xs-6">
                             <h1 className="iw-logo">
                                 <a href="/wordpress/intravel/home/">
-                                    <img className="sticky-logo" src="images/logo_sticky.png" />
+                                    <img alt="test" className="sticky-logo" src="images/logo_sticky.png" />
                                 </a>
                             </h1>
                         </div>

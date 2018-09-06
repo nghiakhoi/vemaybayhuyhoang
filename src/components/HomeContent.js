@@ -35,7 +35,7 @@ class HomeContent extends Component {
                                                         <div className="iw-tour-item">
                                                             <div className="tour-discount">7%</div>
                                                             <div className="image-wrap">
-                                                                <img src="images/tour_amsterdam_2-370x255.jpg" />
+                                                                <img alt="test" src="images/tour_amsterdam_2-370x255.jpg" />
                                                                 <div className="booking-action">
                                                                     <a className="link-to-detail theme-bg" href="/wordpress/intravel/home/tours/4-day-tour-of-amsterdam-and-zaanse-schans/">
                                                                         Book now </a>
@@ -70,7 +70,7 @@ class HomeContent extends Component {
                                                         <div className="iw-tour-item">
                                                             <div className="tour-discount">33%</div>
                                                             <div className="image-wrap">
-                                                                <img src="/wordpress/intravel/wp-content/uploads/2016/06/tour_san_francisco_1-370x255.jpg" />
+                                                                <img alt="test" src="/wordpress/intravel/wp-content/uploads/2016/06/tour_san_francisco_1-370x255.jpg" />
                                                                 <div className="booking-action">
                                                                     <a className="link-to-detail theme-bg" href="/wordpress/intravel/home/tours/2-day-yosemite-national-park-tour-from-san-francisco/">
                                                                         Book now </a>
@@ -105,7 +105,7 @@ class HomeContent extends Component {
                                                         <div className="iw-tour-item">
                                                             <div className="tour-discount">10%</div>
                                                             <div className="image-wrap">
-                                                                <img src="/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_france-370x255.jpg" />
+                                                                <img alt="test" src="/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_france-370x255.jpg" />
                                                                 <div className="booking-action">
                                                                     <a className="link-to-detail theme-bg" href="/wordpress/intravel/home/tours/3-day-normandy-st-malo-mont-saint-michel-tour-from-paris/">
                                                                         Book now </a>
@@ -141,7 +141,7 @@ class HomeContent extends Component {
                                                         <div className="iw-tour-item">
                                                             <div className="tour-discount">25%</div>
                                                             <div className="image-wrap">
-                                                                <img src="/wordpress/intravel/wp-content/uploads/2016/06/tour_venice_1-370x255.jpg" />
+                                                                <img alt="test" src="/wordpress/intravel/wp-content/uploads/2016/06/tour_venice_1-370x255.jpg" />
                                                                 <div className="booking-action">
                                                                     <a className="link-to-detail theme-bg" href="/wordpress/intravel/home/tours/5-night-the-magic-of-venice-tour/">
                                                                         Book now </a>
@@ -176,7 +176,7 @@ class HomeContent extends Component {
                                                         <div className="iw-tour-item">
                                                             <div className="tour-discount">30%</div>
                                                             <div className="image-wrap">
-                                                                <img src="/wordpress/intravel/wp-content/uploads/2016/09/tour_san_francisco_2_1-370x255.jpg" />
+                                                                <img alt="test" src="/wordpress/intravel/wp-content/uploads/2016/09/tour_san_francisco_2_1-370x255.jpg" />
                                                                 <div className="booking-action">
                                                                     <a className="link-to-detail theme-bg" href="/wordpress/intravel/home/tours/2-day-monterey-carmel-and-pebble-beach-tour-from-san-francisco/">
                                                                         Book now </a>
@@ -212,7 +212,7 @@ class HomeContent extends Component {
                                                         <div className="iw-tour-item">
                                                             <div className="tour-discount">10%</div>
                                                             <div className="image-wrap">
-                                                                <img src="/wordpress/intravel/wp-content/uploads/2016/09/tour_dubai_hot_ballon_1-370x255.jpg" />
+                                                                <img alt="test" src="/wordpress/intravel/wp-content/uploads/2016/09/tour_dubai_hot_ballon_1-370x255.jpg" />
                                                                 <div className="booking-action">
                                                                     <a className="link-to-detail theme-bg" href="/wordpress/intravel/home/tours/4-hours-dubai-hot-air-balloon-flight/">
                                                                         Book now </a>
@@ -258,7 +258,7 @@ class HomeContent extends Component {
                                             <div className="row">
                                                 <div className="col-md-4 col-sm-12 col-xs-12 iw-video">
                                                     <div className="tour-type-img iw-effect-1">
-                                                        <img src="/wordpress/intravel/wp-content/uploads/2016/09/bg_video_home3-600x800.jpg" />
+                                                        <img alt="test" src="/wordpress/intravel/wp-content/uploads/2016/09/bg_video_home3-600x800.jpg" />
                                                     </div>
                                                     <button type="button" className="btn btn-info btn-lg open-popup" data-toggle="modal" data-target="#myModal">
                                                         <i className="icon ion-ios-play-outline" />
@@ -282,11 +282,11 @@ class HomeContent extends Component {
                                                         <div className="col-md-4 col-sm-4 col-xs-12 tour-type-item iw-effect-img">
                                                             <div className="tour-type">
                                                                 <div className="tour-type-img effect-1">
-                                                                    <img src="/wordpress/intravel/wp-content/uploads/2016/09/tour_type_adventure.jpg" />
+                                                                    <img alt="test" src="/wordpress/intravel/wp-content/uploads/2016/09/tour_type_adventure.jpg" />
                                                                 </div>
                                                                 <div className="tour-type-info">
                                                                     <div className="tour-type-icon">
-                                                                        <img src="/wordpress/intravel/wp-content/uploads/2016/10/tour_icon_adventure-1-60x60.png" />
+                                                                        <img alt="test" src="/wordpress/intravel/wp-content/uploads/2016/10/tour_icon_adventure-1-60x60.png" />
                                                                     </div>
                                                                     <h3>Adventure Travel</h3>
                                                                     <div className="tour-type-description">Lorem Ipsum is simply dummy text of the printing</div>
@@ -301,11 +301,11 @@ class HomeContent extends Component {
                                                         <div className="col-md-4 col-sm-4 col-xs-12 tour-type-item iw-effect-img">
                                                             <div className="tour-type">
                                                                 <div className="tour-type-img effect-1">
-                                                                    <img src="/wordpress/intravel/wp-content/uploads/2016/09/tour_type_beach_sea.jpg" />
+                                                                    <img alt="test" src="/wordpress/intravel/wp-content/uploads/2016/09/tour_type_beach_sea.jpg" />
                                                                 </div>
                                                                 <div className="tour-type-info">
                                                                     <div className="tour-type-icon">
-                                                                        <img src="/wordpress/intravel/wp-content/uploads/2016/10/tour_icon_beaches-60x60.png" />
+                                                                        <img alt="test" src="/wordpress/intravel/wp-content/uploads/2016/10/tour_icon_beaches-60x60.png" />
                                                                     </div>
                                                                     <h3>Beaches &amp; Islands</h3>
                                                                     <div className="tour-type-description">Lorem Ipsum is simply dummy text of the printing</div>
@@ -320,11 +320,11 @@ class HomeContent extends Component {
                                                         <div className="col-md-4 col-sm-4 col-xs-12 tour-type-item iw-effect-img">
                                                             <div className="tour-type">
                                                                 <div className="tour-type-img effect-1">
-                                                                    <img src="/wordpress/intravel/wp-content/uploads/2016/09/tour_type_family.jpg" />
+                                                                    <img alt="test" src="/wordpress/intravel/wp-content/uploads/2016/09/tour_type_family.jpg" />
                                                                 </div>
                                                                 <div className="tour-type-info">
                                                                     <div className="tour-type-icon">
-                                                                        <img src="/wordpress/intravel/wp-content/uploads/2016/10/tour_icon_family-60x60.png" />
+                                                                        <img alt="test" src="/wordpress/intravel/wp-content/uploads/2016/10/tour_icon_family-60x60.png" />
                                                                     </div>
                                                                     <h3>Family Tours</h3>
                                                                     <div className="tour-type-description">Lorem Ipsum is simply dummy text of the printing</div>
@@ -341,11 +341,11 @@ class HomeContent extends Component {
                                                         <div className="col-md-4 col-sm-4 col-xs-12 tour-type-item iw-effect-img">
                                                             <div className="tour-type">
                                                                 <div className="tour-type-img effect-1">
-                                                                    <img src="/wordpress/intravel/wp-content/uploads/2016/10/tour_culture_-tours.jpg" />
+                                                                    <img alt="test" src="/wordpress/intravel/wp-content/uploads/2016/10/tour_culture_-tours.jpg" />
                                                                 </div>
                                                                 <div className="tour-type-info">
                                                                     <div className="tour-type-icon">
-                                                                        <img src="/wordpress/intravel/wp-content/uploads/2016/10/tour_icon_history-60x60.png" />
+                                                                        <img alt="test" src="/wordpress/intravel/wp-content/uploads/2016/10/tour_icon_history-60x60.png" />
                                                                     </div>
                                                                     <h3>History &amp; Culture</h3>
                                                                     <div className="tour-type-description">Lorem Ipsum is simply dummy text of the printing</div>
@@ -360,11 +360,11 @@ class HomeContent extends Component {
                                                         <div className="col-md-4 col-sm-4 col-xs-12 tour-type-item iw-effect-img">
                                                             <div className="tour-type">
                                                                 <div className="tour-type-img effect-1">
-                                                                    <img src="/wordpress/intravel/wp-content/uploads/2016/09/tour_type_wild_life.jpg" />
+                                                                    <img alt="test" src="/wordpress/intravel/wp-content/uploads/2016/09/tour_type_wild_life.jpg" />
                                                                 </div>
                                                                 <div className="tour-type-info">
                                                                     <div className="tour-type-icon">
-                                                                        <img src="/wordpress/intravel/wp-content/uploads/2016/10/tour_icon_nature-60x60.png" />
+                                                                        <img alt="test" src="/wordpress/intravel/wp-content/uploads/2016/10/tour_icon_nature-60x60.png" />
                                                                     </div>
                                                                     <h3>Nature &amp; wildlife</h3>
                                                                     <div className="tour-type-description">Lorem Ipsum is simply dummy text of the printing</div>
@@ -379,11 +379,11 @@ class HomeContent extends Component {
                                                         <div className="col-md-4 col-sm-4 col-xs-12 tour-type-item iw-effect-img">
                                                             <div className="tour-type">
                                                                 <div className="tour-type-img effect-1">
-                                                                    <img src="/wordpress/intravel/wp-content/uploads/2016/09/tour_type_sightseeing-tours.jpg" />
+                                                                    <img alt="test" src="/wordpress/intravel/wp-content/uploads/2016/09/tour_type_sightseeing-tours.jpg" />
                                                                 </div>
                                                                 <div className="tour-type-info">
                                                                     <div className="tour-type-icon">
-                                                                        <img src="/wordpress/intravel/wp-content/uploads/2016/10/tour_icon_sightseeing-60x60.png" />
+                                                                        <img alt="test" src="/wordpress/intravel/wp-content/uploads/2016/10/tour_icon_sightseeing-60x60.png" />
                                                                     </div>
                                                                     <h3>Sightseeing tours</h3>
                                                                     <div className="tour-type-description">Lorem Ipsum is simply dummy text of the printing</div>
@@ -420,7 +420,7 @@ class HomeContent extends Component {
                                                 <div className="intravel-destinations  style1 light">
                                                     <div className="owl-carousel" data-plugin-options="{&quot;navigation&quot;:false,&quot;autoHeight&quot;:true,&quot;pagination&quot;:true,&quot;autoPlay&quot;:false,&quot;paginationNumbers&quot;:false,&quot;items&quot;:&quot;3&quot;,&quot;itemsDesktop&quot;:[1199,&quot;3&quot;],&quot;itemsDesktopSmall&quot;:[991,&quot;2&quot;],&quot;itemsTablet&quot;:[767,2],&quot;itemsTabletSmall&quot;:false,&quot;itemsMobile&quot;:[479,1],&quot;navigationText&quot;:[&quot;back&quot;,&quot;next&quot;]}">
                                                         <div className="destination-item iw-effect-1">
-                                                            <img src="/wordpress/intravel/wp-content/uploads/2016/06/tour_amsterdam_2-370x420.jpg" />
+                                                            <img alt="test" src="/wordpress/intravel/wp-content/uploads/2016/06/tour_amsterdam_2-370x420.jpg" />
                                                             <div className="content">
                                                                 <div className="content-top">
                                                                     <h2>The Netherlands</h2>
@@ -441,7 +441,7 @@ class HomeContent extends Component {
                                                             </div>
                                                         </div>
                                                         <div className="destination-item iw-effect-1">
-                                                            <img src="/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_france-370x420.jpg" />
+                                                            <img alt="test" src="/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_france-370x420.jpg" />
                                                             <div className="content">
                                                                 <div className="content-top">
                                                                     <h2>France</h2>
@@ -461,7 +461,7 @@ class HomeContent extends Component {
                                                             </div>
                                                         </div>
                                                         <div className="destination-item iw-effect-1">
-                                                            <img src="/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_new_york-370x420.jpg" />
+                                                            <img alt="test" src="/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_new_york-370x420.jpg" />
                                                             <div className="content">
                                                                 <div className="content-top">
                                                                     <h2>New York</h2>
@@ -486,7 +486,7 @@ class HomeContent extends Component {
                                                             </div>
                                                         </div>
                                                         <div className="destination-item iw-effect-1">
-                                                            <img src="/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_amsterdam-370x420.jpg" />
+                                                            <img alt="test" src="/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_amsterdam-370x420.jpg" />
                                                             <div className="content">
                                                                 <div className="content-top">
                                                                     <h2>Amsterdam</h2>
@@ -511,7 +511,7 @@ class HomeContent extends Component {
                                                             </div>
                                                         </div>
                                                         <div className="destination-item iw-effect-1">
-                                                            <img src="/wordpress/intravel/wp-content/uploads/2016/06/tour_venice_2-370x420.jpg" />
+                                                            <img alt="test" src="/wordpress/intravel/wp-content/uploads/2016/06/tour_venice_2-370x420.jpg" />
                                                             <div className="content">
                                                                 <div className="content-top">
                                                                     <h2>Venice</h2>
@@ -536,7 +536,7 @@ class HomeContent extends Component {
                                                             </div>
                                                         </div>
                                                         <div className="destination-item iw-effect-1">
-                                                            <img src="/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_paris-370x420.jpg" />
+                                                            <img alt="test" src="/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_paris-370x420.jpg" />
                                                             <div className="content">
                                                                 <div className="content-top">
                                                                     <h2>Paris</h2>
@@ -561,7 +561,7 @@ class HomeContent extends Component {
                                                             </div>
                                                         </div>
                                                         <div className="destination-item iw-effect-1">
-                                                            <img src="/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_roma-370x420.jpg" />
+                                                            <img alt="test" src="/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_roma-370x420.jpg" />
                                                             <div className="content">
                                                                 <div className="content-top">
                                                                     <h2>Rome</h2>
@@ -585,7 +585,7 @@ class HomeContent extends Component {
                                                             </div>
                                                         </div>
                                                         <div className="destination-item iw-effect-1">
-                                                            <img src="/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_italy-370x420.jpg" />
+                                                            <img alt="test" src="/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_italy-370x420.jpg" />
                                                             <div className="content">
                                                                 <div className="content-top">
                                                                     <h2>Italy</h2>
@@ -635,7 +635,7 @@ class HomeContent extends Component {
                             consequat.</div>
                                                             <div className="testi-bottom">
                                                                 <div className="testi-image">
-                                                                    <img src="/wordpress/intravel/wp-content/uploads/2016/05/avatar-1-150x150.jpg" />
+                                                                    <img alt="test" src="/wordpress/intravel/wp-content/uploads/2016/05/avatar-1-150x150.jpg" />
                                                                 </div>
                                                                 <div className="testi-name-position">
                                                                     <div className="testi-client-name">Anna kate</div>
@@ -652,7 +652,7 @@ class HomeContent extends Component {
                             consequat.</div>
                                                             <div className="testi-bottom">
                                                                 <div className="testi-image">
-                                                                    <img src="/wordpress/intravel/wp-content/uploads/2016/05/avatar-1-150x150.jpg" />
+                                                                    <img alt="test" src="/wordpress/intravel/wp-content/uploads/2016/05/avatar-1-150x150.jpg" />
                                                                 </div>
                                                                 <div className="testi-name-position">
                                                                     <div className="testi-client-name">Anna kate</div>
@@ -669,7 +669,7 @@ class HomeContent extends Component {
                             consequat.</div>
                                                             <div className="testi-bottom">
                                                                 <div className="testi-image">
-                                                                    <img src="/wordpress/intravel/wp-content/uploads/2016/05/avatar-1-150x150.jpg" />
+                                                                    <img alt="test" src="/wordpress/intravel/wp-content/uploads/2016/05/avatar-1-150x150.jpg" />
                                                                 </div>
                                                                 <div className="testi-name-position">
                                                                     <div className="testi-client-name">Anna kate</div>
@@ -686,7 +686,7 @@ class HomeContent extends Component {
                             consequat.</div>
                                                             <div className="testi-bottom">
                                                                 <div className="testi-image">
-                                                                    <img src="/wordpress/intravel/wp-content/uploads/2016/05/avatar-1-150x150.jpg" />
+                                                                    <img alt="test" src="/wordpress/intravel/wp-content/uploads/2016/05/avatar-1-150x150.jpg" />
                                                                 </div>
                                                                 <div className="testi-name-position">
                                                                     <div className="testi-client-name">Anna kate</div>
@@ -703,7 +703,7 @@ class HomeContent extends Component {
                             consequat.</div>
                                                             <div className="testi-bottom">
                                                                 <div className="testi-image">
-                                                                    <img src="/wordpress/intravel/wp-content/uploads/2016/05/avatar-1-150x150.jpg" />
+                                                                    <img alt="test" src="/wordpress/intravel/wp-content/uploads/2016/05/avatar-1-150x150.jpg" />
                                                                 </div>
                                                                 <div className="testi-name-position">
                                                                     <div className="testi-client-name">Anna kate</div>
@@ -720,7 +720,7 @@ class HomeContent extends Component {
                             consequat.</div>
                                                             <div className="testi-bottom">
                                                                 <div className="testi-image">
-                                                                    <img src="/wordpress/intravel/wp-content/uploads/2016/05/avatar-1-150x150.jpg" />
+                                                                    <img alt="test" src="/wordpress/intravel/wp-content/uploads/2016/05/avatar-1-150x150.jpg" />
                                                                 </div>
                                                                 <div className="testi-name-position">
                                                                     <div className="testi-client-name">Anna kate</div>
@@ -758,7 +758,7 @@ class HomeContent extends Component {
                                                                                 <div className="post-item iw-effect-img">
                                                                                     <div className="post-item-inner">
                                                                                         <div className="post-thumbnail featured-image effect-1">
-                                                                                            <img src="/wordpress/intravel/wp-content/uploads/2016/05/blog_intravel_image_demo_4-372x275.jpg" />
+                                                                                            <img alt="test" src="/wordpress/intravel/wp-content/uploads/2016/05/blog_intravel_image_demo_4-372x275.jpg" />
                                                                                         </div>
                                                                                         <div className="post-content">
                                                                                             <div className="post-date">
@@ -781,7 +781,7 @@ class HomeContent extends Component {
                                                                                 <div className="post-item iw-effect-img">
                                                                                     <div className="post-item-inner">
                                                                                         <div className="post-thumbnail featured-image effect-1">
-                                                                                            <img src="/wordpress/intravel/wp-content/uploads/2016/05/blog_intravel_image_demo_1-372x275.jpg" />
+                                                                                            <img alt="test" src="/wordpress/intravel/wp-content/uploads/2016/05/blog_intravel_image_demo_1-372x275.jpg" />
                                                                                         </div>
                                                                                         <div className="post-content">
                                                                                             <div className="post-date">
@@ -803,7 +803,7 @@ class HomeContent extends Component {
                                                                                 <div className="post-item iw-effect-img">
                                                                                     <div className="post-item-inner">
                                                                                         <div className="post-thumbnail featured-image effect-1">
-                                                                                            <img src="/wordpress/intravel/wp-content/uploads/2016/05/blog_intravel_image_demo_2-372x275.jpg" />
+                                                                                            <img alt="test" src="/wordpress/intravel/wp-content/uploads/2016/05/blog_intravel_image_demo_2-372x275.jpg" />
                                                                                         </div>
                                                                                         <div className="post-content">
                                                                                             <div className="post-date">
@@ -826,7 +826,7 @@ class HomeContent extends Component {
                                                                                 <div className="post-item iw-effect-img">
                                                                                     <div className="post-item-inner">
                                                                                         <div className="post-thumbnail featured-image effect-1">
-                                                                                            <img src="/wordpress/intravel/wp-content/uploads/2016/05/blog_intravel_image_demo_8-372x275.jpg" />
+                                                                                            <img alt="test" src="/wordpress/intravel/wp-content/uploads/2016/05/blog_intravel_image_demo_8-372x275.jpg" />
                                                                                         </div>
                                                                                         <div className="post-content">
                                                                                             <div className="post-date">

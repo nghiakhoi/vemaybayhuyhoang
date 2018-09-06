@@ -84,40 +84,40 @@ class Footer extends Component {
                                         <div className="menu-useful-links-container">
                                             <ul id="menu-useful-links" className="menu">
                                                 <li id="menu-item-45" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-45">
-                                                    <a href="#">Safety</a>
+                                                    <a href="/">Safety</a>
                                                 </li>
                                                 <li id="menu-item-46" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-46">
-                                                    <a href="#">About</a>
+                                                    <a href="/">About</a>
                                                 </li>
                                                 <li id="menu-item-47" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-47">
-                                                    <a href="#">Travel Picks</a>
+                                                    <a href="/">Travel Picks</a>
                                                 </li>
                                                 <li id="menu-item-48" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-48">
-                                                    <a href="#">Latest Job</a>
+                                                    <a href="/">Latest Job</a>
                                                 </li>
                                                 <li id="menu-item-49" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-49">
-                                                    <a href="#">Mobile</a>
+                                                    <a href="/">Mobile</a>
                                                 </li>
                                                 <li id="menu-item-50" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-50">
-                                                    <a href="#">Press Release</a>
+                                                    <a href="/">Press Release</a>
                                                 </li>
                                                 <li id="menu-item-51" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-51">
-                                                    <a href="#">Why Host</a>
+                                                    <a href="/">Why Host</a>
                                                 </li>
                                                 <li id="menu-item-52" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-52">
-                                                    <a href="#">Blog Posts</a>
+                                                    <a href="/">Blog Posts</a>
                                                 </li>
                                                 <li id="menu-item-53" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-53">
-                                                    <a href="#">Social</a>
+                                                    <a href="/">Social</a>
                                                 </li>
                                                 <li id="menu-item-54" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-54">
-                                                    <a href="#">Connect</a>
+                                                    <a href="/">Connect</a>
                                                 </li>
                                                 <li id="menu-item-55" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-55">
-                                                    <a href="#">Help Topics</a>
+                                                    <a href="/">Help Topics</a>
                                                 </li>
                                                 <li id="menu-item-56" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-56">
-                                                    <a href="#">Site Map</a>
+                                                    <a href="/">Site Map</a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -156,7 +156,7 @@ class Footer extends Component {
                             <div className="row">
                                 <div className="col-md-12 col-sm-12">
                                     <p>Copyright 2016 ©
-              <a href="#"> Inwavethemes</a>. All rights reserved.</p>
+              <a href="/"> Inwavethemes</a>. All rights reserved.</p>
                                     <span className="iw-back-to-top eff">
                                         <i className="fa fa-arrow-up" />
                                     </span>

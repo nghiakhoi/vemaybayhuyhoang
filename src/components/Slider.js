@@ -1,11 +1,4 @@
 import React, { Component } from 'react';
-import {
-    BrowserRouter as Router,
-    Route,
-    Link,
-    Redirect,
-    withRouter
-} from "react-router-dom";
 
 class Slider extends Component {
     constructor(props) {
@@ -18,11 +11,10 @@ class Slider extends Component {
             datedep: '',
             adult: '',
             direction: false,
-            setvalue:0
-                    }
+            setvalue: 0
+        }
         this.handleInputChange = this.handleInputChange.bind(this);
     }
-     
 
     handleInputChange(event) {
         const target = event.target;
@@ -30,15 +22,20 @@ class Slider extends Component {
         const name = target.name;
 
         this.setState({
-          [name]: value,
-          setvalue:!this.state.setvalue
-            
-        },function(){
-            this.state.direction==0?localStorage.removeItem("datedes"):""
+            [name]: value,
+            setvalue: this.state.setvalue === 0 ? 1 : 0
+
+        }, function () {
+            if (this.state.direction === false) {
+                localStorage.removeItem("datedes");
+                localStorage.setItem("direction", 0);
+            } else {
+                localStorage.setItem("direction", 1);
+            }
         });
-        localStorage.setItem(name,this.state.setvalue==0?1:0);
-        
-      }
+        localStorage.setItem(name, this.state.setvalue === 0 ? 1 : 0);
+
+    }
 
     isChange = (event) => {
         console.log(event.target.value);
@@ -50,35 +47,40 @@ class Slider extends Component {
         localStorage.setItem(name, value);
     }
 
-    handleClick = () => {
-        var des = this.state.des;
-        var dep = this.state.dep;
-        var datedes = this.state.datedes;
-        var datedep = this.state.datedep;
-        var adult = this.state.adult;
-        this.setState({
-            isRedirect: true
-        });
+    handleClick = (event) => {
+        event.preventDefault();
+        if ((localStorage.getItem("dep") === null || localStorage.getItem("dep") === "") && (localStorage.getItem("des") === null || localStorage.getItem("des") === "")) {
+            alert("Hãy chọn ĐIỂM KHỞI HÀNH và ĐIỂM ĐẾN!");
+        } else if (localStorage.getItem("dep") === null || localStorage.getItem("dep") === "") {
+            alert("Hãy chọn ĐIỂM KHỞI HÀNH!");
+        } else if (localStorage.getItem("des") === null || localStorage.getItem("des") === "") {
+            alert("Hãy chọn ĐIỂM ĐẾN!");
+        } else {
+            this.setState({
+                isRedirect: true
+            });
+        }
+
 
     }
- 
 
     componentDidMount() {
         localStorage.setItem("adult", 1);
-        localStorage.setItem("direction",0);
+        localStorage.setItem("direction", 0);
+        localStorage.removeItem("datedep");
+        localStorage.removeItem("datedes");
+        localStorage.removeItem("dep");
+        localStorage.removeItem("des");
     }
 
-    
     componentWillMount() {
         localStorage.setItem("direction", 0);
     }
-    
-
 
     render() {
-        
+
         if (this.state.isRedirect) {
-            return <Redirect to="/booking" />;
+            window.location.replace("/booking");
         }
         var maxpersearchadult = Array.apply(null, { length: 10 }).map((k, i) => {
             return <option key={i} value={i + 1}>{i + 1}</option>
@@ -94,7 +96,7 @@ class Slider extends Component {
                     <div className="intravel-destination-search-inner">
                         <div className="iw-logo-home">
                             <a href="/wordpress/intravel/home/">
-                                <img src="images/inTravel.png" />
+                                <img src="images/inTravel.png" alt="Logo" />
                             </a>
                         </div>
                         <div className="destination-menu-search-form">
@@ -157,7 +159,7 @@ class Slider extends Component {
                                     </li>
                                 </ul>
                             </div>
-                            <form autoComplete="off" className="destination-search-form" action="/wordpress/intravel/wp-admin/admin-ajax.php?action=intravel_search_tour" method="post">
+                            <form autoComplete="off" className="destination-search-form" >
                                 <span className="icon-click" />
                                 <div className="row">
 
@@ -170,7 +172,7 @@ class Slider extends Component {
                                         <div className="tour-type-field">
 
                                             <select className="form-control js-selected " defaultValue="0" id="dep" name="dep">
-                                                <option value="0">Điểm khởi hành</option>
+                                                <option value="">Điểm khởi hành</option>
                                                 <option value="SGN">Hồ Chí Minh(SGN)</option>
                                                 <option value="HAN">Hà Nội(HAN)</option>
                                                 <option value="DAD">Đà Nẵng(DAD)</option>
@@ -185,7 +187,7 @@ class Slider extends Component {
                                         <label htmlFor="des" style={{ "color": "white" }} >Điểm đến</label>
                                         <div className="destination-field">
                                             <select className="form-control js-selected" defaultValue="0" id="des" name="des">
-                                                <option value="0">Điểm khởi hành</option>
+                                                <option value="">Điểm đến</option>
                                                 <option value="SGN">Hồ Chí Minh(SGN)</option>
                                                 <option value="HAN">Hà Nội(HAN)</option>
                                                 <option value="DAD">Đà Nẵng(DAD)</option>
@@ -208,28 +210,23 @@ class Slider extends Component {
                                             <input id="datedep" name="datedep" type="text" readOnly placeholder="Ngày đi" className="iw-search-arrival has-date-picker" />
                                         </div>
                                         <label>
-                                        Khứ hồi :
+                                            Khứ hồi :
                                         <input
-                                            name="direction"
-                                            type="checkbox"
-                                           value={this.state.setvalue}
-                                            checked={this.state.direction}
-                                            onChange={this.handleInputChange} />
+                                                name="direction"
+                                                type="checkbox"
+                                                value={this.state.setvalue}
+                                                checked={this.state.direction}
+                                                onChange={this.handleInputChange} />
                                         </label>
                                         <br />
-                                      
-           
-
-                                   
-
-                                        {this.state.setvalue==1?
-                                        <div className="iw-departure thelastitem">
-                                            <input id="datedes" name="datedes" type="text" value="Ngày về" readOnly placeholder="Ngày về" className="iw-search-arrival has-date-picker" />
-                                        </div>:
-                                        <div className="iw-departure thelastitem">
-                                        <input id="datedes" disabled name="datedes" value="Ngày về" type="text" readOnly placeholder="Ngày về" className="iw-search-arrival has-date-picker" />
-                                    </div>
-                                    }
+                                        {this.state.direction === true ?
+                                            <div className="iw-departure thelastitem">
+                                                <input id="datedes" name="datedes" type="text" value="Ngày về" readOnly placeholder="Ngày về" className="iw-search-arrival has-date-picker" />
+                                            </div> :
+                                            <div className="iw-departure thelastitem">
+                                                <input id="datedes" disabled name="datedes" value="Ngày về" type="text" readOnly placeholder="Ngày về" className="iw-search-arrival has-date-picker" />
+                                            </div>
+                                        }
                                     </div>
 
                                     <div className="col-xs-12 col-sm-6 col-md-4">
@@ -262,24 +259,10 @@ class Slider extends Component {
                                         </div>
                                         <div className="col-xs-12 col-sm-12 col-md-12">
                                             <div className="iw-search-now">
-
-                                                <button onClick={() => this.handleClick()} className="theme-bg"><i className="ion-paper-airplane" /> Search</button>
+                                                <button onClick={(event) => this.handleClick(event)} className="theme-bg"><i className="ion-paper-airplane" /> Search</button>
                                             </div>
                                         </div>
-
-                                             
-        
-
-      
-
                                     </div>
-
-
-
-
-
-
-
                                 </div>
                             </form>
                         </div>
@@ -288,7 +271,7 @@ class Slider extends Component {
             </div>
         );
     }
-    
+
 }
 
 export default Slider;

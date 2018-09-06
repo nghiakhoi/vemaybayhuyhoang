@@ -1,15 +1,8 @@
 import React, { Component } from 'react';
 import BookingItem from './BookingItem';
 import axios from 'axios';
-import {
-    BrowserRouter as Router,
-    Route,
-    Link,
-    Redirect,
-    withRouter
-} from "react-router-dom";
 
-const postTicket = (airlinecode, dep, des, adult, direction = 0, datedep, datedes) =>
+const postTicket = (airlinecode, dep, des, adult = 1, direction = 0, datedep, datedes) =>
     axios.post(airlinecode, {
         dep: dep,
         des: des,
@@ -56,7 +49,7 @@ const getTodayddmmyyyy = () => {
     if (mm < 10) {
         mm = '0' + mm;
     }
-    var today = dd + '-' + mm + '-' + yyyy;
+    today = dd + '-' + mm + '-' + yyyy;
     return today;
 }
 
@@ -107,13 +100,7 @@ class BookingContent extends Component {
     }
 
     getJsonTicketFromAPI = (dep, des, adult, direction, datedep, datedes) => {
-        var mangjson = [];
-        var dep = dep;
-        var des = des;
-        var datedep = datedep;
-        var datedes = datedes;
-        var adult = adult;
-        var direction = direction;
+        let mangjson = [];
         postTicket("/vn", dep, des, adult, direction, datedep, datedes).then((kq) => {
             var tempflyno = "";
             var tempprice = 0;
@@ -121,11 +108,11 @@ class BookingContent extends Component {
             var tempdestime = "";
             var tempitem = "";
             var dem = 0;
-            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+            var size = kq !== undefined || kq.lenght > 0 ? Object.keys(kq[0]).length : 0;
 
             for (var key1 in kq[0]) {
 
-                if (tempdeptime == "" && tempdestime == "") {
+                if (tempdeptime === "" && tempdestime === "") {
                     tempflyno = kq[0][key1]['air_code'];
                     tempprice = kq[0][key1]['baseprice'];
                     tempdeptime = kq[0][key1]['deptime'];
@@ -133,7 +120,7 @@ class BookingContent extends Component {
                     tempitem = kq[0][key1];
                 }
 
-                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                if (tempflyno === kq[0][key1]['air_code'] && tempdeptime === kq[0][key1]['deptime'] && tempdestime === kq[0][key1]['destime']) {
                     if (tempprice <= kq[0][key1]['baseprice']) {
                         dem++;
                     } else {
@@ -184,11 +171,11 @@ class BookingContent extends Component {
             var tempdestime = "";
             var tempitem = "";
             var dem = 0;
-            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+            var size = kq !== undefined || kq.lenght > 0 ? Object.keys(kq[0]).length : 0;
 
             for (var key1 in kq[0]) {
 
-                if (tempdeptime == "" && tempdestime == "") {
+                if (tempdeptime === "" && tempdestime === "") {
                     tempflyno = kq[0][key1]['air_code'];
                     tempprice = kq[0][key1]['baseprice'];
                     tempdeptime = kq[0][key1]['deptime'];
@@ -196,7 +183,7 @@ class BookingContent extends Component {
                     tempitem = kq[0][key1];
                 }
 
-                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                if (tempflyno === kq[0][key1]['air_code'] && tempdeptime === kq[0][key1]['deptime'] && tempdestime === kq[0][key1]['destime']) {
                     if (tempprice <= kq[0][key1]['baseprice']) {
                         dem++;
                     } else {
@@ -247,11 +234,11 @@ class BookingContent extends Component {
             var tempdestime = "";
             var tempitem = "";
             var dem = 0;
-            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+            var size = kq !== undefined || kq.lenght > 0 ? Object.keys(kq[0]).length : 0;
 
             for (var key1 in kq[0]) {
 
-                if (tempdeptime == "" && tempdestime == "") {
+                if (tempdeptime === "" && tempdestime === "") {
                     tempflyno = kq[0][key1]['air_code'];
                     tempprice = kq[0][key1]['baseprice'];
                     tempdeptime = kq[0][key1]['deptime'];
@@ -259,7 +246,7 @@ class BookingContent extends Component {
                     tempitem = kq[0][key1];
                 }
 
-                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                if (tempflyno === kq[0][key1]['air_code'] && tempdeptime === kq[0][key1]['deptime'] && tempdestime === kq[0][key1]['destime']) {
                     if (tempprice <= kq[0][key1]['baseprice']) {
                         dem++;
                     } else {
@@ -304,13 +291,7 @@ class BookingContent extends Component {
         });
     }
     getJsonTicketFromAPIKhuHoi = (dep, des, adult, direction, datedep, datedes) => {
-        var mangjson = [];
-        var dep = dep;
-        var des = des;
-        var datedep = datedep;
-        var datedes = datedes;
-        var adult = adult;
-        var direction = direction;
+        let mangjson = [];
         postTicket("/vn", dep, des, adult, direction, datedep, datedes).then((kq) => {
             var tempflyno = "";
             var tempprice = 0;
@@ -318,11 +299,11 @@ class BookingContent extends Component {
             var tempdestime = "";
             var tempitem = "";
             var dem = 0;
-            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+            var size = kq !== undefined || kq.lenght > 0 ? Object.keys(kq[0]).length : 0;
 
             for (var key1 in kq[0]) {
 
-                if (tempdeptime == "" && tempdestime == "") {
+                if (tempdeptime === "" && tempdestime === "") {
                     tempflyno = kq[0][key1]['air_code'];
                     tempprice = kq[0][key1]['baseprice'];
                     tempdeptime = kq[0][key1]['deptime'];
@@ -330,7 +311,7 @@ class BookingContent extends Component {
                     tempitem = kq[0][key1];
                 }
 
-                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                if (tempflyno === kq[0][key1]['air_code'] && tempdeptime === kq[0][key1]['deptime'] && tempdestime === kq[0][key1]['destime']) {
                     if (tempprice <= kq[0][key1]['baseprice']) {
                         dem++;
                     } else {
@@ -381,11 +362,11 @@ class BookingContent extends Component {
             var tempdestime = "";
             var tempitem = "";
             var dem = 0;
-            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+            var size = kq !== undefined || kq.lenght > 0 ? Object.keys(kq[0]).length : 0;
 
             for (var key1 in kq[0]) {
 
-                if (tempdeptime == "" && tempdestime == "") {
+                if (tempdeptime === "" && tempdestime === "") {
                     tempflyno = kq[0][key1]['air_code'];
                     tempprice = kq[0][key1]['baseprice'];
                     tempdeptime = kq[0][key1]['deptime'];
@@ -393,7 +374,7 @@ class BookingContent extends Component {
                     tempitem = kq[0][key1];
                 }
 
-                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                if (tempflyno === kq[0][key1]['air_code'] && tempdeptime === kq[0][key1]['deptime'] && tempdestime === kq[0][key1]['destime']) {
                     if (tempprice <= kq[0][key1]['baseprice']) {
                         dem++;
                     } else {
@@ -444,11 +425,11 @@ class BookingContent extends Component {
             var tempdestime = "";
             var tempitem = "";
             var dem = 0;
-            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+            var size = kq !== undefined || kq.lenght > 0 ? Object.keys(kq[0]).length : 0;
 
             for (var key1 in kq[0]) {
 
-                if (tempdeptime == "" && tempdestime == "") {
+                if (tempdeptime === "" && tempdestime === "") {
                     tempflyno = kq[0][key1]['air_code'];
                     tempprice = kq[0][key1]['baseprice'];
                     tempdeptime = kq[0][key1]['deptime'];
@@ -456,7 +437,7 @@ class BookingContent extends Component {
                     tempitem = kq[0][key1];
                 }
 
-                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                if (tempflyno === kq[0][key1]['air_code'] && tempdeptime === kq[0][key1]['deptime'] && tempdestime === kq[0][key1]['destime']) {
                     if (tempprice <= kq[0][key1]['baseprice']) {
                         dem++;
                     } else {
@@ -501,13 +482,7 @@ class BookingContent extends Component {
         });
     }
     getJsonTicketFromAPIPosition1 = (dep, des, adult, direction, datedep, datedes) => {
-        var mangjson = [];
-        var dep = dep;
-        var des = des;
-        var datedep = datedep;
-        var datedes = datedes;
-        var adult = adult;
-        var direction = direction;
+        let mangjson = [];
         postTicket("/vn", dep, des, adult, direction, datedep, datedes).then((kq) => {
             var tempflyno = "";
             var tempprice = 0;
@@ -515,11 +490,11 @@ class BookingContent extends Component {
             var tempdestime = "";
             var tempitem = "";
             var dem = 0;
-            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+            var size = kq !== undefined || kq.lenght > 0 ? Object.keys(kq[0]).length : 0;
 
             for (var key1 in kq[0]) {
 
-                if (tempdeptime == "" && tempdestime == "") {
+                if (tempdeptime === "" && tempdestime === "") {
                     tempflyno = kq[0][key1]['air_code'];
                     tempprice = kq[0][key1]['baseprice'];
                     tempdeptime = kq[0][key1]['deptime'];
@@ -527,7 +502,7 @@ class BookingContent extends Component {
                     tempitem = kq[0][key1];
                 }
 
-                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                if (tempflyno === kq[0][key1]['air_code'] && tempdeptime === kq[0][key1]['deptime'] && tempdestime === kq[0][key1]['destime']) {
                     if (tempprice <= kq[0][key1]['baseprice']) {
                         dem++;
                     } else {
@@ -577,11 +552,11 @@ class BookingContent extends Component {
             var tempdestime = "";
             var tempitem = "";
             var dem = 0;
-            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+            var size = kq !== undefined || kq.lenght > 0 ? Object.keys(kq[0]).length : 0;
 
             for (var key1 in kq[0]) {
 
-                if (tempdeptime == "" && tempdestime == "") {
+                if (tempdeptime === "" && tempdestime === "") {
                     tempflyno = kq[0][key1]['air_code'];
                     tempprice = kq[0][key1]['baseprice'];
                     tempdeptime = kq[0][key1]['deptime'];
@@ -589,7 +564,7 @@ class BookingContent extends Component {
                     tempitem = kq[0][key1];
                 }
 
-                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                if (tempflyno === kq[0][key1]['air_code'] && tempdeptime === kq[0][key1]['deptime'] && tempdestime === kq[0][key1]['destime']) {
                     if (tempprice <= kq[0][key1]['baseprice']) {
                         dem++;
                     } else {
@@ -639,11 +614,11 @@ class BookingContent extends Component {
             var tempdestime = "";
             var tempitem = "";
             var dem = 0;
-            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+            var size = kq !== undefined || kq.lenght > 0 ? Object.keys(kq[0]).length : 0;
 
             for (var key1 in kq[0]) {
 
-                if (tempdeptime == "" && tempdestime == "") {
+                if (tempdeptime === "" && tempdestime === "") {
                     tempflyno = kq[0][key1]['air_code'];
                     tempprice = kq[0][key1]['baseprice'];
                     tempdeptime = kq[0][key1]['deptime'];
@@ -651,7 +626,7 @@ class BookingContent extends Component {
                     tempitem = kq[0][key1];
                 }
 
-                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                if (tempflyno === kq[0][key1]['air_code'] && tempdeptime === kq[0][key1]['deptime'] && tempdestime === kq[0][key1]['destime']) {
                     if (tempprice <= kq[0][key1]['baseprice']) {
                         dem++;
                     } else {
@@ -695,13 +670,7 @@ class BookingContent extends Component {
         });
     }
     getJsonTicketFromAPIPosition2 = (dep, des, adult, direction, datedep, datedes) => {
-        var mangjson = [];
-        var dep = dep;
-        var des = des;
-        var datedep = datedep;
-        var datedes = datedes;
-        var adult = adult;
-        var direction = direction;
+        let mangjson = [];
         postTicket("/vn", dep, des, adult, direction, datedep, datedes).then((kq) => {
             var tempflyno = "";
             var tempprice = 0;
@@ -709,11 +678,11 @@ class BookingContent extends Component {
             var tempdestime = "";
             var tempitem = "";
             var dem = 0;
-            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+            var size = kq !== undefined || kq.lenght > 0 ? Object.keys(kq[0]).length : 0;
 
             for (var key1 in kq[0]) {
 
-                if (tempdeptime == "" && tempdestime == "") {
+                if (tempdeptime === "" && tempdestime === "") {
                     tempflyno = kq[0][key1]['air_code'];
                     tempprice = kq[0][key1]['baseprice'];
                     tempdeptime = kq[0][key1]['deptime'];
@@ -721,7 +690,7 @@ class BookingContent extends Component {
                     tempitem = kq[0][key1];
                 }
 
-                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                if (tempflyno === kq[0][key1]['air_code'] && tempdeptime === kq[0][key1]['deptime'] && tempdestime === kq[0][key1]['destime']) {
                     if (tempprice <= kq[0][key1]['baseprice']) {
                         dem++;
                     } else {
@@ -772,11 +741,11 @@ class BookingContent extends Component {
             var tempdestime = "";
             var tempitem = "";
             var dem = 0;
-            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+            var size = kq !== undefined || kq.lenght > 0 ? Object.keys(kq[0]).length : 0;
 
             for (var key1 in kq[0]) {
 
-                if (tempdeptime == "" && tempdestime == "") {
+                if (tempdeptime === "" && tempdestime === "") {
                     tempflyno = kq[0][key1]['air_code'];
                     tempprice = kq[0][key1]['baseprice'];
                     tempdeptime = kq[0][key1]['deptime'];
@@ -784,7 +753,7 @@ class BookingContent extends Component {
                     tempitem = kq[0][key1];
                 }
 
-                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                if (tempflyno === kq[0][key1]['air_code'] && tempdeptime === kq[0][key1]['deptime'] && tempdestime === kq[0][key1]['destime']) {
                     if (tempprice <= kq[0][key1]['baseprice']) {
                         dem++;
                     } else {
@@ -835,11 +804,11 @@ class BookingContent extends Component {
             var tempdestime = "";
             var tempitem = "";
             var dem = 0;
-            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+            var size = kq !== undefined || kq.lenght > 0 ? Object.keys(kq[0]).length : 0;
 
             for (var key1 in kq[0]) {
 
-                if (tempdeptime == "" && tempdestime == "") {
+                if (tempdeptime === "" && tempdestime === "") {
                     tempflyno = kq[0][key1]['air_code'];
                     tempprice = kq[0][key1]['baseprice'];
                     tempdeptime = kq[0][key1]['deptime'];
@@ -847,7 +816,7 @@ class BookingContent extends Component {
                     tempitem = kq[0][key1];
                 }
 
-                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                if (tempflyno === kq[0][key1]['air_code'] && tempdeptime === kq[0][key1]['deptime'] && tempdestime === kq[0][key1]['destime']) {
                     if (tempprice <= kq[0][key1]['baseprice']) {
                         dem++;
                     } else {
@@ -892,13 +861,7 @@ class BookingContent extends Component {
         });
     }
     getJsonTicketFromAPIPosition3 = (dep, des, adult, direction, datedep, datedes) => {
-        var mangjson = [];
-        var dep = dep;
-        var des = des;
-        var datedep = datedep;
-        var datedes = datedes;
-        var adult = adult;
-        var direction = direction;
+        let mangjson = [];
         postTicket("/vn", dep, des, adult, direction, datedep, datedes).then((kq) => {
             var tempflyno = "";
             var tempprice = 0;
@@ -906,11 +869,11 @@ class BookingContent extends Component {
             var tempdestime = "";
             var tempitem = "";
             var dem = 0;
-            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+            var size = kq !== undefined || kq.lenght > 0 ? Object.keys(kq[0]).length : 0;
 
             for (var key1 in kq[0]) {
 
-                if (tempdeptime == "" && tempdestime == "") {
+                if (tempdeptime === "" && tempdestime === "") {
                     tempflyno = kq[0][key1]['air_code'];
                     tempprice = kq[0][key1]['baseprice'];
                     tempdeptime = kq[0][key1]['deptime'];
@@ -918,7 +881,7 @@ class BookingContent extends Component {
                     tempitem = kq[0][key1];
                 }
 
-                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                if (tempflyno === kq[0][key1]['air_code'] && tempdeptime === kq[0][key1]['deptime'] && tempdestime === kq[0][key1]['destime']) {
                     if (tempprice <= kq[0][key1]['baseprice']) {
                         dem++;
                     } else {
@@ -969,11 +932,11 @@ class BookingContent extends Component {
             var tempdestime = "";
             var tempitem = "";
             var dem = 0;
-            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+            var size = kq !== undefined || kq.lenght > 0 ? Object.keys(kq[0]).length : 0;
 
             for (var key1 in kq[0]) {
 
-                if (tempdeptime == "" && tempdestime == "") {
+                if (tempdeptime === "" && tempdestime === "") {
                     tempflyno = kq[0][key1]['air_code'];
                     tempprice = kq[0][key1]['baseprice'];
                     tempdeptime = kq[0][key1]['deptime'];
@@ -981,7 +944,7 @@ class BookingContent extends Component {
                     tempitem = kq[0][key1];
                 }
 
-                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                if (tempflyno === kq[0][key1]['air_code'] && tempdeptime === kq[0][key1]['deptime'] && tempdestime === kq[0][key1]['destime']) {
                     if (tempprice <= kq[0][key1]['baseprice']) {
                         dem++;
                     } else {
@@ -1032,11 +995,11 @@ class BookingContent extends Component {
             var tempdestime = "";
             var tempitem = "";
             var dem = 0;
-            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+            var size = kq !== undefined || kq.lenght > 0 ? Object.keys(kq[0]).length : 0;
 
             for (var key1 in kq[0]) {
 
-                if (tempdeptime == "" && tempdestime == "") {
+                if (tempdeptime === "" && tempdestime === "") {
                     tempflyno = kq[0][key1]['air_code'];
                     tempprice = kq[0][key1]['baseprice'];
                     tempdeptime = kq[0][key1]['deptime'];
@@ -1044,7 +1007,7 @@ class BookingContent extends Component {
                     tempitem = kq[0][key1];
                 }
 
-                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                if (tempflyno === kq[0][key1]['air_code'] && tempdeptime === kq[0][key1]['deptime'] && tempdestime === kq[0][key1]['destime']) {
                     if (tempprice <= kq[0][key1]['baseprice']) {
                         dem++;
                     } else {
@@ -1089,13 +1052,7 @@ class BookingContent extends Component {
         });
     }
     getJsonTicketFromAPIPosition4 = (dep, des, adult, direction, datedep, datedes) => {
-        var mangjson = [];
-        var dep = dep;
-        var des = des;
-        var datedep = datedep;
-        var datedes = datedes;
-        var adult = adult;
-        var direction = direction;
+        let mangjson = [];
         postTicket("/vn", dep, des, adult, direction, datedep, datedes).then((kq) => {
             var tempflyno = "";
             var tempprice = 0;
@@ -1103,11 +1060,11 @@ class BookingContent extends Component {
             var tempdestime = "";
             var tempitem = "";
             var dem = 0;
-            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+            var size = kq !== undefined || kq.lenght > 0 ? Object.keys(kq[0]).length : 0;
 
             for (var key1 in kq[0]) {
 
-                if (tempdeptime == "" && tempdestime == "") {
+                if (tempdeptime === "" && tempdestime === "") {
                     tempflyno = kq[0][key1]['air_code'];
                     tempprice = kq[0][key1]['baseprice'];
                     tempdeptime = kq[0][key1]['deptime'];
@@ -1115,7 +1072,7 @@ class BookingContent extends Component {
                     tempitem = kq[0][key1];
                 }
 
-                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                if (tempflyno === kq[0][key1]['air_code'] && tempdeptime === kq[0][key1]['deptime'] && tempdestime === kq[0][key1]['destime']) {
                     if (tempprice <= kq[0][key1]['baseprice']) {
                         dem++;
                     } else {
@@ -1166,11 +1123,11 @@ class BookingContent extends Component {
             var tempdestime = "";
             var tempitem = "";
             var dem = 0;
-            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+            var size = kq !== undefined || kq.lenght > 0 ? Object.keys(kq[0]).length : 0;
 
             for (var key1 in kq[0]) {
 
-                if (tempdeptime == "" && tempdestime == "") {
+                if (tempdeptime === "" && tempdestime === "") {
                     tempflyno = kq[0][key1]['air_code'];
                     tempprice = kq[0][key1]['baseprice'];
                     tempdeptime = kq[0][key1]['deptime'];
@@ -1178,7 +1135,7 @@ class BookingContent extends Component {
                     tempitem = kq[0][key1];
                 }
 
-                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                if (tempflyno === kq[0][key1]['air_code'] && tempdeptime === kq[0][key1]['deptime'] && tempdestime === kq[0][key1]['destime']) {
                     if (tempprice <= kq[0][key1]['baseprice']) {
                         dem++;
                     } else {
@@ -1229,11 +1186,11 @@ class BookingContent extends Component {
             var tempdestime = "";
             var tempitem = "";
             var dem = 0;
-            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+            var size = kq !== undefined || kq.lenght > 0 ? Object.keys(kq[0]).length : 0;
 
             for (var key1 in kq[0]) {
 
-                if (tempdeptime == "" && tempdestime == "") {
+                if (tempdeptime === "" && tempdestime === "") {
                     tempflyno = kq[0][key1]['air_code'];
                     tempprice = kq[0][key1]['baseprice'];
                     tempdeptime = kq[0][key1]['deptime'];
@@ -1241,7 +1198,7 @@ class BookingContent extends Component {
                     tempitem = kq[0][key1];
                 }
 
-                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                if (tempflyno === kq[0][key1]['air_code'] && tempdeptime === kq[0][key1]['deptime'] && tempdestime === kq[0][key1]['destime']) {
                     if (tempprice <= kq[0][key1]['baseprice']) {
                         dem++;
                     } else {
@@ -1286,13 +1243,7 @@ class BookingContent extends Component {
         });
     }
     getJsonTicketFromAPIPosition5 = (dep, des, adult, direction, datedep, datedes) => {
-        var mangjson = [];
-        var dep = dep;
-        var des = des;
-        var datedep = datedep;
-        var datedes = datedes;
-        var adult = adult;
-        var direction = direction;
+        let mangjson = [];
         postTicket("/vn", dep, des, adult, direction, datedep, datedes).then((kq) => {
             var tempflyno = "";
             var tempprice = 0;
@@ -1300,11 +1251,11 @@ class BookingContent extends Component {
             var tempdestime = "";
             var tempitem = "";
             var dem = 0;
-            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+            var size = kq !== undefined || kq.lenght > 0 ? Object.keys(kq[0]).length : 0;
 
             for (var key1 in kq[0]) {
 
-                if (tempdeptime == "" && tempdestime == "") {
+                if (tempdeptime === "" && tempdestime === "") {
                     tempflyno = kq[0][key1]['air_code'];
                     tempprice = kq[0][key1]['baseprice'];
                     tempdeptime = kq[0][key1]['deptime'];
@@ -1312,7 +1263,7 @@ class BookingContent extends Component {
                     tempitem = kq[0][key1];
                 }
 
-                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                if (tempflyno === kq[0][key1]['air_code'] && tempdeptime === kq[0][key1]['deptime'] && tempdestime === kq[0][key1]['destime']) {
                     if (tempprice <= kq[0][key1]['baseprice']) {
                         dem++;
                     } else {
@@ -1363,11 +1314,11 @@ class BookingContent extends Component {
             var tempdestime = "";
             var tempitem = "";
             var dem = 0;
-            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+            var size = kq !== undefined || kq.lenght > 0 ? Object.keys(kq[0]).length : 0;
 
             for (var key1 in kq[0]) {
 
-                if (tempdeptime == "" && tempdestime == "") {
+                if (tempdeptime === "" && tempdestime === "") {
                     tempflyno = kq[0][key1]['air_code'];
                     tempprice = kq[0][key1]['baseprice'];
                     tempdeptime = kq[0][key1]['deptime'];
@@ -1375,7 +1326,7 @@ class BookingContent extends Component {
                     tempitem = kq[0][key1];
                 }
 
-                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                if (tempflyno === kq[0][key1]['air_code'] && tempdeptime === kq[0][key1]['deptime'] && tempdestime === kq[0][key1]['destime']) {
                     if (tempprice <= kq[0][key1]['baseprice']) {
                         dem++;
                     } else {
@@ -1426,11 +1377,11 @@ class BookingContent extends Component {
             var tempdestime = "";
             var tempitem = "";
             var dem = 0;
-            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+            var size = kq !== undefined || kq.lenght > 0 ? Object.keys(kq[0]).length : 0;
 
             for (var key1 in kq[0]) {
 
-                if (tempdeptime == "" && tempdestime == "") {
+                if (tempdeptime === "" && tempdestime === "") {
                     tempflyno = kq[0][key1]['air_code'];
                     tempprice = kq[0][key1]['baseprice'];
                     tempdeptime = kq[0][key1]['deptime'];
@@ -1438,7 +1389,7 @@ class BookingContent extends Component {
                     tempitem = kq[0][key1];
                 }
 
-                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                if (tempflyno === kq[0][key1]['air_code'] && tempdeptime === kq[0][key1]['deptime'] && tempdestime === kq[0][key1]['destime']) {
                     if (tempprice <= kq[0][key1]['baseprice']) {
                         dem++;
                     } else {
@@ -1483,13 +1434,7 @@ class BookingContent extends Component {
         });
     }
     getJsonTicketFromAPIPosition6 = (dep, des, adult, direction, datedep, datedes) => {
-        var mangjson = [];
-        var dep = dep;
-        var des = des;
-        var datedep = datedep;
-        var datedes = datedes;
-        var adult = adult;
-        var direction = direction;
+        let mangjson = [];
         postTicket("/vn", dep, des, adult, direction, datedep, datedes).then((kq) => {
             var tempflyno = "";
             var tempprice = 0;
@@ -1497,11 +1442,11 @@ class BookingContent extends Component {
             var tempdestime = "";
             var tempitem = "";
             var dem = 0;
-            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+            var size = kq !== undefined || kq.lenght > 0 ? Object.keys(kq[0]).length : 0;
 
             for (var key1 in kq[0]) {
 
-                if (tempdeptime == "" && tempdestime == "") {
+                if (tempdeptime === "" && tempdestime === "") {
                     tempflyno = kq[0][key1]['air_code'];
                     tempprice = kq[0][key1]['baseprice'];
                     tempdeptime = kq[0][key1]['deptime'];
@@ -1509,7 +1454,7 @@ class BookingContent extends Component {
                     tempitem = kq[0][key1];
                 }
 
-                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                if (tempflyno === kq[0][key1]['air_code'] && tempdeptime === kq[0][key1]['deptime'] && tempdestime === kq[0][key1]['destime']) {
                     if (tempprice <= kq[0][key1]['baseprice']) {
                         dem++;
                     } else {
@@ -1560,11 +1505,11 @@ class BookingContent extends Component {
             var tempdestime = "";
             var tempitem = "";
             var dem = 0;
-            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+            var size = kq !== undefined || kq.lenght > 0 ? Object.keys(kq[0]).length : 0;
 
             for (var key1 in kq[0]) {
 
-                if (tempdeptime == "" && tempdestime == "") {
+                if (tempdeptime === "" && tempdestime === "") {
                     tempflyno = kq[0][key1]['air_code'];
                     tempprice = kq[0][key1]['baseprice'];
                     tempdeptime = kq[0][key1]['deptime'];
@@ -1572,7 +1517,7 @@ class BookingContent extends Component {
                     tempitem = kq[0][key1];
                 }
 
-                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                if (tempflyno === kq[0][key1]['air_code'] && tempdeptime === kq[0][key1]['deptime'] && tempdestime === kq[0][key1]['destime']) {
                     if (tempprice <= kq[0][key1]['baseprice']) {
                         dem++;
                     } else {
@@ -1623,11 +1568,11 @@ class BookingContent extends Component {
             var tempdestime = "";
             var tempitem = "";
             var dem = 0;
-            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+            var size = kq !== undefined || kq.lenght > 0 ? Object.keys(kq[0]).length : 0;
 
             for (var key1 in kq[0]) {
 
-                if (tempdeptime == "" && tempdestime == "") {
+                if (tempdeptime === "" && tempdestime === "") {
                     tempflyno = kq[0][key1]['air_code'];
                     tempprice = kq[0][key1]['baseprice'];
                     tempdeptime = kq[0][key1]['deptime'];
@@ -1635,7 +1580,7 @@ class BookingContent extends Component {
                     tempitem = kq[0][key1];
                 }
 
-                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                if (tempflyno === kq[0][key1]['air_code'] && tempdeptime === kq[0][key1]['deptime'] && tempdestime === kq[0][key1]['destime']) {
                     if (tempprice <= kq[0][key1]['baseprice']) {
                         dem++;
                     } else {
@@ -1680,13 +1625,7 @@ class BookingContent extends Component {
         });
     }
     getJsonTicketFromAPIPosition1KhuHoi = (dep, des, adult, direction, datedep, datedes) => {
-        var mangjson = [];
-        var dep = dep;
-        var des = des;
-        var datedep = datedep;
-        var datedes = datedes;
-        var adult = adult;
-        var direction = direction;
+        let mangjson = [];
         postTicket("/vn", dep, des, adult, direction, datedep, datedes).then((kq) => {
             var tempflyno = "";
             var tempprice = 0;
@@ -1694,11 +1633,11 @@ class BookingContent extends Component {
             var tempdestime = "";
             var tempitem = "";
             var dem = 0;
-            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+            var size = kq !== undefined || kq.lenght > 0 ? Object.keys(kq[0]).length : 0;
 
             for (var key1 in kq[0]) {
 
-                if (tempdeptime == "" && tempdestime == "") {
+                if (tempdeptime === "" && tempdestime === "") {
                     tempflyno = kq[0][key1]['air_code'];
                     tempprice = kq[0][key1]['baseprice'];
                     tempdeptime = kq[0][key1]['deptime'];
@@ -1706,7 +1645,7 @@ class BookingContent extends Component {
                     tempitem = kq[0][key1];
                 }
 
-                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                if (tempflyno === kq[0][key1]['air_code'] && tempdeptime === kq[0][key1]['deptime'] && tempdestime === kq[0][key1]['destime']) {
                     if (tempprice <= kq[0][key1]['baseprice']) {
                         dem++;
                     } else {
@@ -1756,11 +1695,11 @@ class BookingContent extends Component {
             var tempdestime = "";
             var tempitem = "";
             var dem = 0;
-            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+            var size = kq !== undefined || kq.lenght > 0 ? Object.keys(kq[0]).length : 0;
 
             for (var key1 in kq[0]) {
 
-                if (tempdeptime == "" && tempdestime == "") {
+                if (tempdeptime === "" && tempdestime === "") {
                     tempflyno = kq[0][key1]['air_code'];
                     tempprice = kq[0][key1]['baseprice'];
                     tempdeptime = kq[0][key1]['deptime'];
@@ -1768,7 +1707,7 @@ class BookingContent extends Component {
                     tempitem = kq[0][key1];
                 }
 
-                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                if (tempflyno === kq[0][key1]['air_code'] && tempdeptime === kq[0][key1]['deptime'] && tempdestime === kq[0][key1]['destime']) {
                     if (tempprice <= kq[0][key1]['baseprice']) {
                         dem++;
                     } else {
@@ -1818,11 +1757,11 @@ class BookingContent extends Component {
             var tempdestime = "";
             var tempitem = "";
             var dem = 0;
-            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+            var size = kq !== undefined || kq.lenght > 0 ? Object.keys(kq[0]).length : 0;
 
             for (var key1 in kq[0]) {
 
-                if (tempdeptime == "" && tempdestime == "") {
+                if (tempdeptime === "" && tempdestime === "") {
                     tempflyno = kq[0][key1]['air_code'];
                     tempprice = kq[0][key1]['baseprice'];
                     tempdeptime = kq[0][key1]['deptime'];
@@ -1830,7 +1769,7 @@ class BookingContent extends Component {
                     tempitem = kq[0][key1];
                 }
 
-                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                if (tempflyno === kq[0][key1]['air_code'] && tempdeptime === kq[0][key1]['deptime'] && tempdestime === kq[0][key1]['destime']) {
                     if (tempprice <= kq[0][key1]['baseprice']) {
                         dem++;
                     } else {
@@ -1874,13 +1813,7 @@ class BookingContent extends Component {
         });
     }
     getJsonTicketFromAPIPosition2KhuHoi = (dep, des, adult, direction, datedep, datedes) => {
-        var mangjson = [];
-        var dep = dep;
-        var des = des;
-        var datedep = datedep;
-        var datedes = datedes;
-        var adult = adult;
-        var direction = direction;
+        let mangjson = [];
         postTicket("/vn", dep, des, adult, direction, datedep, datedes).then((kq) => {
             var tempflyno = "";
             var tempprice = 0;
@@ -1888,11 +1821,11 @@ class BookingContent extends Component {
             var tempdestime = "";
             var tempitem = "";
             var dem = 0;
-            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+            var size = kq !== undefined || kq.lenght > 0 ? Object.keys(kq[0]).length : 0;
 
             for (var key1 in kq[0]) {
 
-                if (tempdeptime == "" && tempdestime == "") {
+                if (tempdeptime === "" && tempdestime === "") {
                     tempflyno = kq[0][key1]['air_code'];
                     tempprice = kq[0][key1]['baseprice'];
                     tempdeptime = kq[0][key1]['deptime'];
@@ -1900,7 +1833,7 @@ class BookingContent extends Component {
                     tempitem = kq[0][key1];
                 }
 
-                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                if (tempflyno === kq[0][key1]['air_code'] && tempdeptime === kq[0][key1]['deptime'] && tempdestime === kq[0][key1]['destime']) {
                     if (tempprice <= kq[0][key1]['baseprice']) {
                         dem++;
                     } else {
@@ -1950,11 +1883,11 @@ class BookingContent extends Component {
             var tempdestime = "";
             var tempitem = "";
             var dem = 0;
-            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+            var size = kq !== undefined || kq.lenght > 0 ? Object.keys(kq[0]).length : 0;
 
             for (var key1 in kq[0]) {
 
-                if (tempdeptime == "" && tempdestime == "") {
+                if (tempdeptime === "" && tempdestime === "") {
                     tempflyno = kq[0][key1]['air_code'];
                     tempprice = kq[0][key1]['baseprice'];
                     tempdeptime = kq[0][key1]['deptime'];
@@ -1962,7 +1895,7 @@ class BookingContent extends Component {
                     tempitem = kq[0][key1];
                 }
 
-                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                if (tempflyno === kq[0][key1]['air_code'] && tempdeptime === kq[0][key1]['deptime'] && tempdestime === kq[0][key1]['destime']) {
                     if (tempprice <= kq[0][key1]['baseprice']) {
                         dem++;
                     } else {
@@ -2012,11 +1945,11 @@ class BookingContent extends Component {
             var tempdestime = "";
             var tempitem = "";
             var dem = 0;
-            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+            var size = kq !== undefined || kq.lenght > 0 ? Object.keys(kq[0]).length : 0;
 
             for (var key1 in kq[0]) {
 
-                if (tempdeptime == "" && tempdestime == "") {
+                if (tempdeptime === "" && tempdestime === "") {
                     tempflyno = kq[0][key1]['air_code'];
                     tempprice = kq[0][key1]['baseprice'];
                     tempdeptime = kq[0][key1]['deptime'];
@@ -2024,7 +1957,7 @@ class BookingContent extends Component {
                     tempitem = kq[0][key1];
                 }
 
-                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                if (tempflyno === kq[0][key1]['air_code'] && tempdeptime === kq[0][key1]['deptime'] && tempdestime === kq[0][key1]['destime']) {
                     if (tempprice <= kq[0][key1]['baseprice']) {
                         dem++;
                     } else {
@@ -2068,13 +2001,7 @@ class BookingContent extends Component {
         });
     }
     getJsonTicketFromAPIPosition3KhuHoi = (dep, des, adult, direction, datedep, datedes) => {
-        var mangjson = [];
-        var dep = dep;
-        var des = des;
-        var datedep = datedep;
-        var datedes = datedes;
-        var adult = adult;
-        var direction = direction;
+        let mangjson = [];
         postTicket("/vn", dep, des, adult, direction, datedep, datedes).then((kq) => {
             var tempflyno = "";
             var tempprice = 0;
@@ -2082,11 +2009,11 @@ class BookingContent extends Component {
             var tempdestime = "";
             var tempitem = "";
             var dem = 0;
-            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+            var size = kq !== undefined || kq.lenght > 0 ? Object.keys(kq[0]).length : 0;
 
             for (var key1 in kq[0]) {
 
-                if (tempdeptime == "" && tempdestime == "") {
+                if (tempdeptime === "" && tempdestime === "") {
                     tempflyno = kq[0][key1]['air_code'];
                     tempprice = kq[0][key1]['baseprice'];
                     tempdeptime = kq[0][key1]['deptime'];
@@ -2094,7 +2021,7 @@ class BookingContent extends Component {
                     tempitem = kq[0][key1];
                 }
 
-                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                if (tempflyno === kq[0][key1]['air_code'] && tempdeptime === kq[0][key1]['deptime'] && tempdestime === kq[0][key1]['destime']) {
                     if (tempprice <= kq[0][key1]['baseprice']) {
                         dem++;
                     } else {
@@ -2144,11 +2071,11 @@ class BookingContent extends Component {
             var tempdestime = "";
             var tempitem = "";
             var dem = 0;
-            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+            var size = kq !== undefined || kq.lenght > 0 ? Object.keys(kq[0]).length : 0;
 
             for (var key1 in kq[0]) {
 
-                if (tempdeptime == "" && tempdestime == "") {
+                if (tempdeptime === "" && tempdestime === "") {
                     tempflyno = kq[0][key1]['air_code'];
                     tempprice = kq[0][key1]['baseprice'];
                     tempdeptime = kq[0][key1]['deptime'];
@@ -2156,7 +2083,7 @@ class BookingContent extends Component {
                     tempitem = kq[0][key1];
                 }
 
-                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                if (tempflyno === kq[0][key1]['air_code'] && tempdeptime === kq[0][key1]['deptime'] && tempdestime === kq[0][key1]['destime']) {
                     if (tempprice <= kq[0][key1]['baseprice']) {
                         dem++;
                     } else {
@@ -2206,11 +2133,11 @@ class BookingContent extends Component {
             var tempdestime = "";
             var tempitem = "";
             var dem = 0;
-            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+            var size = kq !== undefined || kq.lenght > 0 ? Object.keys(kq[0]).length : 0;
 
             for (var key1 in kq[0]) {
 
-                if (tempdeptime == "" && tempdestime == "") {
+                if (tempdeptime === "" && tempdestime === "") {
                     tempflyno = kq[0][key1]['air_code'];
                     tempprice = kq[0][key1]['baseprice'];
                     tempdeptime = kq[0][key1]['deptime'];
@@ -2218,7 +2145,7 @@ class BookingContent extends Component {
                     tempitem = kq[0][key1];
                 }
 
-                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                if (tempflyno === kq[0][key1]['air_code'] && tempdeptime === kq[0][key1]['deptime'] && tempdestime === kq[0][key1]['destime']) {
                     if (tempprice <= kq[0][key1]['baseprice']) {
                         dem++;
                     } else {
@@ -2262,13 +2189,7 @@ class BookingContent extends Component {
         });
     }
     getJsonTicketFromAPIPosition4KhuHoi = (dep, des, adult, direction, datedep, datedes) => {
-        var mangjson = [];
-        var dep = dep;
-        var des = des;
-        var datedep = datedep;
-        var datedes = datedes;
-        var adult = adult;
-        var direction = direction;
+        let mangjson = [];
         postTicket("/vn", dep, des, adult, direction, datedep, datedes).then((kq) => {
             var tempflyno = "";
             var tempprice = 0;
@@ -2276,11 +2197,11 @@ class BookingContent extends Component {
             var tempdestime = "";
             var tempitem = "";
             var dem = 0;
-            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+            var size = kq !== undefined || kq.lenght > 0 ? Object.keys(kq[0]).length : 0;
 
             for (var key1 in kq[0]) {
 
-                if (tempdeptime == "" && tempdestime == "") {
+                if (tempdeptime === "" && tempdestime === "") {
                     tempflyno = kq[0][key1]['air_code'];
                     tempprice = kq[0][key1]['baseprice'];
                     tempdeptime = kq[0][key1]['deptime'];
@@ -2288,7 +2209,7 @@ class BookingContent extends Component {
                     tempitem = kq[0][key1];
                 }
 
-                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                if (tempflyno === kq[0][key1]['air_code'] && tempdeptime === kq[0][key1]['deptime'] && tempdestime === kq[0][key1]['destime']) {
                     if (tempprice <= kq[0][key1]['baseprice']) {
                         dem++;
                     } else {
@@ -2338,11 +2259,11 @@ class BookingContent extends Component {
             var tempdestime = "";
             var tempitem = "";
             var dem = 0;
-            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+            var size = kq !== undefined || kq.lenght > 0 ? Object.keys(kq[0]).length : 0;
 
             for (var key1 in kq[0]) {
 
-                if (tempdeptime == "" && tempdestime == "") {
+                if (tempdeptime === "" && tempdestime === "") {
                     tempflyno = kq[0][key1]['air_code'];
                     tempprice = kq[0][key1]['baseprice'];
                     tempdeptime = kq[0][key1]['deptime'];
@@ -2350,7 +2271,7 @@ class BookingContent extends Component {
                     tempitem = kq[0][key1];
                 }
 
-                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                if (tempflyno === kq[0][key1]['air_code'] && tempdeptime === kq[0][key1]['deptime'] && tempdestime === kq[0][key1]['destime']) {
                     if (tempprice <= kq[0][key1]['baseprice']) {
                         dem++;
                     } else {
@@ -2400,11 +2321,11 @@ class BookingContent extends Component {
             var tempdestime = "";
             var tempitem = "";
             var dem = 0;
-            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+            var size = kq !== undefined || kq.lenght > 0 ? Object.keys(kq[0]).length : 0;
 
             for (var key1 in kq[0]) {
 
-                if (tempdeptime == "" && tempdestime == "") {
+                if (tempdeptime === "" && tempdestime === "") {
                     tempflyno = kq[0][key1]['air_code'];
                     tempprice = kq[0][key1]['baseprice'];
                     tempdeptime = kq[0][key1]['deptime'];
@@ -2412,7 +2333,7 @@ class BookingContent extends Component {
                     tempitem = kq[0][key1];
                 }
 
-                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                if (tempflyno === kq[0][key1]['air_code'] && tempdeptime === kq[0][key1]['deptime'] && tempdestime === kq[0][key1]['destime']) {
                     if (tempprice <= kq[0][key1]['baseprice']) {
                         dem++;
                     } else {
@@ -2456,13 +2377,7 @@ class BookingContent extends Component {
         });
     }
     getJsonTicketFromAPIPosition5KhuHoi = (dep, des, adult, direction, datedep, datedes) => {
-        var mangjson = [];
-        var dep = dep;
-        var des = des;
-        var datedep = datedep;
-        var datedes = datedes;
-        var adult = adult;
-        var direction = direction;
+        let mangjson = [];
         postTicket("/vn", dep, des, adult, direction, datedep, datedes).then((kq) => {
             var tempflyno = "";
             var tempprice = 0;
@@ -2470,11 +2385,11 @@ class BookingContent extends Component {
             var tempdestime = "";
             var tempitem = "";
             var dem = 0;
-            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+            var size = kq !== undefined || kq.lenght > 0 ? Object.keys(kq[0]).length : 0;
 
             for (var key1 in kq[0]) {
 
-                if (tempdeptime == "" && tempdestime == "") {
+                if (tempdeptime === "" && tempdestime === "") {
                     tempflyno = kq[0][key1]['air_code'];
                     tempprice = kq[0][key1]['baseprice'];
                     tempdeptime = kq[0][key1]['deptime'];
@@ -2482,7 +2397,7 @@ class BookingContent extends Component {
                     tempitem = kq[0][key1];
                 }
 
-                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                if (tempflyno === kq[0][key1]['air_code'] && tempdeptime === kq[0][key1]['deptime'] && tempdestime === kq[0][key1]['destime']) {
                     if (tempprice <= kq[0][key1]['baseprice']) {
                         dem++;
                     } else {
@@ -2532,11 +2447,11 @@ class BookingContent extends Component {
             var tempdestime = "";
             var tempitem = "";
             var dem = 0;
-            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+            var size = kq !== undefined || kq.lenght > 0 ? Object.keys(kq[0]).length : 0;
 
             for (var key1 in kq[0]) {
 
-                if (tempdeptime == "" && tempdestime == "") {
+                if (tempdeptime === "" && tempdestime === "") {
                     tempflyno = kq[0][key1]['air_code'];
                     tempprice = kq[0][key1]['baseprice'];
                     tempdeptime = kq[0][key1]['deptime'];
@@ -2544,7 +2459,7 @@ class BookingContent extends Component {
                     tempitem = kq[0][key1];
                 }
 
-                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                if (tempflyno === kq[0][key1]['air_code'] && tempdeptime === kq[0][key1]['deptime'] && tempdestime === kq[0][key1]['destime']) {
                     if (tempprice <= kq[0][key1]['baseprice']) {
                         dem++;
                     } else {
@@ -2594,11 +2509,11 @@ class BookingContent extends Component {
             var tempdestime = "";
             var tempitem = "";
             var dem = 0;
-            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+            var size = kq !== undefined || kq.lenght > 0 ? Object.keys(kq[0]).length : 0;
 
             for (var key1 in kq[0]) {
 
-                if (tempdeptime == "" && tempdestime == "") {
+                if (tempdeptime === "" && tempdestime === "") {
                     tempflyno = kq[0][key1]['air_code'];
                     tempprice = kq[0][key1]['baseprice'];
                     tempdeptime = kq[0][key1]['deptime'];
@@ -2606,7 +2521,7 @@ class BookingContent extends Component {
                     tempitem = kq[0][key1];
                 }
 
-                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                if (tempflyno === kq[0][key1]['air_code'] && tempdeptime === kq[0][key1]['deptime'] && tempdestime === kq[0][key1]['destime']) {
                     if (tempprice <= kq[0][key1]['baseprice']) {
                         dem++;
                     } else {
@@ -2650,13 +2565,7 @@ class BookingContent extends Component {
         });
     }
     getJsonTicketFromAPIPosition6KhuHoi = (dep, des, adult, direction, datedep, datedes) => {
-        var mangjson = [];
-        var dep = dep;
-        var des = des;
-        var datedep = datedep;
-        var datedes = datedes;
-        var adult = adult;
-        var direction = direction;
+        let mangjson = [];
         postTicket("/vn", dep, des, adult, direction, datedep, datedes).then((kq) => {
             var tempflyno = "";
             var tempprice = 0;
@@ -2664,11 +2573,11 @@ class BookingContent extends Component {
             var tempdestime = "";
             var tempitem = "";
             var dem = 0;
-            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+            var size = kq !== undefined || kq.lenght > 0 ? Object.keys(kq[0]).length : 0;
 
             for (var key1 in kq[0]) {
 
-                if (tempdeptime == "" && tempdestime == "") {
+                if (tempdeptime === "" && tempdestime === "") {
                     tempflyno = kq[0][key1]['air_code'];
                     tempprice = kq[0][key1]['baseprice'];
                     tempdeptime = kq[0][key1]['deptime'];
@@ -2676,7 +2585,7 @@ class BookingContent extends Component {
                     tempitem = kq[0][key1];
                 }
 
-                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                if (tempflyno === kq[0][key1]['air_code'] && tempdeptime === kq[0][key1]['deptime'] && tempdestime === kq[0][key1]['destime']) {
                     if (tempprice <= kq[0][key1]['baseprice']) {
                         dem++;
                     } else {
@@ -2726,11 +2635,11 @@ class BookingContent extends Component {
             var tempdestime = "";
             var tempitem = "";
             var dem = 0;
-            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+            var size = kq !== undefined || kq.lenght > 0 ? Object.keys(kq[0]).length : 0;
 
             for (var key1 in kq[0]) {
 
-                if (tempdeptime == "" && tempdestime == "") {
+                if (tempdeptime === "" && tempdestime === "") {
                     tempflyno = kq[0][key1]['air_code'];
                     tempprice = kq[0][key1]['baseprice'];
                     tempdeptime = kq[0][key1]['deptime'];
@@ -2738,7 +2647,7 @@ class BookingContent extends Component {
                     tempitem = kq[0][key1];
                 }
 
-                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                if (tempflyno === kq[0][key1]['air_code'] && tempdeptime === kq[0][key1]['deptime'] && tempdestime === kq[0][key1]['destime']) {
                     if (tempprice <= kq[0][key1]['baseprice']) {
                         dem++;
                     } else {
@@ -2788,11 +2697,11 @@ class BookingContent extends Component {
             var tempdestime = "";
             var tempitem = "";
             var dem = 0;
-            var size = kq !== undefined > 0 ? Object.keys(kq[0]).length : 0;
+            var size = kq !== undefined || kq.lenght > 0 ? Object.keys(kq[0]).length : 0;
 
             for (var key1 in kq[0]) {
 
-                if (tempdeptime == "" && tempdestime == "") {
+                if (tempdeptime === "" && tempdestime === "") {
                     tempflyno = kq[0][key1]['air_code'];
                     tempprice = kq[0][key1]['baseprice'];
                     tempdeptime = kq[0][key1]['deptime'];
@@ -2800,7 +2709,7 @@ class BookingContent extends Component {
                     tempitem = kq[0][key1];
                 }
 
-                if (tempflyno == kq[0][key1]['air_code'] && tempdeptime == kq[0][key1]['deptime'] && tempdestime == kq[0][key1]['destime']) {
+                if (tempflyno === kq[0][key1]['air_code'] && tempdeptime === kq[0][key1]['deptime'] && tempdestime === kq[0][key1]['destime']) {
                     if (tempprice <= kq[0][key1]['baseprice']) {
                         dem++;
                     } else {
@@ -2846,9 +2755,6 @@ class BookingContent extends Component {
 
     componentWillMount() {
 
-        if (!localStorage.getItem("dep") || !localStorage.getItem("des")) {
-            return <Redirect to="/" />;
-        }
         var dep = localStorage.getItem("dep");
         var des = localStorage.getItem("des");
         var datedep = localStorage.getItem('datedep') ? localStorage.getItem('datedep') : getTodayddmmyyyy();
@@ -2865,13 +2771,29 @@ class BookingContent extends Component {
             // get data from other day
             var daychoose = localStorage.getItem('datedep') ? localStorage.getItem('datedep') : getTodayddmmyyyy();
             var mang7ngay = [];
-            for (var i = 1; i <= 7; i++) {
-                var newdate = new Date(daychoose.split("-").reverse().join("-"));
-                var newdateplus1 = newdate.setDate(newdate.getDate() - 4 + i);
-                var testdate = new Date(newdateplus1);
-                var formattedDate = formatDate(testdate);
-                if (formattedDate != daychoose) {
+            for (let i = 1; i <= 7; i++) {
+                let newdate = new Date(daychoose.split("-").reverse().join("-"));
+                let newdateplus1 = newdate.setDate(newdate.getDate() - 4 + i);
+                let testdate = new Date(newdateplus1);
+                let formattedDate = formatDate(testdate);
+                if (formattedDate !== daychoose) {
                     mang7ngay.push(formattedDate);
+                }
+            }
+
+            if (direction === "1") {
+                this.getJsonTicketFromAPIKhuHoi(des, dep, adult, direction, datedes, datedep);
+                // get data from other day Khứ hồi
+                var daychooseKhuHoi = localStorage.getItem('datedes') ? localStorage.getItem('datedes') : localStorage.getItem('datedep');
+                var mang7ngaykhuhoi = [];
+                for (let i = 1; i <= 7; i++) {
+                    let newdate = new Date(daychooseKhuHoi.split("-").reverse().join("-"));
+                    let newdateplus1 = newdate.setDate(newdate.getDate() - 4 + i);
+                    let testdate = new Date(newdateplus1);
+                    let formattedDate = formatDate(testdate);
+                    if (formattedDate !== daychooseKhuHoi) {
+                        mang7ngaykhuhoi.push(formattedDate);
+                    }
                 }
             }
 
@@ -2889,33 +2811,19 @@ class BookingContent extends Component {
             this.getJsonTicketFromAPIPosition6(dep, des, adult, direction, mang7ngay[5], datedes);
 
 
-            if(direction == 1){
-               this.getJsonTicketFromAPIKhuHoi(des, dep, adult, direction, datedes, datedep);
-               // get data from other day Khứ hồi
-            var daychooseKhuHoi = localStorage.getItem('datedes') ? localStorage.getItem('datedes') : localStorage.getItem('datedep');
-            var mang7ngaykhuhoi = [];
-            for (var i = 1; i <= 7; i++) {
-                var newdate = new Date(daychooseKhuHoi.split("-").reverse().join("-"));
-                var newdateplus1 = newdate.setDate(newdate.getDate() - 4 + i);
-                var testdate = new Date(newdateplus1);
-                var formattedDate = formatDate(testdate);
-                if (formattedDate != daychooseKhuHoi) {
-                    mang7ngaykhuhoi.push(formattedDate);
-                }
-            }
-
-            //VÉ RẺ VỊ TRÍ 1 KHỨ HỒI
-            this.getJsonTicketFromAPIPosition1KhuHoi(dep, des, adult, direction, mang7ngaykhuhoi[0], datedes);
-            //VÉ RẺ VỊ TRÍ 2 KHỨ HỒI
-            this.getJsonTicketFromAPIPosition2KhuHoi(dep, des, adult, direction, mang7ngaykhuhoi[1], datedes);
-            //VÉ RẺ VỊ TRÍ 3 KHỨ HỒI
-            this.getJsonTicketFromAPIPosition3KhuHoi(dep, des, adult, direction, mang7ngaykhuhoi[2], datedes);
-            //VÉ RẺ VỊ TRÍ 4 KHỨ HỒI
-            this.getJsonTicketFromAPIPosition4KhuHoi(dep, des, adult, direction, mang7ngaykhuhoi[3], datedes);
-            //VÉ RẺ VỊ TRÍ 5 KHỨ HỒI
-            this.getJsonTicketFromAPIPosition5KhuHoi(dep, des, adult, direction, mang7ngaykhuhoi[4], datedes);
-            //VÉ RẺ VỊ TRÍ 6 KHỨ HỒI
-            this.getJsonTicketFromAPIPosition6KhuHoi(dep, des, adult, direction, mang7ngaykhuhoi[5], datedes);
+            if (direction === "1") {
+                //VÉ RẺ VỊ TRÍ 1 KHỨ HỒI
+                this.getJsonTicketFromAPIPosition1KhuHoi(dep, des, adult, direction, mang7ngaykhuhoi[0], datedes);
+                //VÉ RẺ VỊ TRÍ 2 KHỨ HỒI
+                this.getJsonTicketFromAPIPosition2KhuHoi(dep, des, adult, direction, mang7ngaykhuhoi[1], datedes);
+                //VÉ RẺ VỊ TRÍ 3 KHỨ HỒI
+                this.getJsonTicketFromAPIPosition3KhuHoi(dep, des, adult, direction, mang7ngaykhuhoi[2], datedes);
+                //VÉ RẺ VỊ TRÍ 4 KHỨ HỒI
+                this.getJsonTicketFromAPIPosition4KhuHoi(dep, des, adult, direction, mang7ngaykhuhoi[3], datedes);
+                //VÉ RẺ VỊ TRÍ 5 KHỨ HỒI
+                this.getJsonTicketFromAPIPosition5KhuHoi(dep, des, adult, direction, mang7ngaykhuhoi[4], datedes);
+                //VÉ RẺ VỊ TRÍ 6 KHỨ HỒI
+                this.getJsonTicketFromAPIPosition6KhuHoi(dep, des, adult, direction, mang7ngaykhuhoi[5], datedes);
             }
         }
 
@@ -2950,7 +2858,6 @@ class BookingContent extends Component {
                         deptime={value.deptime}
                         destime={value.destime}
                         duration={value.duration}
-                        datefull={value.datefull}
                     />
                 )
             );
@@ -2975,7 +2882,6 @@ class BookingContent extends Component {
                         deptime={value.deptime}
                         destime={value.destime}
                         duration={value.duration}
-                        datefull={value.datefull}
                     />
                 )
             );
@@ -2984,24 +2890,24 @@ class BookingContent extends Component {
 
     render() {
 
-        var daychoosedforloop = localStorage.getItem('datedep') ? localStorage.getItem('datedep') : getTodayddmmyyyy();
+        var daychoosedforloop = localStorage.getItem('datedep') !== null ? localStorage.getItem('datedep') : getTodayddmmyyyy();
         var mang7ngay = [];
-        for (var i = 1; i <= 7; i++) {
-            var newdate = new Date(daychoosedforloop.split("-").reverse().join("-"));
-            var newdateplus1 = newdate.setDate(newdate.getDate() - 4 + i);
-            var testdate = new Date(newdateplus1);
-            var formattedDate = formatDate(testdate);
+        for (let i = 1; i <= 7; i++) {
+            let newdate = new Date(daychoosedforloop.split("-").reverse().join("-"));
+            let newdateplus1 = newdate.setDate(newdate.getDate() - 4 + i);
+            let testdate = new Date(newdateplus1);
+            let formattedDate = formatDate(testdate);
             mang7ngay.push(formattedDate);
         }
         var demvitri = 0;
 
-        var daychoosedforloopkhuhoi = localStorage.getItem('datedes') ? localStorage.getItem('datedes') : localStorage.getItem('datedep');
+        var daychoosedforloopkhuhoi = localStorage.getItem('datedes') !== null ? localStorage.getItem('datedes') : daychoosedforloop;
         var mang7ngaykhuhoi = [];
-        for (var i = 1; i <= 7; i++) {
-            var newdate = new Date(daychoosedforloopkhuhoi.split("-").reverse().join("-"));
-            var newdateplus1 = newdate.setDate(newdate.getDate() - 4 + i);
-            var testdate = new Date(newdateplus1);
-            var formattedDate = formatDate(testdate);
+        for (let i = 1; i <= 7; i++) {
+            let newdate = new Date(daychoosedforloopkhuhoi.split("-").reverse().join("-"));
+            let newdateplus1 = newdate.setDate(newdate.getDate() - 4 + i);
+            let testdate = new Date(newdateplus1);
+            let formattedDate = formatDate(testdate);
             mang7ngaykhuhoi.push(formattedDate);
         }
         var demvitrikhuhoi = 0;
@@ -3026,7 +2932,7 @@ class BookingContent extends Component {
                                                             </div>
                                                         )
                                                     } else {
-                                                        if (compareTwoDay(i).getTime() == compareTwoDay(daychoosedforloop).getTime()) {
+                                                        if (compareTwoDay(i).getTime() === compareTwoDay(daychoosedforloop).getTime()) {
                                                             demvitri++;
                                                             return (
                                                                 <div key={k} className=" col-md-1-chia7" >
@@ -3034,7 +2940,7 @@ class BookingContent extends Component {
                                                                 </div>
                                                             )
                                                         } else {
-                                                            if (demvitri == 0) {
+                                                            if (demvitri === 0) {
                                                                 demvitri++;
                                                                 return (
                                                                     <div key={k} className=" col-md-1-chia7" >
@@ -3042,7 +2948,7 @@ class BookingContent extends Component {
                                                                     </div>
                                                                 )
                                                             }
-                                                            if (demvitri == 1) {
+                                                            else if (demvitri === 1) {
                                                                 demvitri++;
                                                                 return (
                                                                     <div key={k} className=" col-md-1-chia7" >
@@ -3050,7 +2956,7 @@ class BookingContent extends Component {
                                                                     </div>
                                                                 )
                                                             }
-                                                            if (demvitri == 2) {
+                                                            else if (demvitri === 2) {
                                                                 demvitri++;
                                                                 return (
                                                                     <div key={k} className=" col-md-1-chia7" >
@@ -3058,7 +2964,7 @@ class BookingContent extends Component {
                                                                     </div>
                                                                 )
                                                             }
-                                                            if (demvitri == 4) {
+                                                            else if (demvitri === 4) {
                                                                 demvitri++;
                                                                 return (
                                                                     <div key={k} className=" col-md-1-chia7" >
@@ -3066,7 +2972,7 @@ class BookingContent extends Component {
                                                                     </div>
                                                                 )
                                                             }
-                                                            if (demvitri == 5) {
+                                                            else if (demvitri === 5) {
                                                                 demvitri++;
                                                                 return (
                                                                     <div key={k} className=" col-md-1-chia7" >
@@ -3074,8 +2980,14 @@ class BookingContent extends Component {
                                                                     </div>
                                                                 )
                                                             }
-                                                            if (demvitri == 6) {
+                                                            else if (demvitri === 6) {
                                                                 demvitri++;
+                                                                return (
+                                                                    <div key={k} className=" col-md-1-chia7" >
+                                                                        <input onClick={(event) => { this.handleClick(event) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={this.state.datasmallestprice6 !== null ? i + " " + this.state.datasmallestprice6 + " VND" : i} />
+                                                                    </div>
+                                                                )
+                                                            } else {
                                                                 return (
                                                                     <div key={k} className=" col-md-1-chia7" >
                                                                         <input onClick={(event) => { this.handleClick(event) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={this.state.datasmallestprice6 !== null ? i + " " + this.state.datasmallestprice6 + " VND" : i} />
@@ -3101,7 +3013,7 @@ class BookingContent extends Component {
                                     {this.state.data !== null && this.state.data.length !== 0 ? this.printData() : this.state.notData}
                                 </div>
                                 {
-                                    this.state.direction == 1 ?
+                                    this.state.direction === "1" ?
                                         <React.Fragment>
                                             <h3 style={{ "color": "black" }} className="">Chặng bay khứ hồi {localStorage.getItem("des")} → {localStorage.getItem("dep")} ngày {localStorage.getItem("datedes")}</h3>
                                             <div className="tour-order-layout-form">
@@ -3116,63 +3028,69 @@ class BookingContent extends Component {
                                                                         <div key={k} className=" col-md-1-chia7" >
                                                                             <input type="button" style={{ "padding": "6px 12px" }} className="btn disabled btn-block btn-info" value={i} />
                                                                         </div>
-                                                                    )
+                                                                    );
                                                                 } else {
-                                                                    if (compareTwoDay(i).getTime() == compareTwoDay(daychoosedforloopkhuhoi).getTime()) {
+                                                                    if (compareTwoDay(i).getTime() === compareTwoDay(daychoosedforloopkhuhoi).getTime()) {
                                                                         demvitrikhuhoi++;
                                                                         return (
                                                                             <div key={k} className=" col-md-1-chia7" >
                                                                                 <input type="button" onClick={(event) => { this.handleClickKhuHoi(event) }} style={{ "padding": "6px 12px" }} className="btn btn-block btn-primary newlinebtn" value={this.state.datasmallestpricekhuhoi !== null ? daychoosedforloopkhuhoi + " " + this.state.datasmallestpricekhuhoi + " VND" : daychoosedforloopkhuhoi} />
                                                                             </div>
-                                                                        )
+                                                                        );
                                                                     } else {
-                                                                        if (demvitrikhuhoi == 0) {
+                                                                        if (demvitrikhuhoi === 0) {
                                                                             demvitrikhuhoi++;
                                                                             return (
                                                                                 <div key={k} className=" col-md-1-chia7" >
                                                                                     <input onClick={(event) => { this.handleClickKhuHoi(event) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={this.state.datasmallestprice1khuhoi !== null ? i + " " + this.state.datasmallestprice1khuhoi + " VND" : i} />
                                                                                 </div>
-                                                                            )
+                                                                            );
                                                                         }
-                                                                        if (demvitrikhuhoi == 1) {
+                                                                        else if (demvitrikhuhoi === 1) {
                                                                             demvitrikhuhoi++;
                                                                             return (
                                                                                 <div key={k} className=" col-md-1-chia7" >
                                                                                     <input onClick={(event) => { this.handleClickKhuHoi(event) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={this.state.datasmallestprice2khuhoi !== null ? i + " " + this.state.datasmallestprice2khuhoi + " VND" : i} />
                                                                                 </div>
-                                                                            )
+                                                                            );
                                                                         }
-                                                                        if (demvitrikhuhoi == 2) {
+                                                                        else if (demvitrikhuhoi === 2) {
                                                                             demvitrikhuhoi++;
                                                                             return (
                                                                                 <div key={k} className=" col-md-1-chia7" >
                                                                                     <input onClick={(event) => { this.handleClickKhuHoi(event) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={this.state.datasmallestprice3khuhoi !== null ? i + " " + this.state.datasmallestprice3khuhoi + " VND" : i} />
                                                                                 </div>
-                                                                            )
+                                                                            );
                                                                         }
-                                                                        if (demvitrikhuhoi == 4) {
+                                                                        else if (demvitrikhuhoi === 4) {
                                                                             demvitrikhuhoi++;
                                                                             return (
                                                                                 <div key={k} className=" col-md-1-chia7" >
                                                                                     <input onClick={(event) => { this.handleClickKhuHoi(event) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={this.state.datasmallestprice4khuhoi !== null ? i + " " + this.state.datasmallestprice4khuhoi + " VND" : i} />
                                                                                 </div>
-                                                                            )
+                                                                            );
                                                                         }
-                                                                        if (demvitrikhuhoi == 5) {
+                                                                        else if (demvitrikhuhoi === 5) {
                                                                             demvitrikhuhoi++;
                                                                             return (
                                                                                 <div key={k} className=" col-md-1-chia7" >
                                                                                     <input onClick={(event) => { this.handleClickKhuHoi(event) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={this.state.datasmallestprice5khuhoi !== null ? i + " " + this.state.datasmallestprice5khuhoi + " VND" : i} />
                                                                                 </div>
-                                                                            )
+                                                                            );
                                                                         }
-                                                                        if (demvitrikhuhoi == 6) {
+                                                                        else if (demvitrikhuhoi === 6) {
                                                                             demvitrikhuhoi++;
                                                                             return (
                                                                                 <div key={k} className=" col-md-1-chia7" >
                                                                                     <input onClick={(event) => { this.handleClickKhuHoi(event) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={this.state.datasmallestprice6khuhoi !== null ? i + " " + this.state.datasmallestprice6khuhoi + " VND" : i} />
                                                                                 </div>
-                                                                            )
+                                                                            );
+                                                                        } else {
+                                                                            return (
+                                                                                <div key={k} className=" col-md-1-chia7" >
+                                                                                    <input onClick={(event) => { this.handleClickKhuHoi(event) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={this.state.datasmallestprice6khuhoi !== null ? i + " " + this.state.datasmallestprice6khuhoi + " VND" : i} />
+                                                                                </div>
+                                                                            );
                                                                         }
 
                                                                     }
@@ -3190,7 +3108,7 @@ class BookingContent extends Component {
                                                 </form>
                                             </div>
                                             <div className="tour-listing-row">
-                                                {this.state.data !== null && this.state.data.length !== 0 ? this.printDataKhuHoi() : this.state.notData}
+                                                {this.state.datakhuhoi !== null && this.state.datakhuhoi.length !== 0 ? this.printDataKhuHoi() : this.state.notData}
                                             </div>
                                         </React.Fragment>
                                         :
@@ -3202,7 +3120,7 @@ class BookingContent extends Component {
                             <div className="col-sm-12 col-xs-12 col-lg-3 col-md-4 tour-sidebar">
                                 <aside id="it-search-form-14" className="widget widget_tour_search_form"><h3 className="widget-title"><span>FIND YOUR TOURS</span></h3>        <div className="tour-search-form-wrap">
                                     <form action="http://inwavethemes.com/wordpress/intravel/wp-admin/admin-ajax.php?action=intravel_search_tour" method="post">
-                                        <div className="form-group search-tour"><i className="icon ion-android-search" /><input type="text" name="s" placeholder="Enter your keywords" defaultValue className="form-control" /></div><div className="form-group search-tour"><i className="icon ion-calendar" /><input type="text" name="start_date" placeholder="Tour start date" defaultValue className="form-control has-date-picker hasDatepicker" id="dp1533210709284" /></div><div className="form-group"><select name="tour_type" className="form-control tour-select-search select2-hidden-accessible" tabIndex={-1} aria-hidden="true"><option value>All types</option><option value="adventure-travel">Adventure Travel</option><option value="beaches-islands">Beaches &amp; Islands</option><option value="family-tours">Family Tours</option><option value="history-culture">History &amp; Culture</option><option value="nature">Nature &amp; wildlife</option><option value="sightseeing-tours">Sightseeing tours</option></select><span className="select2 select2-container select2-container--default" dir="ltr" style={{ width: 248 }}><span className="selection"><span className="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabIndex={0} aria-labelledby="select2-tour_type-zx-container"><span className="select2-selection__rendered" id="select2-tour_type-zx-container" title="All types">All types</span><span className="select2-selection__arrow" role="presentation"><b role="presentation" /></span></span></span><span className="dropdown-wrapper" aria-hidden="true" /></span></div><div className="form-group"><select name="destination" className="form-control tour-select-search select2-hidden-accessible" tabIndex={-1} aria-hidden="true"><option value>All destinations</option><option value="amsterdam">Amsterdam</option><option value="dubai">Dubai</option><option value="france">France</option><option value="italy">Italy</option><option value="new-york">New York</option><option value="paris">Paris</option><option value="rome">Rome</option><option value="san-francisco">San Francisco</option><option value="the_netherlands">The Netherlands</option><option value="uae">UAE</option><option value="usa">USA</option><option value="venice">Venice</option></select><span className="select2 select2-container select2-container--default" dir="ltr" style={{ width: 248 }}><span className="selection"><span className="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabIndex={0} aria-labelledby="select2-destination-jg-container"><span className="select2-selection__rendered" id="select2-destination-jg-container" title="All destinations">All destinations</span><span className="select2-selection__arrow" role="presentation"><b role="presentation" /></span></span></span><span className="dropdown-wrapper" aria-hidden="true" /></span></div>                                        <div className="form-group">
+                                        <div className="form-group search-tour"><i className="icon ion-android-search" /><input type="text" name="s" placeholder="Enter your keywords" defaultValue className="form-control" /></div><div className="form-group search-tour"><i className="icon ion-calendar" /><input type="text" name="start_date" placeholder="Tour start date" defaultValue className="form-control has-date-picker hasDatepicker" id="dp1533210709284" /></div><div className="form-group"><select name="tour_type" className="form-control tour-select-search select2-hidden-accessible" tabIndex={-1} ><option value>All types</option><option value="adventure-travel">Adventure Travel</option><option value="beaches-islands">Beaches &amp; Islands</option><option value="family-tours">Family Tours</option><option value="history-culture">History &amp; Culture</option><option value="nature">Nature &amp; wildlife</option><option value="sightseeing-tours">Sightseeing tours</option></select><span className="select2 select2-container select2-container--default" dir="ltr" style={{ width: 248 }}><span className="selection"><span className="select2-selection select2-selection--single" tabIndex={0} ><span className="select2-selection__rendered" id="select2-tour_type-zx-container" title="All types">All types</span><span className="select2-selection__arrow" role="presentation"><b role="presentation" /></span></span></span><span className="dropdown-wrapper" /></span></div><div className="form-group"><select name="destination" className="form-control tour-select-search select2-hidden-accessible" tabIndex={-1} ><option value>All destinations</option><option value="amsterdam">Amsterdam</option><option value="dubai">Dubai</option><option value="france">France</option><option value="italy">Italy</option><option value="new-york">New York</option><option value="paris">Paris</option><option value="rome">Rome</option><option value="san-francisco">San Francisco</option><option value="the_netherlands">The Netherlands</option><option value="uae">UAE</option><option value="usa">USA</option><option value="venice">Venice</option></select><span className="select2 select2-container select2-container--default" dir="ltr" style={{ width: 248 }}><span className="selection"><span className="select2-selection select2-selection--single" tabIndex={0} ><span className="select2-selection__rendered" id="select2-destination-jg-container" title="All destinations">All destinations</span><span className="select2-selection__arrow" role="presentation"><b role="presentation" /></span></span></span><span className="dropdown-wrapper" /></span></div>                                        <div className="form-group">
                                             <div className="tour_price_slider_wrapper">
                                                 <div className="tour_price_slider ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" style={{}}><div className="ui-slider-range ui-widget-header ui-corner-all" style={{ left: '0%', width: '100%' }} /><span className="ui-slider-handle ui-state-default ui-corner-all" tabIndex={0} style={{ left: '0%' }} /><span className="ui-slider-handle ui-state-default ui-corner-all" tabIndex={0} style={{ left: '100%' }} /></div>
                                                 <div className="tour_price_slider_amount">
@@ -3223,12 +3141,12 @@ class BookingContent extends Component {
                                     <a href="http://inwavethemes.com/wordpress/intravel/home/tour-type/beaches-islands/" className="tag-link-68 tag-link-position-2" title="3 topics" style={{ fontSize: '8pt' }}>Beaches &amp; Islands</a>
                                     <a href="http://inwavethemes.com/wordpress/intravel/home/tour-type/family-tours/" className="tag-link-45 tag-link-position-3" title="7 topics" style={{ fontSize: '18.5pt' }}>Family Tours</a>
                                     <a href="http://inwavethemes.com/wordpress/intravel/home/tour-type/history-culture/" className="tag-link-44 tag-link-position-4" title="6 topics" style={{ fontSize: '16.75pt' }}>History &amp; Culture</a>
-                                    <a href="http://inwavethemes.com/wordpress/intravel/home/tour-type/sightseeing-tours/" className="tag-link-62 tag-link-position-5" title="9 topics" style={{ fontSize: '22pt' }}>Sightseeing tours</a></div></aside><aside id="destinations-2" className="widget tour_destinations"><h3 className="widget-title"><span>Popular destinations</span></h3><div className="destination-widget"><div className="destination-item iw-effect-1"><img src="http://inwavethemes.com/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_usa-270x300.jpg" /><div className="destination-info" style={{ bottom: 76 }}><div className="info-active"><h4>USA</h4><div className="destination-widget-rating">
+                                    <a href="http://inwavethemes.com/wordpress/intravel/home/tour-type/sightseeing-tours/" className="tag-link-62 tag-link-position-5" title="9 topics" style={{ fontSize: '22pt' }}>Sightseeing tours</a></div></aside><aside id="destinations-2" className="widget tour_destinations"><h3 className="widget-title"><span>Popular destinations</span></h3><div className="destination-widget"><div className="destination-item iw-effect-1"><img alt="test" src="http://inwavethemes.com/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_usa-270x300.jpg" /><div className="destination-info" style={{ bottom: 76 }}><div className="info-active"><h4>USA</h4><div className="destination-widget-rating">
                                         <div className="iw-star-rating">
                                             <span className="rating" style={{ width: '99%' }} />
                                         </div>
                                         <div className="clearfix" />
-                                    </div></div><div className="destination-to-detail"><a href="http://inwavethemes.com/wordpress/intravel/home/destination/usa/">Discover <i className="icon ion-arrow-right-c" /></a></div></div></div><div className="destination-item iw-effect-1"><img src="http://inwavethemes.com/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_california-270x300.jpg" /><div className="destination-info" style={{ bottom: 111 }}><div className="info-active"><h4>San Francisco</h4><div className="destination-parent"><a href="http://inwavethemes.com/wordpress/intravel/home/destination/usa/">USA</a></div><div className="destination-widget-rating">
+                                    </div></div><div className="destination-to-detail"><a href="http://inwavethemes.com/wordpress/intravel/home/destination/usa/">Discover <i className="icon ion-arrow-right-c" /></a></div></div></div><div className="destination-item iw-effect-1"><img alt="test" src="http://inwavethemes.com/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_california-270x300.jpg" /><div className="destination-info" style={{ bottom: 111 }}><div className="info-active"><h4>San Francisco</h4><div className="destination-parent"><a href="http://inwavethemes.com/wordpress/intravel/home/destination/usa/">USA</a></div><div className="destination-widget-rating">
                                         <div className="iw-star-rating">
                                             <span className="rating" style={{ width: '75%' }} />
                                         </div>
@@ -3236,7 +3154,7 @@ class BookingContent extends Component {
                                     </div></div><div className="destination-to-detail"><a href="http://inwavethemes.com/wordpress/intravel/home/destination/san-francisco/">Discover <i className="icon ion-arrow-right-c" /></a></div></div></div><div className="clearfix" /></div></aside><aside id="intravel_tours-2" className="widget widget_intravel_tours"><h3 className="widget-title"><span>Most reviewed tours</span></h3>        <div className="iw-travel-tours-widget">
                                         <div className="iw-tour-item iw-effect-img">
                                             <div className="tour-thumnail effect-1">
-                                                <img src="http://inwavethemes.com/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_roma-600x600.jpg" />
+                                                <img alt="test" src="http://inwavethemes.com/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_roma-600x600.jpg" />
                                             </div>
                                             <div className="tour-info">
                                                 <h3 className="title"><a className="theme-color" href="http://inwavethemes.com/wordpress/intravel/home/tours/rome-city-sightseeing-tours-bike-tour/">Rome City Sightseeing Tours Bike Tour</a></h3>
@@ -3246,7 +3164,7 @@ class BookingContent extends Component {
                                                             <i className="fa fa-map-marker"> </i>
                                                             <a href="http://inwavethemes.com/wordpress/intravel/home/destination/italy/" className="destination">Italy</a> / <a href="http://inwavethemes.com/wordpress/intravel/home/destination/rome/" className="destination">Rome</a>                                  </li>
                                                         <li>
-                                                            <span className="duration"><i className="fa fa-clock-o" aria-hidden="true" /> 01 day</span>
+                                                            <span className="duration"><i className="fa fa-clock-o" /> 01 day</span>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -3255,7 +3173,7 @@ class BookingContent extends Component {
                                         </div>
                                         <div className="iw-tour-item iw-effect-img">
                                             <div className="tour-thumnail effect-1">
-                                                <img src="http://inwavethemes.com/wordpress/intravel/wp-content/uploads/2016/09/tour_san_francisco_3-1-600x600.jpg" />
+                                                <img alt="test" src="http://inwavethemes.com/wordpress/intravel/wp-content/uploads/2016/09/tour_san_francisco_3-1-600x600.jpg" />
                                             </div>
                                             <div className="tour-info">
                                                 <h3 className="title"><a className="theme-color" href="http://inwavethemes.com/wordpress/intravel/home/tours/san-francisco-museum-of-modern-art/">San Francisco Museum of Modern Art</a></h3>
@@ -3265,7 +3183,7 @@ class BookingContent extends Component {
                                                             <i className="fa fa-map-marker"> </i>
                                                             <a href="http://inwavethemes.com/wordpress/intravel/home/destination/san-francisco/" className="destination">San Francisco</a> / <a href="http://inwavethemes.com/wordpress/intravel/home/destination/usa/" className="destination">USA</a>                                  </li>
                                                         <li>
-                                                            <span className="duration"><i className="fa fa-clock-o" aria-hidden="true" /> 01 day</span>
+                                                            <span className="duration"><i className="fa fa-clock-o" /> 01 day</span>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -3274,7 +3192,7 @@ class BookingContent extends Component {
                                         </div>
                                         <div className="iw-tour-item iw-effect-img">
                                             <div className="tour-thumnail effect-1">
-                                                <img src="http://inwavethemes.com/wordpress/intravel/wp-content/uploads/2016/06/tour_venice_1-600x600.jpg" />
+                                                <img alt="test" src="http://inwavethemes.com/wordpress/intravel/wp-content/uploads/2016/06/tour_venice_1-600x600.jpg" />
                                             </div>
                                             <div className="tour-info">
                                                 <h3 className="title"><a className="theme-color" href="http://inwavethemes.com/wordpress/intravel/home/tours/5-night-the-magic-of-venice-tour/">5 days 4 Nights The Magic of Venice Tour</a></h3>
@@ -3284,7 +3202,7 @@ class BookingContent extends Component {
                                                             <i className="fa fa-map-marker"> </i>
                                                             <a href="http://inwavethemes.com/wordpress/intravel/home/destination/italy/" className="destination">Italy</a> / <a href="http://inwavethemes.com/wordpress/intravel/home/destination/venice/" className="destination">Venice</a>                                  </li>
                                                         <li>
-                                                            <span className="duration"><i className="fa fa-clock-o" aria-hidden="true" /> 5 days - 4 nights</span>
+                                                            <span className="duration"><i className="fa fa-clock-o" /> 5 days - 4 nights</span>
                                                         </li>
                                                     </ul>
                                                 </div>

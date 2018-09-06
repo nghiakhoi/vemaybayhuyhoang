@@ -39,24 +39,18 @@ class BookingItem extends Component {
                                     <p>{this.props.baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0,-2)} VND</p>
                                 </div>
                                 <div className="col-md-2">
-                                    <a style={{ "fontWeight": "bold"}} href="#">Chi tiết</a>
+                                    <a style={{ "fontWeight": "bold"}} href="/">Chi tiết</a>
                                 </div>
                                 <div className="col-md-2">
                                     <input type="button" className="btn btn-primary" style={{ "background":"#49a32b" }} value="Chọn" id="select_depart_66579" name="go" />
                                 </div>
                             </div>
-
-
-
-
                         </div>
                     </div>
                     <div className="tour-price-vote">
                         <div className="price-tour theme-color"></div>
                         <div className="tour-social">
-                            {/* {<ul className="socials theme-color">
-                                <a style={{ "fontWeight": "bold" }} href="#">Chi tiết</a>
-                            </ul>} */}
+                            dsadasdasdsa
                         </div>
                     </div>
                 </div>
