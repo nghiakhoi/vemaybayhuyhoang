@@ -6,11 +6,11 @@ import iconfly from '../images/iconfly.png';
 
 
 class BookingItem extends Component {
-    formatnumber = (n, currency)=>{
-        
+    formatnumber = (n, currency) => {
+
         return currency + n.toFixed(0).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
-}
-    render() { 
+    }
+    render() {
         var logo = this.props.airline === "Vietjet" ? vietjetlogo : this.props.airline === "Jetstar" ? jetstarlogo : vietnamairlinelogo;
 
         return (
@@ -26,31 +26,33 @@ class BookingItem extends Component {
 
 
                             <div className="col-md-12" style={{ "marginTop": "15px", "marginBottom": "-25px" }}>
-                                <div className="col-md-1" style={{ "fontSize": "20px", "fontWeight": "lighter", "textAlign": "left", "color":"black" }}>
+                                <div className="col-md-1" style={{ "fontSize": "20px", "fontWeight": "lighter", "textAlign": "left", "color": "black" }}>
                                     {this.props.flightno !== "" ? this.props.flightno.split(' ').join('') : this.props.aircode}
                                 </div>
-                                <div className="col-md-2" style={{ "fontSize": "20px" , "color":"black", "backgroundImage": 'url("' + iconfly + '")', "backgroundRepeat":"no-repeat","backgroundPosition":"440% 50%" }}>
+                                <div className="col-md-2" style={{ "fontSize": "20px", "color": "black", "backgroundImage": 'url("' + iconfly + '")', "backgroundRepeat": "no-repeat", "backgroundPosition": "440% 50%" }}>
                                     {this.props.deptime}
                                 </div>
-                                <div className="col-md-2" style={{ "fontSize": "20px" , "color":"black", "backgroundImage": 'url("' + iconfly + '")', "backgroundRepeat":"no-repeat","backgroundPosition":"-350% 50%" }}>
+                                <div className="col-md-2" style={{ "fontSize": "20px", "color": "black", "backgroundImage": 'url("' + iconfly + '")', "backgroundRepeat": "no-repeat", "backgroundPosition": "-350% 50%" }}>
                                     {this.props.destime}
                                 </div>
-                                <div className="col-md-3" style={{ "fontSize": "20px", "textAlign": "left" , "color":"#fa6d01" }}>
-                                    <p>{this.props.baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0,-2)} VND</p>
+                                <div className="col-md-3" style={{ "fontSize": "20px", "textAlign": "left", "color": "#fa6d01" }}>
+                                    <p>{this.props.baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</p>
                                 </div>
                                 <div className="col-md-2">
-                                    <a style={{ "fontWeight": "bold"}} href="/">Chi tiết</a>
+                                    <a style={{ "fontWeight": "bold" }} href="/">Chi tiết</a>
                                 </div>
                                 <div className="col-md-2">
-                                    <input type="button" className="btn btn-primary" style={{ "background":"#49a32b" }} value="Chọn" id="select_depart_66579" name="go" />
+                                    <input type="button" className="btn btn-primary" style={{ "background": "#49a32b" }} value="Chọn" id="select_depart_66579" name="go" />
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div className="tour-price-vote">
-                        <div className="price-tour theme-color"></div>
+                        <div className="price-tour theme-color">50,00$</div>
                         <div className="tour-social">
-                            dsadasdasdsa
+                            <ul className="socials">
+                            dasdsa
+                            </ul>
                         </div>
                     </div>
                 </div>
