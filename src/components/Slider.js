@@ -244,7 +244,7 @@ class Slider extends Component {
                                         <div className="col-xs-12 col-sm-4 col-md-4">
                                             <label htmlFor="children" style={{ "color": "white" }} >Trẻ em</label>
                                             <div className="search-field">
-                                                <select onChange={(event) => this.isChange(event)} className="form-control " id="children" name="children" defaultValue="">
+                                                <select onChange={(event) => this.isChange(event)} className="form-control " id="child" name="child" defaultValue="">
                                                     {maxpersearchother}
                                                 </select>
                                             </div>
@@ -252,7 +252,7 @@ class Slider extends Component {
                                         <div className="col-xs-12 col-sm-4 col-md-4">
                                             <label htmlFor="baby" style={{ "color": "white" }} >Em bé</label>
                                             <div className="search-field">
-                                                <select onChange={(event) => this.isChange(event)} className="form-control " id="baby" name="baby" defaultValue="">
+                                                <select onChange={(event) => this.isChange(event)} className="form-control " id="inf" name="inf" defaultValue="">
                                                     {maxpersearchother}
                                                 </select>
                                             </div>

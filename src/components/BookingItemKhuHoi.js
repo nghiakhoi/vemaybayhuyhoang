@@ -5,26 +5,26 @@ import vietnamairlinelogo from '../images/vietnamairlinesmall.png';
 import iconfly from '../images/iconfly.png';
 
 
-class BookingItem extends Component {
+class BookingItemKhuHoi extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isHidden: false
+            isHiddenKhuHoi: false
         }
     }
 
-    handleFocus() {
+    handleFocusKhuHoi() {
         setTimeout(() => {
             this.setState({
-                isHidden: !this.state.isHidden
+                isHiddenKhuHoi: !this.state.isHiddenKhuHoi
             });
         }, 250)
 
     }
-    handleBlur() {
+    handleBlurKhuHoi() {
         setTimeout(() => {
             this.setState({
-                isHidden: false
+                isHiddenKhuHoi: false
             });
         }, 250)
 
@@ -63,19 +63,14 @@ class BookingItem extends Component {
                                     <p>{this.props.baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</p>
                                 </div>
                                 <div className="col-md-2" >
-                                    <input type="button" className="btn btn-primary" onClick={() => this.handleFocus()} onBlur={() => this.handleBlur()} style={{ "fontWeight": "bold" }} value="Chi tiết" id="select_depart_66579" name="go" />
+                                    <input type="button" className="btn btn-primary" onClick={() => this.handleFocusKhuHoi()} onBlur={() => this.handleBlurKhuHoi()} style={{ "fontWeight": "bold" }} value="Chi tiết" id="select_depart_66579" name="go" />
                                 </div>
                                 <div className="col-md-2">
-                                    <input type="button" className="btn btn-success" style={{}} value="Chọn" id="select_depart_66579" name="go" />
-                                    <a href="javascript:void(0)" htmlFor="select_return_68006"  className="btn btn-success flight-select pull-right">
-                                        <input type="radio" defaultValue={68006} id="select_return_68006" data-module="return" name="return" style={{ display: 'none' }} />
-                                        <strong className="show_68006">Chọn</strong>
-                                    </a>
-
+                                    <input type="button" className="btn btn-success" style={{ }} value="Chọn" id="select_depart_66579" name="go" />
                                 </div>
                             </div>
                             {
-                                this.state.isHidden ?
+                                this.state.isHiddenKhuHoi ?
 
                                     <div className="col-md-12" style={{ "marginTop": "40px", "marginBottom": "-25px", "color": "black" }}>
                                         <div className="full-width BorderTop">
@@ -93,38 +88,31 @@ class BookingItem extends Component {
                                                     <tbody>
                                                         <tr>
                                                             <td>Người lớn <small>(&gt; 12 tuổi)</small></td>
-                                                            <td><strong>{localStorage.getItem("adult") ? localStorage.getItem("adult") : "1"}</strong></td>
-                                                            <td><strong className="ItemPrice">{this.props.baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
-                                                            <td><strong className="ItemPrice">{this.props.adult.taxfee.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
-                                                            <td><strong className="ItemPrice">{this.props.adult.total.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
+                                                            <td><strong>1</strong></td>
+                                                            <td><strong className="ItemPrice">799,000 ₫</strong></td>
+                                                            <td><strong className="ItemPrice">480,900 ₫</strong></td>
+                                                            <td><strong className="ItemPrice">1,279,900 ₫</strong></td>
                                                         </tr>
-                                                        {
-                                                            Array.isArray(this.props.child) ? "" :
-                                                                <tr>
-                                                                    <td>Trẻ em <small>(2-12 tuổi)</small></td>
-                                                                    <td><strong>{localStorage.getItem("child") ? localStorage.getItem("child") : "0"}</strong></td>
-                                                                    <td><strong className="ItemPrice">{this.props.child.baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
-                                                                    <td><strong className="ItemPrice">{this.props.child.taxfee.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
-                                                                    <td><strong className="ItemPrice">{this.props.child.total.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
-                                                                </tr>
-                                                        }
-                                                        {
-                                                            Array.isArray(this.props.inf) ? "" :
-                                                                <tr>
-                                                                    <td>Em bé <small>(&lt; 2 tuổi)</small></td>
-                                                                    <td><strong>{localStorage.getItem("inf") ? localStorage.getItem("inf") : "0"}</strong></td>
-                                                                    <td><strong className="ItemPrice">{this.props.inf.baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
-                                                                    <td><strong className="ItemPrice">{this.props.inf.total.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
-                                                                    <td><strong className="ItemPrice">{this.props.inf.total.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
-                                                                </tr>
-                                                        }
-
+                                                        <tr>
+                                                            <td>Trẻ em <small>(2-12 tuổi)</small></td>
+                                                            <td><strong>1</strong></td>
+                                                            <td><strong className="ItemPrice">799,000 ₫</strong></td>
+                                                            <td><strong className="ItemPrice">453,400 ₫</strong></td>
+                                                            <td><strong className="ItemPrice">1,252,400 ₫</strong></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Em bé <small>(&lt; 2 tuổi)</small></td>
+                                                            <td><strong>1</strong></td>
+                                                            <td><strong className="ItemPrice">0 ₫</strong></td>
+                                                            <td><strong className="ItemPrice">110,000 ₫</strong></td>
+                                                            <td><strong className="ItemPrice">110,000 ₫</strong></td>
+                                                        </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
                                             <div className="TotalPriceBox">
                                                 <strong>Tổng chi phí: </strong>
-                                                <span className="GrandTotalPrice">{this.props.subtotal.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)}</span>
+                                                <span className="GrandTotalPrice">2,642,300</span>
                                                 <span className="Currency"> VND</span>
                                             </div>
                                         </div>
@@ -147,4 +135,4 @@ class BookingItem extends Component {
     }
 }
 
-export default BookingItem;
+export default BookingItemKhuHoi;
