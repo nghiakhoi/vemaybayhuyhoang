@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import BookingItem from './BookingItem';
 import axios from 'axios';
 import BookingItemKhuHoi from './BookingItemKhuHoi';
+import BookingItemChoosed from './BookingItemChoosed';
 
 const postTicket = (airlinecode, dep, des, adult = 1, direction = 0, datedep, datedes, child = 0, inf = 0) =>
     axios.post(airlinecode, {
@@ -97,7 +98,9 @@ class BookingContent extends Component {
             datasmallestprice3: null,
             datasmallestprice4: null,
             datasmallestprice5: null,
-            datasmallestprice6: null
+            datasmallestprice6: null,
+            anhienbtngiave: true,
+            ticketchoosed: null
 
         }
     }
@@ -2845,12 +2848,53 @@ class BookingContent extends Component {
         window.location.reload();
     }
 
+    handleChangeHidden(ticketchoosed) {
+        alert("aaaa");
+        alert(ticketchoosed);
+        this.setState({
+            anhienbtngiave: !this.state.anhienbtngiave,
+            ticketchoosed: ticketchoosed
+        });
+
+    }
+
     printData = () => {
         if (this.state.data !== null) {
 
             return this.state.data.map((value, key) =>
                 (
                     <BookingItem
+                        key={key}
+                        anhienbtngiave={(ticketchoosed) => this.handleChangeHidden(ticketchoosed)}
+                        anhienbtngiavestatecha={this.state.anhienbtngiave}
+                        flightid={value.flightid}
+                        flightno={value.flightno}
+                        aircode={value.air_code}
+                        airline={value.airline}
+                        baseprice={value.baseprice}
+                        datefull={value.datefull}
+                        depcode={value.depcode}
+                        descode={value.descode}
+                        deptime={value.deptime}
+                        destime={value.destime}
+                        duration={value.duration}
+                        adult={value.adult}
+                        child={value.child}
+                        inf={value.inf}
+                        subtotal={value.subtotal}
+                        fullinfo={value}
+                    />
+                )
+            );
+        }
+    }
+
+    printDataKhuHoi = () => {
+        if (this.state.datakhuhoi !== null) {
+
+            return this.state.datakhuhoi.map((value, key) =>
+                (
+                    <BookingItemKhuHoi
                         key={key}
                         flightid={value.flightid}
                         flightno={value.flightno}
@@ -2873,33 +2917,7 @@ class BookingContent extends Component {
         }
     }
 
-    printDataKhuHoi = () => {
-        if (this.state.datakhuhoi !== null) {
 
-            return this.state.datakhuhoi.map((value, key) =>
-                (
-                    <BookingItemKhuHoi
-                    key={key}
-                    flightid={value.flightid}
-                    flightno={value.flightno}
-                    aircode={value.air_code}
-                    airline={value.airline}
-                    baseprice={value.baseprice}
-                    datefull={value.datefull}
-                    depcode={value.depcode}
-                    descode={value.descode}
-                    deptime={value.deptime}
-                    destime={value.destime}
-                    duration={value.duration}
-                    adult={value.adult}
-                    child={value.child}
-                    inf={value.inf}
-                    subtotal={value.subtotal}
-                    />
-                )
-            );
-        }
-    }
 
     render() {
 
@@ -2924,6 +2942,26 @@ class BookingContent extends Component {
             mang7ngaykhuhoi.push(formattedDate);
         }
         var demvitrikhuhoi = 0;
+
+        var choosedticket = this.state.ticketchoosed !== null ?
+            <BookingItemChoosed
+                flightid={this.state.ticketchoosed.flightid}
+                flightno={this.state.ticketchoosed.flightno}
+                aircode={this.state.ticketchoosed.air_code}
+                airline={this.state.ticketchoosed.airline}
+                baseprice={this.state.ticketchoosed.baseprice}
+                datefull={this.state.ticketchoosed.datefull}
+                depcode={this.state.ticketchoosed.depcode}
+                descode={this.state.ticketchoosed.descode}
+                deptime={this.state.ticketchoosed.deptime}
+                destime={this.state.ticketchoosed.destime}
+                duration={this.state.ticketchoosed.duration}
+                adult={this.state.ticketchoosed.adult}
+                child={this.state.ticketchoosed.child}
+                inf={this.state.ticketchoosed.inf}
+                subtotal={this.state.ticketchoosed.subtotal}
+                fullinfo={this.state.ticketchoosed}
+            /> : "";
         return (
             <div className="iw-tour-listing">
                 <div className="iw-tours-content">
@@ -3024,6 +3062,7 @@ class BookingContent extends Component {
                                 </div>
                                 <div className="tour-listing-row">
                                     {this.state.data !== null && this.state.data.length !== 0 ? this.printData() : this.state.notData}
+                                    {choosedticket}
                                 </div>
                                 {
                                     this.state.direction === "1" ?
