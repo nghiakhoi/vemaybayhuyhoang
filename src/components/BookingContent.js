@@ -2851,10 +2851,18 @@ class BookingContent extends Component {
     handleChangeHidden(ticketchoosed) {
         alert("aaaa");
         alert(ticketchoosed);
-        this.setState({
-            anhienbtngiave: !this.state.anhienbtngiave,
-            ticketchoosed: ticketchoosed
-        });
+        if (this.state.anhienbtngiave) {
+            this.setState({
+                anhienbtngiave: !this.state.anhienbtngiave,
+                ticketchoosed: ticketchoosed
+            });
+        } else {
+            this.setState({
+                anhienbtngiave: !this.state.anhienbtngiave,
+                ticketchoosed: null
+            });
+        }
+
 
     }
 
@@ -2945,6 +2953,8 @@ class BookingContent extends Component {
 
         var choosedticket = this.state.ticketchoosed !== null ?
             <BookingItemChoosed
+                anhienbtngiave={(ticketchoosed) => this.handleChangeHidden(ticketchoosed)}
+                anhienbtngiavestatecha={this.state.anhienbtngiave}
                 flightid={this.state.ticketchoosed.flightid}
                 flightno={this.state.ticketchoosed.flightno}
                 aircode={this.state.ticketchoosed.air_code}

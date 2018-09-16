@@ -69,7 +69,6 @@ class BookingItem extends Component {
                                         <input type="button" className="btn btn-primary" onClick={() => this.handleFocus()} onBlur={() => this.handleBlur()} style={{ "fontWeight": "bold" }} value="Chi tiết" id="select_depart_66579" name="go" />
                                     </div>
                                     <div className="col-md-2">
-                                        <input type="button" className="btn btn-success" style={{}} value="Chọn" id="select_depart_66579" name="go" />
                                         <a onClick={() => this.props.anhienbtngiave(this.props.fullinfo)} href="javascript:void(0)" name="hihihiho" id="hihihiho" htmlFor="select_return_68006" className="btn btn-success flight-select pull-right">
                                             <input type="radio" defaultValue={68006} id="select_return_68006" data-module="return" name="return" style={{ display: 'none' }} />
                                             <strong className="show_68006">Chọn</strong>
