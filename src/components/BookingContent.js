@@ -100,7 +100,9 @@ class BookingContent extends Component {
             datasmallestprice5: null,
             datasmallestprice6: null,
             anhienbtngiave: true,
-            ticketchoosed: null
+            ticketchoosed: null,
+            anhienbtngiavekhuhoi: true,
+            ticketchoosedkhuhoi: null
 
         }
     }
@@ -2849,8 +2851,7 @@ class BookingContent extends Component {
     }
 
     handleChangeHidden(ticketchoosed) {
-        alert("aaaa");
-        alert(ticketchoosed);
+
         if (this.state.anhienbtngiave) {
             this.setState({
                 anhienbtngiave: !this.state.anhienbtngiave,
@@ -2862,8 +2863,20 @@ class BookingContent extends Component {
                 ticketchoosed: null
             });
         }
+    }
+    handleChangeHiddenKhuHoi(ticketchoosed) {
 
-
+        if (this.state.anhienbtngiavekhuhoi) {
+            this.setState({
+                anhienbtngiavekhuhoi: !this.state.anhienbtngiavekhuhoi,
+                ticketchoosedkhuhoi: ticketchoosed
+            });
+        } else {
+            this.setState({
+                anhienbtngiavekhuhoi: !this.state.anhienbtngiavekhuhoi,
+                ticketchoosedkhuhoi: null
+            });
+        }
     }
 
     printData = () => {
@@ -2904,6 +2917,8 @@ class BookingContent extends Component {
                 (
                     <BookingItemKhuHoi
                         key={key}
+                        anhienbtngiave={(ticketchoosed) => this.handleChangeHiddenKhuHoi(ticketchoosed)}
+                        anhienbtngiavestatecha={this.state.anhienbtngiavekhuhoi}
                         flightid={value.flightid}
                         flightno={value.flightno}
                         aircode={value.air_code}
@@ -2919,6 +2934,7 @@ class BookingContent extends Component {
                         child={value.child}
                         inf={value.inf}
                         subtotal={value.subtotal}
+                        fullinfo={value}
                     />
                 )
             );
@@ -2971,6 +2987,27 @@ class BookingContent extends Component {
                 inf={this.state.ticketchoosed.inf}
                 subtotal={this.state.ticketchoosed.subtotal}
                 fullinfo={this.state.ticketchoosed}
+            /> : "";
+        var choosedticketKhuHoi = this.state.ticketchoosedkhuhoi !== null ?
+            <BookingItemChoosed
+                anhienbtngiave={(ticketchoosed) => this.handleChangeHiddenKhuHoi(ticketchoosed)}
+                anhienbtngiavestatecha={this.state.anhienbtngiavekhuhoi}
+                flightid={this.state.ticketchoosedkhuhoi.flightid}
+                flightno={this.state.ticketchoosedkhuhoi.flightno}
+                aircode={this.state.ticketchoosedkhuhoi.air_code}
+                airline={this.state.ticketchoosedkhuhoi.airline}
+                baseprice={this.state.ticketchoosedkhuhoi.baseprice}
+                datefull={this.state.ticketchoosedkhuhoi.datefull}
+                depcode={this.state.ticketchoosedkhuhoi.depcode}
+                descode={this.state.ticketchoosedkhuhoi.descode}
+                deptime={this.state.ticketchoosedkhuhoi.deptime}
+                destime={this.state.ticketchoosedkhuhoi.destime}
+                duration={this.state.ticketchoosedkhuhoi.duration}
+                adult={this.state.ticketchoosedkhuhoi.adult}
+                child={this.state.ticketchoosedkhuhoi.child}
+                inf={this.state.ticketchoosedkhuhoi.inf}
+                subtotal={this.state.ticketchoosedkhuhoi.subtotal}
+                fullinfo={this.state.ticketchoosedkhuhoi}
             /> : "";
         return (
             <div className="iw-tour-listing">
@@ -3171,12 +3208,28 @@ class BookingContent extends Component {
                                             </div>
                                             <div className="tour-listing-row">
                                                 {this.state.datakhuhoi !== null && this.state.datakhuhoi.length !== 0 ? this.printDataKhuHoi() : this.state.notData}
+                                                {choosedticketKhuHoi}
                                             </div>
                                         </React.Fragment>
                                         :
                                         ""
                                 }
 
+                                {localStorage.getItem("direction") === "1" ?
+                                    (this.state.ticketchoosed !== null && this.state.ticketchoosedkhuhoi !== null) ?
+                                        <a href="/thongtinuser" name="hihihiho" id="hihihiho" htmlFor="select_return_68006" className="btn btn-success flight-select pull-right">
+                                            <input type="radio" defaultValue={68006} id="select_return_68006" data-module="return" name="return" style={{ display: 'none' }} />
+                                            <strong className="show_68006">Next</strong>
+                                        </a>
+                                        : ""
+                                    :
+                                    (this.state.ticketchoosed !== null) ?
+                                        <a href="/thongtinuser" name="hihihiho" id="hihihiho" htmlFor="select_return_68006" className="btn btn-success flight-select pull-right">
+                                            <input type="radio" defaultValue={68006} id="select_return_68006" data-module="return" name="return" style={{ display: 'none' }} />
+                                            <strong className="show_68006">Next</strong>
+                                        </a>
+                                        : ""
+                                }
 
                             </div>
                             <div className="col-sm-12 col-xs-12 col-lg-3 col-md-4 tour-sidebar">
