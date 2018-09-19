@@ -3,6 +3,7 @@ import BookingItem from './BookingItem';
 import axios from 'axios';
 import BookingItemKhuHoi from './BookingItemKhuHoi';
 import BookingItemChoosed from './BookingItemChoosed';
+import MyLargeModal from './MyLargeModal';
 
 const postTicket = (airlinecode, dep, des, adult = 1, direction = 0, datedep, datedes, child = 0, inf = 0) =>
     axios.post(airlinecode, {
@@ -3217,19 +3218,14 @@ class BookingContent extends Component {
 
                                 {localStorage.getItem("direction") === "1" ?
                                     (this.state.ticketchoosed !== null && this.state.ticketchoosedkhuhoi !== null) ?
-                                        <a href="/thongtinuser" name="hihihiho" id="hihihiho" htmlFor="select_return_68006" className="btn btn-success flight-select pull-right">
-                                            <input type="radio" defaultValue={68006} id="select_return_68006" data-module="return" name="return" style={{ display: 'none' }} />
-                                            <strong className="show_68006">Next</strong>
-                                        </a>
+                                        <MyLargeModal fullinfo={this.state.ticketchoosed} fullinfoKhuHoi={this.state.ticketchoosedkhuhoi} />
                                         : ""
                                     :
                                     (this.state.ticketchoosed !== null) ?
-                                        <a href="/thongtinuser" name="hihihiho" id="hihihiho" htmlFor="select_return_68006" className="btn btn-success flight-select pull-right">
-                                            <input type="radio" defaultValue={68006} id="select_return_68006" data-module="return" name="return" style={{ display: 'none' }} />
-                                            <strong className="show_68006">Next</strong>
-                                        </a>
+                                        <MyLargeModal fullinfo={this.state.ticketchoosed} fullinfoKhuHoi={this.state.ticketchoosedkhuhoi} />
                                         : ""
                                 }
+
 
                             </div>
                             <div className="col-sm-12 col-xs-12 col-lg-3 col-md-4 tour-sidebar">
