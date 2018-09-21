@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class HeaderBooking extends Component {
+class HeaderBookingClone extends Component {
     render() {
         return (
             <div className="header header-default header-default-edition header-sticky  clone">
@@ -98,4 +98,4 @@ class HeaderBooking extends Component {
     }
 }
 
-export default HeaderBooking;
+export default HeaderBookingClone;

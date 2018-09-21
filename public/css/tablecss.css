@@ -68,7 +68,7 @@
                 background: url('data:image/gif;base64,R0lGODlhAQAWAMQAAOnw+uXv+NDj8dLl89vp9NXn89Tm8szi8N7s9d3r9OLv9+Hu9uDt9c3j8Nbo8tjp8+bx9+fy9ujz9QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACwAAAAAAQAWAAAFEqAERFCgLAySEM/jFMYgCM1xhAA7') /*avia/big_flex/tab_shine.gif*/ repeat-x 0 0 #cce2f0;
                 margin-right: 4px;
                 border: 1px solid #7ca1bb;
-                font-size: 10pt;
+                
                 display: block;
                 color: #720226;
                 text-decoration: none;
@@ -196,7 +196,7 @@
 
 .bf-header {
     color: #fff;
-    font-size: 10pt;
+    
     margin: 0 auto 5px;
     background-color: #0062B2;
     float: left;
@@ -389,7 +389,7 @@
     .resultFlight .infoBar {
         background: none repeat scroll 0 0 #0062B2;
         color: #FFFFFF;
-        font-size: 10px;
+        
         padding: 8px 10px;
         -moz-border-radius: 4px 4px 0 0;
         -webkit-border-radius: 4px 4px 0 0;
@@ -419,7 +419,7 @@
 
         .flightsTable thead th {
             color: #000000;
-            font-size: 10pt;
+            
             font-weight: normal;
             padding: 5px 3px;
             text-align: left;
@@ -480,13 +480,13 @@
         }
 
         .flightsTable .flightRes .location {
-            font-size: 10pt;
+            
             padding-left: 3px;
             width: 135px;
         }
 
             .flightsTable .flightRes .location b {
-                font-size: 10pt;
+                
                 font-weight: bold;
             }
 
@@ -626,7 +626,7 @@
 }
 
 .bf-flex-grid th {
-    font-size: 10pt;
+    
     color: #666;
 }
 
@@ -671,7 +671,7 @@
 }
 
 .bf-flex-grid .one-way span {
-    font-size: 10pt;
+    
     line-height: 38px;
 }
 
@@ -1426,7 +1426,7 @@
         height: 28px;
         line-height: 28px;
         background-color: #cbe2f0;
-        font-size: 10pt;
+        
         -moz-text-shadow: 0 1px 0 #fff;
         -webkit-text-shadow: 0 1px 0 #fff;
         -o-text-shadow: 0 1px 0 #fff;
@@ -1473,14 +1473,14 @@
         }
 
     .bf-flex-calendar .afid-10 a {
-        font-size: 10pt;
+        
     }
 
     .bf-flex-calendar td span {
         position: absolute;
         top: 5px;
         left: 5px;
-        font-size: 10px;
+        
         line-height: 10px;
         color: #999;
         z-index: 4;
@@ -1721,7 +1721,7 @@
 
         .tooltip-legs .title {
             font-weight: bold;
-            font-size: 10pt;
+            
             padding-right: 10px;
         }
 
@@ -1795,7 +1795,7 @@ ul.progressBar {
     height: 34px;
     margin-bottom: 18px;
     background-image: url('data:image/png;base64,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') /*avia/basket_steps/steps.png*/;
-    font-size: 10pt;
+    
     width: 954px;
     list-style: none;
     float: left;
@@ -1834,7 +1834,7 @@ ul.progressBar {
             text-align: center;
             cursor: pointer;
             font-weight: bold;
-            font-size: 10pt;
+            
         }
 
             ul.progressBar li a:hover {
@@ -1973,7 +1973,7 @@ ul.progressBar li.selected a {
 .basket_container strong {
     color: #666;
     font-weight: bold;
-    font-size: 10pt;
+    
 }
 
 .basket_container .leg, .basket_container .insurance, .basket_container .discounts {
@@ -2022,7 +2022,7 @@ ul.progressBar li.selected a {
     width: 96%;
     margin: 2%;
     line-height: 18px;
-    font-size: 10pt;
+    
     color: #666;
 }
 
@@ -2087,7 +2087,7 @@ ul.progressBar li.selected a {
     .basket_container .coupon input {
         padding: 4px;
         border: 1px solid #ccc;
-        font-size: 10pt;
+        
         color: #666;
         line-height: 13px;
         border-radius: 3px;
@@ -2207,7 +2207,7 @@ ul.progressBar li.selected a {
     }
 
         .basket_itinerary_route .social_share_band a {
-            font-size: 10pt;
+            
         }
 /* Itinerary route */
 .itinerary_route table {
@@ -2232,7 +2232,7 @@ ul.progressBar li.selected a {
         line-height: 24px;
         height: 24px;
         padding-bottom: 7px;
-        font-size: 10pt;
+        
     }
 
         .itinerary_route .header th .city {
@@ -2241,7 +2241,7 @@ ul.progressBar li.selected a {
 
             .itinerary_route .header th .city span {
                 color: #848484;
-                font-size: 10px;
+                
             }
 
     .itinerary_route .header th {
@@ -2296,7 +2296,7 @@ ul.progressBar li.selected a {
 
 .itinerary_route .legs td {
     padding: 15px 10px;
-    font-size: 10pt;
+    
     vertical-align: middle;
     line-height: 18px;
 }
@@ -2305,7 +2305,7 @@ ul.progressBar li.selected a {
     text-align: center;
     vertical-align: middle;
     color: #848484;
-    font-size: 10px;
+    
     width: 80px;
 }
 
@@ -2342,7 +2342,7 @@ ul.progressBar li.selected a {
     padding: 20px;
     border-radius: 5px;
     font-family: 'Roboto', sans-serif;
-    font-size: 10pt;
+    
     color: #333;
     margin-bottom: 10px;
     line-height: 1.5em;
@@ -2429,7 +2429,7 @@ ul.progressBar li.selected a {
 .simple_box a {
     color: #0062B2;
     text-decoration: underline;
-    font-size: 10pt;
+    
 }
 
     .simple_box a:hover {
@@ -2666,7 +2666,7 @@ ul.progressBar li.selected a {
 
         #follow_box ul li a {
             color: #0062B2;
-            font-size: 10pt;
+            
             text-decoration: none;
         }
 
@@ -2931,7 +2931,7 @@ li.carouselTodaySodaEligible {
 
 li.carouselEnabledSodaEligible div.carouselHeader {
     color: #FFF;
-    font-size: 10px;
+    
     font-weight: bold;
     border-color: #0062B2;
     background-color: #0062B2;
@@ -3004,7 +3004,7 @@ li.carouselEnabledSodaIneligible div.carouselBody, li.carouselEnabledSodaIneligi
 
 .carouselHeader {
     font-weight: bold;
-    font-size: 10pt;
+    
     padding-top: 2px;
     width: auto;
     letter-spacing: 0;
@@ -3145,7 +3145,7 @@ li.carouselEnabledSodaIneligible div.carouselBody, li.carouselEnabledSodaIneligi
     #search_result .list_title.row .col {
         font-weight: normal;
         color: #4b2602;
-        font-size: 10pt;
+        
         margin-top: 0;
     }
 
@@ -3194,7 +3194,7 @@ li.carouselEnabledSodaIneligible div.carouselBody, li.carouselEnabledSodaIneligi
     background: none repeat scroll 0 0 #1A5AE4;
     border-bottom: 1px solid #CCCCCC;
     border-top: 1px solid #CCCCCC;
-    font-size: 10pt;
+    
     font-weight: bold;
     line-height: 24px;
     height: 24px;
@@ -3251,7 +3251,7 @@ li.carouselEnabledSodaIneligible div.carouselBody, li.carouselEnabledSodaIneligi
 }
 
 .flight_info_container {
-    font-size: 10pt;
+    
     padding: 0;
     float: left;
     width: 100%;
@@ -3282,7 +3282,7 @@ li.carouselEnabledSodaIneligible div.carouselBody, li.carouselEnabledSodaIneligi
         width: 16%;
         font-weight: 400;
         margin-bottom: 0;
-        font-size: 10pt;
+        
         color: #333;
     }
 
@@ -3556,7 +3556,7 @@ li.carouselEnabledSodaIneligible div.carouselBody, li.carouselEnabledSodaIneligi
 
 .selected_info_box {
     display: block;
-    font-size: 10pt;
+    
     padding: 10px 0;
 }
 
@@ -3678,7 +3678,7 @@ option {
     .thong-tin-lien-he ._note {
         border-top: 1px solid #ccc;
         padding: 4px 0;
-        font-size: 10pt;
+        
     }
 
 .require {
@@ -3713,7 +3713,7 @@ option {
 
 .passenger-page .flight-sum td {
     border-top: 1px solid #E5E5E5;
-    font-size: 10pt;
+    
     padding: 2px 0;
 }
 
@@ -3824,7 +3824,7 @@ ul.option-date {
             cursor: pointer;
             display: block;
             font-family: arial,tahoma !important;
-            font-size: 10pt;
+            
             text-align: center;
             height: 23px;
             padding: 6px 3px;
@@ -3924,7 +3924,7 @@ ul.option-date {
 
     #go_result .result_panel .interflight .filght_child .flight-detail-content {
         background: #F4F4F4;
-        font-size: 10pt;
+        
         margin-bottom: 5px;
     }
 
@@ -3982,7 +3982,7 @@ ul.option-date {
     #searchform ul.triptype {
         display: block;
         border-bottom: 1px solid #E3E3E3;
-        font-size: 10pt;
+        
         float: left;
         list-style: none;
         width: 100%;
@@ -4092,7 +4092,7 @@ ul.option-date {
 
         #searchform label span {
             color: #333;
-            font-size: 10pt;
+            
             font-weight: 400;
         }
 
@@ -4119,7 +4119,7 @@ ul.option-date {
         #searchform label select {
             line-height: 28px;
             padding: 5px 5%;
-            font-size: 10pt;
+            
             color: #260556;
             background: white;
             cursor: pointer;
@@ -4330,7 +4330,7 @@ ul.option-date {
     display: inline-block;
     float: left;
     width: 60%;
-    font-size: 10pt;
+    
 }
 
 
@@ -4347,7 +4347,7 @@ ul.option-date {
     margin-bottom: 8px;
     margin-top: 0;
     font-weight: normal;
-    font-size: 10pt;
+    
 }
 
 .box.simple p {
@@ -4360,7 +4360,7 @@ ul.option-date {
 }
 
 ul.trip-summary-list {
-    font-size: 10pt;
+    
     background: none repeat scroll 0 center rgba(0, 0, 0, 0);
     border: 0 none;
     padding: 0;
@@ -4414,7 +4414,7 @@ ul.trip-summary-list {
     #pkg-trip-summary .inner .content > div hgroup h5 {
         font-weight: normal;
         text-align: right;
-        font-size: 10pt;
+        
     }
 
 #flightResultMainContent #destination, #flightResultMainContent #original {
@@ -4478,7 +4478,7 @@ ul.trip-summary-list {
     white-space: nowrap;
     width: auto;
     font-weight: 400;
-    font-size: 10pt;
+    
 }
 
 .segmentColumn4f {
@@ -4576,7 +4576,7 @@ ul.trip-summary-list {
                 }
 
             .contact-fieldset ul li input {
-                font-size: 10pt;
+                
             }
 
             .contact-fieldset ul li textarea {
@@ -4649,7 +4649,7 @@ ul.trip-summary-list {
 }
 
 .booking-item-description {
-    font-size: 10pt;
+    
     line-height: 1.5em;
 }
 
@@ -4672,7 +4672,7 @@ ul.trip-summary-list {
         color: #fff;
         background: rgba(0,0,0,0.01);
         padding: 5px 7px;
-        font-size: 10pt;
+        
         line-height: 1em;
     }
 
@@ -4682,12 +4682,12 @@ ul.trip-summary-list {
 
 .booking-item-address {
     line-height: 1em;
-    font-size: 10pt;
+    
 }
 
 .booking-item-price-from {
     display: block;
-    font-size: 10pt;
+    
     line-height: 1em;
 }
 
@@ -4711,7 +4711,7 @@ ul.trip-summary-list {
     display: block;
     top: 2px;
     right: 2px;
-    font-size: 10px;
+    
     -webkit-transform: translate3d(0, 0, 0);
     -moz-transform: translate3d(0, 0, 0);
     -o-transform: translate3d(0, 0, 0);
@@ -4752,7 +4752,7 @@ ul.trip-summary-list {
         .booking-item-flight-details .booking-item-departure .booking-item-date,
         .booking-item-flight-details .booking-item-arrival .booking-item-date {
             margin: 5px auto;
-            font-size: 10pt;
+            
             line-height: 1em;
             padding-left: 29px;
         }
@@ -4761,7 +4761,7 @@ ul.trip-summary-list {
     }
 
     .booking-item-flight-details .booking-item-destination {
-        font-size: 10pt;
+        
         line-height: 1.3em;
     }
 
@@ -4779,7 +4779,7 @@ ul.trip-summary-list {
 .booking-item-flight-class {
     margin-bottom: 7px;
     margin-top: -5px;
-    font-size: 10pt;
+    
     color: #8f8f8f;
     line-height: 1em;
 }
@@ -4808,7 +4808,7 @@ ul.trip-summary-list {
 }
 
     .booking-item-container .booking-item-details h5 {
-        font-size: 10pt;
+        
         font-weight: 400;
         margin-bottom: 20px;
     }
@@ -4828,7 +4828,7 @@ ul.trip-summary-list {
     border: 1px solid #e6e6e6;
     border-top: none;
     position: relative;
-    font-size: 10pt;
+    
     line-height: 1.6em;
     opacity: 1;
     -ms-filter: none;
@@ -5471,7 +5471,7 @@ div.style-customizer {
                         }
 
                             .price-display .price-display-body .price-display-content .price-display-section-total .section-total-grating .section-total-display .section-total-display-currency > span {
-                                font-size: 10pt;
+                                
                                 text-transform: uppercase;
                             }
 
@@ -5529,13 +5529,13 @@ div.style-customizer {
                 background-color: #fff;
                 margin: 5px 0;
                 padding: 5px;
-                font-size: 10pt;
+                
                 color: #666;
             }
 
             .price-display .price-display-body .price-display-content .price-display-summary-line-item {
                 *zoom: 1;
-                font-size: 10pt;
+                
                 text-transform: none;
                 line-height: 20px;
             }
@@ -6108,7 +6108,7 @@ div.style-customizer {
         }
 
     .ItineraryBox-Carrier .CarrierName {
-        font-size: 10pt;
+        
         margin-top: 3px;
         line-height: 12px;
     }
@@ -6133,7 +6133,7 @@ div.style-customizer {
     }
 
     .ItineraryBox-Depart .Airport, .ItineraryBox-Arrival .Airport {
-        font-size: 10pt;
+        
     }
 
     .ItineraryBox-Depart .Hour, .ItineraryBox-Arrival .Hour {
@@ -6159,7 +6159,7 @@ div.style-customizer {
 
 .ItineraryBox-FlightInfo {
     width: 200px;
-    font-size: 10pt;
+    
     line-height: 14px;
     vertical-align: middle;
 }
@@ -6295,7 +6295,7 @@ div.style-customizer {
             }
 
         .ItineraryBox-Carrier .CarrierName {
-            font-size: 10pt;
+            
             margin-top: 3px;
             line-height: 11px;
         }
@@ -6320,7 +6320,7 @@ div.style-customizer {
 
     .ItineraryBox-FlightInfo {
         width: auto;
-        font-size: 10pt;
+        
         line-height: 14px;
         padding-left: 20px;
         vertical-align: middle;
@@ -6492,7 +6492,7 @@ div.style-customizer {
 
 
     .StopInfo {
-        font-size: 10pt;
+        
     }
 }
 
@@ -6629,7 +6629,7 @@ div.style-customizer {
         width: 100%;
         border-bottom: 1px solid #ccc;
         padding-left: 10px;
-        font-size: 10pt;
+        
     }
 
 .flight-waiting-summary {
@@ -6940,7 +6940,7 @@ div.style-customizer {
 
         .tb-flights thead th {
             padding: 5px 7px;
-            font-size: 10pt;
+            
             border-width: 1px 1px 1px 0;
             border-style: solid;
             border-color: #c0d3dc;
@@ -7098,7 +7098,7 @@ div.style-customizer {
 
     .cal-item .cal-date {
         padding: 2px 0;
-        font-size: 10pt;
+        
     }
 
 .cal-selected {
@@ -7138,7 +7138,7 @@ div.style-customizer {
     border: 1px #DDD solid;
     background-color: #fff;
     padding-top: 4px;
-    font-size: 10pt;
+    
 }
 
 #flight_content .bpv-sort .nav-pills > li > a {
@@ -7361,7 +7361,7 @@ div.style-customizer {
 }
 
 .label-search-fields {
-    font-size: 10pt;
+    
 }
 
 .col-search-number {
@@ -7814,13 +7814,13 @@ div.style-customizer {
             }
 
                 .booking-list > li .BoxFareOption .FareHeader .Price .TotalPrice small {
-                    font-size: 10pt;
+                    
                     font-weight: normal;
                 }
 
             .booking-list > li .BoxFareOption .FareHeader .Price .TotalPriceTitle {
                 color: #fff;
-                font-size: 10pt;
+                
                 vertical-align: middle;
                 font-weight: normal;
             }
@@ -7909,7 +7909,7 @@ div.style-customizer {
                     }
 
                     .FareFlightContent .FilghtItem .FilghtInfo .FilghtInfoSummary .Airline .AirlineName {
-                        font-size: 10px;
+                        
                         line-height: 14px;
                     }
 
@@ -7930,11 +7930,11 @@ div.style-customizer {
                     }
 
                     .FareFlightContent .FilghtItem .FilghtInfo .FilghtInfoSummary .Point .AirportName {
-                        font-size: 10pt;
+                        
                     }
 
                 .FareFlightContent .FilghtItem .FilghtInfo .FilghtInfoSummary .Detail {
-                    font-size: 10pt;
+                    
                     text-align: left;
                 }
 
@@ -7942,7 +7942,7 @@ div.style-customizer {
                         color: #ff6600;
                         text-decoration: none;
                         text-align: right;
-                        font-size: 10pt;
+                        
                     }
 
                         .FareFlightContent .FilghtItem .FilghtInfo .FilghtInfoSummary .Detail a:hover {
@@ -7996,8 +7996,8 @@ div.style-customizer {
     color: #ff6600;
     text-decoration: none;
     text-align: right;
-    font-size: 10pt;
-    font-size: 10pt;
+    
+    
     padding: 5px 0 0;
 }
 
@@ -8021,7 +8021,7 @@ div.style-customizer {
         }
 
         .FareFlightContent .FilghtItem .FilghtInfo .FlightInfoDetails .FlightInfoDetailsContent .Airline .AirlineName {
-            font-size: 10px;
+            
         }
 
 
@@ -8038,7 +8038,7 @@ div.style-customizer {
         }
 
         .FareFlightContent .FilghtItem .FilghtInfo .FlightInfoDetails .FlightInfoDetailsContent .Depart .Time {
-            font-size: 10pt;
+            
         }
 
             .FareFlightContent .FilghtItem .FilghtInfo .FlightInfoDetails .FlightInfoDetailsContent .Depart .Time .TimeTitle {
@@ -8053,12 +8053,12 @@ div.style-customizer {
             }
 
         .FareFlightContent .FilghtItem .FilghtInfo .FlightInfoDetails .FlightInfoDetailsContent .Depart .AirportName {
-            font-size: 10pt;
+            
         }
 
 
     .FareFlightContent .FilghtItem .FilghtInfo .FlightInfoDetails .FlightInfoDetailsContent .Detail {
-        font-size: 10pt;
+        
         text-align: left;
     }
 
@@ -8073,7 +8073,7 @@ div.style-customizer {
 .FareFlightContent .FilghtItem .StopBar {
     background-color: #F0F0F0;
     border: 1px solid #cacaca;
-    font-size: 10pt;
+    
     text-align: center;
     padding: 2px 0;
     border-left: none !important;
@@ -8108,3 +8108,8 @@ div.style-customizer {
     padding: 10px !important;
 }
 
+.table-borderless td,
+.table-borderless th {
+    border: 0;
+    text-align:left
+}
