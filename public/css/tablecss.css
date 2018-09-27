@@ -1925,7 +1925,7 @@ ul.progressBar li.selected a {
     }
 
     .sideBox .content {
-        background: #f0f0f0;
+        background: #fff;
         padding: 10px;
         width: auto;
         text-align: left;
@@ -1952,7 +1952,7 @@ ul.progressBar li.selected a {
 .basket_container {
     border: 1px solid #e2e2e2;
     border-radius: 5px;
-    background-color: #fafafa;
+    background-color: #fff;
     color: #848484;
     font-size: 11px;
     margin-bottom: 10px;
@@ -1990,7 +1990,7 @@ ul.progressBar li.selected a {
     }
 
     .basket_container .leg .date {
-        width: 138px;
+        width: 180px;
         background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAABBSURBVHjaYvn//z8Dz4wd/xkIACYGIgH1FbLAGF8yPHAqAvoB1USQADYaDEC+5p6+/T8+AJKnvoks6KbhAgABBgA8clkVs98HHgAAAABJRU5ErkJggg==') /*avia/basic/icons/calendar.png*/ no-repeat 0 50%;
         padding-left: 14px;
     }
@@ -2022,7 +2022,6 @@ ul.progressBar li.selected a {
     width: 96%;
     margin: 2%;
     line-height: 18px;
-    
     color: #666;
 }
 

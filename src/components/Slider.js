@@ -66,6 +66,8 @@ class Slider extends Component {
 
     componentDidMount() {
         localStorage.setItem("adult", 1);
+        localStorage.removeItem("child");
+        localStorage.removeItem("inf");
         localStorage.setItem("direction", 0);
         localStorage.removeItem("datedep");
         localStorage.removeItem("datedes");

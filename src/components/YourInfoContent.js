@@ -1,13 +1,361 @@
 import React, { Component } from 'react';
+import jetstarlogo from '../images/jetstarmini.png';
+import vietjetlogo from '../images/vietjetmini.png';
+import vietnamairlinelogo from '../images/vietnamairlinemini.png';
+
+const get_day_name = (custom_date) => {
+    var myDate = custom_date;
+    myDate = myDate.split("-");
+    var newDate = myDate[2] + "-" + myDate[1] + "-" + myDate[0];
+    var currentDate = new Date(newDate);
+    var day_name = currentDate.getDay();
+    var days = new Array("Chủ nhật", "Thứ hai", "Thứ ba", "Thứ tư", "Thứ năm", "Thứ sáu", "Thứ bảy");
+    return days[day_name];
+}
+const get_full_day_format_vietnam = (custom_date) => {
+    var myDate = custom_date;
+    myDate = myDate.split("-");
+    var year = myDate[2];
+    var month = myDate[1];
+    var day = myDate[0];
+    var fulldayformatvietnam = day + " tháng " + month + " " + year;
+    return fulldayformatvietnam;
+}
+const get_distance_two_days = (dayfirst, daysecond) => {
+    var oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+    var myDate1 = dayfirst;
+    myDate1 = myDate1.split("-");
+    var year1 = myDate1[2];
+    var month1 = myDate1[1];
+    var day1 = myDate1[0];
+    var firstDate = new Date(year1, month1, day1);
+
+    var myDate2 = daysecond;
+    myDate2 = myDate2.split("-");
+    var year2 = myDate2[2];
+    var month2 = myDate2[1];
+    var day2 = myDate2[0];
+    var secondDate = new Date(year2, month2, day2);
+
+    var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime()) / (oneDay)));
+    return diffDays;
+}
+const subtractOnYear = (dayinput) => {
+    var myDate1 = dayinput;
+    myDate1 = myDate1.split("-");
+    var year1 = myDate1[2];
+    var month1 = myDate1[1];
+    var day1 = myDate1[0];
+    var firstDate = new Date(year1, month1, day1);
+    firstDate.setMonth((firstDate.getMonth() - 1) - (12 * 2));
+    var d = firstDate.getUTCDate().toString(),
+        m = (firstDate.getUTCMonth() + 1).toString(),
+        y = firstDate.getUTCFullYear().toString(),
+        formatted = '';
+    if (d.length === 1) {
+        d = '0' + d;
+    }
+    if (m.length === 1) {
+        m = '0' + m;
+    }
+    formatted = d + '-' + m + '-' + y;
+    return formatted;
+}
 
 class YourInfoContent extends Component {
     render() {
+        let ticketchoosed = localStorage.getItem("ticketchoosed") ? JSON.parse(localStorage.getItem("ticketchoosed")) : null;
+        let ticketchoosedKhuHoi = localStorage.getItem("ticketchoosedkhuhoi") ? JSON.parse(localStorage.getItem("ticketchoosedkhuhoi")) : null;
+        let adult = (localStorage.getItem("adult")) ? localStorage.getItem("adult") : 0;
+        let child = (localStorage.getItem("child")) ? localStorage.getItem("child") : 0;
+        let inf = (localStorage.getItem("inf")) ? localStorage.getItem("inf") : 0;
+        let tongsonguoi = parseInt(adult) + parseInt(child) + parseInt(inf);
+        let taxfeeadult = Array.isArray(ticketchoosed.adult) ? 0 : ticketchoosed.adult.taxfee;
+        let taxfeechild = Array.isArray(ticketchoosed.child) ? 0 : ticketchoosed.child.taxfee;
+        let taxfeeinf = Array.isArray(ticketchoosed.inf) ? 0 : parseInt(ticketchoosed.inf.taxfee);
+        let subtotalfirst = ticketchoosed.subtotal;
+        let taxfeeadultKhuHoi = ticketchoosedKhuHoi !== null ? Array.isArray(ticketchoosed.adult) ? 0 : ticketchoosed.adult.taxfee : 0;
+        let taxfeechildKhuHoi = ticketchoosedKhuHoi !== null ? Array.isArray(ticketchoosed.child) ? 0 : ticketchoosed.child.taxfee : 0;
+        let taxfeeinfKhuHoi = ticketchoosedKhuHoi !== null ? Array.isArray(ticketchoosed.inf) ? 0 : parseInt(ticketchoosed.inf.taxfee) : 0;
+        let subtotalsecond = ticketchoosedKhuHoi !== null ? ticketchoosedKhuHoi.subtotal : 0;
+        let totaltaxfee = taxfeeadult + taxfeechild + taxfeeinf;
+        let totaltaxfeeKhuHoi = taxfeeadultKhuHoi + taxfeechildKhuHoi + taxfeeinfKhuHoi;
+        let subtotal2way = subtotalfirst + subtotalsecond;
+        let direction = localStorage.getItem("direction") ? localStorage.getItem("direction") : 0;
+        let dep = localStorage.getItem("dep");
+        let des = localStorage.getItem("des");
+        let datedep = localStorage.getItem("datedep");
+        let datedes = localStorage.getItem("datedes");
+        var logo = ticketchoosed !== null ? ticketchoosed.airline === "Vietjet" ? vietjetlogo : ticketchoosed.airline === "Jetstar" ? jetstarlogo : vietnamairlinelogo : null;
+        var logoKhuHoi = ticketchoosedKhuHoi !== null ? ticketchoosedKhuHoi.airline === "Vietjet" ? vietjetlogo : ticketchoosedKhuHoi.airline === "Jetstar" ? jetstarlogo : vietnamairlinelogo : null;
+        let adultToReturn = [];
+        let childToReturn = [];
+        let infToReturn = [];
+        //let subtractday = subtractOnYear("28-09-2018");
+        //let distance2Days = get_distance_two_days(subtractday,"28-09-2018");
+        var adultshow = () => {
+            for (let i = 0; i < adult; i++) {
+                adultToReturn.push(
+                    <React.Fragment key={i}>
+                        <tr>
+                            <td colSpan={5} className="col-xs-12 col-sm-12 col-md-12">
+                                <h4>1.<span className="passenger-type">Người lớn</span></h4>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className="col-xs-12 col-sm-2 col-md-2 mt-10 pt-10 hidden-xs">
+                                <strong style={{ paddingRight: 3 }}>Quý danh</strong><abbr className="require">*</abbr>
+                            </td>
+                            <td className="col-xs-12 col-sm-2 col-md-2 mt-10">
+                                <select id="drAdultDear1" className="form-control">
+                                    <option value="Ông,true">Ông</option>
+                                    <option value="Bà,false">Bà</option>
+                                    <option value="Anh,true">Anh</option>
+                                    <option value="Chị,false">Chị</option>
+                                </select>
+                            </td>
+                            <td className="col-xs-5 col-sm-2 col-md-2 mt-10 pr-5">
+                                <input type="text" className="form-control" maxLength={256} required="required" id="tbAdultFirstName1" placeholder="Họ" />
+                            </td>
+                            <td className="col-xs-7 col-sm-3 col-md-3 mt-10 pl-5">
+                                <input type="text" className="form-control" maxLength={256} required="required" id="tbAdultLastName1" placeholder="Tên đệm và Tên" />
+                            </td>
+                            <td className="col-xs-12 col-sm-3 col-md-3 mt-10 hidden-xs">
+                                &nbsp;
+                </td>
+                        </tr>
+                        <tr>
+                            <td colSpan={5} className="col-xs-12 col-sm-12 col-md-12 mt-10">
+                                <strong style={{ display: 'block' }}>
+                                    Hành lý xách tay
+                  </strong>
+                                <div className="row" style={{ "marginRight": "0px", "marginLeft": "0px" }}>
+                                    <div className="col-xs-12 col-sm-6 col-md-6">
+                                        <span>Mỗi hành khách được mang tối đa 7 Kg hành lý xách tay.</span>
+                                    </div>
+                                    <div className="col-xs-12 col-sm-6 col-md-6">
+                                        <span>Mỗi hành khách được mang tối đa 7 Kg hành lý xách tay.</span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colSpan={5} className="col-xs-12 col-sm-12 col-md-12 mt-10">
+                                <strong style={{ display: 'block' }}>
+                                    Hành lý ký gửi (có thể bỏ qua)
+                  </strong>
+                                <div className="row" style={{ "marginRight": "0px", "marginLeft": "0px" }}>
+                                    <ul style={{ width: '100%', margin: '5px auto 0', padding: 0, listStyle: 'none', float: 'left', clear: 'both' }}>
+                                        <li className="col-xs-12 col-md-6 col-sm-6 mb-10">
+                                            <select id="drInBaggageAdult1" className="form-control" name="inbaggage" onchange="javascript:baggagechanged();">
+                                                <option value="0,0,," selected="selected">Không mang hành lý ký gửi</option>
+                                                <option value="13,160000.0000,Thêm 15Kg hành lý (160.000 VND),15">
+                                                    Thêm 15Kg hành lý (160.000 VND)
+                          </option>
+                                                <option value="14,180000.0000,Thêm 20Kg hành lý (180.000 VND),20">
+                                                    Thêm 20Kg hành lý (180.000 VND)
+                          </option>
+                                                <option value="15,250000.0000,Thêm 25Kg hành lý (250.000 VND),25">
+                                                    Thêm 25Kg hành lý (250.000 VND)
+                          </option>
+                                                <option value="16,360000.0000,Thêm 30Kg hành lý (360.000 VND),30">
+                                                    Thêm 30Kg hành lý (360.000 VND)
+                          </option>
+                                                <option value="17,420000.0000,Thêm 35Kg hành lý (420.000 VND),35">
+                                                    Thêm 35Kg hành lý (420.000 VND)
+                          </option>
+                                                <option value="18,480000.0000,Thêm 40Kg hành lý (480.000 VND,40">
+                                                    Thêm 40Kg hành lý (480.000 VND
+                          </option>
+                                            </select>
+                                        </li>
+                                        <li className="col-xs-12 col-md-6 col-sm-6 mb-10">
+                                            <select id="drOutBaggageAdult1" className="form-control" name="outbaggage" onchange="javascript:baggagechanged();">
+                                                <option value="0,0,," selected="selected">Không mang hành lý ký gửi</option>
+                                                <option value="13,160000.0000,Thêm 15Kg hành lý (160.000 VND),15">
+                                                    Thêm 15Kg hành lý (160.000 VND)
+                          </option>
+                                                <option value="14,180000.0000,Thêm 20Kg hành lý (180.000 VND),20">
+                                                    Thêm 20Kg hành lý (180.000 VND)
+                          </option>
+                                                <option value="15,250000.0000,Thêm 25Kg hành lý (250.000 VND),25">
+                                                    Thêm 25Kg hành lý (250.000 VND)
+                          </option>
+                                                <option value="16,360000.0000,Thêm 30Kg hành lý (360.000 VND),30">
+                                                    Thêm 30Kg hành lý (360.000 VND)
+                          </option>
+                                                <option value="17,420000.0000,Thêm 35Kg hành lý (420.000 VND),35">
+                                                    Thêm 35Kg hành lý (420.000 VND)
+                          </option>
+                                                <option value="18,480000.0000,Thêm 40Kg hành lý (480.000 VND,40">
+                                                    Thêm 40Kg hành lý (480.000 VND
+                          </option>
+                                            </select>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    </React.Fragment>
+                );
+            }
+            return adultToReturn;
+        };
+        var childshow = () => {
+            for (let i = 0; i < child; i++) {
+                childToReturn.push(
+                    <React.Fragment key={i}>
+                        <tr>
+                            <td colSpan={5} className="col-xs-12 col-sm-12 col-md-12">
+                                <h4>{i + 1}.<span className="passenger-type">Trẻ em</span></h4>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className="col-xs-12 col-sm-2 col-md-2 mt-10 pt-10 hidden-xs">
+                                <strong style={{ paddingRight: 3 }}>Quý danh</strong><abbr className="require">*</abbr>
+                            </td>
+                            <td className="col-xs-12 col-sm-2 col-md-2 mt-10">
+                                <select id="drChildDear1" className="form-control">
+                                    <option value="Bé trai,true">Bé trai</option>
+                                    <option value="Bé gái,false">Bé gái</option>
+                                </select>
+                            </td>
+                            <td className="col-xs-5 col-sm-2 col-md-2 mt-10 pr-5">
+                                <input type="text" className="form-control" required="required" maxLength={256} id="tbChildFirstName1" placeholder="Họ" />
+                            </td>
+                            <td className="col-xs-7 col-sm-3 col-md-3 mt-10 pl-5">
+                                <input type="text" className="form-control" required="required" maxLength={256} id="tbChildLastName1" placeholder="Tên đệm và Tên" />
+                            </td>
+                            <td className="col-xs-12 col-sm-3 col-md-3 mt-10">
+                                <input type="text" style={{ cursor: 'pointer', backgroundColor: '#fff' }} className="form-control birthday children has-date-picker-birtday" placeholder="Ngày sinh"  required />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colSpan={5} className="col-xs-12 col-sm-12 col-md-12 mt-10">
+                                <strong style={{ display: 'block' }}>
+                                    Hành lý xách tay
+                      </strong>
+                                <div className="row" style={{ "marginRight": "0px", "marginLeft": "0px" }}>
+                                    <div className="col-xs-12 col-sm-6 col-md-6">
+                                        <span>Mỗi hành khách được mang tối đa 7 Kg hành lý xách tay.</span>
+                                    </div>
+                                    <div className="col-xs-12 col-sm-6 col-md-6">
+                                        <span>Mỗi hành khách được mang tối đa 7 Kg hành lý xách tay.</span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colSpan={5} className="col-xs-12 col-sm-12 col-md-12 mt-10">
+                                <strong style={{ marginTop: 10, display: 'block' }}>
+                                    Hành lý ký gửi (có thể bỏ qua)
+                      </strong>
+                                <div className="row" style={{ "marginRight": "0px", "marginLeft": "0px" }}>
+                                    <ul style={{ width: '100%', margin: '5px auto 0', padding: 0, listStyle: 'none', float: 'left', clear: 'both' }}>
+                                        <li className="col-xs-12 col-md-6 col-sm-6 mb-10">
+                                            <select id="drInBaggageChild1" className="form-control" name="inbaggage" onchange="javascript:baggagechanged();">
+                                                <option value="0,0,,">Không mang hành lý ký gửi</option>
+                                                <option value="13,160000.0000,Thêm 15Kg hành lý (160.000 VND),15">
+                                                    Thêm 15Kg hành lý (160.000 VND)
+                              </option>
+                                                <option value="14,180000.0000,Thêm 20Kg hành lý (180.000 VND),20">
+                                                    Thêm 20Kg hành lý (180.000 VND)
+                              </option>
+                                                <option value="15,250000.0000,Thêm 25Kg hành lý (250.000 VND),25">
+                                                    Thêm 25Kg hành lý (250.000 VND)
+                              </option>
+                                                <option value="16,360000.0000,Thêm 30Kg hành lý (360.000 VND),30">
+                                                    Thêm 30Kg hành lý (360.000 VND)
+                              </option>
+                                                <option value="17,420000.0000,Thêm 35Kg hành lý (420.000 VND),35">
+                                                    Thêm 35Kg hành lý (420.000 VND)
+                              </option>
+                                                <option value="18,480000.0000,Thêm 40Kg hành lý (480.000 VND,40">
+                                                    Thêm 40Kg hành lý (480.000 VND
+                              </option>
+                                            </select>
+                                        </li>
+                                        <li className="col-xs-12 col-md-6 col-sm-6 mb-10">
+                                            <select id="drOutBaggageChild1" className="form-control" name="outbaggage" onchange="javascript:baggagechanged();">
+                                                <option value="0,0,,">Không mang hành lý ký gửi</option>
+                                                <option value="13,160000.0000,Thêm 15Kg hành lý (160.000 VND),15">
+                                                    Thêm 15Kg hành lý (160.000 VND)
+                              </option>
+                                                <option value="14,180000.0000,Thêm 20Kg hành lý (180.000 VND),20">
+                                                    Thêm 20Kg hành lý (180.000 VND)
+                              </option>
+                                                <option value="15,250000.0000,Thêm 25Kg hành lý (250.000 VND),25">
+                                                    Thêm 25Kg hành lý (250.000 VND)
+                              </option>
+                                                <option value="16,360000.0000,Thêm 30Kg hành lý (360.000 VND),30">
+                                                    Thêm 30Kg hành lý (360.000 VND)
+                              </option>
+                                                <option value="17,420000.0000,Thêm 35Kg hành lý (420.000 VND),35">
+                                                    Thêm 35Kg hành lý (420.000 VND)
+                              </option>
+                                                <option value="18,480000.0000,Thêm 40Kg hành lý (480.000 VND,40">
+                                                    Thêm 40Kg hành lý (480.000 VND
+                              </option>
+                                            </select>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    </React.Fragment>
+                );
+            }
+            return childToReturn;
+        };
+        var infshow = () => {
+            for (let i = 0; i < inf; i++) {
+                infToReturn.push(
+                    <React.Fragment key={i}>
+
+                        <tr>
+                            <td colSpan={5} className="col-xs-12 col-sm-12 col-md-12">
+                                <h4>{i + 1}.<span className="passenger-type">Em bé</span></h4>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td className="col-xs-12 col-sm-2 col-md-2 mt-10 pt-10 hidden-xs">
+                                <strong style={{ paddingRight: 3 }}>Quý danh</strong><abbr className="require">*</abbr>
+                            </td>
+                            <td className="col-xs-12 col-sm-2 col-md-2 mt-10">
+                                <select id="drInfantDear1" className="form-control">
+                                    <option value="Bé trai,true">Bé trai</option>
+                                    <option value="Bé gái,false">Bé gái</option>
+                                </select>
+                            </td>
+                            <td className="col-xs-5 col-sm-2 col-md-2 mt-10 pr-5">
+                                <input type="text" className="form-control" maxLength={256} required="required" id="tbInfantFirstName1" placeholder="Họ" />
+                            </td>
+                            <td className="col-xs-7 col-sm-3 col-md-3 mt-10 pl-5">
+                                <input type="text" className="form-control" maxLength={256} required="required" id="tbInfantLastName1" placeholder="Tên và tên Đệm" />
+                            </td>
+                            <td className="col-xs-12 col-sm-3 col-md-3 mt-10">
+                                <input type="text" style={{ cursor: 'pointer', backgroundColor: '#fff' }} className="form-control birthday infant has-date-picker-birtday" required placeholder="Ngày sinh"  />
+                            </td>
+                        </tr>
+                    </React.Fragment>
+                );
+            }
+            return infToReturn;
+        };
+        var adultdiv = adult > 0 ?
+            adultshow()
+            : null;
+        var childdiv = child > 0 ?
+            childshow()
+            : null;
+        var infdiv = inf > 0 ?
+            infshow()
+            : null;
         return (
             <div className="iw-tour-listing" id="contents-main">
                 <div className="container">
                     <div className="row" style={{ "marginRight": "0px", "marginLeft": "0px" }}>
                         <div className="col-xs-12 col-sm-8 col-md-8 mt-30 selected">
-
                             <div className="simple_box mb-20 visible-xs">
                                 <h3><i className="fa fa-plane mr-5" aria-hidden="true" />Chi tiết chuyến bay</h3>
                                 <div className="full-width">
@@ -19,11 +367,11 @@ class YourInfoContent extends Component {
                                                         <span>
                                                             <img alt="Flight outbound" src="/App_Themes/FrontEnd/images/icon/flights-icon-outbound.png" />
                                                         </span>
-                                                        Chuyến đi: <span>Hồ Chí Minh, Việt Nam → Hà Nội, Việt Nam</span>
+                                                        Chuyến đi: <span>{dep} → {des}</span>
                                                     </td>
                                                     <td className="FlightWarning text-right">
                                                         <div className="fa fa-clock-o" />
-                                                        Thời gian bay: <span>2h 5</span>
+                                                        Thời gian bay: <span>{ticketchoosed.duration}</span>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -37,102 +385,78 @@ class YourInfoContent extends Component {
                                                         <tr>
                                                             <td className="ItineraryBox-Carrier">
                                                                 <div className="CarrierLogo">
-                                                                    <img alt="Vietjet Air" src="/upload/airlines/VJ.gif" />
+                                                                    <img alt="Vietjet Air" src={logo} />
                                                                 </div>
-                                                                <div className="CarrierName">Vietjet Air</div>
+                                                                <div className="CarrierName">{ticketchoosed.airline}</div>
                                                             </td>
                                                             <td className="ItineraryBox-Depart">
-                                                                <div className="City">Hồ Chí Minh</div>
-                                                                <div className="Airport">Tân Sơn Nhất</div>
-                                                                <span className="Hour">22:55</span>
-                                                                <span className="Date">26.09.2018</span>
+                                                                <div className="City">{ticketchoosed.depcode}</div>
                                                             </td>
                                                             <td className="ItineraryBox-Arrival">
-                                                                <div className="City">Hà Nội</div>
-                                                                <div className="Airport">NOI BAI INTL</div>
-                                                                <span className="Hour">01:00</span>
-                                                                <span className="Date">27.09.2018</span>
+                                                                <div className="City">{ticketchoosed.descode}</div>
                                                             </td>
-                                                            <td className="ItineraryBox-FlightInfo">
-                                                                <span className="Class">
-                                                                    <span className="ItineraryBox-FlightInfo-Title">Hạng chỗ:</span>
-                                                                    <strong className="col2">I I_Eco</strong>
-                                                                </span>
-                                                                <span className="Plane">
-                                                                    <span className="ItineraryBox-FlightInfo-Title">Chuyến bay:</span>
-                                                                    <strong className="col2">VJ144</strong>
-                                                                </span>
-                                                            </td>
+
                                                         </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="FlightDirection mt-15">
-                                        <table style={{ width: '100%' }}>
-                                            <tbody>
-                                                <tr>
-                                                    <td className="FlightItinerary">
-                                                        <span>
-                                                            <img alt="Flight outbound" src="/App_Themes/FrontEnd/images/icon/flights-icon-inbound.png" />
-                                                        </span>
-                                                        Chuyến đi: <span>Hà Nội, Việt Nam → Hồ Chí Minh, Việt Nam</span>
-                                                    </td>
-                                                    <td className="FlightWarning text-right">
-                                                        <div className="fa fa-clock-o" />
-                                                        Thời gian bay: <span>2h 10</span>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div className="FilghtInfo">
-                                        <div className="WhiteBox no-shadow mb-0 mt-5">
-                                            <div className="ItineraryBox">
+                                    {ticketchoosedKhuHoi !== null ?
+                                        <React.Fragment>
+                                            <div className="FlightDirection mt-15">
                                                 <table style={{ width: '100%' }}>
                                                     <tbody>
                                                         <tr>
-                                                            <td className="ItineraryBox-Carrier">
-                                                                <div className="CarrierLogo">
-                                                                    <img alt="Vietjet Air" src="/upload/airlines/VJ.gif" />
-                                                                </div>
-                                                                <div className="CarrierName">Vietjet Air</div>
-                                                            </td>
-                                                            <td className="ItineraryBox-Depart">
-                                                                <div className="City">Hà Nội</div>
-                                                                <div className="Airport">NOI BAI INTL</div>
-                                                                <span className="Hour">05:35</span>
-                                                                <span className="Date">30.09.2018</span>
-                                                            </td>
-                                                            <td className="ItineraryBox-Arrival">
-                                                                <div className="City">Hồ Chí Minh</div>
-                                                                <div className="Airport">Tân Sơn Nhất</div>
-                                                                <span className="Hour">07:45</span>
-                                                                <span className="Date">30.09.2018</span>
-                                                            </td>
-                                                            <td className="ItineraryBox-FlightInfo">
-                                                                <span className="Class">
-                                                                    <span className="ItineraryBox-FlightInfo-Title">Hạng chỗ:</span>
-                                                                    <strong className="col2">J J_Eco</strong>
+                                                            <td className="FlightItinerary">
+                                                                <span>
+                                                                    <img alt="Flight outbound" src="/App_Themes/FrontEnd/images/icon/flights-icon-inbound.png" />
                                                                 </span>
-                                                                <span className="Plane">
-                                                                    <span className="ItineraryBox-FlightInfo-Title">Chuyến bay:</span>
-                                                                    <strong className="col2">VJ121</strong>
-                                                                </span>
+                                                                Chuyến đi: <span>{des} → {dep}</span>
+                                                            </td>
+                                                            <td className="FlightWarning text-right">
+                                                                <div className="fa fa-clock-o" />
+                                                                Thời gian bay: <span>{ticketchoosedKhuHoi.duration}</span>
                                                             </td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
-                                        </div>
-                                    </div>
+                                            <div className="FilghtInfo">
+                                                <div className="WhiteBox no-shadow mb-0 mt-5">
+                                                    <div className="ItineraryBox">
+                                                        <table style={{ width: '100%' }}>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td className="ItineraryBox-Carrier">
+                                                                        <div className="CarrierLogo">
+                                                                            <img alt="Vietjet Air" src={logoKhuHoi} />
+                                                                        </div>
+                                                                        <div className="CarrierName">{ticketchoosedKhuHoi.airline}</div>
+                                                                    </td>
+                                                                    <td className="ItineraryBox-Depart">
+                                                                        <div className="City">{ticketchoosedKhuHoi.depcode}</div>
+                                                                    </td>
+                                                                    <td className="ItineraryBox-Arrival">
+                                                                        <div className="City">{ticketchoosedKhuHoi.descode}</div>
+                                                                    </td>
+
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </React.Fragment>
+                                        : ""
+                                    }
+
                                 </div>
                             </div>
                             <div className="simple_box no-padding mb-20">
                                 <h3><i className="fa fa-users mr-5" aria-hidden="true" />Thông tin hành khách</h3>
                                 <div className="pd-15" style={{ "padding": "15px" }}>
-                                    <p style={{}}>
+                                    <p >
                                         Thông tin phải chính xác như trên giấy tờ tùy thân (CMND, Hộ Chiếu, giấy phép lái xe...). Quý khách bị từ chối vận chuyển nếu thông tin không chính xác. Vui lòng nhập thông tin bằng Tiếng Việt không dấu.
         </p>
                                     <div className="row" style={{ "marginRight": "0px", "marginLeft": "0px" }}>
@@ -154,669 +478,9 @@ class YourInfoContent extends Component {
                                                         <i style={{ fontSize: 11, color: '#999', fontStyle: 'normal' }}>(Ví dụ: 05/09/2012)</i>
                                                     </td>
                                                 </tr>
-                                                <tr>
-                                                    <td colSpan={5} className="col-xs-12 col-sm-12 col-md-12">
-                                                        <h4>1.<span className="passenger-type">Người lớn</span></h4>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="col-xs-12 col-sm-2 col-md-2 mt-10 pt-10 hidden-xs">
-                                                        <strong style={{ paddingRight: 3 }}>Quý danh</strong><abbr className="require">*</abbr>
-                                                    </td>
-                                                    <td className="col-xs-12 col-sm-2 col-md-2 mt-10">
-                                                        <select id="drAdultDear1" className="form-control">
-                                                            <option value="Ông,true">Ông</option>
-                                                            <option value="Bà,false">Bà</option>
-                                                            <option value="Anh,true">Anh</option>
-                                                            <option value="Chị,false">Chị</option>
-                                                        </select>
-                                                    </td>
-                                                    <td className="col-xs-5 col-sm-2 col-md-2 mt-10 pr-5">
-                                                        <input type="text" className="form-control" maxLength={256} required="required" id="tbAdultFirstName1" placeholder="Họ" />
-                                                    </td>
-                                                    <td className="col-xs-7 col-sm-3 col-md-3 mt-10 pl-5">
-                                                        <input type="text" className="form-control" maxLength={256} required="required" id="tbAdultLastName1" placeholder="Tên đệm và Tên" />
-                                                    </td>
-                                                    <td className="col-xs-12 col-sm-3 col-md-3 mt-10 hidden-xs">
-                                                        &nbsp;
-                </td>
-                                                </tr>
-                                                <tr>
-                                                    <td colSpan={5} className="col-xs-12 col-sm-12 col-md-12 mt-10">
-                                                        <strong style={{ display: 'block' }}>
-                                                            Hành lý xách tay
-                  </strong>
-                                                        <div className="row" style={{ "marginRight": "0px", "marginLeft": "0px" }}>
-                                                            <div className="col-xs-12 col-sm-6 col-md-6">
-                                                                <span>Mỗi hành khách được mang tối đa 7 Kg hành lý xách tay.</span>
-                                                            </div>
-                                                            <div className="col-xs-12 col-sm-6 col-md-6">
-                                                                <span>Mỗi hành khách được mang tối đa 7 Kg hành lý xách tay.</span>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td colSpan={5} className="col-xs-12 col-sm-12 col-md-12 mt-10">
-                                                        <strong style={{ display: 'block' }}>
-                                                            Hành lý ký gửi (có thể bỏ qua)
-                  </strong>
-                                                        <div className="row" style={{ "marginRight": "0px", "marginLeft": "0px" }}>
-                                                            <ul style={{ width: '100%', margin: '5px auto 0', padding: 0, listStyle: 'none', float: 'left', clear: 'both' }}>
-                                                                <li className="col-xs-12 col-md-6 col-sm-6 mb-10">
-                                                                    <select id="drInBaggageAdult1" className="form-control" name="inbaggage" onchange="javascript:baggagechanged();">
-                                                                        <option value="0,0,," selected="selected">Không mang hành lý ký gửi</option>
-                                                                        <option value="13,160000.0000,Thêm 15Kg hành lý (160.000 VND),15">
-                                                                            Thêm 15Kg hành lý (160.000 VND)
-                          </option>
-                                                                        <option value="14,180000.0000,Thêm 20Kg hành lý (180.000 VND),20">
-                                                                            Thêm 20Kg hành lý (180.000 VND)
-                          </option>
-                                                                        <option value="15,250000.0000,Thêm 25Kg hành lý (250.000 VND),25">
-                                                                            Thêm 25Kg hành lý (250.000 VND)
-                          </option>
-                                                                        <option value="16,360000.0000,Thêm 30Kg hành lý (360.000 VND),30">
-                                                                            Thêm 30Kg hành lý (360.000 VND)
-                          </option>
-                                                                        <option value="17,420000.0000,Thêm 35Kg hành lý (420.000 VND),35">
-                                                                            Thêm 35Kg hành lý (420.000 VND)
-                          </option>
-                                                                        <option value="18,480000.0000,Thêm 40Kg hành lý (480.000 VND,40">
-                                                                            Thêm 40Kg hành lý (480.000 VND
-                          </option>
-                                                                    </select>
-                                                                </li>
-                                                                <li className="col-xs-12 col-md-6 col-sm-6 mb-10">
-                                                                    <select id="drOutBaggageAdult1" className="form-control" name="outbaggage" onchange="javascript:baggagechanged();">
-                                                                        <option value="0,0,," selected="selected">Không mang hành lý ký gửi</option>
-                                                                        <option value="13,160000.0000,Thêm 15Kg hành lý (160.000 VND),15">
-                                                                            Thêm 15Kg hành lý (160.000 VND)
-                          </option>
-                                                                        <option value="14,180000.0000,Thêm 20Kg hành lý (180.000 VND),20">
-                                                                            Thêm 20Kg hành lý (180.000 VND)
-                          </option>
-                                                                        <option value="15,250000.0000,Thêm 25Kg hành lý (250.000 VND),25">
-                                                                            Thêm 25Kg hành lý (250.000 VND)
-                          </option>
-                                                                        <option value="16,360000.0000,Thêm 30Kg hành lý (360.000 VND),30">
-                                                                            Thêm 30Kg hành lý (360.000 VND)
-                          </option>
-                                                                        <option value="17,420000.0000,Thêm 35Kg hành lý (420.000 VND),35">
-                                                                            Thêm 35Kg hành lý (420.000 VND)
-                          </option>
-                                                                        <option value="18,480000.0000,Thêm 40Kg hành lý (480.000 VND,40">
-                                                                            Thêm 40Kg hành lý (480.000 VND
-                          </option>
-                                                                    </select>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td colSpan={5} className="col-xs-12 col-sm-12 col-md-12">
-                                                        <h4>2.<span className="passenger-type">Người lớn</span></h4>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="col-xs-12 col-sm-2 col-md-2 mt-10 pt-10 hidden-xs">
-                                                        <strong style={{ paddingRight: 3 }}>Quý danh</strong><abbr className="require">*</abbr>
-                                                    </td>
-                                                    <td className="col-xs-12 col-sm-2 col-md-2 mt-10">
-                                                        <select id="drAdultDear2" className="form-control">
-                                                            <option value="Ông,true">Ông</option>
-                                                            <option value="Bà,false">Bà</option>
-                                                            <option value="Anh,true">Anh</option>
-                                                            <option value="Chị,false">Chị</option>
-                                                        </select>
-                                                    </td>
-                                                    <td className="col-xs-5 col-sm-2 col-md-2 mt-10 pr-5">
-                                                        <input type="text" className="form-control" maxLength={256} required="required" id="tbAdultFirstName2" placeholder="Họ" />
-                                                    </td>
-                                                    <td className="col-xs-7 col-sm-3 col-md-3 mt-10 pl-5">
-                                                        <input type="text" className="form-control" maxLength={256} required="required" id="tbAdultLastName2" placeholder="Tên đệm và Tên" />
-                                                    </td>
-                                                    <td className="col-xs-12 col-sm-3 col-md-3 mt-10 hidden-xs">
-                                                        &nbsp;
-                </td>
-                                                </tr>
-                                                <tr>
-                                                    <td colSpan={5} className="col-xs-12 col-sm-12 col-md-12 mt-10">
-                                                        <strong style={{ display: 'block' }}>
-                                                            Hành lý xách tay
-                  </strong>
-                                                        <div className="row" style={{ "marginRight": "0px", "marginLeft": "0px" }}>
-                                                            <div className="col-xs-12 col-sm-6 col-md-6">
-                                                                <span>Mỗi hành khách được mang tối đa 7 Kg hành lý xách tay.</span>
-                                                            </div>
-                                                            <div className="col-xs-12 col-sm-6 col-md-6">
-                                                                <span>Mỗi hành khách được mang tối đa 7 Kg hành lý xách tay.</span>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td colSpan={5} className="col-xs-12 col-sm-12 col-md-12 mt-10">
-                                                        <strong style={{ display: 'block' }}>
-                                                            Hành lý ký gửi (có thể bỏ qua)
-                  </strong>
-                                                        <div className="row" style={{ "marginRight": "0px", "marginLeft": "0px" }}>
-                                                            <ul style={{ width: '100%', margin: '5px auto 0', padding: 0, listStyle: 'none', float: 'left', clear: 'both' }}>
-                                                                <li className="col-xs-12 col-md-6 col-sm-6 mb-10">
-                                                                    <select id="drInBaggageAdult2" className="form-control" name="inbaggage" onchange="javascript:baggagechanged();">
-                                                                        <option value="0,0,," selected="selected">Không mang hành lý ký gửi</option>
-                                                                        <option value="13,160000.0000,Thêm 15Kg hành lý (160.000 VND),15">
-                                                                            Thêm 15Kg hành lý (160.000 VND)
-                          </option>
-                                                                        <option value="14,180000.0000,Thêm 20Kg hành lý (180.000 VND),20">
-                                                                            Thêm 20Kg hành lý (180.000 VND)
-                          </option>
-                                                                        <option value="15,250000.0000,Thêm 25Kg hành lý (250.000 VND),25">
-                                                                            Thêm 25Kg hành lý (250.000 VND)
-                          </option>
-                                                                        <option value="16,360000.0000,Thêm 30Kg hành lý (360.000 VND),30">
-                                                                            Thêm 30Kg hành lý (360.000 VND)
-                          </option>
-                                                                        <option value="17,420000.0000,Thêm 35Kg hành lý (420.000 VND),35">
-                                                                            Thêm 35Kg hành lý (420.000 VND)
-                          </option>
-                                                                        <option value="18,480000.0000,Thêm 40Kg hành lý (480.000 VND,40">
-                                                                            Thêm 40Kg hành lý (480.000 VND
-                          </option>
-                                                                    </select>
-                                                                </li>
-                                                                <li className="col-xs-12 col-md-6 col-sm-6 mb-10">
-                                                                    <select id="drOutBaggageAdult2" className="form-control" name="outbaggage" onchange="javascript:baggagechanged();">
-                                                                        <option value="0,0,," selected="selected">Không mang hành lý ký gửi</option>
-                                                                        <option value="13,160000.0000,Thêm 15Kg hành lý (160.000 VND),15">
-                                                                            Thêm 15Kg hành lý (160.000 VND)
-                          </option>
-                                                                        <option value="14,180000.0000,Thêm 20Kg hành lý (180.000 VND),20">
-                                                                            Thêm 20Kg hành lý (180.000 VND)
-                          </option>
-                                                                        <option value="15,250000.0000,Thêm 25Kg hành lý (250.000 VND),25">
-                                                                            Thêm 25Kg hành lý (250.000 VND)
-                          </option>
-                                                                        <option value="16,360000.0000,Thêm 30Kg hành lý (360.000 VND),30">
-                                                                            Thêm 30Kg hành lý (360.000 VND)
-                          </option>
-                                                                        <option value="17,420000.0000,Thêm 35Kg hành lý (420.000 VND),35">
-                                                                            Thêm 35Kg hành lý (420.000 VND)
-                          </option>
-                                                                        <option value="18,480000.0000,Thêm 40Kg hành lý (480.000 VND,40">
-                                                                            Thêm 40Kg hành lý (480.000 VND
-                          </option>
-                                                                    </select>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td colSpan={5} className="col-xs-12 col-sm-12 col-md-12">
-                                                        <h4>3.<span className="passenger-type">Người lớn</span></h4>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="col-xs-12 col-sm-2 col-md-2 mt-10 pt-10 hidden-xs">
-                                                        <strong style={{ paddingRight: 3 }}>Quý danh</strong><abbr className="require">*</abbr>
-                                                    </td>
-                                                    <td className="col-xs-12 col-sm-2 col-md-2 mt-10">
-                                                        <select id="drAdultDear3" className="form-control">
-                                                            <option value="Ông,true">Ông</option>
-                                                            <option value="Bà,false">Bà</option>
-                                                            <option value="Anh,true">Anh</option>
-                                                            <option value="Chị,false">Chị</option>
-                                                        </select>
-                                                    </td>
-                                                    <td className="col-xs-5 col-sm-2 col-md-2 mt-10 pr-5">
-                                                        <input type="text" className="form-control" maxLength={256} required="required" id="tbAdultFirstName3" placeholder="Họ" />
-                                                    </td>
-                                                    <td className="col-xs-7 col-sm-3 col-md-3 mt-10 pl-5">
-                                                        <input type="text" className="form-control" maxLength={256} required="required" id="tbAdultLastName3" placeholder="Tên đệm và Tên" />
-                                                    </td>
-                                                    <td className="col-xs-12 col-sm-3 col-md-3 mt-10 hidden-xs">
-                                                        &nbsp;
-                </td>
-                                                </tr>
-                                                <tr>
-                                                    <td colSpan={5} className="col-xs-12 col-sm-12 col-md-12 mt-10">
-                                                        <strong style={{ display: 'block' }}>
-                                                            Hành lý xách tay
-                  </strong>
-                                                        <div className="row" style={{ "marginRight": "0px", "marginLeft": "0px" }}>
-                                                            <div className="col-xs-12 col-sm-6 col-md-6">
-                                                                <span>Mỗi hành khách được mang tối đa 7 Kg hành lý xách tay.</span>
-                                                            </div>
-                                                            <div className="col-xs-12 col-sm-6 col-md-6">
-                                                                <span>Mỗi hành khách được mang tối đa 7 Kg hành lý xách tay.</span>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td colSpan={5} className="col-xs-12 col-sm-12 col-md-12 mt-10">
-                                                        <strong style={{ display: 'block' }}>
-                                                            Hành lý ký gửi (có thể bỏ qua)
-                  </strong>
-                                                        <div className="row" style={{ "marginRight": "0px", "marginLeft": "0px" }}>
-                                                            <ul style={{ width: '100%', margin: '5px auto 0', padding: 0, listStyle: 'none', float: 'left', clear: 'both' }}>
-                                                                <li className="col-xs-12 col-md-6 col-sm-6 mb-10">
-                                                                    <select id="drInBaggageAdult3" className="form-control" name="inbaggage" onchange="javascript:baggagechanged();">
-                                                                        <option value="0,0,," selected="selected">Không mang hành lý ký gửi</option>
-                                                                        <option value="13,160000.0000,Thêm 15Kg hành lý (160.000 VND),15">
-                                                                            Thêm 15Kg hành lý (160.000 VND)
-                          </option>
-                                                                        <option value="14,180000.0000,Thêm 20Kg hành lý (180.000 VND),20">
-                                                                            Thêm 20Kg hành lý (180.000 VND)
-                          </option>
-                                                                        <option value="15,250000.0000,Thêm 25Kg hành lý (250.000 VND),25">
-                                                                            Thêm 25Kg hành lý (250.000 VND)
-                          </option>
-                                                                        <option value="16,360000.0000,Thêm 30Kg hành lý (360.000 VND),30">
-                                                                            Thêm 30Kg hành lý (360.000 VND)
-                          </option>
-                                                                        <option value="17,420000.0000,Thêm 35Kg hành lý (420.000 VND),35">
-                                                                            Thêm 35Kg hành lý (420.000 VND)
-                          </option>
-                                                                        <option value="18,480000.0000,Thêm 40Kg hành lý (480.000 VND,40">
-                                                                            Thêm 40Kg hành lý (480.000 VND
-                          </option>
-                                                                    </select>
-                                                                </li>
-                                                                <li className="col-xs-12 col-md-6 col-sm-6 mb-10">
-                                                                    <select id="drOutBaggageAdult3" className="form-control" name="outbaggage" onchange="javascript:baggagechanged();">
-                                                                        <option value="0,0,," selected="selected">Không mang hành lý ký gửi</option>
-                                                                        <option value="13,160000.0000,Thêm 15Kg hành lý (160.000 VND),15">
-                                                                            Thêm 15Kg hành lý (160.000 VND)
-                          </option>
-                                                                        <option value="14,180000.0000,Thêm 20Kg hành lý (180.000 VND),20">
-                                                                            Thêm 20Kg hành lý (180.000 VND)
-                          </option>
-                                                                        <option value="15,250000.0000,Thêm 25Kg hành lý (250.000 VND),25">
-                                                                            Thêm 25Kg hành lý (250.000 VND)
-                          </option>
-                                                                        <option value="16,360000.0000,Thêm 30Kg hành lý (360.000 VND),30">
-                                                                            Thêm 30Kg hành lý (360.000 VND)
-                          </option>
-                                                                        <option value="17,420000.0000,Thêm 35Kg hành lý (420.000 VND),35">
-                                                                            Thêm 35Kg hành lý (420.000 VND)
-                          </option>
-                                                                        <option value="18,480000.0000,Thêm 40Kg hành lý (480.000 VND,40">
-                                                                            Thêm 40Kg hành lý (480.000 VND
-                          </option>
-                                                                    </select>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td colSpan={5} className="col-xs-12 col-sm-12 col-md-12">
-                                                        <h4>1.<span className="passenger-type">Trẻ em</span></h4>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="col-xs-12 col-sm-2 col-md-2 mt-10 pt-10 hidden-xs">
-                                                        <strong style={{ paddingRight: 3 }}>Quý danh</strong><abbr className="require">*</abbr>
-                                                    </td>
-                                                    <td className="col-xs-12 col-sm-2 col-md-2 mt-10">
-                                                        <select id="drChildDear1" className="form-control">
-                                                            <option value="Bé trai,true">Bé trai</option>
-                                                            <option value="Bé gái,false">Bé gái</option>
-                                                        </select>
-                                                    </td>
-                                                    <td className="col-xs-5 col-sm-2 col-md-2 mt-10 pr-5">
-                                                        <input type="text" className="form-control" required="required" maxLength={256} id="tbChildFirstName1" placeholder="Họ" />
-                                                    </td>
-                                                    <td className="col-xs-7 col-sm-3 col-md-3 mt-10 pl-5">
-                                                        <input type="text" className="form-control" required="required" maxLength={256} id="tbChildLastName1" placeholder="Tên đệm và Tên" />
-                                                    </td>
-                                                    <td className="col-xs-12 col-sm-3 col-md-3 mt-10">
-                                                        <input type="text" style={{ cursor: 'pointer', backgroundColor: '#fff' }} className="form-control birthday children hasDatepicker" id="tbChildBirthday1" placeholder="Ngày sinh" readOnly required />
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td colSpan={5} className="col-xs-12 col-sm-12 col-md-12 mt-10">
-                                                        <strong style={{ display: 'block' }}>
-                                                            Hành lý xách tay
-                  </strong>
-                                                        <div className="row" style={{ "marginRight": "0px", "marginLeft": "0px" }}>
-                                                            <div className="col-xs-12 col-sm-6 col-md-6">
-                                                                <span>Mỗi hành khách được mang tối đa 7 Kg hành lý xách tay.</span>
-                                                            </div>
-                                                            <div className="col-xs-12 col-sm-6 col-md-6">
-                                                                <span>Mỗi hành khách được mang tối đa 7 Kg hành lý xách tay.</span>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td colSpan={5} className="col-xs-12 col-sm-12 col-md-12 mt-10">
-                                                        <strong style={{ marginTop: 10, display: 'block' }}>
-                                                            Hành lý ký gửi (có thể bỏ qua)
-                  </strong>
-                                                        <div className="row" style={{ "marginRight": "0px", "marginLeft": "0px" }}>
-                                                            <ul style={{ width: '100%', margin: '5px auto 0', padding: 0, listStyle: 'none', float: 'left', clear: 'both' }}>
-                                                                <li className="col-xs-12 col-md-6 col-sm-6 mb-10">
-                                                                    <select id="drInBaggageChild1" className="form-control" name="inbaggage" onchange="javascript:baggagechanged();">
-                                                                        <option value="0,0,,">Không mang hành lý ký gửi</option>
-                                                                        <option value="13,160000.0000,Thêm 15Kg hành lý (160.000 VND),15">
-                                                                            Thêm 15Kg hành lý (160.000 VND)
-                          </option>
-                                                                        <option value="14,180000.0000,Thêm 20Kg hành lý (180.000 VND),20">
-                                                                            Thêm 20Kg hành lý (180.000 VND)
-                          </option>
-                                                                        <option value="15,250000.0000,Thêm 25Kg hành lý (250.000 VND),25">
-                                                                            Thêm 25Kg hành lý (250.000 VND)
-                          </option>
-                                                                        <option value="16,360000.0000,Thêm 30Kg hành lý (360.000 VND),30">
-                                                                            Thêm 30Kg hành lý (360.000 VND)
-                          </option>
-                                                                        <option value="17,420000.0000,Thêm 35Kg hành lý (420.000 VND),35">
-                                                                            Thêm 35Kg hành lý (420.000 VND)
-                          </option>
-                                                                        <option value="18,480000.0000,Thêm 40Kg hành lý (480.000 VND,40">
-                                                                            Thêm 40Kg hành lý (480.000 VND
-                          </option>
-                                                                    </select>
-                                                                </li>
-                                                                <li className="col-xs-12 col-md-6 col-sm-6 mb-10">
-                                                                    <select id="drOutBaggageChild1" className="form-control" name="outbaggage" onchange="javascript:baggagechanged();">
-                                                                        <option value="0,0,,">Không mang hành lý ký gửi</option>
-                                                                        <option value="13,160000.0000,Thêm 15Kg hành lý (160.000 VND),15">
-                                                                            Thêm 15Kg hành lý (160.000 VND)
-                          </option>
-                                                                        <option value="14,180000.0000,Thêm 20Kg hành lý (180.000 VND),20">
-                                                                            Thêm 20Kg hành lý (180.000 VND)
-                          </option>
-                                                                        <option value="15,250000.0000,Thêm 25Kg hành lý (250.000 VND),25">
-                                                                            Thêm 25Kg hành lý (250.000 VND)
-                          </option>
-                                                                        <option value="16,360000.0000,Thêm 30Kg hành lý (360.000 VND),30">
-                                                                            Thêm 30Kg hành lý (360.000 VND)
-                          </option>
-                                                                        <option value="17,420000.0000,Thêm 35Kg hành lý (420.000 VND),35">
-                                                                            Thêm 35Kg hành lý (420.000 VND)
-                          </option>
-                                                                        <option value="18,480000.0000,Thêm 40Kg hành lý (480.000 VND,40">
-                                                                            Thêm 40Kg hành lý (480.000 VND
-                          </option>
-                                                                    </select>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td colSpan={5} className="col-xs-12 col-sm-12 col-md-12">
-                                                        <h4>2.<span className="passenger-type">Trẻ em</span></h4>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="col-xs-12 col-sm-2 col-md-2 mt-10 pt-10 hidden-xs">
-                                                        <strong style={{ paddingRight: 3 }}>Quý danh</strong><abbr className="require">*</abbr>
-                                                    </td>
-                                                    <td className="col-xs-12 col-sm-2 col-md-2 mt-10">
-                                                        <select id="drChildDear2" className="form-control">
-                                                            <option value="Bé trai,true">Bé trai</option>
-                                                            <option value="Bé gái,false">Bé gái</option>
-                                                        </select>
-                                                    </td>
-                                                    <td className="col-xs-5 col-sm-2 col-md-2 mt-10 pr-5">
-                                                        <input type="text" className="form-control" required="required" maxLength={256} id="tbChildFirstName2" placeholder="Họ" />
-                                                    </td>
-                                                    <td className="col-xs-7 col-sm-3 col-md-3 mt-10 pl-5">
-                                                        <input type="text" className="form-control" required="required" maxLength={256} id="tbChildLastName2" placeholder="Tên đệm và Tên" />
-                                                    </td>
-                                                    <td className="col-xs-12 col-sm-3 col-md-3 mt-10">
-                                                        <input type="text" style={{ cursor: 'pointer', backgroundColor: '#fff' }} className="form-control birthday children hasDatepicker" id="tbChildBirthday2" placeholder="Ngày sinh" readOnly required />
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td colSpan={5} className="col-xs-12 col-sm-12 col-md-12 mt-10">
-                                                        <strong style={{ display: 'block' }}>
-                                                            Hành lý xách tay
-                  </strong>
-                                                        <div className="row" style={{ "marginRight": "0px", "marginLeft": "0px" }}>
-                                                            <div className="col-xs-12 col-sm-6 col-md-6">
-                                                                <span>Mỗi hành khách được mang tối đa 7 Kg hành lý xách tay.</span>
-                                                            </div>
-                                                            <div className="col-xs-12 col-sm-6 col-md-6">
-                                                                <span>Mỗi hành khách được mang tối đa 7 Kg hành lý xách tay.</span>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td colSpan={5} className="col-xs-12 col-sm-12 col-md-12 mt-10">
-                                                        <strong style={{ marginTop: 10, display: 'block' }}>
-                                                            Hành lý ký gửi (có thể bỏ qua)
-                  </strong>
-                                                        <div className="row" style={{ "marginRight": "0px", "marginLeft": "0px" }}>
-                                                            <ul style={{ width: '100%', margin: '5px auto 0', padding: 0, listStyle: 'none', float: 'left', clear: 'both' }}>
-                                                                <li className="col-xs-12 col-md-6 col-sm-6 mb-10">
-                                                                    <select id="drInBaggageChild2" className="form-control" name="inbaggage" onchange="javascript:baggagechanged();">
-                                                                        <option value="0,0,,">Không mang hành lý ký gửi</option>
-                                                                        <option value="13,160000.0000,Thêm 15Kg hành lý (160.000 VND),15">
-                                                                            Thêm 15Kg hành lý (160.000 VND)
-                          </option>
-                                                                        <option value="14,180000.0000,Thêm 20Kg hành lý (180.000 VND),20">
-                                                                            Thêm 20Kg hành lý (180.000 VND)
-                          </option>
-                                                                        <option value="15,250000.0000,Thêm 25Kg hành lý (250.000 VND),25">
-                                                                            Thêm 25Kg hành lý (250.000 VND)
-                          </option>
-                                                                        <option value="16,360000.0000,Thêm 30Kg hành lý (360.000 VND),30">
-                                                                            Thêm 30Kg hành lý (360.000 VND)
-                          </option>
-                                                                        <option value="17,420000.0000,Thêm 35Kg hành lý (420.000 VND),35">
-                                                                            Thêm 35Kg hành lý (420.000 VND)
-                          </option>
-                                                                        <option value="18,480000.0000,Thêm 40Kg hành lý (480.000 VND,40">
-                                                                            Thêm 40Kg hành lý (480.000 VND
-                          </option>
-                                                                    </select>
-                                                                </li>
-                                                                <li className="col-xs-12 col-md-6 col-sm-6 mb-10">
-                                                                    <select id="drOutBaggageChild2" className="form-control" name="outbaggage" onchange="javascript:baggagechanged();">
-                                                                        <option value="0,0,,">Không mang hành lý ký gửi</option>
-                                                                        <option value="13,160000.0000,Thêm 15Kg hành lý (160.000 VND),15">
-                                                                            Thêm 15Kg hành lý (160.000 VND)
-                          </option>
-                                                                        <option value="14,180000.0000,Thêm 20Kg hành lý (180.000 VND),20">
-                                                                            Thêm 20Kg hành lý (180.000 VND)
-                          </option>
-                                                                        <option value="15,250000.0000,Thêm 25Kg hành lý (250.000 VND),25">
-                                                                            Thêm 25Kg hành lý (250.000 VND)
-                          </option>
-                                                                        <option value="16,360000.0000,Thêm 30Kg hành lý (360.000 VND),30">
-                                                                            Thêm 30Kg hành lý (360.000 VND)
-                          </option>
-                                                                        <option value="17,420000.0000,Thêm 35Kg hành lý (420.000 VND),35">
-                                                                            Thêm 35Kg hành lý (420.000 VND)
-                          </option>
-                                                                        <option value="18,480000.0000,Thêm 40Kg hành lý (480.000 VND,40">
-                                                                            Thêm 40Kg hành lý (480.000 VND
-                          </option>
-                                                                    </select>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td colSpan={5} className="col-xs-12 col-sm-12 col-md-12">
-                                                        <h4>3.<span className="passenger-type">Trẻ em</span></h4>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="col-xs-12 col-sm-2 col-md-2 mt-10 pt-10 hidden-xs">
-                                                        <strong style={{ paddingRight: 3 }}>Quý danh</strong><abbr className="require">*</abbr>
-                                                    </td>
-                                                    <td className="col-xs-12 col-sm-2 col-md-2 mt-10">
-                                                        <select id="drChildDear3" className="form-control">
-                                                            <option value="Bé trai,true">Bé trai</option>
-                                                            <option value="Bé gái,false">Bé gái</option>
-                                                        </select>
-                                                    </td>
-                                                    <td className="col-xs-5 col-sm-2 col-md-2 mt-10 pr-5">
-                                                        <input type="text" className="form-control" required="required" maxLength={256} id="tbChildFirstName3" placeholder="Họ" />
-                                                    </td>
-                                                    <td className="col-xs-7 col-sm-3 col-md-3 mt-10 pl-5">
-                                                        <input type="text" className="form-control" required="required" maxLength={256} id="tbChildLastName3" placeholder="Tên đệm và Tên" />
-                                                    </td>
-                                                    <td className="col-xs-12 col-sm-3 col-md-3 mt-10">
-                                                        <input type="text" style={{ cursor: 'pointer', backgroundColor: '#fff' }} className="form-control birthday children hasDatepicker" id="tbChildBirthday3" placeholder="Ngày sinh" readOnly required />
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td colSpan={5} className="col-xs-12 col-sm-12 col-md-12 mt-10">
-                                                        <strong style={{ display: 'block' }}>
-                                                            Hành lý xách tay
-                  </strong>
-                                                        <div className="row" style={{ "marginRight": "0px", "marginLeft": "0px" }}>
-                                                            <div className="col-xs-12 col-sm-6 col-md-6">
-                                                                <span>Mỗi hành khách được mang tối đa 7 Kg hành lý xách tay.</span>
-                                                            </div>
-                                                            <div className="col-xs-12 col-sm-6 col-md-6">
-                                                                <span>Mỗi hành khách được mang tối đa 7 Kg hành lý xách tay.</span>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td colSpan={5} className="col-xs-12 col-sm-12 col-md-12 mt-10">
-                                                        <strong style={{ marginTop: 10, display: 'block' }}>
-                                                            Hành lý ký gửi (có thể bỏ qua)
-                  </strong>
-                                                        <div className="row" style={{ "marginRight": "0px", "marginLeft": "0px" }}>
-                                                            <ul style={{ width: '100%', margin: '5px auto 0', padding: 0, listStyle: 'none', float: 'left', clear: 'both' }}>
-                                                                <li className="col-xs-12 col-md-6 col-sm-6 mb-10">
-                                                                    <select id="drInBaggageChild3" className="form-control" name="inbaggage" onchange="javascript:baggagechanged();">
-                                                                        <option value="0,0,,">Không mang hành lý ký gửi</option>
-                                                                        <option value="13,160000.0000,Thêm 15Kg hành lý (160.000 VND),15">
-                                                                            Thêm 15Kg hành lý (160.000 VND)
-                          </option>
-                                                                        <option value="14,180000.0000,Thêm 20Kg hành lý (180.000 VND),20">
-                                                                            Thêm 20Kg hành lý (180.000 VND)
-                          </option>
-                                                                        <option value="15,250000.0000,Thêm 25Kg hành lý (250.000 VND),25">
-                                                                            Thêm 25Kg hành lý (250.000 VND)
-                          </option>
-                                                                        <option value="16,360000.0000,Thêm 30Kg hành lý (360.000 VND),30">
-                                                                            Thêm 30Kg hành lý (360.000 VND)
-                          </option>
-                                                                        <option value="17,420000.0000,Thêm 35Kg hành lý (420.000 VND),35">
-                                                                            Thêm 35Kg hành lý (420.000 VND)
-                          </option>
-                                                                        <option value="18,480000.0000,Thêm 40Kg hành lý (480.000 VND,40">
-                                                                            Thêm 40Kg hành lý (480.000 VND
-                          </option>
-                                                                    </select>
-                                                                </li>
-                                                                <li className="col-xs-12 col-md-6 col-sm-6 mb-10">
-                                                                    <select id="drOutBaggageChild3" className="form-control" name="outbaggage" onchange="javascript:baggagechanged();">
-                                                                        <option value="0,0,,">Không mang hành lý ký gửi</option>
-                                                                        <option value="13,160000.0000,Thêm 15Kg hành lý (160.000 VND),15">
-                                                                            Thêm 15Kg hành lý (160.000 VND)
-                          </option>
-                                                                        <option value="14,180000.0000,Thêm 20Kg hành lý (180.000 VND),20">
-                                                                            Thêm 20Kg hành lý (180.000 VND)
-                          </option>
-                                                                        <option value="15,250000.0000,Thêm 25Kg hành lý (250.000 VND),25">
-                                                                            Thêm 25Kg hành lý (250.000 VND)
-                          </option>
-                                                                        <option value="16,360000.0000,Thêm 30Kg hành lý (360.000 VND),30">
-                                                                            Thêm 30Kg hành lý (360.000 VND)
-                          </option>
-                                                                        <option value="17,420000.0000,Thêm 35Kg hành lý (420.000 VND),35">
-                                                                            Thêm 35Kg hành lý (420.000 VND)
-                          </option>
-                                                                        <option value="18,480000.0000,Thêm 40Kg hành lý (480.000 VND,40">
-                                                                            Thêm 40Kg hành lý (480.000 VND
-                          </option>
-                                                                    </select>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td colSpan={5} className="col-xs-12 col-sm-12 col-md-12">
-                                                        <h4>1.<span className="passenger-type">Em bé</span></h4>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="col-xs-12 col-sm-2 col-md-2 mt-10 pt-10 hidden-xs">
-                                                        <strong style={{ paddingRight: 3 }}>Quý danh</strong><abbr className="require">*</abbr>
-                                                    </td>
-                                                    <td className="col-xs-12 col-sm-2 col-md-2 mt-10">
-                                                        <select id="drInfantDear1" className="form-control">
-                                                            <option value="Bé trai,true">Bé trai</option>
-                                                            <option value="Bé gái,false">Bé gái</option>
-                                                        </select>
-                                                    </td>
-                                                    <td className="col-xs-5 col-sm-2 col-md-2 mt-10 pr-5">
-                                                        <input type="text" className="form-control" maxLength={256} required="required" id="tbInfantFirstName1" placeholder="Họ" />
-                                                    </td>
-                                                    <td className="col-xs-7 col-sm-3 col-md-3 mt-10 pl-5">
-                                                        <input type="text" className="form-control" maxLength={256} required="required" id="tbInfantLastName1" placeholder="Tên và tên Đệm" />
-                                                    </td>
-                                                    <td className="col-xs-12 col-sm-3 col-md-3 mt-10">
-                                                        <input type="text" style={{ cursor: 'pointer', backgroundColor: '#fff' }} className="form-control birthday infant hasDatepicker" required id="tbInfantBirthday1" placeholder="Ngày sinh" readOnly />
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td colSpan={5} className="col-xs-12 col-sm-12 col-md-12">
-                                                        <h4>2.<span className="passenger-type">Em bé</span></h4>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="col-xs-12 col-sm-2 col-md-2 mt-10 pt-10 hidden-xs">
-                                                        <strong style={{ paddingRight: 3 }}>Quý danh</strong><abbr className="require">*</abbr>
-                                                    </td>
-                                                    <td className="col-xs-12 col-sm-2 col-md-2 mt-10">
-                                                        <select id="drInfantDear2" className="form-control">
-                                                            <option value="Bé trai,true">Bé trai</option>
-                                                            <option value="Bé gái,false">Bé gái</option>
-                                                        </select>
-                                                    </td>
-                                                    <td className="col-xs-5 col-sm-2 col-md-2 mt-10 pr-5">
-                                                        <input type="text" className="form-control" maxLength={256} required="required" id="tbInfantFirstName2" placeholder="Họ" />
-                                                    </td>
-                                                    <td className="col-xs-7 col-sm-3 col-md-3 mt-10 pl-5">
-                                                        <input type="text" className="form-control" maxLength={256} required="required" id="tbInfantLastName2" placeholder="Tên và tên Đệm" />
-                                                    </td>
-                                                    <td className="col-xs-12 col-sm-3 col-md-3 mt-10">
-                                                        <input type="text" style={{ cursor: 'pointer', backgroundColor: '#fff' }} className="form-control birthday infant hasDatepicker" required id="tbInfantBirthday2" placeholder="Ngày sinh" readOnly />
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td colSpan={5} className="col-xs-12 col-sm-12 col-md-12">
-                                                        <h4>3.<span className="passenger-type">Em bé</span></h4>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="col-xs-12 col-sm-2 col-md-2 mt-10 pt-10 hidden-xs">
-                                                        <strong style={{ paddingRight: 3 }}>Quý danh</strong><abbr className="require">*</abbr>
-                                                    </td>
-                                                    <td className="col-xs-12 col-sm-2 col-md-2 mt-10">
-                                                        <select id="drInfantDear3" className="form-control">
-                                                            <option value="Bé trai,true">Bé trai</option>
-                                                            <option value="Bé gái,false">Bé gái</option>
-                                                        </select>
-                                                    </td>
-                                                    <td className="col-xs-5 col-sm-2 col-md-2 mt-10 pr-5">
-                                                        <input type="text" className="form-control" maxLength={256} required="required" id="tbInfantFirstName3" placeholder="Họ" />
-                                                    </td>
-                                                    <td className="col-xs-7 col-sm-3 col-md-3 mt-10 pl-5">
-                                                        <input type="text" className="form-control" maxLength={256} required="required" id="tbInfantLastName3" placeholder="Tên và tên Đệm" />
-                                                    </td>
-                                                    <td className="col-xs-12 col-sm-3 col-md-3 mt-10">
-                                                        <input type="text" style={{ cursor: 'pointer', backgroundColor: '#fff' }} className="form-control birthday infant hasDatepicker" required id="tbInfantBirthday3" placeholder="Ngày sinh" readOnly />
-                                                    </td>
-                                                </tr>
+                                                {adultdiv}
+                                                {childdiv}
+                                                {infdiv}
                                             </tbody>
                                         </table>
                                     </div>
@@ -929,52 +593,48 @@ class YourInfoContent extends Component {
                                 <div className="content">
                                     <div className="basket_container">
                                         <div className="leg dep_leg">
-                                            <strong>Hồ Chí Minh <small>(Tân Sơn Nhất)</small></strong>
+                                            <strong>{ticketchoosed.depcode} -> {ticketchoosed.descode}</strong>
                                             <table>
                                                 <tbody>
                                                     <tr>
                                                         <td>Khởi hành:</td>
-                                                        <td className="date">Thứ Tư, 26.09.2018</td>
-                                                        <td className="hour">22:55</td>
+                                                        <td className="date">{get_day_name(ticketchoosed.datefull)}, {get_full_day_format_vietnam(ticketchoosed.datefull)}</td>
+                                                        <td className="hour">{ticketchoosed.deptime}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
-                                            <strong>Hà Nội <small>(NOI BAI INTL)</small></strong><br />
-                                            <table>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>Đến nơi:</td>
-                                                        <td className="date">Thứ Năm, 27.09.2018</td>
-                                                        <td className="hour">01:00</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                            Hãng: <strong>Vietjet Air</strong>
-                                            Hạng vé: <strong>II_Eco</strong>
                                         </div>
                                         <table className="list">
                                             <tbody>
                                                 <tr>
-                                                    <td>3 x Người lớn</td>
-                                                    <td className="amount">1,030,000 ₫</td>
+                                                    <td>{adult} x Người lớn</td>
+                                                    <td className="amount">{ticketchoosed.baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VNĐ</td>
                                                 </tr>
-                                                <tr>
-                                                    <td>3 x Trẻ em</td>
-                                                    <td className="amount">1,030,000 ₫</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>3 x Em bé</td>
-                                                    <td className="amount">0 ₫</td>
-                                                </tr>
+                                                {Array.isArray(ticketchoosed.child) ?
+                                                    null
+                                                    : <React.Fragment>
+                                                        <tr>
+                                                            <td>{child} x Trẻ em</td>
+                                                            <td className="amount">{ticketchoosed.child.baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VNĐ</td>
+                                                        </tr>
+                                                    </React.Fragment>
+                                                }
+                                                {Array.isArray(ticketchoosed.inf) ?
+                                                    null
+                                                    : <React.Fragment>
+                                                        <tr>
+                                                            <td>{inf} x Em bé</td>
+                                                            <td className="amount">{ticketchoosed.inf.baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VNĐ</td>
+                                                        </tr>
+                                                    </React.Fragment>
+                                                }
+
+
                                                 <tr>
                                                     <td>
-                                                        9 x thuế &amp; phí
+                                                        {tongsonguoi} x thuế &amp; phí
                 </td>
-                                                    <td className="amount"><span>3,271,500</span> ₫</td>
-                                                </tr>
-                                                <tr className="promo">
-                                                    <td>9 x Giảm giá</td>
-                                                    <td className="amount"><span>-0</span> ₫</td>
+                                                    <td className="amount"><span>{}</span> {totaltaxfee.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VNĐ</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -982,76 +642,79 @@ class YourInfoContent extends Component {
                                             <tbody>
                                                 <tr>
                                                     <td>Chi phí</td>
-                                                    <td className="amount"><span>9,451,500</span> ₫</td>
+                                                    <td className="amount"><span>{ticketchoosed.subtotal.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)}</span> VNĐ</td>
                                                 </tr>
                                             </tbody>
                                         </table>
                                         <hr />
-                                        <div className="leg ret_leg">
-                                            <strong>Hà Nội <small>(NOI BAI INTL)</small></strong>
-                                            <table>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>Khởi hành:</td>
-                                                        <td className="date">Chủ Nhật, 30.09.2018</td>
-                                                        <td className="hour">05:35</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                            <strong>Hồ Chí Minh <small>(Tân Sơn Nhất)</small></strong><br />
-                                            <table>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>Đến nơi:</td>
-                                                        <td className="date">Chủ Nhật, 30.09.2018</td>
-                                                        <td className="hour">07:45</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                            Hãng: <strong>Vietjet Air</strong>
-                                            Hạng vé: <strong>JJ_Eco</strong>
-                                        </div>
-                                        <table className="list">
-                                            <tbody>
-                                                <tr>
-                                                    <td>3 x Người lớn</td>
-                                                    <td className="amount">900,000 ₫</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>3 x Trẻ em</td>
-                                                    <td className="amount">900,000 ₫</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>3 x Em bé</td>
-                                                    <td className="amount">0 ₫</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        9 x thuế &amp; phí
+                                        {ticketchoosedKhuHoi !== null ?
+                                            <React.Fragment>
+                                                <div className="leg dep_leg">
+                                                    <strong>{ticketchoosedKhuHoi.depcode} -> {ticketchoosedKhuHoi.descode}</strong>
+                                                    <table>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>Khứ hồi:</td>
+                                                                <td className="date">{get_day_name(ticketchoosedKhuHoi.datefull)}, {get_full_day_format_vietnam(ticketchoosedKhuHoi.datefull)}</td>
+                                                                <td className="hour">{ticketchoosedKhuHoi.deptime}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <table className="list">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>{adult} x Người lớn</td>
+                                                            <td className="amount">{ticketchoosedKhuHoi.baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VNĐ</td>
+                                                        </tr>
+                                                        {Array.isArray(ticketchoosed.child) ?
+                                                            null
+                                                            : <React.Fragment>
+                                                                <tr>
+                                                                    <td>{child} x Trẻ em</td>
+                                                                    <td className="amount">{ticketchoosedKhuHoi.child.baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VNĐ</td>
+                                                                </tr>
+                                                            </React.Fragment>
+                                                        }
+                                                        {Array.isArray(ticketchoosed.inf) ?
+                                                            null
+                                                            : <React.Fragment>
+                                                                <tr>
+                                                                    <td>{inf} x Em bé</td>
+                                                                    <td className="amount">{ticketchoosedKhuHoi.inf.baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VNĐ</td>
+                                                                </tr>
+                                                            </React.Fragment>
+                                                        }
+
+
+                                                        <tr>
+                                                            <td>
+                                                                {tongsonguoi} x thuế &amp; phí
                 </td>
-                                                    <td className="amount"><span>3,193,500</span> ₫</td>
-                                                </tr>
-                                                <tr className="promo">
-                                                    <td>9 x Giảm giá</td>
-                                                    <td className="amount"><span>-0</span> ₫</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                        <table className="list total">
-                                            <tbody>
-                                                <tr>
-                                                    <td>Chi phí</td>
-                                                    <td className="amount"><span>8,593,500</span> ₫</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                                            <td className="amount"><span>{}</span> {totaltaxfeeKhuHoi.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VNĐ</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <table className="list total">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Chi phí</td>
+                                                            <td className="amount"><span>{ticketchoosedKhuHoi.subtotal.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)}</span> VNĐ</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </React.Fragment>
+                                            : null
+                                        }
+
+
                                     </div>
                                     <table className="big_total">
                                         <tbody>
                                             <tr id="basket_total_price_holder" className="promo">
                                                 <td>Tổng chi phí</td>
                                                 <td className="amount">
-                                                    <span id="basket_total_price" data-price={18045000}>18,405,000</span> ₫
+                                                    <span id="basket_total_price" >{subtotal2way.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)}</span> VNĐ
               </td>
                                             </tr>
                                         </tbody>

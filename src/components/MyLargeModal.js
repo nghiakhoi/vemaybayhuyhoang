@@ -39,6 +39,8 @@ class MyLargeModal extends Component {
   }
 
   redirectToInputInfo() {
+    localStorage.setItem("ticketchoosed",JSON.stringify(this.props.fullinfo));
+    localStorage.setItem("ticketchoosedkhuhoi",JSON.stringify(this.props.fullinfoKhuHoi));
     window.location.replace("/yourinfo");
   }
   handleAnhieninfo() {
