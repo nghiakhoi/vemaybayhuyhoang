@@ -2420,8 +2420,8 @@ ul.progressBar li.selected a {
     margin-bottom: 5px;
     font-weight: bold;
     padding: 0;
-    margin-top: 5px;
-    border-bottom: 1px solid #0062B2;
+    margin-top: 30px;
+    border-bottom: 10px solid #0062B2;
     padding-bottom: 5px;
 }
 

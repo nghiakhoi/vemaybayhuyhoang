@@ -38,7 +38,7 @@ class Slider extends Component {
     }
 
     isChange = (event) => {
-        console.log(event.target.value);
+        //console.log(event.target.value);
         var name = event.target.name;
         var value = event.target.value;
         this.setState({

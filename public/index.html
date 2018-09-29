@@ -225,6 +225,12 @@
         }
     </style>
 
+    <script>
+        jQuery(document).ready(function () {
+            if(jQuery('.has-date-picker-birtday').length){jQuery('.has-date-picker-birtday').datepicker({dateFormat:'dd-mm-yy', maxDate: -730,minDate: -4384,changeYear: true,changeMonth: true});}
+        });
+    </script>
+
 </body>
 
 </html>

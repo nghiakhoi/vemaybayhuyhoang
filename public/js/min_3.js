@@ -14,7 +14,7 @@ for(i=d&&d.getFullYear()===c,j=e&&e.getFullYear()===c,u+="<select class='ui-date
 else{return[true,booking_days[shortDate][0],booking_days[shortDate][1]];}},onSelect:function(dateText,inst){tour_price(dateText);}});}
 
 if($('.has-date-picker').length){$('.has-date-picker').datepicker({dateFormat:'dd-mm-yy', minDate: 0});}
-if($('.has-date-picker-birtday').length){$('.has-date-picker-birtday').datepicker({dateFormat:'dd-mm-yy', maxDate: -730,minDate: -4384,changeYear: true,changeMonth: true});}
+
 
 adult_input.on('keyup change',function(){var date=tour_start_date.val();if(date){tour_price();}});children_input.on('keyup',function(){var date=tour_start_date.val();if(date){tour_price();}});tour_start_date.change(function(){var date=tour_start_date.val();if(date){tour_price();}});$('[name="intravel_service[]"].has-price').change(function(){tour_price();});var adult_val=parseInt(adult_input.val()),children_val=parseInt(children_input.val()),tour_start_date_val=tour_start_date.val();if(adult_val&&children_val&&tour_start_date_val){tour_price();}
 $('.tour-booking-form, .tour-checkout-form').submit(function(){if(!$('.tour_start_date').val()){alert('Please select tour start date');return false;}
