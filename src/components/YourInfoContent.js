@@ -5,6 +5,7 @@ import vietnamairlinelogo from '../images/vietnamairlinemini.png';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
+import IconCalendar from './IconCalendar';
 
 
 const get_day_name = (custom_date) => {
@@ -44,14 +45,14 @@ const get_distance_two_days = (dayfirst, daysecond) => {
     var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime()) / (oneDay)));
     return diffDays;
 }
-const subtractOnYear = (dayinput) => {
+const subtractOnYear = (dayinput, yearnumber = 1) => {
     var myDate1 = dayinput;
     myDate1 = myDate1.split("-");
     var year1 = myDate1[2];
     var month1 = myDate1[1];
     var day1 = myDate1[0];
     var firstDate = new Date(year1, month1, day1);
-    firstDate.setMonth((firstDate.getMonth() - 1) - (12 * 2));
+    firstDate.setMonth((firstDate.getMonth() - 1) - (12 * yearnumber));
     var d = firstDate.getUTCDate().toString(),
         m = (firstDate.getUTCMonth() + 1).toString(),
         y = firstDate.getUTCFullYear().toString(),
@@ -76,6 +77,12 @@ const findObjectByKey = (array, key, value) => {
 var mangtempAdult = [];
 var mangtempChild = [];
 var mangtempInf = [];
+var datedep = localStorage.getItem("datedep");
+var datedes = localStorage.getItem("datedes");
+//var subtractdaystartchild = subtractOnYear(datedep, 12);
+//var subtractdayendchild = subtractOnYear(datedep, 2);
+//var distance2Days = get_distance_two_days(subtractday,"28-09-2018");
+
 class YourInfoContent extends Component {
     constructor(props) {
         super(props);
@@ -83,18 +90,20 @@ class YourInfoContent extends Component {
             mangadult: [],
             mangchild: [],
             manginf: [],
-            startDate: moment()
+            startDate: null,
+            //endDate: moment(subtractdayendchild, "DD-MM-YYYY"),
         };
         this.handleChangeDate = this.handleChangeDate.bind(this);
     }
 
-    componentDidMount() {
+    componentWillMount() {
         let adult = (localStorage.getItem("adult")) ? localStorage.getItem("adult") : 0;
         let child = (localStorage.getItem("child")) ? localStorage.getItem("child") : 0;
         let inf = (localStorage.getItem("inf")) ? localStorage.getItem("inf") : 0;
         var objquydanhadult = {};
         var objhanhlyadult = {};
         var objquydanhchild = {};
+        var objngaysinhchild = {};
         var objhanhlychild = {};
         var objquydanhinf = {};
         var hasKhuHoi = localStorage.getItem("ticketchoosedkhuhoi") ? true : false;
@@ -118,6 +127,11 @@ class YourInfoContent extends Component {
         for (let i = 0; i < child; i++) {
             objquydanhchild = { "id": i, "quydanhchild": "betrai" };
             mangtempChild.push(objquydanhchild);
+        }
+        for (let k = 0; k < child; k++) {
+            objngaysinhchild = { "id": k, "ngaysinhchild": null };
+            let timobject1 = findObjectByKey(mangtempChild, "id", k); // tìm object dựa trên key là id và giá trị là i
+            timobject1 !== null ? timobject1.ngaysinhchild = null : mangtempChild.push(objngaysinhchild);
         }
         for (let j = 0; j < child; j++) {
             objhanhlychild = { "id": j, "hanhlychild": null };
@@ -143,11 +157,18 @@ class YourInfoContent extends Component {
 
     }
 
-    handleChangeDate(date) {
-        this.setState({
-          startDate: date
-        });
-      }
+    handleChangeDate(i, field, date) {
+        if (field === "ngaysinhchild") {
+            let objForDate = {};
+            objForDate = { "id": i, "ngaysinhchild": moment(this.state.startDate).format("DD-MM-YYYY") };
+            var timobject = findObjectByKey(mangtempChild, "id", i);
+            this.setState({
+                startDate: date
+            }, function () {
+                timobject !== null ? timobject.ngaysinhchild = moment(this.state.startDate).format("DD-MM-YYYY") : mangtempChild.push(objForDate);
+            });
+        }
+    }
 
     isChangeAdult = (i, field, event) => {
         var name = event.target.name;
@@ -202,10 +223,7 @@ class YourInfoContent extends Component {
             timobject !== null ? timobject.hanhlychildKhuHoi = value : mangtempChild.push(obj);
 
         }
-        if (field === "ngaysinhchild") {
-            timobject !== null ? timobject.ngaysinhchild = value : mangtempChild.push(obj);
 
-        }
         this.setState({
             mangchild: mangtempChild
         });
@@ -264,15 +282,13 @@ class YourInfoContent extends Component {
         let direction = localStorage.getItem("direction") ? localStorage.getItem("direction") : 0;
         let dep = localStorage.getItem("dep");
         let des = localStorage.getItem("des");
-        let datedep = localStorage.getItem("datedep");
-        let datedes = localStorage.getItem("datedes");
+
         var logo = ticketchoosed !== null ? ticketchoosed.airline === "Vietjet" ? vietjetlogo : ticketchoosed.airline === "Jetstar" ? jetstarlogo : vietnamairlinelogo : null;
         var logoKhuHoi = ticketchoosedKhuHoi !== null ? ticketchoosedKhuHoi.airline === "Vietjet" ? vietjetlogo : ticketchoosedKhuHoi.airline === "Jetstar" ? jetstarlogo : vietnamairlinelogo : null;
         let adultToReturn = [];
         let childToReturn = [];
         let infToReturn = [];
-        //let subtractday = subtractOnYear("28-09-2018");
-        //let distance2Days = get_distance_two_days(subtractday,"28-09-2018");
+
         var adultshow = () => {
             for (var i = 0; i < adult; i++) {
                 adultToReturn.push(
@@ -287,7 +303,7 @@ class YourInfoContent extends Component {
                                 <strong style={{ paddingRight: 3 }}>Quý danh</strong><abbr className="require">*</abbr>
                             </td>
                             <td className="col-xs-12 col-sm-2 col-md-2 mt-10">
-                                <select onChange={this.isChangeAdult.bind(this, i, "quydanhadult")} defaultValue="ong" id={"quydanhadult"} name={"quydanhadult"} className="form-control">
+                                <select defaultValue="ong" onChange={this.isChangeAdult.bind(this, i, "quydanhadult")} defaultValue="ong" id={"quydanhadult"} name={"quydanhadult"} className="form-control">
                                     <option value="ong">Ông</option>
                                     <option value="ba">Bà</option>
                                     <option value="anh">Anh</option>
@@ -327,8 +343,8 @@ class YourInfoContent extends Component {
                                 <div className="row" style={{ "marginRight": "0px", "marginLeft": "0px" }}>
                                     <ul style={{ width: '100%', margin: '5px auto 0', padding: 0, listStyle: 'none', float: 'left', clear: 'both' }}>
                                         <li className="col-xs-12 col-md-6 col-sm-6 mb-10">
-                                            <select onChange={this.isChangeAdult.bind(this, i, "hanhlyadult")} className="form-control" id={"hanhlyadult"} name={"hanhlyadult"}  >
-                                                <option value="0" selected="selected">KHỞI HÀNH: Không mang hành lý ký gửi</option>
+                                            <select defaultValue="0" onChange={this.isChangeAdult.bind(this, i, "hanhlyadult")} className="form-control" id={"hanhlyadult"} name={"hanhlyadult"}  >
+                                                <option value="0" >KHỞI HÀNH: Không mang hành lý ký gửi</option>
                                                 <option value="1">
                                                     Thêm 15Kg hành lý (160.000 VND)
                           </option>
@@ -352,8 +368,8 @@ class YourInfoContent extends Component {
                                         {
                                             ticketchoosedKhuHoi !== null ?
                                                 <li className="col-xs-12 col-md-6 col-sm-6 mb-10">
-                                                    <select onChange={this.isChangeAdult.bind(this, i, "hanhlyadultKhuHoi")} className="form-control" id={"hanhlyadultKhuHoi"} name={"hanhlyadultKhuHoi"}>
-                                                        <option value="0" selected="selected">KHỞI HÀNH: Không mang hành lý ký gửi</option>
+                                                    <select defaultValue="0" onChange={this.isChangeAdult.bind(this, i, "hanhlyadultKhuHoi")} className="form-control" id={"hanhlyadultKhuHoi"} name={"hanhlyadultKhuHoi"}>
+                                                        <option value="0" >KHỞI HÀNH: Không mang hành lý ký gửi</option>
                                                         <option value="1">
                                                             Thêm 15Kg hành lý (160.000 VND)
                           </option>
@@ -400,7 +416,7 @@ class YourInfoContent extends Component {
                                 <strong style={{ paddingRight: 3 }}>Quý danh</strong><abbr className="require">*</abbr>
                             </td>
                             <td className="col-xs-12 col-sm-2 col-md-2 mt-10">
-                                <select onChange={this.isChangeChild.bind(this, i, "quydanhchild")} id={"quydanhchild"} name={"quydanhchild"} className="form-control">
+                                <select defaultValue="true" onChange={this.isChangeChild.bind(this, i, "quydanhchild")} id={"quydanhchild"} name={"quydanhchild"} className="form-control">
                                     <option value="true">Bé trai</option>
                                     <option value="false">Bé gái</option>
                                 </select>
@@ -412,17 +428,27 @@ class YourInfoContent extends Component {
                                 <input onChange={this.isChangeChild.bind(this, i, "demvatenchild")} type="text" className="form-control" required="required" maxLength={256} id={"demvatenchild"} name={"demvatenchild"} placeholder="Tên đệm và Tên" />
                             </td>
                             <td className="col-xs-12 col-sm-3 col-md-3 mt-10">
-                                <DatePicker
+                                <label style={{ position: 'relative' }}>
+                                    <DatePicker
 
-                                    selected={this.state.startDate}
-                                    onChange={this.handleChangeDate}
-                                    peekNextMonth
-                                    showMonthDropdown
-                                    showYearDropdown
-                                    dropdownMode="select"
-                                    withPortal
-                                />
-                                <input onChange={this.isChangeChild.bind(this, i, "ngaysinhchild")} type="text" style={{ cursor: 'pointer', backgroundColor: '#fff' }} id={"ngaysinhchild"} name={"ngaysinhchild"} className="form-control birthday children has-date-picker-birtday" placeholder="Ngày sinh" required />
+                                        selected={this.state.startDate !== null ? null : null}
+                                        onChange={this.handleChangeDate.bind(this, i, "ngaysinhchild")}
+                                        peekNextMonth
+                                        showMonthDropdown
+                                        showYearDropdown
+                                        dropdownMode="select"
+                                        withPortal
+                                        dateFormat="DD-MM-YYYY"
+                                        className="ion-calendar birthday children"
+                                        placeholderText="Ngày sinh"
+                                        id={"ngaysinhchild"} name={"ngaysinhchild"}
+
+                                        customInput={<IconCalendar dateChoosed={this.state.mangchild} thutu={i} />}
+                                    />
+
+                                </label>
+
+
                             </td>
                         </tr>
                         <tr>
@@ -448,8 +474,8 @@ class YourInfoContent extends Component {
                                 <div className="row" style={{ "marginRight": "0px", "marginLeft": "0px" }}>
                                     <ul style={{ width: '100%', margin: '5px auto 0', padding: 0, listStyle: 'none', float: 'left', clear: 'both' }}>
                                         <li className="col-xs-12 col-md-6 col-sm-6 mb-10">
-                                            <select onChange={this.isChangeChild.bind(this, i, "hanhlychild")} className="form-control" id={"hanhlychild"} name={"hanhlychild"}>
-                                                <option value="0" selected="selected">KHỞI HÀNH: Không mang hành lý ký gửi</option>
+                                            <select defaultValue="0" onChange={this.isChangeChild.bind(this, i, "hanhlychild")} className="form-control" id={"hanhlychild"} name={"hanhlychild"}>
+                                                <option value="0" >KHỞI HÀNH: Không mang hành lý ký gửi</option>
                                                 <option value="1">
                                                     Thêm 15Kg hành lý (160.000 VND)
                           </option>
@@ -473,8 +499,8 @@ class YourInfoContent extends Component {
                                         {
                                             ticketchoosedKhuHoi !== null ?
                                                 <li className="col-xs-12 col-md-6 col-sm-6 mb-10">
-                                                    <select onChange={this.isChangeChild.bind(this, i, "hanhlychildKhuHoi")} className="form-control" id={"hanhlychildKhuHoi"} name={"hanhlychildKhuHoi"}>
-                                                        <option value="0" selected="selected">KHỞI HÀNH: Không mang hành lý ký gửi</option>
+                                                    <select defaultValue="0" onChange={this.isChangeChild.bind(this, i, "hanhlychildKhuHoi")} className="form-control" id={"hanhlychildKhuHoi"} name={"hanhlychildKhuHoi"}>
+                                                        <option value="0" >KHỞI HÀNH: Không mang hành lý ký gửi</option>
                                                         <option value="1">
                                                             Thêm 15Kg hành lý (160.000 VND)
                           </option>
@@ -522,7 +548,7 @@ class YourInfoContent extends Component {
                                 <strong style={{ paddingRight: 3 }}>Quý danh</strong><abbr className="require">*</abbr>
                             </td>
                             <td className="col-xs-12 col-sm-2 col-md-2 mt-10">
-                                <select onChange={this.isChangeInf.bind(this, i, "quydanhinf")} id={"quydanhinf"} name={"quydanhinf"} className="form-control">
+                                <select defaultValue="true" onChange={this.isChangeInf.bind(this, i, "quydanhinf")} id={"quydanhinf"} name={"quydanhinf"} className="form-control">
                                     <option value="true">Bé trai</option>
                                     <option value="false">Bé gái</option>
                                 </select>
