@@ -74,6 +74,13 @@ const findObjectByKey = (array, key, value) => {
     }
     return null;
 }
+const hasNull = (target) => {
+    for (var member in target) {
+        if (target[member] === null || target[member] === "")
+            return true;
+    }
+    return false;
+}
 var mangtempAdult = [];
 var mangtempChild = [];
 var mangtempInf = [];
@@ -102,52 +109,96 @@ class YourInfoContent extends Component {
         let inf = (localStorage.getItem("inf")) ? localStorage.getItem("inf") : 0;
         var objquydanhadult = {};
         var objhanhlyadult = {};
+        var objhoadult = {};
+        var objdemvatendult = {};
+        var objhochild = {};
+        var objdemvatenchild = {};
         var objquydanhchild = {};
         var objngaysinhchild = {};
         var objhanhlychild = {};
+        var objhoinf = {};
+        var objdemvateninf = {};
         var objquydanhinf = {};
+        var objngaysinhinf = {};
         var hasKhuHoi = localStorage.getItem("ticketchoosedkhuhoi") ? true : false;
-        ///////
-        for (let i = 0; i < adult; i++) {
+        ///////adult
+        for (let i = 1; i <= adult; i++) {
             objquydanhadult = { "id": i, "quydanhadult": "ong" };
             mangtempAdult.push(objquydanhadult);
-        }
-        for (let j = 0; j < adult; j++) {
-            objhanhlyadult = { "id": j, "hanhlyadult": null };
-            let timobject = findObjectByKey(mangtempAdult, "id", j); // tìm object dựa trên key là id và giá trị là i
-            timobject !== null ? timobject.hanhlyadult = null : mangtempAdult.push(objhanhlyadult);
+
+
+            objhoadult = { "id": i, "hoadult": null };
+            let timobject1 = findObjectByKey(mangtempAdult, "id", i); // tìm object dựa trên key là id và giá trị là i
+            timobject1 !== null ? timobject1.hoadult = null : mangtempAdult.push(objhoadult);
+
+
+            objdemvatendult = { "id": i, "demvatenadult": null };
+            let timobject2 = findObjectByKey(mangtempAdult, "id", i); // tìm object dựa trên key là id và giá trị là i
+            timobject2 !== null ? timobject2.demvatenadult = null : mangtempAdult.push(objdemvatendult);
+
+
+            objhanhlyadult = { "id": i, "hanhlyadult": "0" };
+            let timobject = findObjectByKey(mangtempAdult, "id", i); // tìm object dựa trên key là id và giá trị là i
+            timobject !== null ? timobject.hanhlyadult = "0" : mangtempAdult.push(objhanhlyadult);
+
 
             if (hasKhuHoi) {
-                objhanhlyadult = { "id": j, "hanhlyadultKhuHoi": null };
-                let timobject = findObjectByKey(mangtempAdult, "id", j); // tìm object dựa trên key là id và giá trị là i
-                timobject !== null ? timobject.hanhlyadultKhuHoi = null : mangtempAdult.push(objhanhlyadult);
+                objhanhlyadult = { "id": i, "hanhlyadultKhuHoi": "0" };
+                let timobject = findObjectByKey(mangtempAdult, "id", i); // tìm object dựa trên key là id và giá trị là i
+                timobject !== null ? timobject.hanhlyadultKhuHoi = "0" : mangtempAdult.push(objhanhlyadult);
             }
         }
-        /////////
-        for (let i = 0; i < child; i++) {
+        ///////child
+        for (let i = 1; i <= child; i++) {
             objquydanhchild = { "id": i, "quydanhchild": "betrai" };
             mangtempChild.push(objquydanhchild);
-        }
-        for (let k = 0; k < child; k++) {
-            objngaysinhchild = { "id": k, "ngaysinhchild": null };
-            let timobject1 = findObjectByKey(mangtempChild, "id", k); // tìm object dựa trên key là id và giá trị là i
+
+
+            objhochild = { "id": i, "hochild": null };
+            let timobject2 = findObjectByKey(mangtempChild, "id", i); // tìm object dựa trên key là id và giá trị là i
+            timobject2 !== null ? timobject2.hochild = null : mangtempChild.push(objhochild);
+
+
+            objdemvatenchild = { "id": i, "demvatenchild": null };
+            let timobject3 = findObjectByKey(mangtempChild, "id", i); // tìm object dựa trên key là id và giá trị là i
+            timobject3 !== null ? timobject3.demvatenchild = null : mangtempChild.push(objdemvatenchild);
+
+
+            objngaysinhchild = { "id": i, "ngaysinhchild": null };
+            let timobject1 = findObjectByKey(mangtempChild, "id", i); // tìm object dựa trên key là id và giá trị là i
             timobject1 !== null ? timobject1.ngaysinhchild = null : mangtempChild.push(objngaysinhchild);
-        }
-        for (let j = 0; j < child; j++) {
-            objhanhlychild = { "id": j, "hanhlychild": null };
-            let timobject = findObjectByKey(mangtempChild, "id", j); // tìm object dựa trên key là id và giá trị là i
-            timobject !== null ? timobject.hanhlychild = null : mangtempChild.push(objhanhlychild);
+
+
+            objhanhlychild = { "id": i, "hanhlychild": "0" };
+            let timobject = findObjectByKey(mangtempChild, "id", i); // tìm object dựa trên key là id và giá trị là i
+            timobject !== null ? timobject.hanhlychild = "0" : mangtempChild.push(objhanhlychild);
+
 
             if (hasKhuHoi) {
-                objhanhlychild = { "id": j, "hanhlychildKhuHoi": null };
-                let timobject = findObjectByKey(mangtempChild, "id", j); // tìm object dựa trên key là id và giá trị là i
-                timobject !== null ? timobject.hanhlychildKhuHoi = null : mangtempChild.push(objhanhlychild);
+                objhanhlychild = { "id": i, "hanhlychildKhuHoi": "0" };
+                let timobject = findObjectByKey(mangtempChild, "id", i); // tìm object dựa trên key là id và giá trị là i
+                timobject !== null ? timobject.hanhlychildKhuHoi = "0" : mangtempChild.push(objhanhlychild);
             }
         }
-        ///////
-        for (let i = 0; i < inf; i++) {
+        ///////inf
+        for (let i = 1; i <= inf; i++) {
             objquydanhinf = { "id": i, "quydanhinf": "betrai" };
             mangtempInf.push(objquydanhinf);
+
+
+            objhoinf = { "id": i, "hoinf": null };
+            let timobject1 = findObjectByKey(mangtempInf, "id", i); // tìm object dựa trên key là id và giá trị là i
+            timobject1 !== null ? timobject1.hoinf = null : mangtempInf.push(objhoinf);
+
+
+            objdemvateninf = { "id": i, "demvateninf": null };
+            let timobject2 = findObjectByKey(mangtempInf, "id", i); // tìm object dựa trên key là id và giá trị là i
+            timobject2 !== null ? timobject2.demvateninf = null : mangtempInf.push(objdemvateninf);
+
+
+            objngaysinhinf = { "id": i, "ngaysinhinf": null };
+            let timobject3 = findObjectByKey(mangtempInf, "id", i); // tìm object dựa trên key là id và giá trị là i
+            timobject3 !== null ? timobject3.ngaysinhinf = null : mangtempInf.push(objngaysinhinf);
         }
         this.setState({
             mangadult: mangtempAdult,
@@ -166,6 +217,16 @@ class YourInfoContent extends Component {
                 startDate: date
             }, function () {
                 timobject !== null ? timobject.ngaysinhchild = moment(this.state.startDate).format("DD-MM-YYYY") : mangtempChild.push(objForDate);
+            });
+        }
+        if (field === "ngaysinhinf") {
+            let objForDate = {};
+            objForDate = { "id": i, "ngaysinhinf": moment(this.state.startDate).format("DD-MM-YYYY") };
+            var timobject = findObjectByKey(mangtempInf, "id", i);
+            this.setState({
+                startDate: date
+            }, function () {
+                timobject !== null ? timobject.ngaysinhinf = moment(this.state.startDate).format("DD-MM-YYYY") : mangtempInf.push(objForDate);
             });
         }
     }
@@ -260,6 +321,54 @@ class YourInfoContent extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
+        var testOKadult = 0;
+        var testOKchild = 0;
+        var testOKinf = 0;
+        var objectsadult = this.state.mangadult;
+        var objectschild = this.state.mangchild;
+        var objectsinf = this.state.manginf;
+        for (var i = 0; i < objectsadult.length; i++) {
+
+            if (hasNull(objectsadult[i])) {
+                //console.log(objectsadult[i]);
+                break;
+            } else {
+                testOKadult = true;
+            }
+        }
+        for (var i = 0; i < objectschild.length; i++) {
+
+            if (hasNull(this.state.mangchild[i])) {
+                console.log("++");
+                console.log(this.state.mangchild[i]);
+                testOKchild++;
+                //break;
+            } else {
+                console.log("--");
+                console.log(this.state.mangchild[i]);
+                testOKchild--;
+               // testOKchild < 0 ? testOKchild = 0 : testOKchild;
+                //alert("đây là true của objectschild");
+            }
+        }
+        for (var i = 0; i < objectsinf.length; i++) {
+
+            if (hasNull(objectsinf[i])) {
+                // console.log(objectsinf[i]);
+                break;
+            } else {
+                testOKinf = true;
+            }
+        }
+        if (testOKchild !== 0) {
+            
+            alert(testOKchild);
+            alert("Submit thôi!");
+        } else {
+            alert(testOKchild);
+            alert("Hãy điền đầy đủ các yêu cầu");
+        }
+        //alert("ok");
     }
     render() {
         let ticketchoosed = localStorage.getItem("ticketchoosed") ? JSON.parse(localStorage.getItem("ticketchoosed")) : null;
@@ -290,12 +399,12 @@ class YourInfoContent extends Component {
         let infToReturn = [];
 
         var adultshow = () => {
-            for (var i = 0; i < adult; i++) {
+            for (var i = 1; i <= adult; i++) {
                 adultToReturn.push(
                     <React.Fragment key={i}>
                         <tr>
                             <td colSpan={5} className="col-xs-12 col-sm-12 col-md-12">
-                                <h4>{i + 1}. <span className="passenger-type">NGƯỜI LỚN</span></h4>
+                                <h4>{i}. <span className="passenger-type">NGƯỜI LỚN</span></h4>
                             </td>
                         </tr>
                         <tr>
@@ -403,12 +512,12 @@ class YourInfoContent extends Component {
             return adultToReturn;
         };
         var childshow = () => {
-            for (let i = 0; i < child; i++) {
+            for (let i = 1; i <= child; i++) {
                 childToReturn.push(
                     <React.Fragment key={i}>
                         <tr>
                             <td colSpan={5} className="col-xs-12 col-sm-12 col-md-12">
-                                <h4>{i + 1}. <span className="passenger-type">TRẺ EM</span></h4>
+                                <h4>{i}. <span className="passenger-type">TRẺ EM</span></h4>
                             </td>
                         </tr>
                         <tr>
@@ -427,11 +536,11 @@ class YourInfoContent extends Component {
                             <td className="col-xs-7 col-sm-3 col-md-3 mt-10 pl-5">
                                 <input onChange={this.isChangeChild.bind(this, i, "demvatenchild")} type="text" className="form-control" required="required" maxLength={256} id={"demvatenchild"} name={"demvatenchild"} placeholder="Tên đệm và Tên" />
                             </td>
-                            <td className="col-xs-12 col-sm-3 col-md-3 mt-10">
+                            <td className="col-xs-12 col-sm-3 col-md-3 mt-10 .col-sm-3-ex">
                                 <label style={{ position: 'relative' }}>
                                     <DatePicker
 
-                                        selected={this.state.startDate !== null ? null : null}
+                                        selected={this.state.startDate}
                                         onChange={this.handleChangeDate.bind(this, i, "ngaysinhchild")}
                                         peekNextMonth
                                         showMonthDropdown
@@ -442,8 +551,8 @@ class YourInfoContent extends Component {
                                         className="ion-calendar birthday children"
                                         placeholderText="Ngày sinh"
                                         id={"ngaysinhchild"} name={"ngaysinhchild"}
-
-                                        customInput={<IconCalendar dateChoosed={this.state.mangchild} thutu={i} />}
+                                        required
+                                        customInput={<IconCalendar type="ngaysinhchild" dateChoosed={this.state.mangchild} thutu={i - 1} />}
                                     />
 
                                 </label>
@@ -534,13 +643,13 @@ class YourInfoContent extends Component {
             return childToReturn;
         };
         var infshow = () => {
-            for (let i = 0; i < inf; i++) {
+            for (let i = 1; i <= inf; i++) {
                 infToReturn.push(
                     <React.Fragment key={i}>
 
                         <tr>
                             <td colSpan={5} className="col-xs-12 col-sm-12 col-md-12">
-                                <h4>{i + 1}. <span className="passenger-type">EM BÉ</span></h4>
+                                <h4>{i}. <span className="passenger-type">EM BÉ</span></h4>
                             </td>
                         </tr>
                         <tr>
@@ -560,7 +669,25 @@ class YourInfoContent extends Component {
                                 <input onChange={this.isChangeInf.bind(this, i, "demvateninf")} type="text" className="form-control" maxLength={256} required="required" id={"demvateninf"} name={"demvateninf"} placeholder="Tên và tên Đệm" />
                             </td>
                             <td className="col-xs-12 col-sm-3 col-md-3 mt-10">
-                                <input onChange={this.isChangeInf.bind(this, i, "ngaysinhinf")} type="text" style={{ cursor: 'pointer', backgroundColor: '#fff' }} id={"ngaysinhinf"} name={"ngaysinhinf"} className="form-control birthday infant has-date-picker-birtday" required placeholder="Ngày sinh" />
+                                <label style={{ position: 'relative' }}>
+                                    <DatePicker
+
+                                        selected={this.state.startDate !== null ? null : null}
+                                        onChange={this.handleChangeDate.bind(this, i, "ngaysinhinf")}
+                                        peekNextMonth
+                                        showMonthDropdown
+                                        showYearDropdown
+                                        dropdownMode="select"
+                                        withPortal
+                                        dateFormat="DD-MM-YYYY"
+                                        className="ion-calendar birthday children"
+                                        placeholderText="Ngày sinh"
+                                        id={"ngaysinhinf"} name={"ngaysinhinf"}
+                                        required
+                                        customInput={<IconCalendar type="ngaysinhinf" dateChoosed={this.state.manginf} thutu={i - 1} />}
+                                    />
+
+                                </label>
                             </td>
                         </tr>
                     </React.Fragment>
@@ -807,7 +934,7 @@ class YourInfoContent extends Component {
                                 <div className="full-width mb-30">
                                     <div className="row" style={{ "marginRight": "0px", "marginLeft": "0px" }}>
                                         <div className="col-xs-4 col-md-3 pull-right">
-                                            <button type="submit" onClick={(event) => { this.handleSubmit(event) }} className="full-width coolButton">
+                                            <button onClick={(event) => { this.handleSubmit(event) }} className="full-width coolButton">
                                                 <i aria-hidden="true" className="fa fa-send mr-5" />Đặt vé
           </button>
                                         </div>
