@@ -66,6 +66,19 @@ const subtractOnYear = (dayinput, yearnumber = 1) => {
     formatted = d + '-' + m + '-' + y;
     return formatted;
 }
+const compare2daybymomentJS = (ngayduocchon, dayvalidate) => {
+    var format = 'DD MM YYYY';
+    var ngay1 = moment(ngayduocchon, format);
+    var ngay2 = moment(dayvalidate, format);
+
+    if (ngay1.diff(ngay2) < 0) { //nhỏ hơn 0 là ngày được chọn nhỏ hơn ngày validate
+        return -1;
+    } else if (ngay1.diff(ngay2) > 0) {
+        return 1;
+    } else if (ngay1.diff(ngay2) === 0) {
+        return 0;
+    }
+}
 const findObjectByKey = (array, key, value) => {
     for (var i = 0; i < array.length; i++) {
         if (array[i][key] === value) {
@@ -84,8 +97,8 @@ const hasNull = (target) => {
 var mangtempAdult = [];
 var mangtempChild = [];
 var mangtempInf = [];
-var datedep = localStorage.getItem("datedep");
-var datedes = localStorage.getItem("datedes");
+var ngaydi = (localStorage.getItem("datedep")) ? localStorage.getItem("datedep") : 0;
+var ngayve = (localStorage.getItem("datedes")) ? localStorage.getItem("datedes") : 0;
 //var subtractdaystartchild = subtractOnYear(datedep, 12);
 //var subtractdayendchild = subtractOnYear(datedep, 2);
 //var distance2Days = get_distance_two_days(subtractday,"28-09-2018");
@@ -210,33 +223,83 @@ class YourInfoContent extends Component {
 
     handleChangeDate(i, field, date) {
         if (field === "ngaysinhchild") {
-            let objForDate = {};
-            objForDate = { "id": i, "ngaysinhchild": moment(this.state.startDate).format("DD-MM-YYYY") };
-            var timobject = findObjectByKey(mangtempChild, "id", i);
-            this.setState({
-                startDate: date
-            }, function () {
-                timobject !== null ? timobject.ngaysinhchild = moment(this.state.startDate).format("DD-MM-YYYY") : mangtempChild.push(objForDate);
-            });
+            var ngayduocchon = date;
+            var ngay2tuoi = subtractOnYear(ngaydi, 2);
+            var ngay2tuoiKhuHoi = subtractOnYear(ngayve, 2);
+            if (ngayve !== 0) {
+                var ngay12tuoi = subtractOnYear(ngaydi, 12);
+                var ngay12tuoiKhuHoi = subtractOnYear(ngayve, 12);
+                if ((compare2daybymomentJS(ngayduocchon, ngay2tuoi) === -1) && (compare2daybymomentJS(ngayduocchon, ngay12tuoi) >= 0) && (compare2daybymomentJS(ngayduocchon, ngay2tuoiKhuHoi) === -1) && (compare2daybymomentJS(ngayduocchon, ngay12tuoiKhuHoi) >= 0)) {
+                    let objForDate = {};
+                    objForDate = { "id": i, "ngaysinhchild": moment(this.state.startDate).format("DD-MM-YYYY") };
+                    var timobject = findObjectByKey(mangtempChild, "id", i);
+                    this.setState({
+                        startDate: date
+                    }, function () {
+                        timobject !== null ? timobject.ngaysinhchild = moment(this.state.startDate).format("DD-MM-YYYY") : mangtempChild.push(objForDate);
+                    });
+                } else {
+                    alert("Ngày Sinh đã chọn [" + moment(ngayduocchon).format("DD-MM-YYYY") + "] tính đến Ngày Khởi Hành [" + ngaydi + "] và Ngày Khứ Hồi [" + ngayve + "] đã quá tuổi quy định cho trẻ em từ 2->12 tuổi !");
+                }
+            } else {
+                if ((compare2daybymomentJS(ngayduocchon, ngay2tuoi) === -1) && (compare2daybymomentJS(ngayduocchon, ngay12tuoi) >= 0)) {
+                    let objForDate = {};
+                    objForDate = { "id": i, "ngaysinhchild": moment(this.state.startDate).format("DD-MM-YYYY") };
+                    var timobject = findObjectByKey(mangtempChild, "id", i);
+                    this.setState({
+                        startDate: date
+                    }, function () {
+                        timobject !== null ? timobject.ngaysinhchild = moment(this.state.startDate).format("DD-MM-YYYY") : mangtempChild.push(objForDate);
+                    });
+                } else {
+                    alert("Ngày Sinh đã chọn [" + moment(ngayduocchon).format("DD-MM-YYYY") + "] tính đến Ngày Khởi Hành [" + ngaydi + "] đã quá tuổi quy định cho trẻ em từ 2->12 tuổi !");
+                }
+            }
+
+
         }
         if (field === "ngaysinhinf") {
-            let objForDate = {};
-            objForDate = { "id": i, "ngaysinhinf": moment(this.state.startDate).format("DD-MM-YYYY") };
-            var timobject = findObjectByKey(mangtempInf, "id", i);
-            this.setState({
-                startDate: date
-            }, function () {
-                timobject !== null ? timobject.ngaysinhinf = moment(this.state.startDate).format("DD-MM-YYYY") : mangtempInf.push(objForDate);
-            });
+            var ngayduocchon = date;
+            var ngay2tuoi = subtractOnYear(ngaydi, 2);
+            var ngay2tuoiKhuHoi = subtractOnYear(ngayve, 2);
+            if (ngayve !== 0) {
+                var ngay12tuoi = subtractOnYear(ngaydi, 12);
+                var ngay12tuoiKhuHoi = subtractOnYear(ngayve, 12);
+                if ((compare2daybymomentJS(ngayduocchon, ngay2tuoi) > 0) && (compare2daybymomentJS(ngayduocchon, ngay2tuoiKhuHoi) > 0)) {
+                    let objForDate1 = {};
+                    objForDate1 = { "id": i, "ngaysinhinf": moment(this.state.startDate).format("DD-MM-YYYY") };
+                    var timobject = findObjectByKey(mangtempInf, "id", i);
+                    this.setState({
+                        startDate: date
+                    }, function () {
+                        timobject !== null ? timobject.ngaysinhinf = moment(this.state.startDate).format("DD-MM-YYYY") : mangtempInf.push(objForDate1);
+                    });
+                } else {
+                    alert("Ngày Sinh đã chọn [" + moment(ngayduocchon).format("DD-MM-YYYY") + "] tính đến Ngày Khởi Hành [" + ngaydi + "] và Ngày Khứ Hồi [" + ngayve + "] đã quá tuổi quy định cho trẻ em từ 2->12 tuổi !");
+                }
+            } else {
+                if ((compare2daybymomentJS(ngayduocchon, ngay2tuoi) > 0)) {
+                    let objForDate = {};
+                    objForDate = { "id": i, "ngaysinhchild": moment(this.state.startDate).format("DD-MM-YYYY") };
+                    var timobject = findObjectByKey(mangtempChild, "id", i);
+                    this.setState({
+                        startDate: date
+                    }, function () {
+                        timobject !== null ? timobject.ngaysinhchild = moment(this.state.startDate).format("DD-MM-YYYY") : mangtempChild.push(objForDate);
+                    });
+                } else {
+                    alert("Ngày Sinh đã chọn [" + moment(ngayduocchon).format("DD-MM-YYYY") + "] tính đến Ngày Khởi Hành [" + ngaydi + "] đã quá tuổi quy định cho trẻ em từ 2->12 tuổi !");
+                }
+            }
         }
     }
 
     isChangeAdult = (i, field, event) => {
-        var name = event.target.name;
-        var value = event.target.value;
-        var obj = {};
+        let name = event.target.name;
+        let value = event.target.value;
+        let obj = {};
         obj = { "id": i, [name]: value };
-        var timobject = findObjectByKey(mangtempAdult, "id", i); // tìm object dựa trên key là id và giá trị là i
+        let timobject = findObjectByKey(mangtempAdult, "id", i); // tìm object dựa trên key là id và giá trị là i
         if (field === "quydanhadult") {
             timobject !== null ? timobject.quydanhadult = value : mangtempAdult.push(obj);
         }
@@ -261,11 +324,11 @@ class YourInfoContent extends Component {
     }
 
     isChangeChild = (i, field, event) => {
-        var name = event.target.name;
-        var value = event.target.value;
-        var obj = {};
+        let name = event.target.name;
+        let value = event.target.value;
+        let obj = {};
         obj = { "id": i, [name]: value };
-        var timobject = findObjectByKey(mangtempChild, "id", i); // tìm object dựa trên key là id và giá trị là i
+        let timobject = findObjectByKey(mangtempChild, "id", i); // tìm object dựa trên key là id và giá trị là i
         if (field === "quydanhchild") {
             timobject !== null ? timobject.quydanhchild = value : mangtempChild.push(obj);
         }
@@ -291,11 +354,11 @@ class YourInfoContent extends Component {
     }
 
     isChangeInf = (i, field, event) => {
-        var name = event.target.name;
-        var value = event.target.value;
-        var obj = {};
+        let name = event.target.name;
+        let value = event.target.value;
+        let obj = {};
         obj = { "id": i, [name]: value };
-        var timobject = findObjectByKey(mangtempInf, "id", i); // tìm object dựa trên key là id và giá trị là i
+        let timobject = findObjectByKey(mangtempInf, "id", i); // tìm object dựa trên key là id và giá trị là i
         if (field === "quydanhinf") {
             timobject !== null ? timobject.quydanhinf = value : mangtempInf.push(obj);
         }
@@ -315,57 +378,48 @@ class YourInfoContent extends Component {
 
         }
         this.setState({
-            mangchild: mangtempInf
+            manginf: mangtempInf
         });
     }
 
     handleSubmit(e) {
         e.preventDefault();
-        var testOKadult = 0;
-        var testOKchild = 0;
-        var testOKinf = 0;
-        var objectsadult = this.state.mangadult;
-        var objectschild = this.state.mangchild;
-        var objectsinf = this.state.manginf;
-        for (var i = 0; i < objectsadult.length; i++) {
-
-            if (hasNull(objectsadult[i])) {
-                //console.log(objectsadult[i]);
+        let testOKadult = 0;
+        let testOKchild = 0;
+        let testOKinf = 0;
+        let objectsadult = this.state.mangadult;
+        let objectschild = this.state.mangchild;
+        let objectsinf = this.state.manginf;
+        for (let i = 0; i < objectsadult.length; i++) {
+            if (hasNull(this.state.mangadult[i])) {
+                testOKadult++;
                 break;
             } else {
-                testOKadult = true;
+                testOKadult--;
+                testOKadult < 0 ? testOKadult = 0 : testOKadult;
             }
         }
-        for (var i = 0; i < objectschild.length; i++) {
-
+        for (let i = 0; i < objectschild.length; i++) {
             if (hasNull(this.state.mangchild[i])) {
-                console.log("++");
-                console.log(this.state.mangchild[i]);
                 testOKchild++;
-                //break;
-            } else {
-                console.log("--");
-                console.log(this.state.mangchild[i]);
-                testOKchild--;
-               // testOKchild < 0 ? testOKchild = 0 : testOKchild;
-                //alert("đây là true của objectschild");
-            }
-        }
-        for (var i = 0; i < objectsinf.length; i++) {
-
-            if (hasNull(objectsinf[i])) {
-                // console.log(objectsinf[i]);
                 break;
             } else {
-                testOKinf = true;
+                testOKchild--;
+                testOKchild < 0 ? testOKchild = 0 : testOKchild;
             }
         }
-        if (testOKchild !== 0) {
-            
-            alert(testOKchild);
+        for (let i = 0; i < objectsinf.length; i++) {
+            if (hasNull(this.state.manginf[i])) {
+                testOKinf++;
+                break;
+            } else {
+                testOKinf--;
+                testOKinf < 0 ? testOKinf = 0 : testOKinf;
+            }
+        }
+        if (testOKadult === 0 && testOKchild === 0 && testOKinf === 0) {
             alert("Submit thôi!");
         } else {
-            alert(testOKchild);
             alert("Hãy điền đầy đủ các yêu cầu");
         }
         //alert("ok");
@@ -546,7 +600,7 @@ class YourInfoContent extends Component {
                                         showMonthDropdown
                                         showYearDropdown
                                         dropdownMode="select"
-                                        withPortal
+                                        shouldCloseOnSelect={false}
                                         dateFormat="DD-MM-YYYY"
                                         className="ion-calendar birthday children"
                                         placeholderText="Ngày sinh"
@@ -678,7 +732,7 @@ class YourInfoContent extends Component {
                                         showMonthDropdown
                                         showYearDropdown
                                         dropdownMode="select"
-                                        withPortal
+                                        shouldCloseOnSelect={false}
                                         dateFormat="DD-MM-YYYY"
                                         className="ion-calendar birthday children"
                                         placeholderText="Ngày sinh"
