@@ -99,6 +99,9 @@ var mangtempChild = [];
 var mangtempInf = [];
 var ngaydi = (localStorage.getItem("datedep")) ? localStorage.getItem("datedep") : 0;
 var ngayve = (localStorage.getItem("datedes")) ? localStorage.getItem("datedes") : 0;
+var ticketchoosed = localStorage.getItem("ticketchoosed") ? JSON.parse(localStorage.getItem("ticketchoosed")) : null;
+var ticketchoosedKhuHoi = localStorage.getItem("ticketchoosedkhuhoi") ? JSON.parse(localStorage.getItem("ticketchoosedkhuhoi")) : null;
+
 //var subtractdaystartchild = subtractOnYear(datedep, 12);
 //var subtractdayendchild = subtractOnYear(datedep, 2);
 //var distance2Days = get_distance_two_days(subtractday,"28-09-2018");
@@ -111,12 +114,43 @@ class YourInfoContent extends Component {
             mangchild: [],
             manginf: [],
             startDate: null,
-            //endDate: moment(subtractdayendchild, "DD-MM-YYYY"),
+            fullname: null,
+            phone: null,
+            email: null,
+            address: null,
+            message: null,
+            thanhtoanBy: "taidiachikhachhang",
+            toggletaidiachikhachhang: true,
+            togglechuyenkhoan: false,
+            toggletaiphongve: false,
+            danhsachnganhang: null,
+            nganhangchoosed: null,
+            subtotal: null,
+            thongtinvedi: localStorage.getItem("ticketchoosed") ? JSON.parse(localStorage.getItem("ticketchoosed")) : null,
+            thongtinveKhuHoi: localStorage.getItem("ticketchoosedkhuhoi") ? JSON.parse(localStorage.getItem("ticketchoosedkhuhoi")) : null
         };
         this.handleChangeDate = this.handleChangeDate.bind(this);
     }
 
     componentWillMount() {
+        let subtotalfirst = ticketchoosed.subtotal;
+        let subtotalsecond = ticketchoosedKhuHoi !== null ? ticketchoosedKhuHoi.subtotal : 0;
+        let subtotal2way = subtotalfirst + subtotalsecond;
+
+        this.setState({
+            danhsachnganhang: [{ id: 1, tennganhang: "ACB" }, { id: 2, tennganhang: "Vietcombank" }],
+            danhsachhanhly: [
+                { id: 1, soky: "7", sotien: "0", code: "0" },
+                { id: 2, soky: "15", sotien: "160000", code: "1" },
+                { id: 3, soky: "20", sotien: "180000", code: "2" },
+                { id: 4, soky: "25", sotien: "250000", code: "3" },
+                { id: 5, soky: "30", sotien: "360000", code: "4" },
+                { id: 6, soky: "35", sotien: "420000", code: "5" },
+                { id: 7, soky: "40", sotien: "480000", code: "6" },
+            ],
+            subtotal: subtotal2way
+        });
+
         let adult = (localStorage.getItem("adult")) ? localStorage.getItem("adult") : 0;
         let child = (localStorage.getItem("child")) ? localStorage.getItem("child") : 0;
         let inf = (localStorage.getItem("inf")) ? localStorage.getItem("inf") : 0;
@@ -294,6 +328,52 @@ class YourInfoContent extends Component {
         }
     }
 
+    isChangeInfoContact = (event) => {
+        let name = event.target.name;
+        let value = event.target.value;
+        this.setState({
+            [name]: value
+        });
+    }
+
+    isChangeInfoThanhToan = (infothanhtoan, event) => {
+        //let name = event.target.name;
+        let value = event.target.value;
+        if (infothanhtoan === "taidiachikhachhang") {
+            this.setState({
+                thanhtoanBy: value,
+                nganhangchoosed: null,
+                toggletaidiachikhachhang: true,
+                togglechuyenkhoan: false,
+                toggletaiphongve: false,
+            });
+        } else if (infothanhtoan === "chuyenkhoan") {
+            this.setState({
+                thanhtoanBy: value,
+                nganhangchoosed: this.state.danhsachnganhang[0].tennganhang,
+                toggletaidiachikhachhang: false,
+                togglechuyenkhoan: true,
+                toggletaiphongve: false,
+            });
+        } else if (infothanhtoan === "taiphongve") {
+            this.setState({
+                thanhtoanBy: value,
+                nganhangchoosed: null,
+                toggletaidiachikhachhang: false,
+                togglechuyenkhoan: false,
+                toggletaiphongve: true,
+            });
+        } else {
+            this.setState({
+                nganhangchoosed: value,
+                toggletaidiachikhachhang: false,
+                togglechuyenkhoan: true,
+                toggletaiphongve: false,
+            });
+        }
+
+    }
+
     isChangeAdult = (i, field, event) => {
         let name = event.target.name;
         let value = event.target.value;
@@ -312,7 +392,15 @@ class YourInfoContent extends Component {
         }
         if (field === "hanhlyadult") {
             timobject !== null ? timobject.hanhlyadult = value : mangtempAdult.push(obj);
-
+            /* 
+                đưa các thay đổi vào 1 state riêng gồm
+                state hanhlyadult:[{ id: 1, giatien: 160000 }, { id: 2, giatien: 180000 }]
+                state hanhlychild:[{ id: 1, giatien: 160000 }, { id: 2, giatien: 180000 }]
+            */
+            //let tienhanhlykygui = findObjectByKey(this.state.danhsachhanhly, "code", value); //lấy ra item có code khi thay đổi
+            // this.setState({
+            //     subtotal: this.state.subtotal + parseInt(tienhanhlykygui.sotien)
+            // });
         }
         if (field === "hanhlyadultKhuHoi") {
             timobject !== null ? timobject.hanhlyadultKhuHoi = value : mangtempAdult.push(obj);
@@ -382,11 +470,26 @@ class YourInfoContent extends Component {
         });
     }
 
+    printDataNganHang = () => {
+        if (this.state.danhsachnganhang !== null) {
+            return this.state.danhsachnganhang.map((value, key) =>
+                (
+                    <React.Fragment key={key}>
+                        <input checked={this.state.nganhangchoosed === value.tennganhang ? true : false} onChange={this.isChangeInfoThanhToan.bind(this, value.tennganhang)} type="radio" id="payment_id_3" defaultValue={value.tennganhang} name="payment" />
+                        {value.tennganhang}
+                    </React.Fragment>
+                )
+            )
+        }
+    }
+
     handleSubmit(e) {
         e.preventDefault();
         let testOKadult = 0;
         let testOKchild = 0;
         let testOKinf = 0;
+        let testOKINFO = 0;
+        let { fullname, phone } = this.state;
         let objectsadult = this.state.mangadult;
         let objectschild = this.state.mangchild;
         let objectsinf = this.state.manginf;
@@ -417,16 +520,20 @@ class YourInfoContent extends Component {
                 testOKinf < 0 ? testOKinf = 0 : testOKinf;
             }
         }
-        if (testOKadult === 0 && testOKchild === 0 && testOKinf === 0) {
+
+        if (fullname === null || fullname === "" || phone === null || phone === "") {
+            testOKINFO++;
+        } else {
+            testOKINFO = 0;
+        }
+
+        if (testOKadult === 0 && testOKchild === 0 && testOKinf === 0 && testOKINFO === 0) {
             alert("Submit thôi!");
         } else {
             alert("Hãy điền đầy đủ các yêu cầu");
         }
-        //alert("ok");
     }
     render() {
-        let ticketchoosed = localStorage.getItem("ticketchoosed") ? JSON.parse(localStorage.getItem("ticketchoosed")) : null;
-        let ticketchoosedKhuHoi = localStorage.getItem("ticketchoosedkhuhoi") ? JSON.parse(localStorage.getItem("ticketchoosedkhuhoi")) : null;
         let adult = (localStorage.getItem("adult")) ? localStorage.getItem("adult") : 0;
         let child = (localStorage.getItem("child")) ? localStorage.getItem("child") : 0;
         let inf = (localStorage.getItem("inf")) ? localStorage.getItem("inf") : 0;
@@ -532,7 +639,7 @@ class YourInfoContent extends Component {
                                             ticketchoosedKhuHoi !== null ?
                                                 <li className="col-xs-12 col-md-6 col-sm-6 mb-10">
                                                     <select defaultValue="0" onChange={this.isChangeAdult.bind(this, i, "hanhlyadultKhuHoi")} className="form-control" id={"hanhlyadultKhuHoi"} name={"hanhlyadultKhuHoi"}>
-                                                        <option value="0" >KHỞI HÀNH: Không mang hành lý ký gửi</option>
+                                                        <option value="0" >KHỨ HỒI: Không mang hành lý ký gửi</option>
                                                         <option value="1">
                                                             Thêm 15Kg hành lý (160.000 VND)
                           </option>
@@ -663,7 +770,7 @@ class YourInfoContent extends Component {
                                             ticketchoosedKhuHoi !== null ?
                                                 <li className="col-xs-12 col-md-6 col-sm-6 mb-10">
                                                     <select defaultValue="0" onChange={this.isChangeChild.bind(this, i, "hanhlychildKhuHoi")} className="form-control" id={"hanhlychildKhuHoi"} name={"hanhlychildKhuHoi"}>
-                                                        <option value="0" >KHỞI HÀNH: Không mang hành lý ký gửi</option>
+                                                        <option value="0" >KHỨ HỒI: Không mang hành lý ký gửi</option>
                                                         <option value="1">
                                                             Thêm 15Kg hành lý (160.000 VND)
                           </option>
@@ -909,13 +1016,13 @@ class YourInfoContent extends Component {
                                                                             <label htmlFor="fullname">
                                                                                 Họ và tên<abbr>*</abbr>
                                                                             </label>
-                                                                            <input type="text" placeholder="Họ và tên" required maxLength={256} className="form-control" id="fullname" />
+                                                                            <input onChange={this.isChangeInfoContact.bind(this)} type="text" placeholder="Họ và tên" required maxLength={256} className="form-control" id="fullname" name="fullname" />
                                                                         </div>
                                                                         <div className="col-xs-12 col-sm-6 col-md-6 mb-10">
                                                                             <label htmlFor="phone">
                                                                                 Điện thoại<abbr>*</abbr>
                                                                             </label>
-                                                                            <input type="tel" placeholder="Điện thoại" required maxLength={50} className="form-control" id="phone" />
+                                                                            <input onChange={this.isChangeInfoContact.bind(this)} type="tel" placeholder="Điện thoại" required maxLength={50} className="form-control" id="phone" name="phone" />
                                                                         </div>
                                                                     </li>
                                                                     <li>
@@ -923,13 +1030,13 @@ class YourInfoContent extends Component {
                                                                             <label htmlFor="email">
                                                                                 Email liên hệ
                           </label>
-                                                                            <input type="email" placeholder="Email liên hệ" className="form-control" id="email" />
+                                                                            <input onChange={this.isChangeInfoContact.bind(this)} type="email" placeholder="Email liên hệ" className="form-control" id="email" name="email" />
                                                                         </div>
                                                                         <div className="col-xs-12 col-md-6 col-sm-6 mb-10">
                                                                             <label htmlFor="address">
                                                                                 Địa chỉ
                           </label>
-                                                                            <input type="text" className="form-control" placeholder="Địa chỉ" id="address" />
+                                                                            <input onChange={this.isChangeInfoContact.bind(this)} type="text" className="form-control" placeholder="Địa chỉ" id="address" name="address" />
                                                                         </div>
                                                                     </li>
                                                                     <li>
@@ -937,7 +1044,7 @@ class YourInfoContent extends Component {
                                                                             <label htmlFor="message">
                                                                                 Yêu cầu khác
                           </label>
-                                                                            <textarea className="form-control" placeholder="Khi bạn có thêm yêu cầu, hãy viết vào..." style={{ resize: 'none' }} id="message" cols={40} rows={6} defaultValue={""} />
+                                                                            <textarea onChange={this.isChangeInfoContact.bind(this)} className="form-control" placeholder="Khi bạn có thêm yêu cầu, hãy viết vào..." style={{ resize: 'none' }} name="message" id="message" cols={40} rows={6} defaultValue={""} />
                                                                         </div>
                                                                     </li>
                                                                 </ul>
@@ -954,34 +1061,37 @@ class YourInfoContent extends Component {
                                     <div className="pd-15" style={{ "padding": "15px" }}>
                                         <p> Sau khi chọn vui lòng nhấn <strong>"Đặt vé"</strong>. Booker sẽ gọi đến xác thực thông tin book vé. Điều này là cần thiết nhằm tránh sai sót khi ra sân bay.</p>
                                         <div className="methods selected" id="payment">
-                                            <div className="method-item selected">
-                                                <label htmlFor="payment_id_3" className="method-header">
-                                                    <input type="radio" id="payment_id_3" defaultValue={3} name="payment" defaultChecked="checked" />
-                                                    Chuyển khoản qua ngân hàng
-            </label>
-                                                <div className="payment_box method-content payment_mean3" style={{ display: 'block' }}>
-                                                </div>
-                                            </div>
-                                            <div className="method-item">
-                                                <label htmlFor="payment_id_1" className="method-header">
-                                                    <input type="radio" id="payment_id_1" defaultValue={1} name="payment" />
-                                                    Thanh toán tại phòng vé
-            </label>
-                                                <div className="payment_box method-content payment_mean1">
-                                                    <p>Sau khi quý khách đặt vé thành công, Quý khách vui lòng qua văn phòng chúng tôi&nbsp;để thanh toán và nhận vé.</p>
-                                                </div>
-                                            </div>
-                                            <div className="method-item">
+                                            <div className={this.state.toggletaidiachikhachhang ? "method-item selected" : "method-item"}>
                                                 <label htmlFor="payment_id_2" className="method-header">
-                                                    <input type="radio" id="payment_id_2" defaultValue={2} name="payment" />
+                                                    <input onChange={this.isChangeInfoThanhToan.bind(this, "taidiachikhachhang")} type="radio" id="payment_id_2" defaultValue="taidiachikhachhang" name="payment" defaultChecked="checked" />
                                                     Thanh toán tại địa chỉ Khách hàng
             </label>
-                                                <div className="payment_box method-content payment_mean2">
+                                                <div className="payment_box method-content payment_mean2" style={this.state.toggletaidiachikhachhang ? { display: 'block' } : { display: 'none' }}>
                                                     <p>Sau khi đặt vé thành công, nhân viên chúng tôi&nbsp;sẽ đến địa chỉ quý khách cung cấp để giao vé và thu tiền.&nbsp;<br />
                                                         Thời gian: từ thứ 2 đến chủ nhật &amp; các ngày lễ .<br />
                                                         Phạm vi giao vé: trong bán kính &lt; 10km (Sài Gòn), phí vận chuyển (Miễn Phí).</p>
                                                 </div>
                                             </div>
+                                            <div className={this.state.toggletaiphongve ? "method-item selected" : "method-item"}>
+                                                <label htmlFor="payment_id_1" className="method-header">
+                                                    <input onChange={this.isChangeInfoThanhToan.bind(this, "taiphongve")} type="radio" id="payment_id_1" defaultValue="taiphongve" name="payment" />
+                                                    Thanh toán tại phòng vé
+            </label>
+                                                <div className="payment_box method-content payment_mean1" style={this.state.toggletaiphongve ? { display: 'block' } : { display: 'none' }}>
+                                                    <p>Sau khi quý khách đặt vé thành công, Quý khách vui lòng qua văn phòng chúng tôi&nbsp;để thanh toán và nhận vé.</p>
+                                                </div>
+                                            </div>
+                                            <div className={this.state.togglechuyenkhoan ? "method-item selected" : "method-item"}>
+                                                <label htmlFor="payment_id_3" className="method-header">
+                                                    <input onChange={this.isChangeInfoThanhToan.bind(this, "chuyenkhoan")} type="radio" id="payment_id_3" defaultValue="chuyenkhoan" name="payment" />
+                                                    Chuyển khoản qua ngân hàng
+            </label>
+                                                <div className="payment_box method-content payment_mean3" style={this.state.togglechuyenkhoan ? { display: 'block' } : { display: 'none' }}>
+                                                    {this.state.danhsachnganhang !== null && this.state.danhsachnganhang.length !== 0 ? this.printDataNganHang() : "Chưa có ngân hàng nào"}
+                                                </div>
+                                            </div>
+
+
                                         </div>
                                     </div>
                                 </div>
@@ -1122,7 +1232,7 @@ class YourInfoContent extends Component {
                                                 <tr id="basket_total_price_holder" className="promo">
                                                     <td>Tổng chi phí</td>
                                                     <td className="amount">
-                                                        <span id="basket_total_price" >{subtotal2way.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)}</span> VNĐ
+                                                        <span id="basket_total_price" >{this.state.subtotal.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)}</span> VNĐ
               </td>
                                                 </tr>
                                             </tbody>
