@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import jetstarlogo from '../images/jetstarmini.png';
 import vietjetlogo from '../images/vietjetmini.png';
 import vietnamairlinelogo from '../images/vietnamairlinemini.png';
@@ -97,6 +98,10 @@ const hasNull = (target) => {
 var mangtempAdult = [];
 var mangtempChild = [];
 var mangtempInf = [];
+var hanhlyadultforplus = [];
+var hanhlyadultforplusKhuHoi = [];
+var hanhlychildforplus = [];
+var hanhlychildforplusKhuHoi = [];
 var ngaydi = (localStorage.getItem("datedep")) ? localStorage.getItem("datedep") : 0;
 var ngayve = (localStorage.getItem("datedes")) ? localStorage.getItem("datedes") : 0;
 var ticketchoosed = localStorage.getItem("ticketchoosed") ? JSON.parse(localStorage.getItem("ticketchoosed")) : null;
@@ -132,23 +137,33 @@ class YourInfoContent extends Component {
         this.handleChangeDate = this.handleChangeDate.bind(this);
     }
 
-    componentWillMount() {
+    componentDidMount() {
         let subtotalfirst = ticketchoosed.subtotal;
         let subtotalsecond = ticketchoosedKhuHoi !== null ? ticketchoosedKhuHoi.subtotal : 0;
         let subtotal2way = subtotalfirst + subtotalsecond;
 
         this.setState({
+            subtotal: subtotal2way,
+            subtotaloriginal: subtotal2way,
+        });
+    }
+
+
+    componentWillMount() {
+        let danhsachhanhly = [
+            { id: 1, soky: "7", sotien: "0", code: "0" },
+            { id: 2, soky: "15", sotien: "160000", code: "1" },
+            { id: 3, soky: "20", sotien: "180000", code: "2" },
+            { id: 4, soky: "25", sotien: "250000", code: "3" },
+            { id: 5, soky: "30", sotien: "360000", code: "4" },
+            { id: 6, soky: "35", sotien: "420000", code: "5" },
+            { id: 7, soky: "40", sotien: "480000", code: "6" },
+        ];
+
+
+        this.setState({
             danhsachnganhang: [{ id: 1, tennganhang: "ACB" }, { id: 2, tennganhang: "Vietcombank" }],
-            danhsachhanhly: [
-                { id: 1, soky: "7", sotien: "0", code: "0" },
-                { id: 2, soky: "15", sotien: "160000", code: "1" },
-                { id: 3, soky: "20", sotien: "180000", code: "2" },
-                { id: 4, soky: "25", sotien: "250000", code: "3" },
-                { id: 5, soky: "30", sotien: "360000", code: "4" },
-                { id: 6, soky: "35", sotien: "420000", code: "5" },
-                { id: 7, soky: "40", sotien: "480000", code: "6" },
-            ],
-            subtotal: subtotal2way
+            danhsachhanhly: danhsachhanhly,
         });
 
         let adult = (localStorage.getItem("adult")) ? localStorage.getItem("adult") : 0;
@@ -188,11 +203,17 @@ class YourInfoContent extends Component {
             let timobject = findObjectByKey(mangtempAdult, "id", i); // tìm object dựa trên key là id và giá trị là i
             timobject !== null ? timobject.hanhlyadult = "0" : mangtempAdult.push(objhanhlyadult);
 
+            let objhanhlyadultgiatien = { "id": i, "sotien": "0" };
+            hanhlyadultforplus.push(objhanhlyadultgiatien);
+
 
             if (hasKhuHoi) {
                 objhanhlyadult = { "id": i, "hanhlyadultKhuHoi": "0" };
                 let timobject = findObjectByKey(mangtempAdult, "id", i); // tìm object dựa trên key là id và giá trị là i
                 timobject !== null ? timobject.hanhlyadultKhuHoi = "0" : mangtempAdult.push(objhanhlyadult);
+
+                let objhanhlyadultgiatien = { "id": i, "sotien": "0" };
+                hanhlyadultforplusKhuHoi.push(objhanhlyadultgiatien);
             }
         }
         ///////child
@@ -220,11 +241,17 @@ class YourInfoContent extends Component {
             let timobject = findObjectByKey(mangtempChild, "id", i); // tìm object dựa trên key là id và giá trị là i
             timobject !== null ? timobject.hanhlychild = "0" : mangtempChild.push(objhanhlychild);
 
+            let objhanhlychildgiatien = { "id": i, "sotien": "0" };
+            hanhlychildforplus.push(objhanhlychildgiatien);
+
 
             if (hasKhuHoi) {
                 objhanhlychild = { "id": i, "hanhlychildKhuHoi": "0" };
                 let timobject = findObjectByKey(mangtempChild, "id", i); // tìm object dựa trên key là id và giá trị là i
                 timobject !== null ? timobject.hanhlychildKhuHoi = "0" : mangtempChild.push(objhanhlychild);
+
+                let objhanhlychildgiatien = { "id": i, "sotien": "0" };
+                hanhlychildforplusKhuHoi.push(objhanhlychildgiatien);
             }
         }
         ///////inf
@@ -250,7 +277,11 @@ class YourInfoContent extends Component {
         this.setState({
             mangadult: mangtempAdult,
             mangchild: mangtempChild,
-            manginf: mangtempInf
+            manginf: mangtempInf,
+            hanhlyadultforplus: hanhlyadultforplus,
+            hanhlyadultforplusKhuHoi: hanhlyadultforplusKhuHoi.length === 0 ? [] : hanhlyadultforplusKhuHoi,
+            hanhlychildforplus: hanhlychildforplus,
+            hanhlychildforplusKhuHoi: hanhlychildforplusKhuHoi.length === 0 ? [] : hanhlychildforplusKhuHoi,
         });
 
     }
@@ -377,6 +408,7 @@ class YourInfoContent extends Component {
     isChangeAdult = (i, field, event) => {
         let name = event.target.name;
         let value = event.target.value;
+        let subtotalOriginal = this.state.subtotaloriginal;
         let obj = {};
         obj = { "id": i, [name]: value };
         let timobject = findObjectByKey(mangtempAdult, "id", i); // tìm object dựa trên key là id và giá trị là i
@@ -392,28 +424,58 @@ class YourInfoContent extends Component {
         }
         if (field === "hanhlyadult") {
             timobject !== null ? timobject.hanhlyadult = value : mangtempAdult.push(obj);
-            /* 
-                đưa các thay đổi vào 1 state riêng gồm
-                state hanhlyadult:[{ id: 1, giatien: 160000 }, { id: 2, giatien: 180000 }]
-                state hanhlychild:[{ id: 1, giatien: 160000 }, { id: 2, giatien: 180000 }]
-            */
-            //let tienhanhlykygui = findObjectByKey(this.state.danhsachhanhly, "code", value); //lấy ra item có code khi thay đổi
-            // this.setState({
-            //     subtotal: this.state.subtotal + parseInt(tienhanhlykygui.sotien)
-            // });
+
+            let timItemOfHanhly = findObjectByKey(this.state.danhsachhanhly, "code", value); //lấy ra item có code khi thay đổi
+            let timhanhlykygui = findObjectByKey(hanhlyadultforplus, "id", i);
+            timhanhlykygui.sotien = timItemOfHanhly.sotien;
+
+            this.state.hanhlyadultforplus.forEach(element => {
+                subtotalOriginal += parseInt(element.sotien);
+            });
+            this.state.hanhlyadultforplusKhuHoi.forEach(element => {
+                subtotalOriginal += parseInt(element.sotien);
+            });
+            this.state.hanhlychildforplus.forEach(element => {
+                subtotalOriginal += parseInt(element.sotien);
+            });
+            this.state.hanhlychildforplusKhuHoi.forEach(element => {
+                subtotalOriginal += parseInt(element.sotien);
+            });
+
         }
         if (field === "hanhlyadultKhuHoi") {
             timobject !== null ? timobject.hanhlyadultKhuHoi = value : mangtempAdult.push(obj);
 
+            let timItemOfHanhly = findObjectByKey(this.state.danhsachhanhly, "code", value); //lấy ra item có code khi thay đổi
+            let timhanhlykygui = findObjectByKey(hanhlyadultforplusKhuHoi, "id", i);
+            timhanhlykygui.sotien = timItemOfHanhly.sotien;
+
+            this.state.hanhlyadultforplus.forEach(element => {
+                subtotalOriginal += parseInt(element.sotien);
+            });
+            this.state.hanhlyadultforplusKhuHoi.forEach(element => {
+                subtotalOriginal += parseInt(element.sotien);
+            });
+            this.state.hanhlychildforplus.forEach(element => {
+                subtotalOriginal += parseInt(element.sotien);
+            });
+            this.state.hanhlychildforplusKhuHoi.forEach(element => {
+                subtotalOriginal += parseInt(element.sotien);
+            });
+
         }
         this.setState({
-            mangadult: mangtempAdult
+            mangadult: mangtempAdult,
+            hanhlyadultforplus: hanhlyadultforplus,
+            hanhlyadultforplusKhuHoi: hanhlyadultforplusKhuHoi,
+            subtotal: subtotalOriginal,
         });
     }
 
     isChangeChild = (i, field, event) => {
         let name = event.target.name;
         let value = event.target.value;
+        let subtotalOriginal = this.state.subtotaloriginal;
         let obj = {};
         obj = { "id": i, [name]: value };
         let timobject = findObjectByKey(mangtempChild, "id", i); // tìm object dựa trên key là id và giá trị là i
@@ -430,14 +492,51 @@ class YourInfoContent extends Component {
         if (field === "hanhlychild") {
             timobject !== null ? timobject.hanhlychild = value : mangtempChild.push(obj);
 
+            let timItemOfHanhly = findObjectByKey(this.state.danhsachhanhly, "code", value); //lấy ra item có code khi thay đổi
+            let timhanhlykygui = findObjectByKey(hanhlychildforplus, "id", i);
+            timhanhlykygui.sotien = timItemOfHanhly.sotien;
+
+            this.state.hanhlyadultforplus.forEach(element => {
+                subtotalOriginal += parseInt(element.sotien);
+            });
+            this.state.hanhlyadultforplusKhuHoi.forEach(element => {
+                subtotalOriginal += parseInt(element.sotien);
+            });
+            this.state.hanhlychildforplus.forEach(element => {
+                subtotalOriginal += parseInt(element.sotien);
+            });
+            this.state.hanhlychildforplusKhuHoi.forEach(element => {
+                subtotalOriginal += parseInt(element.sotien);
+            });
+
         }
         if (field === "hanhlychildKhuHoi") {
             timobject !== null ? timobject.hanhlychildKhuHoi = value : mangtempChild.push(obj);
 
+            let timItemOfHanhly = findObjectByKey(this.state.danhsachhanhly, "code", value); //lấy ra item có code khi thay đổi
+            let timhanhlykygui = findObjectByKey(hanhlychildforplusKhuHoi, "id", i);
+            timhanhlykygui.sotien = timItemOfHanhly.sotien;
+
+            this.state.hanhlyadultforplus.forEach(element => {
+                subtotalOriginal += parseInt(element.sotien);
+            });
+            this.state.hanhlyadultforplusKhuHoi.forEach(element => {
+                subtotalOriginal += parseInt(element.sotien);
+            });
+            this.state.hanhlychildforplus.forEach(element => {
+                subtotalOriginal += parseInt(element.sotien);
+            });
+            this.state.hanhlychildforplusKhuHoi.forEach(element => {
+                subtotalOriginal += parseInt(element.sotien);
+            });
+
         }
 
         this.setState({
-            mangchild: mangtempChild
+            mangchild: mangtempChild,
+            hanhlychildforplus: hanhlychildforplus,
+            hanhlychildforplusKhuHoi: hanhlychildforplusKhuHoi,
+            subtotal: subtotalOriginal,
         });
     }
 
@@ -529,10 +628,19 @@ class YourInfoContent extends Component {
 
         if (testOKadult === 0 && testOKchild === 0 && testOKinf === 0 && testOKINFO === 0) {
             alert("Submit thôi!");
+            axios.post("/infobooking", {
+                thongtinvedi: this.state.thongtinvedi,
+                thongtinveKhuHoi: this.state.thongtinveKhuHoi,
+            }).then((res) => { res.data === "ok" ? this.redirectToSummaryInfo() : alert("Thất bại") })
         } else {
             alert("Hãy điền đầy đủ các yêu cầu");
         }
     }
+
+    redirectToSummaryInfo() {
+        window.location.replace("/summaryinfo");
+      }
+
     render() {
         let adult = (localStorage.getItem("adult")) ? localStorage.getItem("adult") : 0;
         let child = (localStorage.getItem("child")) ? localStorage.getItem("child") : 0;
@@ -1232,8 +1340,10 @@ class YourInfoContent extends Component {
                                                 <tr id="basket_total_price_holder" className="promo">
                                                     <td>Tổng chi phí</td>
                                                     <td className="amount">
-                                                        <span id="basket_total_price" >{this.state.subtotal.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)}</span> VNĐ
-              </td>
+                                                        <span id="basket_total_price" >
+                                                            {this.state.subtotal ? this.state.subtotal.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2) : ""}
+                                                        </span> VNĐ
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </table>
