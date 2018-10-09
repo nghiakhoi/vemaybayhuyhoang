@@ -631,6 +631,14 @@ class YourInfoContent extends Component {
             axios.post("/infobooking", {
                 thongtinvedi: this.state.thongtinvedi,
                 thongtinveKhuHoi: this.state.thongtinveKhuHoi,
+                fullname: this.state.fullname,
+                phone: this.state.phone,
+                address: this.state.address,
+                email: this.state.email,
+                yeucau: this.state.message,
+                hinhthucthanhtoan: this.state.thanhtoanBy,
+                subtotaloriginal: this.state.subtotaloriginal,
+                subtotalwithhanhly: this.state.subtotal,
             }).then((res) => { res.data === "ok" ? this.redirectToSummaryInfo() : alert("Thất bại") })
         } else {
             alert("Hãy điền đầy đủ các yêu cầu");

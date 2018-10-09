@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import moment from 'moment';
 
 class Slider extends Component {
     constructor(props) {
@@ -31,6 +32,7 @@ class Slider extends Component {
                 localStorage.setItem("direction", 0);
             } else {
                 localStorage.setItem("direction", 1);
+                localStorage.setItem("datedes", moment().add(2, 'days').format("DD-MM-YYYY"));
             }
         });
         localStorage.setItem(name, this.state.setvalue === 0 ? 1 : 0);
@@ -69,10 +71,12 @@ class Slider extends Component {
         localStorage.removeItem("child");
         localStorage.removeItem("inf");
         localStorage.setItem("direction", 0);
-        localStorage.removeItem("datedep");
         localStorage.removeItem("datedes");
         localStorage.removeItem("dep");
         localStorage.removeItem("des");
+        localStorage.removeItem("ticketchoosed");
+        localStorage.removeItem("ticketchoosedkhuhoi");
+        localStorage.setItem("datedep", moment().format("DD-MM-YYYY"));
     }
 
     componentWillMount() {
@@ -223,10 +227,10 @@ class Slider extends Component {
                                         <br />
                                         {this.state.direction === true ?
                                             <div className="iw-departure thelastitem">
-                                                <input id="datedes" name="datedes" type="text" value="Ngày về" readOnly placeholder="Ngày về" className="iw-search-arrival has-date-picker" />
+                                                <input id="datedes" name="datedes" type="text" value="" readOnly placeholder="Ngày về" className="iw-search-arrival has-date-picker" />
                                             </div> :
                                             <div className="iw-departure thelastitem">
-                                                <input id="datedes" disabled name="datedes" value="Ngày về" type="text" readOnly placeholder="Ngày về" className="iw-search-arrival has-date-picker" />
+                                                <input id="datedes" disabled name="datedes" value="" type="text" readOnly className="iw-search-arrival has-date-picker" />
                                             </div>
                                         }
                                     </div>
