@@ -58,9 +58,14 @@ class Slider extends Component {
         } else if (localStorage.getItem("des") === null || localStorage.getItem("des") === "") {
             alert("Hãy chọn ĐIỂM ĐẾN!");
         } else {
-            this.setState({
-                isRedirect: true
-            });
+            if (localStorage.getItem("dep") === localStorage.getItem("des")) {
+                alert("ĐIỂM KHỞI HÀNH và ĐIỂM ĐẾN phải khác nhau!");
+            } else {
+                this.setState({
+                    isRedirect: true
+                });
+            }
+
         }
 
 
@@ -128,17 +133,17 @@ class Slider extends Component {
                     <span className="caret theme-bg" />
                                         </span>
                                     </li>
-                                    <li className="destination-menu-item " data-destination-slug="paris" data-destination-backgroundimg="http://inwavethemes.com/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_roma.jpg">
+                                    <li className="destination-menu-item " data-destination-slug="HAN" data-destination-backgroundimg="http://inwavethemes.com/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_roma.jpg">
                                         <span>Hà Nội
                     <span className="caret theme-bg" />
                                         </span>
                                     </li>
-                                    <li className="destination-menu-item active" data-destination-slug="rome" data-destination-backgroundimg="http://inwavethemes.com/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_paris.jpg">
+                                    <li className="destination-menu-item active" data-destination-slug="DAD" data-destination-backgroundimg="http://inwavethemes.com/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_paris.jpg">
                                         <span>Đà Nẵng
                     <span className="caret theme-bg" />
                                         </span>
                                     </li>
-                                    <li className="destination-menu-item " data-destination-slug="san-francisco" data-destination-backgroundimg="/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_california.jpg">
+                                    <li className="destination-menu-item " data-destination-slug="SGN" data-destination-backgroundimg="/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_california.jpg">
                                         <span>Thành phố Hồ Chí Minh
                     <span className="caret theme-bg" />
                                         </span>

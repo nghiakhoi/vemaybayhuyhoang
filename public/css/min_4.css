@@ -122,7 +122,7 @@ label{color:#222;text-align:left;display:block}.tour-price-now
 img{display:none}.tour-price-now.loading
 img{display:inline-block}.iw-booking-tour-form
 button{height:45px;line-height:45px;-webkit-border-radius:0;border-radius:0;border:none;padding:0
-15px;margin-bottom:10px;font-size:18px;text-transform:uppercase;color:#fff}.iw-booking-tour-form button:disabled{background:#eee !important}.loading .ui-datepicker-header .ui-corner-all{display:none}.ui-datepicker.ui-widget{background:#fff;z-index:99999!important;width:280px}.ui-datepicker-header{position:relative;text-align:center;background:#f4f4f4;padding:10px
+15px;margin-bottom:10px;font-size:18px;text-transform:uppercase;color:#fff}.iw-booking-tour-form button:disabled{background:#eee !important}.loading .ui-datepicker-header .ui-corner-all{display:none}.ui-datepicker.ui-widget{background:#fff;z-index:99999!important;width:280px;display: none;}.ui-datepicker-header{position:relative;text-align:center;background:#f4f4f4;padding:10px
 0}.ui-datepicker-header>a{position:absolute;top:10px;cursor:pointer}.ui-datepicker-header>a.ui-datepicker-prev{left:10px}.ui-datepicker-header>a.ui-datepicker-next{right:20px}.ui-datepicker-header > a
 span{position:relative;font-size:0}.ui-datepicker-header > a span:before{position:absolute;font-family:FontAwesome;top:-15px;left:0;font-size:14px;color:#838383}.ui-datepicker-header > a.ui-datepicker-prev span:before{content:"\f053"}.ui-datepicker-header > a.ui-datepicker-next span:before{content:"\f054"}.ui-datepicker-header .ui-datepicker-title
 span{font-weight:700}.ui-datepicker.ui-widget

@@ -637,17 +637,24 @@ class YourInfoContent extends Component {
                 email: this.state.email,
                 yeucau: this.state.message,
                 hinhthucthanhtoan: this.state.thanhtoanBy,
+                nganhangchoosed: this.state.nganhangchoosed,
                 subtotaloriginal: this.state.subtotaloriginal,
                 subtotalwithhanhly: this.state.subtotal,
-            }).then((res) => { res.data === "ok" ? this.redirectToSummaryInfo() : alert("Thất bại") })
+                thongtinvedi: this.state.thongtinvedi,
+                thongtinveKhuHoi: this.state.thongtinveKhuHoi,
+                mangadult: this.state.mangadult,
+                mangchild: this.state.mangchild,
+                manginf: this.state.manginf,
+            }).then((res) => { res.data.result === "ok" ? this.redirectToSummaryInfo(res.data.id) : alert("Thất bại") })
         } else {
             alert("Hãy điền đầy đủ các yêu cầu");
         }
     }
 
-    redirectToSummaryInfo() {
+    redirectToSummaryInfo(id) {
+        localStorage.setItem("idhoadon",id);
         window.location.replace("/summaryinfo");
-      }
+    }
 
     render() {
         let adult = (localStorage.getItem("adult")) ? localStorage.getItem("adult") : 0;

@@ -192,7 +192,7 @@
                     jQuery("#datedes").datepicker('option', 'minDate', dateText);
                     var ngayKhuHoi = compareTwoDay(jQuery("#datedes").val()).getTime();
                     var ngaydi = compareTwoDay(dateText).getTime();
-                    ngaydi===ngayKhuHoi?localStorage.setItem("datedes", dateText):"";
+                    ngaydi === ngayKhuHoi ? localStorage.setItem("datedes", dateText) : "";
                     localStorage.setItem("datedep", dateText);
                 }
             }).datepicker("setDate", new Date());
@@ -202,6 +202,7 @@
                 changeYear: true,
                 dateFormat: 'dd-mm-yy',
                 yearRange: '-115:+95M',
+                minDate: 0,
                 onSelect: function (dateText) {
                     localStorage.setItem("datedes", dateText);
                 }

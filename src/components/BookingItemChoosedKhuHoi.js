@@ -100,7 +100,7 @@ class BookingItemChoosedKhuHoi extends Component {
                                                         <td><strong className="ItemPrice">{this.props.adult.total.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
                                                     </tr>
                                                     {
-                                                        Array.isArray(this.props.child) ? "" :
+                                                        Array.isArray(this.props.child) ? null :
                                                             <tr>
                                                                 <td>Trẻ em <small>(2-12 tuổi)</small></td>
                                                                 <td><strong>{localStorage.getItem("child") ? localStorage.getItem("child") : "0"}</strong></td>
@@ -110,7 +110,7 @@ class BookingItemChoosedKhuHoi extends Component {
                                                             </tr>
                                                     }
                                                     {
-                                                        Array.isArray(this.props.inf) ? "" :
+                                                        Array.isArray(this.props.inf) ? null :
                                                             <tr>
                                                                 <td>Em bé <small>(&lt; 2 tuổi)</small></td>
                                                                 <td><strong>{localStorage.getItem("inf") ? localStorage.getItem("inf") : "0"}</strong></td>
