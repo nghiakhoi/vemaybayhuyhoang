@@ -8112,3 +8112,13 @@ div.style-customizer {
     border: 0;
     text-align:left
 }
+
+.edit-btn{
+    background-color:#3673a7;
+}
+.del-btn{
+    background-color:#a12a2a;
+}
+.del-cell{
+    color:#fff;
+}

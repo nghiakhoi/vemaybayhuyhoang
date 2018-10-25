@@ -2841,11 +2841,13 @@ class BookingContent extends Component {
     }
 
     handleClick = (event) => {
+        event.preventDefault();
         var parts = event.target.value.split(" ");
         localStorage.setItem("datedep", parts[0]);
         window.location.reload();
     }
     handleClickKhuHoi = (event) => {
+        event.preventDefault();
         var parts = event.target.value.split(" ");
         localStorage.setItem("datedes", parts[0]);
         window.location.reload();
@@ -3027,7 +3029,7 @@ class BookingContent extends Component {
                                                         demvitri++;
                                                         return (
                                                             <div key={k} className=" col-md-1-chia7" >
-                                                                <input type="button" style={{ "padding": "6px 12px" }} className="btn disabled btn-block btn-info" value={i} />
+                                                                <button type="button" style={{ "padding": "6px 12px" }} className="btn disabled btn-block btn-info" value={i} >{i}</button>
                                                             </div>
                                                         )
                                                     } else {
@@ -3035,7 +3037,7 @@ class BookingContent extends Component {
                                                             demvitri++;
                                                             return (
                                                                 <div key={k} className=" col-md-1-chia7" >
-                                                                    <input type="button" onClick={(event) => { this.handleClick(event) }} style={{ "padding": "6px 12px" }} className="btn btn-block btn-primary newlinebtn" value={this.state.datasmallestprice !== null ? daychoosedforloop + " " + this.state.datasmallestprice + " VND" : daychoosedforloop} />
+                                                                    <button type="button" onClick={(event) => { this.handleClick(event) }} style={{ "padding": "6px 12px" }} className="btn btn-block btn-primary newlinebtn" value={this.state.datasmallestprice !== null ? daychoosedforloop + " " + this.state.datasmallestprice + " VND" : daychoosedforloop} >{daychoosedforloop}<br />{this.state.datasmallestprice !== null ? this.state.datasmallestprice + " VND" : ""}</button>
                                                                 </div>
                                                             )
                                                         } else {
@@ -3043,7 +3045,7 @@ class BookingContent extends Component {
                                                                 demvitri++;
                                                                 return (
                                                                     <div key={k} className=" col-md-1-chia7" >
-                                                                        <input onClick={(event) => { this.handleClick(event) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={this.state.datasmallestprice1 !== null ? i + " " + this.state.datasmallestprice1 + " VND" : i} />
+                                                                        <button onClick={(event) => { this.handleClick(event) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={this.state.datasmallestprice1 !== null ? i + " " + this.state.datasmallestprice1 + " VND" : i} >{i}<br />{this.state.datasmallestprice1 !== null ? this.state.datasmallestprice1 + " VND" : ""}</button>
                                                                     </div>
                                                                 )
                                                             }
@@ -3051,7 +3053,7 @@ class BookingContent extends Component {
                                                                 demvitri++;
                                                                 return (
                                                                     <div key={k} className=" col-md-1-chia7" >
-                                                                        <input onClick={(event) => { this.handleClick(event) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={this.state.datasmallestprice2 !== null ? i + " " + this.state.datasmallestprice2 + " VND" : i} />
+                                                                        <button onClick={(event) => { this.handleClick(event) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={this.state.datasmallestprice2 !== null ? i + " " + this.state.datasmallestprice2 + " VND" : i} >{i}<br />{this.state.datasmallestprice2 !== null ? this.state.datasmallestprice2 + " VND" : ""}</button>
                                                                     </div>
                                                                 )
                                                             }
@@ -3059,7 +3061,7 @@ class BookingContent extends Component {
                                                                 demvitri++;
                                                                 return (
                                                                     <div key={k} className=" col-md-1-chia7" >
-                                                                        <input onClick={(event) => { this.handleClick(event) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={this.state.datasmallestprice3 !== null ? i + " " + this.state.datasmallestprice3 + " VND" : i} />
+                                                                        <button onClick={(event) => { this.handleClick(event) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={this.state.datasmallestprice3 !== null ? i + " " + this.state.datasmallestprice3 + " VND" : i} >{i}<br />{this.state.datasmallestprice3 !== null ? this.state.datasmallestprice3 + " VND" : ""}</button>
                                                                     </div>
                                                                 )
                                                             }
@@ -3067,7 +3069,7 @@ class BookingContent extends Component {
                                                                 demvitri++;
                                                                 return (
                                                                     <div key={k} className=" col-md-1-chia7" >
-                                                                        <input onClick={(event) => { this.handleClick(event) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={this.state.datasmallestprice4 !== null ? i + " " + this.state.datasmallestprice4 + " VND" : i} />
+                                                                        <button onClick={(event) => { this.handleClick(event) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={this.state.datasmallestprice4 !== null ? i + " " + this.state.datasmallestprice4 + " VND" : i} >{i}<br />{this.state.datasmallestprice4 !== null ? this.state.datasmallestprice4 + " VND" : ""}</button>
                                                                     </div>
                                                                 )
                                                             }
@@ -3075,7 +3077,7 @@ class BookingContent extends Component {
                                                                 demvitri++;
                                                                 return (
                                                                     <div key={k} className=" col-md-1-chia7" >
-                                                                        <input onClick={(event) => { this.handleClick(event) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={this.state.datasmallestprice5 !== null ? i + " " + this.state.datasmallestprice5 + " VND" : i} />
+                                                                        <button onClick={(event) => { this.handleClick(event) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={this.state.datasmallestprice5 !== null ? i + " " + this.state.datasmallestprice5 + " VND" : i} >{i}<br />{this.state.datasmallestprice5 !== null ? this.state.datasmallestprice5 + " VND" : ""}</button>
                                                                     </div>
                                                                 )
                                                             }
@@ -3083,13 +3085,13 @@ class BookingContent extends Component {
                                                                 demvitri++;
                                                                 return (
                                                                     <div key={k} className=" col-md-1-chia7" >
-                                                                        <input onClick={(event) => { this.handleClick(event) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={this.state.datasmallestprice6 !== null ? i + " " + this.state.datasmallestprice6 + " VND" : i} />
+                                                                        <button onClick={(event) => { this.handleClick(event) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={this.state.datasmallestprice6 !== null ? i + " " + this.state.datasmallestprice6 + " VND" : i} >{i}<br />{this.state.datasmallestprice6 !== null ? this.state.datasmallestprice6 + " VND" : ""}</button>
                                                                     </div>
                                                                 )
                                                             } else {
                                                                 return (
                                                                     <div key={k} className=" col-md-1-chia7" >
-                                                                        <input onClick={(event) => { this.handleClick(event) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={this.state.datasmallestprice6 !== null ? i + " " + this.state.datasmallestprice6 + " VND" : i} />
+                                                                        <button onClick={(event) => { this.handleClick(event) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={this.state.datasmallestprice6 !== null ? i + " " + this.state.datasmallestprice6 + " VND" : i} >{i}<br />{this.state.datasmallestprice6 !== null ? this.state.datasmallestprice6 + " VND" : ""}</button>
                                                                     </div>
                                                                 )
                                                             }
@@ -3126,7 +3128,7 @@ class BookingContent extends Component {
                                                                     demvitrikhuhoi++;
                                                                     return (
                                                                         <div key={k} className=" col-md-1-chia7" >
-                                                                            <input type="button" style={{ "padding": "6px 12px" }} className="btn disabled btn-block btn-info" value={i} />
+                                                                            <button type="button" style={{ "padding": "6px 12px" }} className="btn disabled btn-block btn-info" value={i} >{i}</button>
                                                                         </div>
                                                                     );
                                                                 } else {
@@ -3134,7 +3136,7 @@ class BookingContent extends Component {
                                                                         demvitrikhuhoi++;
                                                                         return (
                                                                             <div key={k} className=" col-md-1-chia7" >
-                                                                                <input type="button" onClick={(event) => { this.handleClickKhuHoi(event) }} style={{ "padding": "6px 12px" }} className="btn btn-block btn-primary newlinebtn" value={this.state.datasmallestpricekhuhoi !== null ? daychoosedforloopkhuhoi + " " + this.state.datasmallestpricekhuhoi + " VND" : daychoosedforloopkhuhoi} />
+                                                                                <button type="button" onClick={(event) => { this.handleClickKhuHoi(event) }} style={{ "padding": "6px 12px" }} className="btn btn-block btn-primary newlinebtn" value={this.state.datasmallestpricekhuhoi !== null ? daychoosedforloopkhuhoi + " " + this.state.datasmallestpricekhuhoi + " VND" : daychoosedforloopkhuhoi} >{daychoosedforloopkhuhoi}<br />{this.state.datasmallestpricekhuhoi !== null ? this.state.datasmallestpricekhuhoi + " VND" : ""}</button>
                                                                             </div>
                                                                         );
                                                                     } else {
@@ -3142,7 +3144,7 @@ class BookingContent extends Component {
                                                                             demvitrikhuhoi++;
                                                                             return (
                                                                                 <div key={k} className=" col-md-1-chia7" >
-                                                                                    <input onClick={(event) => { this.handleClickKhuHoi(event) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={this.state.datasmallestprice1khuhoi !== null ? i + " " + this.state.datasmallestprice1khuhoi + " VND" : i} />
+                                                                                    <button onClick={(event) => { this.handleClickKhuHoi(event) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={this.state.datasmallestprice1khuhoi !== null ? i + " " + this.state.datasmallestprice1khuhoi + " VND" : i} >{i}<br />{this.state.datasmallestprice1khuhoi !== null ? this.state.datasmallestprice1khuhoi + " VND" : ""}</button>
                                                                                 </div>
                                                                             );
                                                                         }
@@ -3150,7 +3152,7 @@ class BookingContent extends Component {
                                                                             demvitrikhuhoi++;
                                                                             return (
                                                                                 <div key={k} className=" col-md-1-chia7" >
-                                                                                    <input onClick={(event) => { this.handleClickKhuHoi(event) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={this.state.datasmallestprice2khuhoi !== null ? i + " " + this.state.datasmallestprice2khuhoi + " VND" : i} />
+                                                                                    <button onClick={(event) => { this.handleClickKhuHoi(event) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={this.state.datasmallestprice2khuhoi !== null ? i + " " + this.state.datasmallestprice2khuhoi + " VND" : i} >{i}<br />{this.state.datasmallestprice2khuhoi !== null ? this.state.datasmallestprice2khuhoi + " VND" : ""}</button>
                                                                                 </div>
                                                                             );
                                                                         }
@@ -3158,7 +3160,7 @@ class BookingContent extends Component {
                                                                             demvitrikhuhoi++;
                                                                             return (
                                                                                 <div key={k} className=" col-md-1-chia7" >
-                                                                                    <input onClick={(event) => { this.handleClickKhuHoi(event) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={this.state.datasmallestprice3khuhoi !== null ? i + " " + this.state.datasmallestprice3khuhoi + " VND" : i} />
+                                                                                    <button onClick={(event) => { this.handleClickKhuHoi(event) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={this.state.datasmallestprice3khuhoi !== null ? i + " " + this.state.datasmallestprice3khuhoi + " VND" : i} >{i}<br />{this.state.datasmallestprice3khuhoi !== null ? this.state.datasmallestprice3khuhoi + " VND" : ""}</button>
                                                                                 </div>
                                                                             );
                                                                         }
@@ -3166,7 +3168,7 @@ class BookingContent extends Component {
                                                                             demvitrikhuhoi++;
                                                                             return (
                                                                                 <div key={k} className=" col-md-1-chia7" >
-                                                                                    <input onClick={(event) => { this.handleClickKhuHoi(event) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={this.state.datasmallestprice4khuhoi !== null ? i + " " + this.state.datasmallestprice4khuhoi + " VND" : i} />
+                                                                                    <button onClick={(event) => { this.handleClickKhuHoi(event) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={this.state.datasmallestprice4khuhoi !== null ? i + " " + this.state.datasmallestprice4khuhoi + " VND" : i} >{i}<br />{this.state.datasmallestprice4khuhoi !== null ? this.state.datasmallestprice4khuhoi + " VND" : ""}</button>
                                                                                 </div>
                                                                             );
                                                                         }
@@ -3174,7 +3176,7 @@ class BookingContent extends Component {
                                                                             demvitrikhuhoi++;
                                                                             return (
                                                                                 <div key={k} className=" col-md-1-chia7" >
-                                                                                    <input onClick={(event) => { this.handleClickKhuHoi(event) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={this.state.datasmallestprice5khuhoi !== null ? i + " " + this.state.datasmallestprice5khuhoi + " VND" : i} />
+                                                                                    <button onClick={(event) => { this.handleClickKhuHoi(event) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={this.state.datasmallestprice5khuhoi !== null ? i + " " + this.state.datasmallestprice5khuhoi + " VND" : i} >{i}<br />{this.state.datasmallestprice5khuhoi !== null ? this.state.datasmallestprice5khuhoi + " VND" : ""}</button>
                                                                                 </div>
                                                                             );
                                                                         }
@@ -3182,13 +3184,13 @@ class BookingContent extends Component {
                                                                             demvitrikhuhoi++;
                                                                             return (
                                                                                 <div key={k} className=" col-md-1-chia7" >
-                                                                                    <input onClick={(event) => { this.handleClickKhuHoi(event) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={this.state.datasmallestprice6khuhoi !== null ? i + " " + this.state.datasmallestprice6khuhoi + " VND" : i} />
+                                                                                    <button onClick={(event) => { this.handleClickKhuHoi(event) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={this.state.datasmallestprice6khuhoi !== null ? i + " " + this.state.datasmallestprice6khuhoi + " VND" : i} >{i}<br />{this.state.datasmallestprice6khuhoi !== null ? this.state.datasmallestprice6khuhoi + " VND" : ""}</button>
                                                                                 </div>
                                                                             );
                                                                         } else {
                                                                             return (
                                                                                 <div key={k} className=" col-md-1-chia7" >
-                                                                                    <input onClick={(event) => { this.handleClickKhuHoi(event) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={this.state.datasmallestprice6khuhoi !== null ? i + " " + this.state.datasmallestprice6khuhoi + " VND" : i} />
+                                                                                    <button onClick={(event) => { this.handleClickKhuHoi(event) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn" value={this.state.datasmallestprice6khuhoi !== null ? i + " " + this.state.datasmallestprice6khuhoi + " VND" : i} >{i}<br />{this.state.datasmallestprice6khuhoi !== null ? this.state.datasmallestprice6khuhoi + " VND" : ""}</button>
                                                                                 </div>
                                                                             );
                                                                         }
@@ -3228,7 +3230,7 @@ class BookingContent extends Component {
 
 
                             </div>
-                            
+
                         </div>
                     </div>
                 </div>

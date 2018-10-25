@@ -6,9 +6,9 @@ import PeopleItem from './PeopleItem';
 import SummaryChuyenBayItem from './SummaryChuyenBayItem';
 
 var idhoadonDone = localStorage.getItem("idhoadon") ? localStorage.getItem("idhoadon") : null;
-const getInvoice = (idhoadon) =>
-    axios.post('/getinvoice', {
-        idhoadon: idhoadon
+const getInvoiceById = (iddonhang) =>
+    axios.post('/getinvoicebyid', {
+        iddonhang: iddonhang
     }).then((res) => res.data)
 
 class SummaryInfo extends Component {
@@ -20,7 +20,6 @@ class SummaryInfo extends Component {
         }
     }
 
-
     componentWillMount() {
         if (this.state.idhoadon === null) {
             window.location.replace("/");
@@ -28,7 +27,7 @@ class SummaryInfo extends Component {
             localStorage.removeItem("ticketchoosed");
             localStorage.removeItem("ticketchoosedkhuhoi");
         }
-        getInvoice(idhoadonDone).then((result) => {
+        getInvoiceById(idhoadonDone).then((result) => {
             console.log(result);
             this.setState({
                 datahoadon: result
@@ -66,9 +65,6 @@ class SummaryInfo extends Component {
                     )
                 }
             }
-
-
-
         }
     }
 

@@ -1,5 +1,58 @@
 import React, { Component } from 'react';
 import moment from 'moment';
+import axios from 'axios';
+import jQuery from 'jquery';
+import SanBay from './SanBay';
+
+const getAllSanBay = () =>
+    axios.post('/getallsanbay', {
+    }).then((res) => res.data)
+
+const resortArray = (array, key, value) => {
+    var active = Math.floor(array.length / 2);
+    if (array.length % 2 === 0) {
+        for (var i = 0; i < array.length; i++) {
+            if (array[i][key] === value) {
+                var temp = array[i];
+                array[i] = array[active - i];
+                array[active - i] = temp;
+                return array;
+            }
+        }
+    } else {
+        for (var i = 0; i < array.length; i++) {
+            if (array[i][key] === value) {
+                var temp = array[i];
+                array[i] = array[active];
+                array[active] = temp;
+                return array;
+            }
+        }
+    }
+    return null;
+}
+
+const resortArraydive = (array, key, value) => {
+
+    for (var i = 0; i < array.length; i++) {
+        if (array[i][key] === value) {
+            var temp = array[i];
+            array[i] = array[0];
+            array[0] = temp;
+            return array;
+        }
+    }
+    return null;
+}
+
+const findObjectByKey = (array, key, value) => {
+    for (var i = 0; i < array.length; i++) {
+        if (array[i][key] === value) {
+            return array[i];
+        }
+    }
+    return null;
+}
 
 class Slider extends Component {
     constructor(props) {
@@ -12,7 +65,11 @@ class Slider extends Component {
             datedep: '',
             adult: '',
             direction: false,
-            setvalue: 0
+            setvalue: 0,
+            danhsachsanbay: null,
+            danhsachsanbaydi: null,
+            danhsachsanbayve: null,
+            positionimage: null
         }
         this.handleInputChange = this.handleInputChange.bind(this);
     }
@@ -77,19 +134,199 @@ class Slider extends Component {
         localStorage.removeItem("inf");
         localStorage.setItem("direction", 0);
         localStorage.removeItem("datedes");
-        localStorage.removeItem("dep");
-        localStorage.removeItem("des");
         localStorage.removeItem("ticketchoosed");
         localStorage.removeItem("ticketchoosedkhuhoi");
+        localStorage.removeItem("idhoadon");
         localStorage.setItem("datedep", moment().format("DD-MM-YYYY"));
+        localStorage.setItem("dep", "SGN");
+        localStorage.setItem("des", "HAN");
+        (function ($) {
+            $.fn.itmenuscroll = function () {
+                var self = $(this);
+                var total = self.find('li').length;
+                console.log(self.find('li'));
+                var active = Math.round(total / 2);
+
+                var item_height = self.find('li:eq(0)').height();
+                var view_height = self.height();
+                var active_top = (view_height / 2) - (item_height / 2);
+                var search_form_container = $('.destination-menu-search-form .destination-search-form');
+                self.find('li.active').animate({
+                    'top': '0px'
+                }, 80, function () {
+                    self.find('li').each(function () {
+                        if (!$(this).hasClass('active')) {
+                            var index = self.find('li').index($(this));
+                            var top = active_top - ((active - index - 1) * item_height);
+
+                        }
+                    });
+                });
+                self.on('click', 'li', function () {
+                    var index = self.find('li').index($(this)) + 1;
+                    var count = active - index;
+                    if (count < 0) {
+                        scrolldown_menu(count);
+                    } else if (count > 0) {
+                        scollup_menu(count);
+                    } else {
+                        return;
+                    }
+                    self.find('li').removeClass('active');
+                    $(this).addClass('active');
+                    search_form_container.find('.destination-field select').val($(this).data('destination-slug')).trigger("change");
+                    localStorage.setItem("des", $(this).data('destination-slug'));
+                    var background_image = $(this).data('destination-backgroundimg');
+                    if (background_image) {
+                        var bgimage = self.closest('.intravel-destination-search').find('.intravel-destination-bgimage');
+                        var bgimage2 = self.closest('.intravel-destination-search').find('.intravel-destination-bgimage2');
+                        if (!bgimage.hasClass('transparent')) {
+                            bgimage2.css({
+                                'background-image': 'url(' + background_image + ')'
+                            }).removeClass("transparent");
+                            bgimage.addClass("transparent");
+                        } else {
+                            bgimage.css({
+                                'background-image': 'url(' + background_image + ')'
+                            }).removeClass("transparent");
+                            bgimage2.addClass("transparent");
+                        }
+                    }
+                });
+                var scrolldown_menu = function (count) {
+                    var j = 0;
+                    self.find('li').each(function () {
+                        var top = parseInt($(this).css('top')) + (count * item_height);
+                        $(this).css({
+                            'top': '0px'
+                        });
+                        j++;
+                        if (j == total) {
+                            for (var i = 0; i < Math.abs(count); i++) {
+                                var top = parseInt(self.find('li:eq(' + (total - 1) + ')').css('top')) + item_height;
+                                self.find('li:eq(0)').css({
+                                    'top': '0px'
+                                }).insertAfter(self.find('li:eq(' + (total - 1) + ')'));
+                            }
+                        }
+                    });
+                };
+                var scollup_menu = function (count) {
+                    var j = 0;
+                    self.find('li').each(function () {
+                        var top = parseInt($(this).css('top')) + (count * item_height);
+                        $(this).css({
+                            'top': '0px'
+                        });
+                        j++;
+                        if (j == total) {
+                            for (var i = 0; i < Math.abs(count); i++) {
+                                var top = parseInt(self.find('li:eq(0)').css('top')) - item_height;
+                                self.find('li:eq(' + (total - 1) + ')').css({
+                                    'top': '0px'
+                                }).insertBefore(self.find('li:eq(0)'));
+                            }
+                        }
+                    });
+                }
+            };
+
+        })(jQuery);
+    }
+
+    componentDidUpdate() {
+        (function ($) {
+
+            $(document).ready(function () {
+                $('.destination-menu-search-form ul').itmenuscroll();
+                var self1 = jQuery('.destination-menu-search-form ul');
+                var total1 = jQuery('.destination-menu-search-form ul').find('li').length;
+                var active1 = Math.round(total1 / 2);
+                jQuery('.destination-menu-search-form ul').find('li:eq(' + (active1 - 1) + ')').addClass('active');
+
+                // jQuery('.destination-menu-search-form ul').find('li').each(function () {
+                //     var itemhere = jQuery(this).attr('data-destination-slug');
+                //     if (itemhere == localStorage.getItem('des')) {
+                //         jQuery(this).addClass('active');
+                //     }
+                // });
+            });
+        })(jQuery);
     }
 
     componentWillMount() {
         localStorage.setItem("direction", 0);
+        getAllSanBay().then((result) => {
+            var tempdata = result.data;
+            var resortarray = resortArray(tempdata, 'code', localStorage.getItem('des'));
+            var positionimage = findObjectByKey(tempdata, 'code', localStorage.getItem('des'));
+            this.setState({
+                danhsachsanbay: resortarray,
+                positionimage: positionimage
+            });
+            return tempdata;
+        }).then((result) => {
+            var resortarraydi = resortArraydive(result.slice(), 'code', localStorage.getItem('dep'));
+            this.setState({
+                danhsachsanbaydi: resortarraydi,
+            });
+            return result;
+        }).then((result) => {
+            var resortarrayve = resortArraydive(result.slice(), 'code', localStorage.getItem('des'));
+            this.setState({
+                danhsachsanbayve: resortarrayve,
+            });
+        });
+    }
+
+    printData = () => {
+        if (this.state.danhsachsanbay !== null) {
+            return this.state.danhsachsanbay.map((value, key) =>
+                (
+                    value.show === "1" ?
+                        <SanBay
+                            key={key}
+                            code={value.code}
+                            name={value.ten}
+                            image={value.hinhdaidien}
+                        />
+                        : ""
+                )
+            );
+        }
+    }
+    printDataselectdi = () => {
+        if (this.state.danhsachsanbaydi !== null) {
+            return this.state.danhsachsanbaydi.map((value, key) =>
+                (
+                    value.show === "1" ?
+                        <option key={key} value={value.code}>{value.ten}</option>
+                        : ""
+                )
+            );
+        }
+    }
+    printDataselectve = () => {
+        if (this.state.danhsachsanbayve !== null) {
+            return this.state.danhsachsanbayve.map((value, key) =>
+                (
+                    value.show === "1" ?
+                        <option key={key} value={value.code}>{value.ten}</option>
+                        : ""
+                )
+            );
+        }
     }
 
     render() {
-
+        var positionimage = this.state.positionimage ? this.state.positionimage.hinhdaidien : "";
+        var tongiatri = this.state.danhsachsanbay !== null ? this.state.danhsachsanbay.length : 0;
+        var pixelplus = 20;
+        for (var i = 3; i <= tongiatri; i++) {
+            if (i % 2 !== 0) {
+                pixelplus += 40;
+            }
+        }
         if (this.state.isRedirect) {
             window.location.replace("/booking");
         }
@@ -102,7 +339,7 @@ class Slider extends Component {
         return (
             <div className="header-search-tour">
                 <div className="intravel-destination-search">
-                    <div className="intravel-destination-bgimage" style={{ backgroundImage: 'url(/images/tour_destination_roma.jpg)' }} />
+                    <div className="intravel-destination-bgimage" style={{ backgroundImage: 'url(/images/' + positionimage + ')' }} />
                     <div className="intravel-destination-bgimage2 transparent" />
                     <div className="intravel-destination-search-inner">
                         <div className="iw-logo-home">
@@ -111,63 +348,13 @@ class Slider extends Component {
                             </a>
                         </div>
                         <div className="destination-menu-search-form">
-                            <div className="destination-menu-search-form-inner" style={{ height: 290, marginTop: '-145px' }}>
+                            <div className="destination-menu-search-form-inner" style={{ height: 270, marginTop: '-' + pixelplus + 'px' }}>
                                 <ul>
-                                    <li className="destination-menu-item " data-destination-slug="amsterdam" data-destination-backgroundimg="/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_amsterdam.jpg">
-                                        <span>Amsterdam
-                    <span className="caret theme-bg" />
-                                        </span>
-                                    </li>
-                                    <li className="destination-menu-item " data-destination-slug="dubai" data-destination-backgroundimg="/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_dubai.jpg">
-                                        <span>Dubai
-                    <span className="caret theme-bg" />
-                                        </span>
-                                    </li>
-                                    <li className="destination-menu-item " data-destination-slug="france" data-destination-backgroundimg="/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_france.jpg">
-                                        <span>France
-                    <span className="caret theme-bg" />
-                                        </span>
-                                    </li>
-                                    <li className="destination-menu-item " data-destination-slug="italy" data-destination-backgroundimg="/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_italy.jpg">
-                                        <span>Italy
-                    <span className="caret theme-bg" />
-                                        </span>
-                                    </li>
-                                    <li className="destination-menu-item " data-destination-slug="HAN" data-destination-backgroundimg="http://inwavethemes.com/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_roma.jpg">
-                                        <span>Hà Nội
-                    <span className="caret theme-bg" />
-                                        </span>
-                                    </li>
-                                    <li className="destination-menu-item active" data-destination-slug="DAD" data-destination-backgroundimg="http://inwavethemes.com/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_paris.jpg">
-                                        <span>Đà Nẵng
-                    <span className="caret theme-bg" />
-                                        </span>
-                                    </li>
-                                    <li className="destination-menu-item " data-destination-slug="SGN" data-destination-backgroundimg="/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_california.jpg">
-                                        <span>Thành phố Hồ Chí Minh
-                    <span className="caret theme-bg" />
-                                        </span>
-                                    </li>
-                                    <li className="destination-menu-item " data-destination-slug="the_netherlands" data-destination-backgroundimg="/wordpress/intravel/wp-content/uploads/2016/06/tour_amsterdam_2.jpg">
-                                        <span>The Netherlands
-                    <span className="caret theme-bg" />
-                                        </span>
-                                    </li>
-                                    <li className="destination-menu-item " data-destination-slug="uae" data-destination-backgroundimg="/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_uae.jpg">
-                                        <span>UAE
-                    <span className="caret theme-bg" />
-                                        </span>
-                                    </li>
-                                    <li className="destination-menu-item " data-destination-slug="usa" data-destination-backgroundimg="/wordpress/intravel/wp-content/uploads/2016/09/tour_destination_usa.jpg">
-                                        <span>USA
-                    <span className="caret theme-bg" />
-                                        </span>
-                                    </li>
-                                    <li className="destination-menu-item " data-destination-slug="venice" data-destination-backgroundimg="/wordpress/intravel/wp-content/uploads/2016/06/tour_venice_2.jpg">
-                                        <span>Venice
-                    <span className="caret theme-bg" />
-                                        </span>
-                                    </li>
+
+                                    {this.printData()}
+
+
+
                                 </ul>
                             </div>
                             <form autoComplete="off" className="destination-search-form" >
@@ -182,32 +369,16 @@ class Slider extends Component {
                                         <label htmlFor="dep" style={{ "color": "white" }} >Điểm khởi hành</label>
                                         <div className="tour-type-field">
 
-                                            <select className="form-control js-selected " defaultValue="0" id="dep" name="dep">
-                                                <option value="">Điểm khởi hành</option>
-                                                <option value="SGN">Hồ Chí Minh(SGN)</option>
-                                                <option value="HAN">Hà Nội(HAN)</option>
-                                                <option value="DAD">Đà Nẵng(DAD)</option>
-                                                <option value="VCL">Chu Lai(VCL)</option>
-                                                <option value="CXR">Nha Trang(CXR)</option>
-                                                <option value="PQC">Phú Quốc(PQC)</option>
-                                                <option value="HUI">Huế(HUI)</option>
-                                                <option value="PXU">Pleiku(PXU)</option>
-                                                <option value="UIH">Quy Nhơn(UIH)</option>
+                                            <select className="form-control js-selected " defaultValue="SGN" id="dep" name="dep">
+
+                                                {this.printDataselectdi()}
                                             </select>
                                         </div>
                                         <label htmlFor="des" style={{ "color": "white" }} >Điểm đến</label>
                                         <div className="destination-field">
-                                            <select className="form-control js-selected" defaultValue="0" id="des" name="des">
-                                                <option value="">Điểm đến</option>
-                                                <option value="SGN">Hồ Chí Minh(SGN)</option>
-                                                <option value="HAN">Hà Nội(HAN)</option>
-                                                <option value="DAD">Đà Nẵng(DAD)</option>
-                                                <option value="VCL">Chu Lai(VCL)</option>
-                                                <option value="CXR">Nha Trang(CXR)</option>
-                                                <option value="PQC">Phú Quốc(PQC)</option>
-                                                <option value="HUI">Huế(HUI)</option>
-                                                <option value="PXU">Pleiku(PXU)</option>
-                                                <option value="UIH">Quy Nhơn(UIH)</option>
+                                            <select className="form-control js-selected" defaultValue="HAN" id="des" name="des">
+
+                                                {this.printDataselectve()}
                                             </select>
                                         </div>
                                     </div>

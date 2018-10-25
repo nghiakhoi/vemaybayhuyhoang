@@ -17,16 +17,16 @@ class ProductTable extends Component {
                 <table className="table table-bordered">
                     <thead>
                         <tr>
-                            <th>Services ID</th>
-                            <th>Services Description</th>
-                            <th>Services Fee</th>
-                            <th>Quantity</th>
-                            <th>USD Subtotal</th>
-                            <th>Currency</th>
-                            <th>Rate</th>
-                            <th>VND Subtotal</th>
-                            <th>VND Actual</th>
-                            <th>Delete</th>
+                            <th>ID</th>
+                            <th>Mã hóa đơn</th>
+                            <th>Fullname</th>
+                            <th>Phone</th>
+                            <th>Address</th>
+                            <th>Tổng tiền vé</th>
+                            <th>Tổng tiền và hành lý</th>
+                            <th>Ngày đặt</th>
+                            <th>Trạng thái</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
 

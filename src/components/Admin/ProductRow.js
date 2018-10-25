@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import EditableCell from './EditableCell';
+import MyLargeModal from '../Admin/MyLargeModal';
 import TextCell from './TextCell';
 
 
@@ -7,7 +8,7 @@ class ProductRow extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            currency: "USD"
+            show: false,
         }
     }
 
@@ -15,65 +16,75 @@ class ProductRow extends Component {
         this.props.onDelEvent(this.props.product);
 
     }
+
+
+    handleClose() {
+        this.setState({ show: false });
+    }
+
+    handleShow() {
+        this.setState({ show: true });
+    }
+
     render() {
 
         return (
-            <tr className="eachRow">
+            <React.Fragment>
+                <tr className="eachRow">
+                    <TextCell cellData={{
+                        "type": "id",
+                        value: this.props.product.id,
+                        id: this.props.product.id
+                    }} />
+                    <TextCell onProductTableUpdate={this.props.onProductTableUpdate} cellData={{
+                        "type": "code",
+                        value: this.props.product.code,
+                        id: this.props.product.id
+                    }} />
+                    <TextCell onProductTableUpdate={this.props.onProductTableUpdate} cellData={{
+                        "type": "fullname",
+                        value: this.props.product.fullname,
+                        id: this.props.product.id
+                    }} />
+                    <TextCell onProductTableUpdate={this.props.onProductTableUpdate} cellData={{
+                        "type": "phone",
+                        value: this.props.product.phone,
+                        id: this.props.product.id
+                    }} />
+                    <TextCell onProductTableUpdate={this.props.onProductTableUpdate} cellData={{
+                        "type": "address",
+                        value: this.props.product.address,
+                        id: this.props.product.id
+                    }} />
+                    <TextCell onProductTableUpdate={this.props.onProductTableUpdate} cellData={{
+                        "type": "subtotalorigin",
+                        value: parseInt(this.props.product.subtotalorigin).toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
+                        id: this.props.product.id
+                    }} />
+                    <TextCell onProductTableUpdate={this.props.onProductTableUpdate} cellData={{
+                        "type": "subtotalwithhanhly",
+                        value: parseInt(this.props.product.subtotalwithhanhly).toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2),
+                        id: this.props.product.id
+                    }} />
+                    <TextCell onProductTableUpdate={this.props.onProductTableUpdate} cellData={{
+                        "type": "create_date",
+                        value: this.props.product.create_date,
+                        id: this.props.product.id
+                    }} />
+                    <td>
+                        <select className="form-control" defaultValue={this.props.product.status} onChange={this.props.onProductTableUpdate} name="status" id={this.props.product.id} >
+                            <option value="new">New</option>
+                            <option value="cancel">Cancel</option>
+                            <option value="checked">Checked</option>
+                            <option value="done">Done</option>
+                        </select>
+                    </td>
 
-
-                <TextCell cellData={{
-                    "type": "serviceid",
-                    value: this.props.product.serviceid,
-                    id: this.props.product.id
-                }} />
-                <TextCell cellData={{
-                    "type": "servicedes",
-                    value: this.props.product.servicedes,
-                    id: this.props.product.id
-                }} />
-                <TextCell cellData={{
-                    "type": "servicefee",
-                    value: this.props.product.servicefee,
-                    id: this.props.product.id
-                }} />
-                <EditableCell onProductTableUpdate={this.props.onProductTableUpdate} cellData={{
-                    "type": "quantity",
-                    value: this.props.product.quantity,
-                    id: this.props.product.id
-                }} />
-
-                <TextCell cellData={{
-                    "type": "usdsubtotal",
-                    value: this.props.product.usdsubtotal,
-                    id: this.props.product.id
-                }} />
-                <td>
-                    <select onChange={(e) => this.setState({
-                        currency: e.target.value
-                    })} name="currency" id={this.props.product.id} >
-                        <option value="USD">USD</option>
-                        <option value="VND">VND</option>
-                    </select>
-                </td>
-                <TextCell formatText="#e51919" cellData={{
-                    "type": "rate",
-                    value: this.state.currency === "VND" ? parseInt(this.props.product.rate).toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2) : 0,
-                    id: this.props.product.id
-                }} />
-                <TextCell formatText="#e51919" cellData={{
-                    "type": "vndsubtotal",
-                    value: this.state.currency === "VND" ? this.props.product.vndsubtotal.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2) : 0,
-                    id: this.props.product.id
-                }} />
-                <TextCell formatText="#e51919" cellData={{
-                    "type": "vndactual",
-                    value: this.state.currency === "VND" ? this.props.product.vndactual.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2) : 0,
-                    id: this.props.product.id
-                }} />
-                <td className="del-cell">
-                    <input type="button" onClick={this.onDelEvent.bind(this)} value="X" className="del-btn" />
-                </td>
-            </tr>
+                    <td className="del-cell">
+                        <MyLargeModal onDeleteClick={this.onDelEvent.bind(this)} iddonhang={this.props.product.id} />
+                    </td>
+                </tr>
+            </React.Fragment>
         );
 
     }

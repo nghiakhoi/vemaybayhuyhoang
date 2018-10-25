@@ -150,6 +150,11 @@ class YourInfoContent extends Component {
 
 
     componentWillMount() {
+
+        if (ticketchoosed === null) {
+            window.location.replace("/");
+        }
+
         let danhsachhanhly = [
             { id: 1, soky: "7", sotien: "0", code: "0" },
             { id: 2, soky: "15", sotien: "160000", code: "1" },
