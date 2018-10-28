@@ -1748,7 +1748,7 @@ class BookingContent extends Component {
                                         </div>
                                         <div className="iw-tour-item iw-effect-img">
                                             <div className="tour-thumnail effect-1">
-                                                <img src="http://inwavethemes.com/wordpress/intravel/wp-content/uploads/2016/06/tour_venice_1-600x600.jpg" />
+                                                <img src="images/tour_venice_1-600x600.jpg" />
                                             </div>
                                             <div className="tour-info">
                                                 <h3 className="title"><a className="theme-color" href="http://inwavethemes.com/wordpress/intravel/home/tours/5-night-the-magic-of-venice-tour/">5 days 4 Nights The Magic of Venice Tour</a></h3>

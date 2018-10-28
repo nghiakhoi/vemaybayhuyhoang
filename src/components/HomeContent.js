@@ -70,7 +70,7 @@ class HomeContent extends Component {
                                                         <div className="iw-tour-item">
                                                             <div className="tour-discount">33%</div>
                                                             <div className="image-wrap">
-                                                                <img alt="test" src="/wordpress/intravel/wp-content/uploads/2016/06/tour_san_francisco_1-370x255.jpg" />
+                                                                <img alt="test" src="images/tour_san_francisco_1-370x255.jpg" />
                                                                 <div className="booking-action">
                                                                     <a className="link-to-detail theme-bg" href="/wordpress/intravel/home/tours/2-day-yosemite-national-park-tour-from-san-francisco/">
                                                                         Book now </a>
@@ -141,7 +141,7 @@ class HomeContent extends Component {
                                                         <div className="iw-tour-item">
                                                             <div className="tour-discount">25%</div>
                                                             <div className="image-wrap">
-                                                                <img alt="test" src="/wordpress/intravel/wp-content/uploads/2016/06/tour_venice_1-370x255.jpg" />
+                                                                <img alt="test" src="images/tour_venice_1-370x255.jpg" />
                                                                 <div className="booking-action">
                                                                     <a className="link-to-detail theme-bg" href="/wordpress/intravel/home/tours/5-night-the-magic-of-venice-tour/">
                                                                         Book now </a>
@@ -420,7 +420,7 @@ class HomeContent extends Component {
                                                 <div className="intravel-destinations  style1 light">
                                                     <div className="owl-carousel" data-plugin-options="{&quot;navigation&quot;:false,&quot;autoHeight&quot;:true,&quot;pagination&quot;:true,&quot;autoPlay&quot;:false,&quot;paginationNumbers&quot;:false,&quot;items&quot;:&quot;3&quot;,&quot;itemsDesktop&quot;:[1199,&quot;3&quot;],&quot;itemsDesktopSmall&quot;:[991,&quot;2&quot;],&quot;itemsTablet&quot;:[767,2],&quot;itemsTabletSmall&quot;:false,&quot;itemsMobile&quot;:[479,1],&quot;navigationText&quot;:[&quot;back&quot;,&quot;next&quot;]}">
                                                         <div className="destination-item iw-effect-1">
-                                                            <img alt="test" src="/wordpress/intravel/wp-content/uploads/2016/06/tour_amsterdam_2-370x420.jpg" />
+                                                            <img alt="test" src="images/tour_amsterdam_2-370x420.jpg" />
                                                             <div className="content">
                                                                 <div className="content-top">
                                                                     <h2>The Netherlands</h2>
@@ -511,7 +511,7 @@ class HomeContent extends Component {
                                                             </div>
                                                         </div>
                                                         <div className="destination-item iw-effect-1">
-                                                            <img alt="test" src="/wordpress/intravel/wp-content/uploads/2016/06/tour_venice_2-370x420.jpg" />
+                                                            <img alt="test" src="images/tour_venice_2-370x420.jpg" />
                                                             <div className="content">
                                                                 <div className="content-top">
                                                                     <h2>Venice</h2>
