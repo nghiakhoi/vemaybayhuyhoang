@@ -22,73 +22,12 @@ class MenuDesktop extends Component {
                                             <a href="/">Trang chủ
                                                 <small className="icon-arrow" />
                                             </a>
-                                            <ul className="sub-menu child-nav dropdown-nav">
-                                                <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-1447">
-                                                    <a href="/wordpress/intravel/home/home-v2/">Home v2</a>
-                                                </li>
-                                                <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-158">
-                                                    <a href="/wordpress/intravel/home/home-version-3/">Home v3</a>
-                                                </li>
-                                                <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-1149">
-                                                    <a href="/wordpress/intravel/home/home-v4/">Home v4</a>
-                                                </li>
-                                                <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-1428">
-                                                    <a href="/wordpress/intravel/home/home-v5/">Home V5</a>
-                                                </li>
-                                            </ul>
+                                            
                                         </li>
                                         <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-1102">
                                             <a href="/booking">Booking
             <small className="icon-arrow" />
                                             </a>
-                                            <ul className="sub-menu child-nav dropdown-nav">
-                                                <li className="menu-item menu-item-type-taxonomy menu-item-object-destination menu-item-1626">
-                                                    <a href="/wordpress/intravel/home/destination/amsterdam/">Amsterdam</a>
-                                                </li>
-                                                <li className="menu-item menu-item-type-taxonomy menu-item-object-destination menu-item-has-children menu-item-1629">
-                                                    <a href="/wordpress/intravel/home/destination/italy/">Italy
-                <small className="icon-arrow" />
-                                                    </a>
-                                                    <ul className="sub-menu child-nav dropdown-nav">
-                                                        <li className="menu-item menu-item-type-taxonomy menu-item-object-destination menu-item-1630">
-                                                            <a href="/wordpress/intravel/home/destination/rome/">Rome</a>
-                                                        </li>
-                                                        <li className="menu-item menu-item-type-taxonomy menu-item-object-destination menu-item-1631">
-                                                            <a href="/wordpress/intravel/home/destination/venice/">Venice</a>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                <li className="menu-item menu-item-type-taxonomy menu-item-object-destination menu-item-has-children menu-item-1470">
-                                                    <a href="/wordpress/intravel/home/destination/france/">France
-                <small className="icon-arrow" />
-                                                    </a>
-                                                    <ul className="sub-menu child-nav dropdown-nav">
-                                                        <li className="menu-item menu-item-type-taxonomy menu-item-object-destination menu-item-1633">
-                                                            <a href="/wordpress/intravel/home/destination/paris/">Paris</a>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                <li className="menu-item menu-item-type-taxonomy menu-item-object-destination menu-item-has-children menu-item-1469">
-                                                    <a href="/wordpress/intravel/home/destination/uae/">UAE
-                <small className="icon-arrow" />
-                                                    </a>
-                                                    <ul className="sub-menu child-nav dropdown-nav">
-                                                        <li className="menu-item menu-item-type-taxonomy menu-item-object-destination menu-item-1632">
-                                                            <a href="/wordpress/intravel/home/destination/dubai/">Dubai</a>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                <li className="menu-item menu-item-type-taxonomy menu-item-object-destination menu-item-has-children menu-item-1007">
-                                                    <a href="/wordpress/intravel/home/destination/usa/">USA
-                <small className="icon-arrow" />
-                                                    </a>
-                                                    <ul className="sub-menu child-nav dropdown-nav">
-                                                        <li className="menu-item menu-item-type-taxonomy menu-item-object-destination menu-item-1628">
-                                                            <a href="/wordpress/intravel/home/destination/san-francisco/">San Francisco</a>
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
                                         </li>
                                         <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-1319">
                                             <a href="/wordpress/intravel/home/tours/">Tours
@@ -151,16 +90,7 @@ class MenuDesktop extends Component {
                                 </div>
                             </nav>
                             <div className="iw-search-cart">
-                                <div className="search-form">
-                                    <button>
-                                        <i className="ion-android-search" />
-                                    </button>
-                                </div>
-                                <div className="shopping-cart">
-                                    <a href="/wordpress/intravel/home/cart/ " className="cart-icon">
-                                        <i className="ion-ios-cart" />
-                                    </a>
-                                </div>
+                                
                                 <span className="off-canvas-open">
                                     <i className="fa fa-bars" />
                                 </span>

@@ -11,18 +11,18 @@ const getAllSanBay = () =>
 const resortArray = (array, key, value) => {
     var active = Math.floor(array.length / 2);
     if (array.length % 2 === 0) {
-        for (var i = 0; i < array.length; i++) {
+        for (let i = 0; i < array.length; i++) {
             if (array[i][key] === value) {
-                var temp = array[i];
+                let temp = array[i];
                 array[i] = array[active - i];
                 array[active - i] = temp;
                 return array;
             }
         }
     } else {
-        for (var i = 0; i < array.length; i++) {
+        for (let i = 0; i < array.length; i++) {
             if (array[i][key] === value) {
-                var temp = array[i];
+                let temp = array[i];
                 array[i] = array[active];
                 array[active] = temp;
                 return array;
@@ -144,7 +144,6 @@ class Slider extends Component {
             $.fn.itmenuscroll = function () {
                 var self = $(this);
                 var total = self.find('li').length;
-                console.log(self.find('li'));
                 var active = Math.round(total / 2);
 
                 var item_height = self.find('li:eq(0)').height();
@@ -157,7 +156,7 @@ class Slider extends Component {
                     self.find('li').each(function () {
                         if (!$(this).hasClass('active')) {
                             var index = self.find('li').index($(this));
-                            var top = active_top - ((active - index - 1) * item_height);
+                            //var top = active_top - ((active - index - 1) * item_height);
 
                         }
                     });
@@ -196,7 +195,7 @@ class Slider extends Component {
                 var scrolldown_menu = function (count) {
                     var j = 0;
                     self.find('li').each(function () {
-                        var top = parseInt($(this).css('top')) + (count * item_height);
+                        //var top = parseInt($(this).css('top')) + (count * item_height);
                         $(this).css({
                             'top': '0px'
                         });
@@ -343,7 +342,7 @@ class Slider extends Component {
                     <div className="intravel-destination-bgimage2 transparent" />
                     <div className="intravel-destination-search-inner">
                         <div className="iw-logo-home">
-                            <a href="/wordpress/intravel/home/">
+                            <a href="/">
                                 <img src="images/inTravel.png" alt="Logo" />
                             </a>
                         </div>

@@ -295,35 +295,55 @@ class YourInfoContent extends Component {
         if (field === "ngaysinhchild") {
             var ngayduocchon = date;
             var ngay2tuoi = subtractOnYear(ngaydi, 2);
-            var ngay2tuoiKhuHoi = subtractOnYear(ngayve, 2);
+            var ngay2tuoiKhuHoi = ngayve !== 0 ? subtractOnYear(ngayve, 2) : subtractOnYear(moment().format("DD-MM-YYYY"), 2);
             if (ngayve !== 0) {
-                var ngay12tuoi = subtractOnYear(ngaydi, 12);
-                var ngay12tuoiKhuHoi = subtractOnYear(ngayve, 12);
-                if ((compare2daybymomentJS(ngayduocchon, ngay2tuoi) === -1) && (compare2daybymomentJS(ngayduocchon, ngay12tuoi) >= 0) && (compare2daybymomentJS(ngayduocchon, ngay2tuoiKhuHoi) === -1) && (compare2daybymomentJS(ngayduocchon, ngay12tuoiKhuHoi) >= 0)) {
-                    let objForDate = {};
-                    objForDate = { "id": i, "ngaysinhchild": moment(this.state.startDate).format("DD-MM-YYYY") };
-                    var timobject = findObjectByKey(mangtempChild, "id", i);
-                    this.setState({
-                        startDate: date
-                    }, function () {
-                        timobject !== null ? timobject.ngaysinhchild = moment(this.state.startDate).format("DD-MM-YYYY") : mangtempChild.push(objForDate);
-                    });
-                } else {
-                    alert("Ngày Sinh đã chọn [" + moment(ngayduocchon).format("DD-MM-YYYY") + "] tính đến Ngày Khởi Hành [" + ngaydi + "] và Ngày Khứ Hồi [" + ngayve + "] đã quá tuổi quy định cho trẻ em từ 2->12 tuổi !");
-                }
+                // var ngay12tuoi = subtractOnYear(ngaydi, 12);
+                // var ngay12tuoiKhuHoi = ngayve !== 0 ? subtractOnYear(ngayve, 12) : subtractOnYear(moment().format("DD-MM-YYYY"), 12);
+                // if ((compare2daybymomentJS(ngayduocchon, ngay2tuoi) === -1) && (compare2daybymomentJS(ngayduocchon, ngay12tuoi) >= 0) && (compare2daybymomentJS(ngayduocchon, ngay2tuoiKhuHoi) === -1) && (compare2daybymomentJS(ngayduocchon, ngay12tuoiKhuHoi) >= 0)) {
+                //     let objForDate = {};
+                //     objForDate = { "id": i, "ngaysinhchild": moment(this.state.startDate).format("DD-MM-YYYY") };
+                //     var timobject = findObjectByKey(mangtempChild, "id", i);
+                //     this.setState({
+                //         startDate: date
+                //     }, function () {
+                //         timobject !== null ? timobject.ngaysinhchild = moment(this.state.startDate).format("DD-MM-YYYY") : mangtempChild.push(objForDate);
+                //     });
+                // } else {
+                //     alert("Ngày Sinh đã chọn [" + moment(ngayduocchon).format("DD-MM-YYYY") + "] tính đến Ngày Khởi Hành [" + ngaydi + "] và Ngày Khứ Hồi [" + ngayve + "] đã quá tuổi quy định cho trẻ em từ 2->12 tuổi !");
+                // }
+
+                let objForDate = {};
+                objForDate = { "id": i, "ngaysinhchild": moment(this.state.startDate).format("DD-MM-YYYY") };
+                var timobject = findObjectByKey(mangtempChild, "id", i);
+                this.setState({
+                    startDate: date
+                }, function () {
+                    timobject !== null ? timobject.ngaysinhchild = moment(this.state.startDate).format("DD-MM-YYYY") : mangtempChild.push(objForDate);
+                });
+
             } else {
-                if ((compare2daybymomentJS(ngayduocchon, ngay2tuoi) === -1) && (compare2daybymomentJS(ngayduocchon, ngay12tuoi) >= 0)) {
-                    let objForDate = {};
-                    objForDate = { "id": i, "ngaysinhchild": moment(this.state.startDate).format("DD-MM-YYYY") };
-                    var timobject = findObjectByKey(mangtempChild, "id", i);
-                    this.setState({
-                        startDate: date
-                    }, function () {
-                        timobject !== null ? timobject.ngaysinhchild = moment(this.state.startDate).format("DD-MM-YYYY") : mangtempChild.push(objForDate);
-                    });
-                } else {
-                    alert("Ngày Sinh đã chọn [" + moment(ngayduocchon).format("DD-MM-YYYY") + "] tính đến Ngày Khởi Hành [" + ngaydi + "] đã quá tuổi quy định cho trẻ em từ 2->12 tuổi !");
-                }
+                // if ((compare2daybymomentJS(ngayduocchon, ngay2tuoi) === -1) && (compare2daybymomentJS(ngayduocchon, ngay12tuoi) >= 0)) {
+                //     let objForDate = {};
+                //     objForDate = { "id": i, "ngaysinhchild": moment(this.state.startDate).format("DD-MM-YYYY") };
+                //     var timobject = findObjectByKey(mangtempChild, "id", i);
+                //     this.setState({
+                //         startDate: date
+                //     }, function () {
+                //         timobject !== null ? timobject.ngaysinhchild = moment(this.state.startDate).format("DD-MM-YYYY") : mangtempChild.push(objForDate);
+                //     });
+                // } else {
+                //     alert("Ngày Sinh đã chọn [" + moment(ngayduocchon).format("DD-MM-YYYY") + "] tính đến Ngày Khởi Hành [" + ngaydi + "] đã quá tuổi quy định cho trẻ em từ 2->12 tuổi !");
+                // }
+
+                let objForDate = {};
+                objForDate = { "id": i, "ngaysinhchild": moment(this.state.startDate).format("DD-MM-YYYY") };
+                var timobject = findObjectByKey(mangtempChild, "id", i);
+                this.setState({
+                    startDate: date
+                }, function () {
+                    timobject !== null ? timobject.ngaysinhchild = moment(this.state.startDate).format("DD-MM-YYYY") : mangtempChild.push(objForDate);
+                });
+
             }
 
 
@@ -331,35 +351,51 @@ class YourInfoContent extends Component {
         if (field === "ngaysinhinf") {
             var ngayduocchon = date;
             var ngay2tuoi = subtractOnYear(ngaydi, 2);
-            var ngay2tuoiKhuHoi = subtractOnYear(ngayve, 2);
+            var ngay2tuoiKhuHoi = ngayve !== 0 ? subtractOnYear(ngayve, 2) : subtractOnYear(moment().format("DD-MM-YYYY"), 2);
             if (ngayve !== 0) {
-                var ngay12tuoi = subtractOnYear(ngaydi, 12);
-                var ngay12tuoiKhuHoi = subtractOnYear(ngayve, 12);
-                if ((compare2daybymomentJS(ngayduocchon, ngay2tuoi) > 0) && (compare2daybymomentJS(ngayduocchon, ngay2tuoiKhuHoi) > 0)) {
-                    let objForDate1 = {};
-                    objForDate1 = { "id": i, "ngaysinhinf": moment(this.state.startDate).format("DD-MM-YYYY") };
-                    var timobject = findObjectByKey(mangtempInf, "id", i);
-                    this.setState({
-                        startDate: date
-                    }, function () {
-                        timobject !== null ? timobject.ngaysinhinf = moment(this.state.startDate).format("DD-MM-YYYY") : mangtempInf.push(objForDate1);
-                    });
-                } else {
-                    alert("Ngày Sinh đã chọn [" + moment(ngayduocchon).format("DD-MM-YYYY") + "] tính đến Ngày Khởi Hành [" + ngaydi + "] và Ngày Khứ Hồi [" + ngayve + "] đã quá tuổi quy định cho trẻ em từ 2->12 tuổi !");
-                }
+                // var ngay12tuoi = subtractOnYear(ngaydi, 12);
+                // var ngay12tuoiKhuHoi = subtractOnYear(ngayve, 12);
+                // if ((compare2daybymomentJS(ngayduocchon, ngay2tuoi) > 0) && (compare2daybymomentJS(ngayduocchon, ngay2tuoiKhuHoi) > 0)) {
+                //     let objForDate1 = {};
+                //     objForDate1 = { "id": i, "ngaysinhinf": moment(this.state.startDate).format("DD-MM-YYYY") };
+                //     var timobject = findObjectByKey(mangtempInf, "id", i);
+                //     this.setState({
+                //         startDate: date
+                //     }, function () {
+                //         timobject !== null ? timobject.ngaysinhinf = moment(this.state.startDate).format("DD-MM-YYYY") : mangtempInf.push(objForDate1);
+                //     });
+                // } else {
+                //     alert("Ngày Sinh đã chọn [" + moment(ngayduocchon).format("DD-MM-YYYY") + "] tính đến Ngày Khởi Hành [" + ngaydi + "] và Ngày Khứ Hồi [" + ngayve + "] đã quá tuổi quy định cho trẻ em từ 2->12 tuổi !");
+                // }
+                let objForDate1 = {};
+                objForDate1 = { "id": i, "ngaysinhinf": moment(this.state.startDate).format("DD-MM-YYYY") };
+                var timobject = findObjectByKey(mangtempInf, "id", i);
+                this.setState({
+                    startDate: date
+                }, function () {
+                    timobject !== null ? timobject.ngaysinhinf = moment(this.state.startDate).format("DD-MM-YYYY") : mangtempInf.push(objForDate1);
+                });
             } else {
-                if ((compare2daybymomentJS(ngayduocchon, ngay2tuoi) > 0)) {
-                    let objForDate = {};
-                    objForDate = { "id": i, "ngaysinhchild": moment(this.state.startDate).format("DD-MM-YYYY") };
-                    var timobject = findObjectByKey(mangtempChild, "id", i);
-                    this.setState({
-                        startDate: date
-                    }, function () {
-                        timobject !== null ? timobject.ngaysinhchild = moment(this.state.startDate).format("DD-MM-YYYY") : mangtempChild.push(objForDate);
-                    });
-                } else {
-                    alert("Ngày Sinh đã chọn [" + moment(ngayduocchon).format("DD-MM-YYYY") + "] tính đến Ngày Khởi Hành [" + ngaydi + "] đã quá tuổi quy định cho trẻ em từ 2->12 tuổi !");
-                }
+                // if ((compare2daybymomentJS(ngayduocchon, ngay2tuoi) > 0)) {
+                //     let objForDate = {};
+                //     objForDate = { "id": i, "ngaysinhchild": moment(this.state.startDate).format("DD-MM-YYYY") };
+                //     var timobject = findObjectByKey(mangtempChild, "id", i);
+                //     this.setState({
+                //         startDate: date
+                //     }, function () {
+                //         timobject !== null ? timobject.ngaysinhchild = moment(this.state.startDate).format("DD-MM-YYYY") : mangtempChild.push(objForDate);
+                //     });
+                // } else {
+                //     alert("Ngày Sinh đã chọn [" + moment(ngayduocchon).format("DD-MM-YYYY") + "] tính đến Ngày Khởi Hành [" + ngaydi + "] đã quá tuổi quy định cho trẻ em từ 2->12 tuổi !");
+                // }
+                let objForDate1 = {};
+                objForDate1 = { "id": i, "ngaysinhinf": moment(this.state.startDate).format("DD-MM-YYYY") };
+                var timobject = findObjectByKey(mangtempInf, "id", i);
+                this.setState({
+                    startDate: date
+                }, function () {
+                    timobject !== null ? timobject.ngaysinhinf = moment(this.state.startDate).format("DD-MM-YYYY") : mangtempInf.push(objForDate1);
+                });
             }
         }
     }
@@ -657,7 +693,7 @@ class YourInfoContent extends Component {
     }
 
     redirectToSummaryInfo(id) {
-        localStorage.setItem("idhoadon",id);
+        localStorage.setItem("idhoadon", id);
         window.location.replace("/summaryinfo");
     }
 
@@ -834,6 +870,8 @@ class YourInfoContent extends Component {
                                         peekNextMonth
                                         showMonthDropdown
                                         showYearDropdown
+                                        minDate={moment(ngaydi, 'DD-MM-YYYY').subtract(12, "years")}
+                                        maxDate={ngayve !== 0 ? moment(ngayve, 'DD-MM-YYYY').subtract(2, "years") : moment().subtract(2, "years")}
                                         dropdownMode="select"
                                         shouldCloseOnSelect={false}
                                         dateFormat="DD-MM-YYYY"
@@ -966,6 +1004,8 @@ class YourInfoContent extends Component {
                                         peekNextMonth
                                         showMonthDropdown
                                         showYearDropdown
+                                        minDate={moment(ngaydi, 'DD-MM-YYYY').subtract(2, "years")}
+                                        maxDate={ngayve !== 0 ? moment(ngayve, 'DD-MM-YYYY') : moment()}
                                         dropdownMode="select"
                                         shouldCloseOnSelect={false}
                                         dateFormat="DD-MM-YYYY"

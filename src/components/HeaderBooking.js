@@ -41,23 +41,9 @@ class HeaderBooking extends Component {
                                 <nav className="main-menu iw-menu-main nav-collapse">
                                     {/*Menu desktop*/}
                                     <div className="iw-main-menu"><ul id="menu-main-menu-1" className="iw-nav-menu  nav-menu nav navbar-nav"><li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-home menu-item-has-children menu-item-1309">
-                                    <a href="/">Trang chủ<small className="icon-arrow" /></a><ul className="sub-menu child-nav dropdown-nav">	<li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-1447"><a href="http://inwavethemes.com/wordpress/intravel/home/home-v2/">Home v2</a></li>
-                                        <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-158"><a href="http://inwavethemes.com/wordpress/intravel/home/home-version-3/">Home v3</a></li>
-                                        <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-1149"><a href="http://inwavethemes.com/wordpress/intravel/home/home-v4/">Home v4</a></li>
-                                        <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-1428"><a href="http://inwavethemes.com/wordpress/intravel/home/home-v5/">Home V5</a></li>
-                                    </ul></li>
+                                    <a href="/">Trang chủ<small className="icon-arrow" /></a></li>
                                         <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-1102">
-                                        <a href="/booking">Booking<small className="icon-arrow" /></a><ul className="sub-menu child-nav dropdown-nav">	<li className="menu-item menu-item-type-taxonomy menu-item-object-destination menu-item-1626"><a href="http://inwavethemes.com/wordpress/intravel/home/destination/amsterdam/">Amsterdam</a></li>
-                                            <li className="menu-item menu-item-type-taxonomy menu-item-object-destination menu-item-has-children menu-item-1629"><a href="http://inwavethemes.com/wordpress/intravel/home/destination/italy/">Italy<small className="icon-arrow" /></a><ul className="sub-menu child-nav dropdown-nav">		<li className="menu-item menu-item-type-taxonomy menu-item-object-destination menu-item-1630"><a href="http://inwavethemes.com/wordpress/intravel/home/destination/rome/">Rome</a></li>
-                                                <li className="menu-item menu-item-type-taxonomy menu-item-object-destination menu-item-1631"><a href="http://inwavethemes.com/wordpress/intravel/home/destination/venice/">Venice</a></li>
-                                            </ul></li>
-                                            <li className="menu-item menu-item-type-taxonomy menu-item-object-destination menu-item-has-children menu-item-1470"><a href="http://inwavethemes.com/wordpress/intravel/home/destination/france/">France<small className="icon-arrow" /></a><ul className="sub-menu child-nav dropdown-nav">		<li className="menu-item menu-item-type-taxonomy menu-item-object-destination menu-item-1633"><a href="http://inwavethemes.com/wordpress/intravel/home/destination/paris/">Paris</a></li>
-                                            </ul></li>
-                                            <li className="menu-item menu-item-type-taxonomy menu-item-object-destination menu-item-has-children menu-item-1469"><a href="http://inwavethemes.com/wordpress/intravel/home/destination/uae/">UAE<small className="icon-arrow" /></a><ul className="sub-menu child-nav dropdown-nav">		<li className="menu-item menu-item-type-taxonomy menu-item-object-destination menu-item-1632"><a href="http://inwavethemes.com/wordpress/intravel/home/destination/dubai/">Dubai</a></li>
-                                            </ul></li>
-                                            <li className="menu-item menu-item-type-taxonomy menu-item-object-destination menu-item-has-children menu-item-1007"><a href="http://inwavethemes.com/wordpress/intravel/home/destination/usa/">USA<small className="icon-arrow" /></a><ul className="sub-menu child-nav dropdown-nav">		<li className="menu-item menu-item-type-taxonomy menu-item-object-destination menu-item-1628"><a href="http://inwavethemes.com/wordpress/intravel/home/destination/san-francisco/">San Francisco</a></li>
-                                            </ul></li>
-                                        </ul></li>
+                                        <a href="/booking">Booking<small className="icon-arrow" /></a></li>
                                         <li className="menu-item menu-item-type-post_type menu-item-object-page current-menu-ancestor current-menu-parent current_page_parent current_page_ancestor menu-item-has-children current-menu-item current_page_item menu-item-1319 selected active "><a href="http://inwavethemes.com/wordpress/intravel/home/tours/">Tours<small className="icon-arrow" /></a><ul className="sub-menu child-nav dropdown-nav">	<li className="menu-item menu-item-type-custom menu-item-object-custom menu-item-1317"><a href="http://inwavethemes.com/wordpress/intravel/home/tours/?layout=grid">Tour Listing Grid</a></li>
                                             <li className="menu-item menu-item-type-custom menu-item-object-custom current-menu-item menu-item-1318 selected active "><a href="http://inwavethemes.com/wordpress/intravel/home/tours/?layout=list">Tour Listing Row</a></li>
                                             <li className="menu-item menu-item-type-post_type menu-item-object-tour menu-item-1004"><a href="http://inwavethemes.com/wordpress/intravel/home/tours/rome-city-sightseeing-tours-bike-tour/">Tour Detail</a></li>
@@ -78,16 +64,7 @@ class HeaderBooking extends Component {
                         </div>
                         <div className="col-md-1 col-search">
                             <div className="iw-search-cart">
-                                <div className="search-form">
-                                    <button>
-                                        <i className="ion-android-search" />
-                                    </button>
-                                </div>
-                                <div className="shopping-cart">
-                                    <a href="http://inwavethemes.com/wordpress/intravel/home/cart/ " className="cart-icon">
-                                        <i className="ion-ios-cart" />
-                                    </a>
-                                </div>
+                                
                                 <span className="off-canvas-open">
                                     <i className="fa fa-bars" />
                                 </span>

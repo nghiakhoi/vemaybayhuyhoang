@@ -9,7 +9,7 @@ const get_day_name = (custom_date) => {
     var newDate = myDate[2] + "-" + myDate[1] + "-" + myDate[0];
     var currentDate = new Date(newDate);
     var day_name = currentDate.getDay();
-    var days = new Array("Chủ nhật", "Thứ hai", "Thứ ba", "Thứ tư", "Thứ năm", "Thứ sáu", "Thứ bảy");
+    var days = ["Chủ nhật", "Thứ hai", "Thứ ba", "Thứ tư", "Thứ năm", "Thứ sáu", "Thứ bảy"];
     return days[day_name];
 }
 const get_full_day_format_vietnam = (custom_date) => {
