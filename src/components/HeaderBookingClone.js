@@ -4,17 +4,12 @@ class HeaderBookingClone extends Component {
     render() {
         return (
             <div className="header header-default header-default-edition header-sticky  clone">
-                <form className="search-form-header theme-bg" method="get" action="http://inwavethemes.com/wordpress/intravel/home/">
-                    <div className="search-box-header">
-                        <input type="search" title="Enter your key word" defaultValue name="s" placeholder="Enter your key word" className="top-search" />
-                    </div>
-                </form>
                 <div className="top-bar-wrapper">
                     <div className="container">
                         <div className="row">
                             <div className="col-md-12 col-sm-12 col-xs-12">
                                 <div className="iw-top-bar">
-                                    <div className="contact">Address <i className="fa fa-map-marker" /> Van Quan, Ha Dong, Ha Noi. Hotline <i className="fa fa-phone-square" /> 0123456789</div>
+                                    <div className="contact">Địa chỉ: <i className="fa fa-map-marker" /> Số 52/20 đường số 4, khu phố 6, P. Hiệp Bình Phước, Q. Thủ Đức, Tp. Hồ Chí Minh. Hotline <i className="fa fa-phone-square" /> 0901.438.151 - 0866.598.443 - 0911.229.543</div>
                                     <div className="social-curency">
                                         <ul className="iw-social-all" />                      </div>
                                     <div className="clearfix" />
@@ -29,9 +24,9 @@ class HeaderBookingClone extends Component {
                         <div className="row">
                             <div className="col-md-1 col-logo">
                                 <h1 className="iw-logo">
-                                    <a href="http://inwavethemes.com/wordpress/intravel/home/" title="InTravel">
-                                        <img className="main-logo" src="http://inwavethemes.com/wordpress/intravel/wp-content/themes/intravel/assets/images/logo.png" alt="InTravel" />
-                                        <img className="sticky-logo" src="http://inwavethemes.com/wordpress/intravel/wp-content/themes/intravel/assets/images/logo_sticky.png" alt="InTravel" />
+                                    <a href="/" title="InTravel">
+                                        <img className="main-logo" src="images/logo.png" alt="InTravel" />
+                                        <img className="sticky-logo" src="images/logo_sticky.png" alt="InTravel" />
                                     </a>
                                 </h1>
                             </div>

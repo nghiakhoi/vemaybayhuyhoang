@@ -19,78 +19,25 @@ class MenuDesktop extends Component {
                                 <div className="iw-main-menu">
                                     <ul id="menu-main-menu-1" className="iw-nav-menu  nav-menu nav navbar-nav">
                                         <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-948 current_page_item menu-item-has-children menu-item-1309 selected active ">
-                                            <a href="/">Trang chủ
-                                                <small className="icon-arrow" />
-                                            </a>
-                                            
+                                            <a href="/">Trang chủ</a>
                                         </li>
                                         <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-1102">
-                                            <a href="/booking">Booking
-            <small className="icon-arrow" />
-                                            </a>
+                                            <a href="/booking">Booking</a>
                                         </li>
-                                        <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-1319">
-                                            <a href="/wordpress/intravel/home/tours/">Tours
-            <small className="icon-arrow" />
-                                            </a>
-                                            <ul className="sub-menu child-nav dropdown-nav">
-                                                <li className="menu-item menu-item-type-custom menu-item-object-custom menu-item-1317">
-                                                    <a href="/wordpress/intravel/home/tours/?layout=grid">Tour Listing Grid</a>
-                                                </li>
-                                                <li className="menu-item menu-item-type-custom menu-item-object-custom menu-item-1318">
-                                                    <a href="/wordpress/intravel/home/tours/?layout=list">Tour Listing Row</a>
-                                                </li>
-                                                <li className="menu-item menu-item-type-post_type menu-item-object-tour menu-item-1004">
-                                                    <a href="/wordpress/intravel/home/tours/rome-city-sightseeing-tours-bike-tour/">Tour Detail</a>
-                                                </li>
-                                            </ul>
+                                        <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-1102">
+                                            <a href="/tintuc">Tin tức</a>
                                         </li>
-                                        <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-769">
-                                            <a href="/wordpress/intravel/home/blog-listing/">Blog
-            <small className="icon-arrow" />
-                                            </a>
-                                            <ul className="sub-menu child-nav dropdown-nav">
-                                                <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-770">
-                                                    <a href="/wordpress/intravel/home/blog-listing/">Blog listing</a>
-                                                </li>
-                                                <li className="menu-item menu-item-type-post_type menu-item-object-post menu-item-1021">
-                                                    <a href="/wordpress/intravel/home/mother-city-markets-where-to-shop-til-you-drop-in-cape-town/">Blog detail</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-1022">
-                                            <a href="/wordpress/intravel/home/shop/">Shop
-            <small className="icon-arrow" />
-                                            </a>
-                                            <ul className="sub-menu child-nav dropdown-nav">
-                                                <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-1023">
-                                                    <a href="/wordpress/intravel/home/cart/">Cart</a>
-                                                </li>
-                                                <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-1024">
-                                                    <a href="/wordpress/intravel/home/checkout/">Checkout</a>
-                                                </li>
-                                                <li className="menu-item menu-item-type-post_type menu-item-object-product menu-item-1030">
-                                                    <a href="/wordpress/intravel/home/product/christmas-paper-craft/">Product detail</a>
-                                                </li>
-                                                <li className="menu-item menu-item-type-taxonomy menu-item-object-product_tag menu-item-1028">
-                                                    <a href="/wordpress/intravel/home/product-tag/clothing/">Product Tag</a>
-                                                </li>
-                                                <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-1031">
-                                                    <a href="/wordpress/intravel/home/my-account/">My Account</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-1002">
-                                            <a href="/wordpress/intravel/home/about-us/">About us</a>
+                                        <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-1102">
+                                            <a href="/huong-dan-thanh-toan">Hướng Dẫn Thanh Toán</a>
                                         </li>
                                         <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-1006">
-                                            <a href="/wordpress/intravel/home/contact-us/">Contact us</a>
+                                            <a href="/lien-he">Liên hệ</a>
                                         </li>
                                     </ul>
                                 </div>
                             </nav>
                             <div className="iw-search-cart">
-                                
+
                                 <span className="off-canvas-open">
                                     <i className="fa fa-bars" />
                                 </span>
