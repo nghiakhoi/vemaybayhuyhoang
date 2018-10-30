@@ -56,9 +56,6 @@ class HeaderBooking extends Component {
                                                     <a href="/huong-dan-thanh-toan">Hướng Dẫn Thanh Toán<small className="icon-arrow" /></a>
                                                 </li>
                                                 <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-1102">
-                                                    <a href="/huong-dan-thanh-toan">Hướng Dẫn Thanh Toán<small className="icon-arrow" /></a>
-                                                </li>
-                                                <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-1102">
                                                     <a href="/lien-he">Liên hệ<small className="icon-arrow" /></a>
                                                 </li>
                                             </ul>
