@@ -7,7 +7,7 @@ class Footer extends Component {
             <footer className="iw-footer iw-footer-default">
                 <div className="iw-footer-middle">
                     <div className="container">
-                        <div className="row">
+                        <div className="row" style={{ textAlign: "left" }}>
                             <div className="col-lg-6 col-md-6 col-sm-12">
                                 <div className="inwave-contact-4 widget widget_inwave-contact">
                                     <h3 className="widget-title">Thông tin liên hệ</h3>

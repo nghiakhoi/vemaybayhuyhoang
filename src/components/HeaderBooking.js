@@ -47,10 +47,10 @@ class HeaderBooking extends Component {
                                                     <a href="/">Trang chủ<small className="icon-arrow" /></a>
                                                 </li>
                                                 <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-1102">
-                                                    <a href="/booking">Booking<small className="icon-arrow" /></a>
+                                                    <a href="/tintuc">Tin tức<small className="icon-arrow" /></a>
                                                 </li>
                                                 <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-1102">
-                                                    <a href="/tintuc">Tin tức<small className="icon-arrow" /></a>
+                                                    <a href="/tinkhuyenmai">Tin khuyến mãi<small className="icon-arrow" /></a>
                                                 </li>
                                                 <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-1102">
                                                     <a href="/huong-dan-thanh-toan">Hướng Dẫn Thanh Toán<small className="icon-arrow" /></a>

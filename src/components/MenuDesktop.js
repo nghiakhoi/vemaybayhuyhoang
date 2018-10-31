@@ -22,10 +22,10 @@ class MenuDesktop extends Component {
                                             <a href="/">Trang chủ</a>
                                         </li>
                                         <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-1102">
-                                            <a href="/booking">Booking</a>
+                                            <a href="/tintuc">Tin tức</a>
                                         </li>
                                         <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-1102">
-                                            <a href="/tintuc">Tin tức</a>
+                                            <a href="/tinkhuyenmai">Tin Khuyến Mãi</a>
                                         </li>
                                         <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-1102">
                                             <a href="/huong-dan-thanh-toan">Hướng Dẫn Thanh Toán</a>

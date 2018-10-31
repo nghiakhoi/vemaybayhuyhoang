@@ -3,8 +3,9 @@ import axios from 'axios';
 import moment from 'moment';
 import TinTucItem from './TinTucItem';
 
-const getAllTintuc = () =>
+const getAllTintuc = (limit) =>
     axios.post('/getalltintuc', {
+        limit: limit
     }).then((res) => res.data)
 const getAllDanhmuc = () =>
     axios.post('/getalldanhmuc', {
@@ -32,7 +33,7 @@ class DanhSachTinTucContent extends Component {
 
     componentWillMount() {
         limititemcheck = 0;
-        getAllTintuc().then((result) => {
+        getAllTintuc(50).then((result) => {
             var tempdata = result.data;
             this.setState({
                 todos: tempdata
@@ -59,7 +60,7 @@ class DanhSachTinTucContent extends Component {
         localStorage.setItem("dep", "SGN");
         localStorage.setItem("des", "HAN");
     }
-    
+
 
 
     render() {
@@ -70,7 +71,6 @@ class DanhSachTinTucContent extends Component {
         const indexOfFirstTodo = indexOfLastTodo - todosPerPage;
 
         const currentTodos = todos !== null ? todos.slice(indexOfFirstTodo, indexOfLastTodo) : "";
-        console.log(currentTodos);
         const renderTodos = todos !== null ? currentTodos.map((todo, index) => {
 
             return (

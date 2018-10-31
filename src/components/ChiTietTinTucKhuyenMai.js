@@ -3,16 +3,19 @@ import axios from 'axios';
 import HeaderBooking from './HeaderBooking';
 import Footer from './Footer';
 
-const getAllTintuc = (limit) =>
+const getAllTintuc = () =>
     axios.post('/getalltintuc', {
-        limit: limit
     }).then((res) => res.data)
 const getAllDanhmuc = () =>
     axios.post('/getalldanhmuc', {
     }).then((res) => res.data)
+const getAllTintucKhuyenmai = (limit) =>
+    axios.post('/getalltinkhuyenmai', {
+        limit: limit
+    }).then((res) => res.data)
 var limititemcheck = 0;
 
-class ChiTietTinTuc extends Component {
+class ChiTietTinTucKhuyenMai extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -26,7 +29,7 @@ class ChiTietTinTuc extends Component {
 
     componentWillMount() {
         limititemcheck = 0;
-        getAllTintuc(50).then((result) => {
+        getAllTintucKhuyenmai(20).then((result) => {
             var tempdata = result.data;
             this.setState({
                 todos: tempdata
@@ -83,22 +86,9 @@ class ChiTietTinTuc extends Component {
                                     }) : ""}
                                     <div className="col-sm-12 col-xs-12 col-lg-3 col-md-4 default-sidebar">
                                         <div id="secondary" className="widget-area" role="complementary">
-                                            <aside id="categories-2" className="widget widget_categories">
-                                                <h3 className="widget-title"><span>DANH MỤC</span></h3>
-                                                <ul>
-                                                    {
-                                                        this.state.danhmuctintuc !== null ? this.state.danhmuctintuc.map((value, key) => {
-                                                            return (
-                                                                <li key={key} className="cat-item">
-                                                                    <a href={"/danh-muc/" + value.slug + "." + value.id + ".html"}>{value.ten}</a>
-                                                                </li>
-                                                            )
-                                                        }) : ""
-                                                    }
-                                                </ul>
-                                            </aside>
+
                                             <aside id="recent-posts-2" className="widget widget_recent_entries">
-                                                <h3 className="widget-title"><span>TIN GẦN ĐÂY</span></h3>
+                                                <h3 className="widget-title"><span>TIN KHUYẾN MÃI LIÊN QUAN</span></h3>
                                                 <ul className="recent-blog-posts recent-blog-posts-default">
                                                     {
                                                         todos !== null ? todos.map((value, key) => {
@@ -106,11 +96,11 @@ class ChiTietTinTuc extends Component {
                                                                 limititemcheck++
                                                                 return (
                                                                     <li key={key} className="recent-blog-post">
-                                                                        <a className="recent-blog-post-thumnail" href={"/tin-chi-tiet/" + value.slug + "." + value.id + ".html"}>
+                                                                        <a className="recent-blog-post-thumnail" href={"/tin-khuyen-mai/" + value.slug + "." + value.id + ".html"}>
                                                                             <img src={"../images/" + value.hinhdaidien} />
                                                                         </a>
                                                                         <div className="recent-blog-post-detail">
-                                                                            <h3 className="recent-blog-post-title"><a className="theme-color-hover" href={"/tin-chi-tiet/" + value.slug + "." + value.id + ".html"}>
+                                                                            <h3 className="recent-blog-post-title"><a className="theme-color-hover" href={"/tin-khuyen-mai/" + value.slug + "." + value.id + ".html"}>
                                                                                 {value.tieude}
                                                                             </a>
                                                                             </h3>
@@ -137,4 +127,4 @@ class ChiTietTinTuc extends Component {
     }
 }
 
-export default ChiTietTinTuc;
+export default ChiTietTinTucKhuyenMai;

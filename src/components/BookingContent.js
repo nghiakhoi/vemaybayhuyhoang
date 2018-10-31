@@ -3029,7 +3029,7 @@ class BookingContent extends Component {
                                                         demvitri++;
                                                         return (
                                                             <div key={k} className=" col-md-1-chia7" >
-                                                                <button type="button" style={{ "padding": "6px 12px" }} className="btn disabled btn-block btn-info" value={i} >{i}</button>
+                                                                <button type="button" style={{ "padding": "6px 12px" }} className="btn disabled btn-block btn-info" value={i} >{i}<br />&nbsp;</button>
                                                             </div>
                                                         )
                                                     } else {
@@ -3037,7 +3037,7 @@ class BookingContent extends Component {
                                                             demvitri++;
                                                             return (
                                                                 <div key={k} className=" col-md-1-chia7" >
-                                                                    <button type="button" onClick={(event) => { this.handleClick(event) }} style={{ "padding": "6px 12px" }} className="btn btn-block btn-primary newlinebtn" value={this.state.datasmallestprice !== null ? daychoosedforloop + " " + this.state.datasmallestprice + " VND" : daychoosedforloop} >{daychoosedforloop}<br />{this.state.datasmallestprice !== null ? this.state.datasmallestprice + " VND" : ""}</button>
+                                                                    <button type="button" onClick={(event) => { this.handleClick(event) }} style={{ "padding": "6px 12px" }} className="btn btn-block btn-primary newlinebtn" value={this.state.datasmallestprice !== null ? daychoosedforloop + " " + this.state.datasmallestprice + " VND" : daychoosedforloop} >{daychoosedforloop}<br /><span style={{ "color": "red" }}>{this.state.datasmallestprice !== null ? this.state.datasmallestprice + " VND" : ""}</span></button>
                                                                 </div>
                                                             )
                                                         } else {
