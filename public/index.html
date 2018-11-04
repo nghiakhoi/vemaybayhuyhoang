@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="%PUBLIC_URL%/css/min_5.css">
     <link rel="stylesheet" href="%PUBLIC_URL%/css/woocommerce-smallscreen.css">
     <link rel="stylesheet" href="%PUBLIC_URL%/css/tablecss.css">
+    <link rel="stylesheet" href="%PUBLIC_URL%/css/Site.css">
     <style>
         .wishlist_table .add_to_cart,
         a.add_to_wishlist.button.alt {
@@ -277,6 +278,14 @@
     <script>
         jQuery(document).ready(function () {
             if (jQuery('.has-date-picker-birtday').length) { jQuery('.has-date-picker-birtday').datepicker({ dateFormat: 'dd-mm-yy', maxDate: -730, minDate: -4384, changeYear: true, changeMonth: true }); }
+            jQuery(document).ready(function (e) {
+                jQuery('div.method').each(function (index, element) {
+                    jQuery(this).find('form').toggle();
+                    jQuery('b.title_item', jQuery(this)).click(function () {
+                        jQuery(this).parent().find('form').toggle(500);
+                    });
+                });
+            });
         });
     </script>
     <div id="fb-root"></div>

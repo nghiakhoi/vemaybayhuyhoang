@@ -124,7 +124,6 @@ class YourInfoContent extends Component {
             email: null,
             address: null,
             message: null,
-            thanhtoanBy: "taidiachikhachhang",
             toggletaidiachikhachhang: true,
             togglechuyenkhoan: false,
             toggletaiphongve: false,
@@ -677,7 +676,6 @@ class YourInfoContent extends Component {
                 address: this.state.address,
                 email: this.state.email,
                 yeucau: this.state.message,
-                hinhthucthanhtoan: this.state.thanhtoanBy,
                 nganhangchoosed: this.state.nganhangchoosed,
                 subtotaloriginal: this.state.subtotaloriginal,
                 subtotalwithhanhly: this.state.subtotal,
@@ -694,7 +692,7 @@ class YourInfoContent extends Component {
 
     redirectToSummaryInfo(id) {
         localStorage.setItem("idhoadon", id);
-        window.location.replace("/summaryinfo");
+        window.location.replace("/summaryinfo/" + id);
     }
 
     render() {
@@ -1224,7 +1222,8 @@ class YourInfoContent extends Component {
                                         </table>
                                     </div>
                                 </div>
-                                <div className="simple_box no-padding mb-20 selected">
+                                
+                                {/* <div className="simple_box no-padding mb-20 selected">
                                     <h3><i className="fa fa-money mr-5" aria-hidden="true" />Hình thức thanh toán</h3>
                                     <div className="pd-15" style={{ "padding": "15px" }}>
                                         <p> Sau khi chọn vui lòng nhấn <strong>"Đặt vé"</strong>. Booker sẽ gọi đến xác thực thông tin book vé. Điều này là cần thiết nhằm tránh sai sót khi ra sân bay.</p>
@@ -1262,7 +1261,7 @@ class YourInfoContent extends Component {
 
                                         </div>
                                     </div>
-                                </div>
+                                </div> */}
                                 <div className="full-width mb-30">
                                     <div className="row" style={{ "marginRight": "0px", "marginLeft": "0px" }}>
                                         <div className="col-xs-4 col-md-3 pull-right">
