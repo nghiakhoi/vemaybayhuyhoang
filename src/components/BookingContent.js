@@ -100,6 +100,13 @@ class BookingContent extends Component {
             datasmallestprice4: null,
             datasmallestprice5: null,
             datasmallestprice6: null,
+            datasmallestpricekhuhoi: null,
+            datasmallestprice1khuhoi: null,
+            datasmallestprice2khuhoi: null,
+            datasmallestprice3khuhoi: null,
+            datasmallestprice4khuhoi: null,
+            datasmallestprice5khuhoi: null,
+            datasmallestprice6khuhoi: null,
             anhienbtngiave: true,
             ticketchoosed: null,
             anhienbtngiavekhuhoi: true,
@@ -3043,11 +3050,20 @@ class BookingContent extends Component {
                                                         } else {
                                                             if (demvitri === 0) {
                                                                 demvitri++;
-                                                                return (
-                                                                    <div key={k} className=" col-md-1-chia7" >
-                                                                        <button onClick={(event) => { this.handleClick(event, this.state.datasmallestprice1 !== null ? i : i) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn"  >{i}<br />&nbsp;<span style={{ "color": "red", "fontWeight": "bold" }}>{this.state.datasmallestprice1 !== null ? this.state.datasmallestprice1 + " VND" : ""}</span></button>
-                                                                    </div>
-                                                                )
+                                                                if (compareTwoDay(i).getTime() < compareTwoDay(daychoosedforloopkhuhoi).getTime()) {
+                                                                    return (
+                                                                        <div key={k} className=" col-md-1-chia7" >
+                                                                            <button onClick={(event) => { this.handleClick(event, this.state.datasmallestprice1 !== null ? i : i) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn"  >{i}<br />&nbsp;<span style={{ "color": "red", "fontWeight": "bold" }}>{this.state.datasmallestprice1 !== null ? this.state.datasmallestprice1 + " VND" : ""}</span></button>
+                                                                        </div>
+                                                                    )
+                                                                } else {
+                                                                    return (
+                                                                        <div key={k} className=" col-md-1-chia7" >
+                                                                            <button type="button" style={{ "padding": "6px 12px" }} className="btn disabled btn-block btn-info" value={i} >{i}<br />&nbsp;</button>
+                                                                        </div>
+                                                                    )
+                                                                }
+
                                                             }
                                                             else if (demvitri === 1) {
                                                                 demvitri++;
@@ -3067,33 +3083,65 @@ class BookingContent extends Component {
                                                             }
                                                             else if (demvitri === 4) {
                                                                 demvitri++;
-                                                                return (
-                                                                    <div key={k} className=" col-md-1-chia7" >
-                                                                        <button onClick={(event) => { this.handleClick(event, this.state.datasmallestprice4 !== null ? i : i) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn"  >{i}<br />&nbsp;<span style={{ "color": "red", "fontWeight": "bold" }}>{this.state.datasmallestprice4 !== null ? this.state.datasmallestprice4 + " VND" : ""}</span></button>
-                                                                    </div>
-                                                                )
+                                                                if (compareTwoDay(i).getTime() <= compareTwoDay(daychoosedforloopkhuhoi).getTime()) {
+                                                                    return (
+                                                                        <div key={k} className=" col-md-1-chia7" >
+                                                                            <button onClick={(event) => { this.handleClick(event, this.state.datasmallestprice4 !== null ? i : i) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn"  >{i}<br />&nbsp;<span style={{ "color": "red", "fontWeight": "bold" }}>{this.state.datasmallestprice4 !== null ? this.state.datasmallestprice4 + " VND" : ""}</span></button>
+                                                                        </div>
+                                                                    )
+                                                                } else {
+                                                                    return (
+                                                                        <div key={k} className=" col-md-1-chia7" >
+                                                                            <button type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn disabled"  >{i}<br />&nbsp;<span style={{ "color": "red", "fontWeight": "bold" }}>{this.state.datasmallestprice4 !== null ? this.state.datasmallestprice4 + " VND" : ""}</span></button>
+                                                                        </div>
+                                                                    )
+                                                                }
                                                             }
                                                             else if (demvitri === 5) {
                                                                 demvitri++;
-                                                                return (
-                                                                    <div key={k} className=" col-md-1-chia7" >
-                                                                        <button onClick={(event) => { this.handleClick(event, this.state.datasmallestprice5 !== null ? i : i) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn"  >{i}<br />&nbsp;<span style={{ "color": "red", "fontWeight": "bold" }}>{this.state.datasmallestprice5 !== null ? this.state.datasmallestprice5 + " VND" : ""}</span></button>
-                                                                    </div>
-                                                                )
+                                                                if (compareTwoDay(i).getTime() <= compareTwoDay(daychoosedforloopkhuhoi).getTime()) {
+                                                                    return (
+                                                                        <div key={k} className=" col-md-1-chia7" >
+                                                                            <button onClick={(event) => { this.handleClick(event, this.state.datasmallestprice5 !== null ? i : i) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn"  >{i}<br />&nbsp;<span style={{ "color": "red", "fontWeight": "bold" }}>{this.state.datasmallestprice5 !== null ? this.state.datasmallestprice5 + " VND" : ""}</span></button>
+                                                                        </div>
+                                                                    )
+                                                                } else {
+                                                                    return (
+                                                                        <div key={k} className=" col-md-1-chia7" >
+                                                                            <button type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn disabled"  >{i}<br />&nbsp;<span style={{ "color": "red", "fontWeight": "bold" }}>{this.state.datasmallestprice4 !== null ? this.state.datasmallestprice4 + " VND" : ""}</span></button>
+                                                                        </div>
+                                                                    )
+                                                                }
                                                             }
                                                             else if (demvitri === 6) {
                                                                 demvitri++;
-                                                                return (
-                                                                    <div key={k} className=" col-md-1-chia7" >
-                                                                        <button onClick={(event) => { this.handleClick(event, this.state.datasmallestprice6 !== null ? i : i) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn"  >{i}<br />&nbsp;<span style={{ "color": "red", "fontWeight": "bold" }}>{this.state.datasmallestprice6 !== null ? this.state.datasmallestprice6 + " VND" : ""}</span></button>
-                                                                    </div>
-                                                                )
+                                                                if (compareTwoDay(i).getTime() <= compareTwoDay(daychoosedforloopkhuhoi).getTime()) {
+                                                                    return (
+                                                                        <div key={k} className=" col-md-1-chia7" >
+                                                                            <button onClick={(event) => { this.handleClick(event, this.state.datasmallestprice6 !== null ? i : i) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn"  >{i}<br />&nbsp;<span style={{ "color": "red", "fontWeight": "bold" }}>{this.state.datasmallestprice6 !== null ? this.state.datasmallestprice6 + " VND" : ""}</span></button>
+                                                                        </div>
+                                                                    )
+                                                                } else {
+                                                                    return (
+                                                                        <div key={k} className=" col-md-1-chia7" >
+                                                                            <button type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn disabled"  >{i}<br />&nbsp;<span style={{ "color": "red", "fontWeight": "bold" }}>{this.state.datasmallestprice4 !== null ? this.state.datasmallestprice4 + " VND" : ""}</span></button>
+                                                                        </div>
+                                                                    )
+                                                                }
                                                             } else {
-                                                                return (
-                                                                    <div key={k} className=" col-md-1-chia7" >
-                                                                        <button onClick={(event) => { this.handleClick(event, this.state.datasmallestprice6 !== null ? i : i) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn"  >{i}<br />&nbsp;<span style={{ "color": "red", "fontWeight": "bold" }}>{this.state.datasmallestprice6 !== null ? this.state.datasmallestprice6 + " VND" : ""}</span></button>
-                                                                    </div>
-                                                                )
+                                                                if (compareTwoDay(i).getTime() <= compareTwoDay(daychoosedforloopkhuhoi).getTime()) {
+                                                                    return (
+                                                                        <div key={k} className=" col-md-1-chia7" >
+                                                                            <button onClick={(event) => { this.handleClick(event, this.state.datasmallestprice6 !== null ? i : i) }} type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn"  >{i}<br />&nbsp;<span style={{ "color": "red", "fontWeight": "bold" }}>{this.state.datasmallestprice6 !== null ? this.state.datasmallestprice6 + " VND" : ""}</span></button>
+                                                                        </div>
+                                                                    )
+                                                                } else {
+                                                                    return (
+                                                                        <div key={k} className=" col-md-1-chia7" >
+                                                                            <button type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn disabled"  >{i}<br />&nbsp;<span style={{ "color": "red", "fontWeight": "bold" }}>{this.state.datasmallestprice4 !== null ? this.state.datasmallestprice4 + " VND" : ""}</span></button>
+                                                                        </div>
+                                                                    )
+                                                                }
                                                             }
 
                                                         }

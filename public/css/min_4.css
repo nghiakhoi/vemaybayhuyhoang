@@ -30,7 +30,14 @@ i{color:#838383}.iw-tour-listing .tour-item .tour-price-vote{padding-bottom:20px
 25px;font-size:16px;font-weight:600;color:#fff;-webkit-border-radius:20px;border-radius:20px;display:inline-block;}.iw-tour-listing .tour-item .tour-price-vote .iwt-rating{float:right}.iw-star-rating{position:relative;color:#f6ab09;text-align:center;height:20px;width:86px;font-size:18px;margin:0}.iw-star-rating::before{color:#d3ced2;content:"\f005 \f005 \f005 \f005 \f005";font-family:FontAwesome;float:left;left:0;position:absolute;top:0;letter-spacing:5px;font-size:14px}.iw-star-rating
 span.rating{float:left;left:0;overflow:hidden;padding-top:20px;position:absolute;top:0}.iw-star-rating span.rating::before{content:"\f005 \f005 \f005 \f005 \f005";font-family:FontAwesome;left:0;position:absolute;top:0;letter-spacing:5px;font-size:14px}.iw-tour-listing .page-nav{padding:20px
 15px;border:none;margin-bottom:30px}.related_destination_tours.iw-tour-listing .tour-info-wrap{padding:8px
-15px 20px 15px}.related_destination_tours.iw-tour-listing .tour-price-vote{border-top:1px solid #e5e5e5;padding-bottom:0;padding-top:15px;margin-top:12px}.iw-tour-listing .tour-listing-row .tour-item{position:relative;margin-bottom: 20px;left: -35px;}.tour-listing-row .tour-item .image-wrap{position:absolute;left: 40px;top:0;width: 160px;height: 80px;}.tour-listing-row .tour-item .image-wrap
+15px 20px 15px}.related_destination_tours.iw-tour-listing .tour-price-vote{border-top:1px solid #e5e5e5;padding-bottom:0;padding-top:15px;margin-top:12px}.iw-tour-listing .tour-listing-row .tour-item{position:relative;margin-bottom: 20px;/* left: -35px; */}
+
+/* .img-for-responsive-vietjet{
+    background:url("../images/vietjetsmall.png") no-repeat center center / 65% 65%;
+    margin: "0 auto";
+} */
+
+.tour-listing-row .tour-item .image-wrap{position:absolute;left: 40px;top:0;width: 160px;height: 80px;}.tour-listing-row .tour-item .image-wrap
 .img{width: 110%;height: 70%;-webkit-transition:-webkit-transform 0.3s linear 0s;transition:transform 0.3s linear 0s;}.tour-listing-row .tour-item:hover .image-wrap
 .img{-webkit-transform:scale(1.15);transform:scale(1.15)}.iw-tour-listing .tour-listing-row .tour-item .tour-info-wrap{margin-left: 200px;padding: 0px 0px 0px 0px;border: 1px solid #1ea0b5;position:relative;}.iw-tour-listing .tour-listing-row .tour-item:hover .tour-info-wrap{-webkit-box-shadow:0 0 5px rgba(0, 0, 0, 0.2);box-shadow:0 0 5px rgba(0, 0, 0, 0.2)}.iw-tour-listing .tour-listing-row .tour-item .info-top
 h3.title{margin:0}.iw-tour-listing .tour-listing-row .tour-item .info-top
@@ -164,7 +171,7 @@ span{margin:0
 .iw-travel-tours.style3 .iw-tour-item .tour-discount:before{position:absolute;bottom:-10px;content:'';width:100%;border-left:23px solid rgba(234, 1, 39, 0.8);border-right:23px solid rgba(234, 1, 39, 0.8);border-top:none;border-bottom:10px solid transparent;left:0}.iw-travel-tours.style2 .iw-tour-item,
 .iw-travel-tours.style3 .iw-tour-item{position:relative}.iw-travel-tours.style3 .button-filter{text-align:center;margin-bottom:64px;margin-top:30px}.iw-travel-tours.style3
 button.filter{background:none;border:none;padding:0;font-size:14px;font-weight:500;margin:0
-10px}@media (min-width: 992px){.iw-travel-tours.style2 .tour-row-item .item:nth-child(3n+1){clear:both}}@media (min-width: 768px) and (max-width: 991px){.iw-travel-tours.style2 .tour-row-item .item:nth-child(2n+1){clear:both}}.intravel-tour{position:relative}.intravel-tour .tour-info{position:absolute;width:100%;bottom:20px;left:0;padding:0
+10px}@media (min-width: 992px){.iw-tour-listing .tour-listing-row .tour-item{position:relative;margin-bottom: 20px; left: -35px; }.iw-travel-tours.style2 .tour-row-item .item:nth-child(3n+1){clear:both}}@media (min-width: 768px) and (max-width: 991px){.iw-travel-tours.style2 .tour-row-item .item:nth-child(2n+1){clear:both}}.intravel-tour{position:relative}.intravel-tour .tour-info{position:absolute;width:100%;bottom:20px;left:0;padding:0
 20px}.intravel-tour .tour-info
 h4{margin:0}.intravel-tour .tour-info h4
 a{font-family:"Playfair Display";font-size:14px;color:#fff;line-height:30px;text-transform:capitalize}.intravel-tour .tour-info
@@ -378,12 +385,12 @@ a{padding:2px
 20px}.destination-widget .destination-item{width:50%;float:left}.intravel-check-order-page .tour-infomation, .intravel-check-order-page .booking-information{width:100%}}@media (max-width: 767px){.intravel-check-order-page
 input{margin:0
 30px 30px 0}.destination-detail .destination-cover .destination-image{height:450px}.travel-detail .post-feature .tour-feature-img.single{height:530px}.travel-detail .post-head h3.post-title{font-size:36px}.post-gallery .tour-gallery-img{height:350px}.travel-detail .post-gallery .iw-slider .gallery-content{padding:0
-25px}.thankyou-page p.thankyou-booking{width:100%}.tour-listing-row .tour-item .image-wrap{position:relative;top:auto;left:auto;width:auto;height:450px}.iw-tour-listing .tour-listing-row .tour-item .tour-info-wrap{margin-left:0}.rtl .iw-tour-listing .tour-listing-row .tour-item .tour-info-wrap{margin-right:0;padding:25px
+25px}.thankyou-page p.thankyou-booking{width:100%}.tour-listing-row .tour-item .image-wrap{/* position:relative; *//* top:auto; */left:auto;/* width:auto; */height:450px;}.iw-tour-listing .tour-listing-row .tour-item .tour-info-wrap{margin-left:0}.rtl .iw-tour-listing .tour-listing-row .tour-item .tour-info-wrap{margin-right:0;padding:25px
 20px 20px}.iw-tour-listing .tour-order-layout-form .select2.select2-container.select2-container--default{margin:0
 0 20px}.intravel-destinations-grid .destinations-grid-filter span.input-text-wrap{width:170px}.intravel-destinations-grid .destinations-grid-filter .input-text{width:100%}}@media (max-width: 479px){.tour-order-layout-form .select2-container.iw-select-2{float:none;width:100%;margin:0}.rtl .tour-order-layout-form .select2-container.iw-select-2{float:none;width:100%;margin:0}.intravel-check-order-page
 input{width:100%;margin:0
 0 30px}.destination-detail .destination-cover .destination-image{height:400px}.travel-detail .post-feature .tour-feature-img.single{height:500px}.travel-detail .post-head h3.post-title{font-size:32px}.travel-detail .iw-tour-info .info-right ul
-li{float:none;width:auto}.tour-listing-row .tour-item .image-wrap{height:300px}.destination-widget .destination-item{width:100%}.intravel-checkout-page .input-row > span, .intravel-checkout-page .input-row
+li{float:none;width:auto}.tour-listing-row .tour-item .image-wrap{height: 200px;padding: 0px;margin: 0px;}.destination-widget .destination-item{width:100%}.intravel-checkout-page .input-row > span, .intravel-checkout-page .input-row
 label{float:none;width:100%}.iw-tour-listing .layout-switcher{float:none}.intravel-destinations-grid .destinations-grid-filter .select2-container--default,
 .intravel-destinations-grid .destinations-grid-filter span.input-text-wrap,
 .intravel-destinations-grid .destinations-grid-filter .button-filter{width:100% !important;margin:0

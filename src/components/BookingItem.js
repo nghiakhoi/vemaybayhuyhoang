@@ -41,7 +41,7 @@ class BookingItem extends Component {
         
         return (
             this.props.anhienbtngiavestatecha ?
-                <div className="tour-item" style={{ "cursor": "pointer" }}>
+                <div className="tour-item col-xs-12" style={{ "cursor": "pointer" }}>
                     <div className="image-wrap">
                         <div className="img" style={{ background: 'url("' + logo + '") no-repeat center center / 65% 65%', "margin": "0 auto" }} />
 
@@ -52,23 +52,23 @@ class BookingItem extends Component {
                             <div className="post-meta" style={{ "fontWeight": "bold" }}>
 
 
-                                <div className="col-md-12" style={{ "marginTop": "15px", "marginBottom": "-25px" }}>
-                                    <div className="col-md-1" style={{ "fontSize": "20px", "fontWeight": "lighter", "textAlign": "left", "color": "black" }}>
+                                <div className="col-md-12 col-xs-12" style={{ "marginTop": "15px", "marginBottom": "-25px" }}>
+                                    <div className="col-md-1 col-xs-1" style={{ "fontSize": "20px", "fontWeight": "lighter", "textAlign": "left", "color": "black" }}>
                                         {this.props.flightno !== "" ? this.props.flightno.split(' ').join('') : this.props.aircode}
                                     </div>
-                                    <div className="col-md-2" style={{ "fontSize": "20px", "color": "black", "backgroundImage": 'url("' + iconfly + '")', "backgroundRepeat": "no-repeat", "backgroundPosition": "440% 50%" }}>
+                                    <div className="col-md-2 col-xs-2" style={{ "fontSize": "20px", "color": "black", "backgroundImage": 'url("' + iconfly + '")', "backgroundRepeat": "no-repeat", "backgroundPosition": "440% 50%" }}>
                                         {this.props.deptime}
                                     </div>
-                                    <div className="col-md-2" style={{ "fontSize": "20px", "color": "black", "backgroundImage": 'url("' + iconfly + '")', "backgroundRepeat": "no-repeat", "backgroundPosition": "-350% 50%" }}>
+                                    <div className="col-md-2 col-xs-2" style={{ "fontSize": "20px", "color": "black", "backgroundImage": 'url("' + iconfly + '")', "backgroundRepeat": "no-repeat", "backgroundPosition": "-350% 50%" }}>
                                         {this.props.destime}
                                     </div>
-                                    <div className="col-md-3" style={{ "fontSize": "20px", "textAlign": "left", "color": "#fa6d01" }}>
+                                    <div className="col-md-3 col-xs-3" style={{ "fontSize": "20px", "textAlign": "left", "color": "#fa6d01" }}>
                                         <p>{this.props.baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</p>
                                     </div>
-                                    <div className="col-md-2" >
+                                    <div className="col-md-2 col-xs-2" >
                                         <input type="button" className="btn btn-primary" onClick={() => this.handleFocus()} onBlur={() => this.handleBlur()} style={{ "fontWeight": "bold" }} value="Chi tiết" id="select_depart_66579" name="go" />
                                     </div>
-                                    <div className="col-md-2">
+                                    <div className="col-md-2 col-xs-2">
                                         <a onClick={() => this.props.anhienbtngiave(this.props.fullinfo)} href="javascript:void(0)" name="hihihiho" id="hihihiho" htmlFor="select_return_68006" className="btn btn-success flight-select pull-right">
                                             <input type="radio" defaultValue={68006} id="select_return_68006" data-module="return" name="return" style={{ display: 'none' }} />
                                             <strong className="show_68006">Chọn</strong>
@@ -79,7 +79,7 @@ class BookingItem extends Component {
                                 {
                                     this.state.isHidden ?
 
-                                        <div className="col-md-12" style={{ "marginTop": "40px", "marginBottom": "-25px", "color": "black" }}>
+                                        <div className="col-md-12 col-xs-12" style={{ "marginTop": "40px", "marginBottom": "-25px", "color": "black" }}>
                                             <div className="full-width BorderTop">
                                                 <div className="DetailPriceBox">
                                                     <table className="TablePrice" style={{ width: '100%' }} cellSpacing={5} cellPadding={5} border={0}>
