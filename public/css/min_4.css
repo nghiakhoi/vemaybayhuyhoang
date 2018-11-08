@@ -390,7 +390,7 @@ input{margin:0
 0 20px}.intravel-destinations-grid .destinations-grid-filter span.input-text-wrap{width:170px}.intravel-destinations-grid .destinations-grid-filter .input-text{width:100%}}@media (max-width: 479px){.tour-order-layout-form .select2-container.iw-select-2{float:none;width:100%;margin:0}.rtl .tour-order-layout-form .select2-container.iw-select-2{float:none;width:100%;margin:0}.intravel-check-order-page
 input{width:100%;margin:0
 0 30px}.destination-detail .destination-cover .destination-image{height:400px}.travel-detail .post-feature .tour-feature-img.single{height:500px}.travel-detail .post-head h3.post-title{font-size:32px}.travel-detail .iw-tour-info .info-right ul
-li{float:none;width:auto}.tour-listing-row .tour-item .image-wrap{height: 200px;padding: 0px;margin: 0px;}.destination-widget .destination-item{width:100%}.intravel-checkout-page .input-row > span, .intravel-checkout-page .input-row
+li{float:none;width:auto}.tour-listing-row .tour-item .image-wrap{height: 70px;/* padding: 0px; *//* margin: 0px; */position: absolute;top: 80px;left: -16px;}.destination-widget .destination-item{width:100%}.intravel-checkout-page .input-row > span, .intravel-checkout-page .input-row
 label{float:none;width:100%}.iw-tour-listing .layout-switcher{float:none}.intravel-destinations-grid .destinations-grid-filter .select2-container--default,
 .intravel-destinations-grid .destinations-grid-filter span.input-text-wrap,
 .intravel-destinations-grid .destinations-grid-filter .button-filter{width:100% !important;margin:0

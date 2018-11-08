@@ -7384,6 +7384,8 @@ div.style-customizer {
     border-color: #ccc;
     width: 100%;
     font-weight: 500;
+    padding: 15px;
+    margin-top: 5px;
 }
 
     .flight-select:hover {

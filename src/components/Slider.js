@@ -89,7 +89,7 @@ class Slider extends Component {
                 localStorage.setItem("direction", 0);
             } else {
                 localStorage.setItem("direction", 1);
-                localStorage.setItem("datedes", moment().add(2, 'days').format("DD-MM-YYYY"));
+                localStorage.setItem("datedes", "");
             }
         });
         localStorage.setItem(name, this.state.setvalue === 0 ? 1 : 0);
@@ -110,17 +110,33 @@ class Slider extends Component {
         event.preventDefault();
         if ((localStorage.getItem("dep") === null || localStorage.getItem("dep") === "") && (localStorage.getItem("des") === null || localStorage.getItem("des") === "")) {
             alert("Hãy chọn ĐIỂM KHỞI HÀNH và ĐIỂM ĐẾN!");
+            return false;
         } else if (localStorage.getItem("dep") === null || localStorage.getItem("dep") === "") {
             alert("Hãy chọn ĐIỂM KHỞI HÀNH!");
+            return false;
         } else if (localStorage.getItem("des") === null || localStorage.getItem("des") === "") {
             alert("Hãy chọn ĐIỂM ĐẾN!");
+            return false;
         } else {
             if (localStorage.getItem("dep") === localStorage.getItem("des")) {
                 alert("ĐIỂM KHỞI HÀNH và ĐIỂM ĐẾN phải khác nhau!");
+                return false;
             } else {
-                this.setState({
-                    isRedirect: true
-                });
+                if (localStorage.getItem("direction") === "1") {
+                    if (localStorage.getItem("datedes") === "") {
+                        alert("Vui lòng chọn ngày khứ hồi!");
+                        return false;
+                    } else {
+                        this.setState({
+                            isRedirect: true
+                        });
+                    }
+                } else {
+                    this.setState({
+                        isRedirect: true
+                    });
+                }
+
             }
 
         }
@@ -298,9 +314,7 @@ class Slider extends Component {
         if (this.state.danhsachsanbaydi !== null) {
             return this.state.danhsachsanbaydi.map((value, key) =>
                 (
-                    value.show === "1" ?
-                        <option key={key} value={value.code}>{value.ten}</option>
-                        : ""
+                    <option key={key} value={value.code}>{value.ten}</option>
                 )
             );
         }
@@ -309,9 +323,7 @@ class Slider extends Component {
         if (this.state.danhsachsanbayve !== null) {
             return this.state.danhsachsanbayve.map((value, key) =>
                 (
-                    value.show === "1" ?
-                        <option key={key} value={value.code}>{value.ten}</option>
-                        : ""
+                    <option key={key} value={value.code}>{value.ten}</option>
                 )
             );
         }
@@ -402,10 +414,10 @@ class Slider extends Component {
                                         <br />
                                         {this.state.direction === true ?
                                             <div className="iw-departure thelastitem">
-                                                <input id="datedes" name="datedes" type="text" value="" readOnly placeholder="Ngày về" className="iw-search-arrival has-date-picker" />
+                                                <input id="datedes" name="datedes" type="text" readOnly placeholder="Ngày về" className="iw-search-arrival has-date-picker" />
                                             </div> :
                                             <div className="iw-departure thelastitem">
-                                                <input id="datedes" disabled name="datedes" value="" type="text" readOnly className="iw-search-arrival has-date-picker" />
+                                                <input id="datedes" disabled name="datedes" type="text" readOnly className="iw-search-arrival has-date-picker" />
                                             </div>
                                         }
                                     </div>

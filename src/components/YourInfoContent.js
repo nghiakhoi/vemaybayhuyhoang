@@ -8,6 +8,9 @@ import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
 import IconCalendar from './IconCalendar';
 
+const getAllHanhLy = () =>
+    axios.post('/getallhanhly', {
+    }).then((res) => res.data)
 
 const get_day_name = (custom_date) => {
     var myDate = custom_date;
@@ -26,6 +29,11 @@ const get_full_day_format_vietnam = (custom_date) => {
     var day = myDate[0];
     var fulldayformatvietnam = day + " tháng " + month + " " + year;
     return fulldayformatvietnam;
+}
+const sortedByAttrNumber = (property) => {
+    return function (x, y) {
+        return ((parseInt(x[property]) === parseInt(y[property])) ? 0 : ((parseInt(x[property]) > parseInt(y[property])) ? 1 : -1));
+    };
 }
 const get_distance_two_days = (dayfirst, daysecond) => {
     var oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
@@ -107,9 +115,15 @@ var ngayve = (localStorage.getItem("datedes")) ? localStorage.getItem("datedes")
 var ticketchoosed = localStorage.getItem("ticketchoosed") ? JSON.parse(localStorage.getItem("ticketchoosed")) : null;
 var ticketchoosedKhuHoi = localStorage.getItem("ticketchoosedkhuhoi") ? JSON.parse(localStorage.getItem("ticketchoosedkhuhoi")) : null;
 
-//var subtractdaystartchild = subtractOnYear(datedep, 12);
-//var subtractdayendchild = subtractOnYear(datedep, 2);
-//var distance2Days = get_distance_two_days(subtractday,"28-09-2018");
+var priceAdultOrigin = 65000;
+var priceChildOrigin = 65000;
+var priceInfOrigin = 40000;
+var priceAdult = 50000;
+var priceChild = 50000;
+var priceInf = 40000;
+var adultnum = localStorage.getItem("adult") ? parseInt(localStorage.getItem("adult")) : 1;
+var childnum = localStorage.getItem("child") ? parseInt(localStorage.getItem("child")) : 0;
+var infnum = localStorage.getItem("inf") ? parseInt(localStorage.getItem("inf")) : 0;
 
 class YourInfoContent extends Component {
     constructor(props) {
@@ -128,6 +142,8 @@ class YourInfoContent extends Component {
             togglechuyenkhoan: false,
             toggletaiphongve: false,
             danhsachnganhang: null,
+            danhsachhanhly: null,
+            danhsachhanhlyKhuHoi: null,
             nganhangchoosed: null,
             subtotal: null,
             thongtinvedi: localStorage.getItem("ticketchoosed") ? JSON.parse(localStorage.getItem("ticketchoosed")) : null,
@@ -137,9 +153,7 @@ class YourInfoContent extends Component {
     }
 
     componentDidMount() {
-        let subtotalfirst = ticketchoosed.subtotal;
-        let subtotalsecond = ticketchoosedKhuHoi !== null ? ticketchoosedKhuHoi.subtotal : 0;
-        let subtotal2way = subtotalfirst + subtotalsecond;
+        let subtotal2way = ticketchoosed.subtotal ? (ticketchoosed.subtotal - (((priceAdultOrigin - priceAdult) * adultnum) + ((priceChildOrigin - priceChild) * childnum) + ((priceInfOrigin - priceInf) * infnum))) + (ticketchoosedKhuHoi !== null ? (ticketchoosedKhuHoi.subtotal - (((priceAdultOrigin - priceAdult) * adultnum) + ((priceChildOrigin - priceChild) * childnum) + ((priceInfOrigin - priceInf) * infnum))) : 0) : 0;
 
         this.setState({
             subtotal: subtotal2way,
@@ -154,21 +168,23 @@ class YourInfoContent extends Component {
             window.location.replace("/");
         }
 
-        let danhsachhanhly = [
-            { id: 1, soky: "7", sotien: "0", code: "0" },
-            { id: 2, soky: "15", sotien: "160000", code: "1" },
-            { id: 3, soky: "20", sotien: "180000", code: "2" },
-            { id: 4, soky: "25", sotien: "250000", code: "3" },
-            { id: 5, soky: "30", sotien: "360000", code: "4" },
-            { id: 6, soky: "35", sotien: "420000", code: "5" },
-            { id: 7, soky: "40", sotien: "480000", code: "6" },
-        ];
-
-
-        this.setState({
-            danhsachnganhang: [{ id: 1, tennganhang: "ACB" }, { id: 2, tennganhang: "Vietcombank" }],
-            danhsachhanhly: danhsachhanhly,
+        getAllHanhLy().then((result) => {
+            var ticketchoosedToJson = ticketchoosed;
+            var ticketchoosedKhuHoiToJson = ticketchoosedKhuHoi !== null ? ticketchoosedKhuHoi : [];
+            var danhsachhanhlyfull = result.data;
+            var filtered = danhsachhanhlyfull.filter(function (item) {
+                return item.codehangbay == ticketchoosedToJson.air_code;
+            });
+            var filtered1 = danhsachhanhlyfull.filter(function (item) {
+                return item.codehangbay == ticketchoosedKhuHoiToJson.air_code;
+            });
+            this.setState({
+                danhsachnganhang: [{ id: 1, tennganhang: "ACB" }, { id: 2, tennganhang: "Vietcombank" }],
+                danhsachhanhly: filtered.sort(sortedByAttrNumber('code')),
+                danhsachhanhlyKhuHoi: filtered1.sort(sortedByAttrNumber('code'))
+            });
         });
+
 
         let adult = (localStorage.getItem("adult")) ? localStorage.getItem("adult") : 0;
         let child = (localStorage.getItem("child")) ? localStorage.getItem("child") : 0;
@@ -448,7 +464,7 @@ class YourInfoContent extends Component {
     isChangeAdult = (i, field, event) => {
         let name = event.target.name;
         let value = event.target.value;
-        let subtotalOriginal = this.state.subtotaloriginal;
+
         let obj = {};
         obj = { "id": i, [name]: value };
         let timobject = findObjectByKey(mangtempAdult, "id", i); // tìm object dựa trên key là id và giá trị là i
@@ -463,6 +479,7 @@ class YourInfoContent extends Component {
 
         }
         if (field === "hanhlyadult") {
+            var subtotalOriginal = this.state.subtotaloriginal;
             timobject !== null ? timobject.hanhlyadult = value : mangtempAdult.push(obj);
 
             let timItemOfHanhly = findObjectByKey(this.state.danhsachhanhly, "code", value); //lấy ra item có code khi thay đổi
@@ -481,12 +498,17 @@ class YourInfoContent extends Component {
             this.state.hanhlychildforplusKhuHoi.forEach(element => {
                 subtotalOriginal += parseInt(element.sotien);
             });
-
+            this.setState({
+                hanhlyadultforplus: hanhlyadultforplus,
+                hanhlyadultforplusKhuHoi: hanhlyadultforplusKhuHoi,
+                subtotal: subtotalOriginal,
+            });
         }
         if (field === "hanhlyadultKhuHoi") {
+            var subtotalOriginal = this.state.subtotaloriginal;
             timobject !== null ? timobject.hanhlyadultKhuHoi = value : mangtempAdult.push(obj);
 
-            let timItemOfHanhly = findObjectByKey(this.state.danhsachhanhly, "code", value); //lấy ra item có code khi thay đổi
+            let timItemOfHanhly = findObjectByKey(this.state.danhsachhanhlyKhuHoi, "code", value); //lấy ra item có code khi thay đổi
             let timhanhlykygui = findObjectByKey(hanhlyadultforplusKhuHoi, "id", i);
             timhanhlykygui.sotien = timItemOfHanhly.sotien;
 
@@ -502,20 +524,20 @@ class YourInfoContent extends Component {
             this.state.hanhlychildforplusKhuHoi.forEach(element => {
                 subtotalOriginal += parseInt(element.sotien);
             });
-
+            this.setState({
+                hanhlyadultforplus: hanhlyadultforplus,
+                hanhlyadultforplusKhuHoi: hanhlyadultforplusKhuHoi,
+                subtotal: subtotalOriginal,
+            });
         }
         this.setState({
             mangadult: mangtempAdult,
-            hanhlyadultforplus: hanhlyadultforplus,
-            hanhlyadultforplusKhuHoi: hanhlyadultforplusKhuHoi,
-            subtotal: subtotalOriginal,
         });
     }
 
     isChangeChild = (i, field, event) => {
         let name = event.target.name;
         let value = event.target.value;
-        let subtotalOriginal = this.state.subtotaloriginal;
         let obj = {};
         obj = { "id": i, [name]: value };
         let timobject = findObjectByKey(mangtempChild, "id", i); // tìm object dựa trên key là id và giá trị là i
@@ -530,6 +552,7 @@ class YourInfoContent extends Component {
 
         }
         if (field === "hanhlychild") {
+            var subtotalOriginal = this.state.subtotaloriginal;
             timobject !== null ? timobject.hanhlychild = value : mangtempChild.push(obj);
 
             let timItemOfHanhly = findObjectByKey(this.state.danhsachhanhly, "code", value); //lấy ra item có code khi thay đổi
@@ -548,12 +571,17 @@ class YourInfoContent extends Component {
             this.state.hanhlychildforplusKhuHoi.forEach(element => {
                 subtotalOriginal += parseInt(element.sotien);
             });
-
+            this.setState({
+                hanhlychildforplus: hanhlychildforplus,
+                hanhlychildforplusKhuHoi: hanhlychildforplusKhuHoi,
+                subtotal: subtotalOriginal,
+            });
         }
         if (field === "hanhlychildKhuHoi") {
+            var subtotalOriginal = this.state.subtotaloriginal;
             timobject !== null ? timobject.hanhlychildKhuHoi = value : mangtempChild.push(obj);
 
-            let timItemOfHanhly = findObjectByKey(this.state.danhsachhanhly, "code", value); //lấy ra item có code khi thay đổi
+            let timItemOfHanhly = findObjectByKey(this.state.danhsachhanhlyKhuHoi, "code", value); //lấy ra item có code khi thay đổi
             let timhanhlykygui = findObjectByKey(hanhlychildforplusKhuHoi, "id", i);
             timhanhlykygui.sotien = timItemOfHanhly.sotien;
 
@@ -569,14 +597,15 @@ class YourInfoContent extends Component {
             this.state.hanhlychildforplusKhuHoi.forEach(element => {
                 subtotalOriginal += parseInt(element.sotien);
             });
-
+            this.setState({
+                hanhlychildforplus: hanhlychildforplus,
+                hanhlychildforplusKhuHoi: hanhlychildforplusKhuHoi,
+                subtotal: subtotalOriginal,
+            });
         }
 
         this.setState({
             mangchild: mangtempChild,
-            hanhlychildforplus: hanhlychildforplus,
-            hanhlychildforplusKhuHoi: hanhlychildforplusKhuHoi,
-            subtotal: subtotalOriginal,
         });
     }
 
@@ -667,7 +696,6 @@ class YourInfoContent extends Component {
         }
 
         if (testOKadult === 0 && testOKchild === 0 && testOKinf === 0 && testOKINFO === 0) {
-            alert("Submit thôi!");
             axios.post("/infobooking", {
                 thongtinvedi: this.state.thongtinvedi,
                 thongtinveKhuHoi: this.state.thongtinveKhuHoi,
@@ -700,13 +728,13 @@ class YourInfoContent extends Component {
         let child = (localStorage.getItem("child")) ? localStorage.getItem("child") : 0;
         let inf = (localStorage.getItem("inf")) ? localStorage.getItem("inf") : 0;
         let tongsonguoi = parseInt(adult) + parseInt(child) + parseInt(inf);
-        let taxfeeadult = Array.isArray(ticketchoosed.adult) ? 0 : ticketchoosed.adult.taxfee;
-        let taxfeechild = Array.isArray(ticketchoosed.child) ? 0 : ticketchoosed.child.taxfee;
-        let taxfeeinf = Array.isArray(ticketchoosed.inf) ? 0 : parseInt(ticketchoosed.inf.taxfee);
+        let taxfeeadult = Array.isArray(ticketchoosed.adult) ? 0 : (ticketchoosed.adult.taxfee - (priceAdultOrigin) + (priceAdult));
+        let taxfeechild = Array.isArray(ticketchoosed.child) ? 0 : (ticketchoosed.child.taxfee - (priceChildOrigin) + (priceChild));
+        let taxfeeinf = Array.isArray(ticketchoosed.inf) ? 0 : (parseInt(ticketchoosed.inf.taxfee) - (priceInfOrigin) + (priceInf));
         let subtotalfirst = ticketchoosed.subtotal;
-        let taxfeeadultKhuHoi = ticketchoosedKhuHoi !== null ? Array.isArray(ticketchoosedKhuHoi.adult) ? 0 : ticketchoosedKhuHoi.adult.taxfee : 0;
-        let taxfeechildKhuHoi = ticketchoosedKhuHoi !== null ? Array.isArray(ticketchoosedKhuHoi.child) ? 0 : ticketchoosedKhuHoi.child.taxfee : 0;
-        let taxfeeinfKhuHoi = ticketchoosedKhuHoi !== null ? Array.isArray(ticketchoosedKhuHoi.inf) ? 0 : parseInt(ticketchoosedKhuHoi.inf.taxfee) : 0;
+        let taxfeeadultKhuHoi = ticketchoosedKhuHoi !== null ? Array.isArray(ticketchoosedKhuHoi.adult) ? 0 : (ticketchoosedKhuHoi.adult.taxfee - (priceAdultOrigin) + (priceAdult)) : 0;
+        let taxfeechildKhuHoi = ticketchoosedKhuHoi !== null ? Array.isArray(ticketchoosedKhuHoi.child) ? 0 : (ticketchoosedKhuHoi.child.taxfee - (priceChildOrigin) + (priceChild)) : 0;
+        let taxfeeinfKhuHoi = ticketchoosedKhuHoi !== null ? Array.isArray(ticketchoosedKhuHoi.inf) ? 0 : (parseInt(ticketchoosedKhuHoi.inf.taxfee) - (priceInfOrigin) + (priceInf)) : 0;
         let subtotalsecond = ticketchoosedKhuHoi !== null ? ticketchoosedKhuHoi.subtotal : 0;
         let totaltaxfee = taxfeeadult + taxfeechild + taxfeeinf;
         let totaltaxfeeKhuHoi = taxfeeadultKhuHoi + taxfeechildKhuHoi + taxfeeinfKhuHoi;
@@ -720,6 +748,8 @@ class YourInfoContent extends Component {
         let adultToReturn = [];
         let childToReturn = [];
         let infToReturn = [];
+
+        var totalall = ticketchoosed.subtotal ? (ticketchoosed.subtotal - (((priceAdultOrigin - priceAdult) * adultnum) + ((priceChildOrigin - priceChild) * childnum) + ((priceInfOrigin - priceInf) * infnum))) + (ticketchoosedKhuHoi !== null ? (ticketchoosedKhuHoi.subtotal - (((priceAdultOrigin - priceAdult) * adultnum) + ((priceChildOrigin - priceChild) * childnum) + ((priceInfOrigin - priceInf) * infnum))) : 0) : 0;
 
         var adultshow = () => {
             for (var i = 1; i <= adult; i++) {
@@ -776,50 +806,26 @@ class YourInfoContent extends Component {
                                     <ul style={{ width: '100%', margin: '5px auto 0', padding: 0, listStyle: 'none', float: 'left', clear: 'both' }}>
                                         <li className="col-xs-12 col-md-6 col-sm-6 mb-10">
                                             <select defaultValue="0" onChange={this.isChangeAdult.bind(this, i, "hanhlyadult")} className="form-control" id={"hanhlyadult"} name={"hanhlyadult"}  >
-                                                <option value="0" >KHỞI HÀNH: Không mang hành lý ký gửi</option>
-                                                <option value="1">
-                                                    Thêm 15Kg hành lý (160.000 VND)
-                          </option>
-                                                <option value="2">
-                                                    Thêm 20Kg hành lý (180.000 VND)
-                          </option>
-                                                <option value="3">
-                                                    Thêm 25Kg hành lý (250.000 VND)
-                          </option>
-                                                <option value="4">
-                                                    Thêm 30Kg hành lý (360.000 VND)
-                          </option>
-                                                <option value="5">
-                                                    Thêm 35Kg hành lý (420.000 VND)
-                          </option>
-                                                <option value="6">
-                                                    Thêm 40Kg hành lý (480.000 VND)
-                          </option>
+                                                {this.state.danhsachhanhly !== null ? this.state.danhsachhanhly.map((value, key) => {
+                                                    return (
+                                                        <option key={key} value={value.code}>
+                                                            {value.tenhanhly}
+                                                        </option>
+                                                    )
+                                                }) : null}
                                             </select>
                                         </li>
                                         {
                                             ticketchoosedKhuHoi !== null ?
                                                 <li className="col-xs-12 col-md-6 col-sm-6 mb-10">
                                                     <select defaultValue="0" onChange={this.isChangeAdult.bind(this, i, "hanhlyadultKhuHoi")} className="form-control" id={"hanhlyadultKhuHoi"} name={"hanhlyadultKhuHoi"}>
-                                                        <option value="0" >KHỨ HỒI: Không mang hành lý ký gửi</option>
-                                                        <option value="1">
-                                                            Thêm 15Kg hành lý (160.000 VND)
-                          </option>
-                                                        <option value="2">
-                                                            Thêm 20Kg hành lý (180.000 VND)
-                          </option>
-                                                        <option value="3">
-                                                            Thêm 25Kg hành lý (250.000 VND)
-                          </option>
-                                                        <option value="4">
-                                                            Thêm 30Kg hành lý (360.000 VND)
-                          </option>
-                                                        <option value="5">
-                                                            Thêm 35Kg hành lý (420.000 VND)
-                          </option>
-                                                        <option value="6">
-                                                            Thêm 40Kg hành lý (480.000 VND)
-                          </option>
+                                                        {this.state.danhsachhanhlyKhuHoi !== null ? this.state.danhsachhanhlyKhuHoi.map((value, key) => {
+                                                            return (
+                                                                <option key={key} value={value.code}>
+                                                                    {value.tenhanhly}
+                                                                </option>
+                                                            )
+                                                        }) : null}
                                                     </select>
                                                 </li>
                                                 : null
@@ -909,50 +915,26 @@ class YourInfoContent extends Component {
                                     <ul style={{ width: '100%', margin: '5px auto 0', padding: 0, listStyle: 'none', float: 'left', clear: 'both' }}>
                                         <li className="col-xs-12 col-md-6 col-sm-6 mb-10">
                                             <select defaultValue="0" onChange={this.isChangeChild.bind(this, i, "hanhlychild")} className="form-control" id={"hanhlychild"} name={"hanhlychild"}>
-                                                <option value="0" >KHỞI HÀNH: Không mang hành lý ký gửi</option>
-                                                <option value="1">
-                                                    Thêm 15Kg hành lý (160.000 VND)
-                          </option>
-                                                <option value="2">
-                                                    Thêm 20Kg hành lý (180.000 VND)
-                          </option>
-                                                <option value="3">
-                                                    Thêm 25Kg hành lý (250.000 VND)
-                          </option>
-                                                <option value="4">
-                                                    Thêm 30Kg hành lý (360.000 VND)
-                          </option>
-                                                <option value="5">
-                                                    Thêm 35Kg hành lý (420.000 VND)
-                          </option>
-                                                <option value="6">
-                                                    Thêm 40Kg hành lý (480.000 VND)
-                          </option>
+                                                {this.state.danhsachhanhly !== null ? this.state.danhsachhanhly.map((value, key) => {
+                                                    return (
+                                                        <option key={key} value={value.code}>
+                                                            {value.tenhanhly}
+                                                        </option>
+                                                    )
+                                                }) : null}
                                             </select>
                                         </li>
                                         {
                                             ticketchoosedKhuHoi !== null ?
                                                 <li className="col-xs-12 col-md-6 col-sm-6 mb-10">
                                                     <select defaultValue="0" onChange={this.isChangeChild.bind(this, i, "hanhlychildKhuHoi")} className="form-control" id={"hanhlychildKhuHoi"} name={"hanhlychildKhuHoi"}>
-                                                        <option value="0" >KHỨ HỒI: Không mang hành lý ký gửi</option>
-                                                        <option value="1">
-                                                            Thêm 15Kg hành lý (160.000 VND)
-                          </option>
-                                                        <option value="2">
-                                                            Thêm 20Kg hành lý (180.000 VND)
-                          </option>
-                                                        <option value="3">
-                                                            Thêm 25Kg hành lý (250.000 VND)
-                          </option>
-                                                        <option value="4">
-                                                            Thêm 30Kg hành lý (360.000 VND)
-                          </option>
-                                                        <option value="5">
-                                                            Thêm 35Kg hành lý (420.000 VND)
-                          </option>
-                                                        <option value="6">
-                                                            Thêm 40Kg hành lý (480.000 VND)
-                          </option>
+                                                        {this.state.danhsachhanhlyKhuHoi !== null ? this.state.danhsachhanhlyKhuHoi.map((value, key) => {
+                                                            return (
+                                                                <option key={key} value={value.code}>
+                                                                    {value.tenhanhly}
+                                                                </option>
+                                                            )
+                                                        }) : null}
                                                     </select>
                                                 </li>
                                                 : null
@@ -1045,9 +1027,7 @@ class YourInfoContent extends Component {
                                                 <tbody>
                                                     <tr>
                                                         <td className="FlightItinerary">
-                                                            <span>
-                                                                <img alt="Flight outbound" src="/App_Themes/FrontEnd/images/icon/flights-icon-outbound.png" />
-                                                            </span>
+
                                                             Chuyến đi: <span>{dep} → {des}</span>
                                                         </td>
                                                         <td className="FlightWarning text-right">
@@ -1090,9 +1070,7 @@ class YourInfoContent extends Component {
                                                         <tbody>
                                                             <tr>
                                                                 <td className="FlightItinerary">
-                                                                    <span>
-                                                                        <img alt="Flight outbound" src="/App_Themes/FrontEnd/images/icon/flights-icon-inbound.png" />
-                                                                    </span>
+
                                                                     Chuyến đi: <span>{des} → {dep}</span>
                                                                 </td>
                                                                 <td className="FlightWarning text-right">
@@ -1222,7 +1200,7 @@ class YourInfoContent extends Component {
                                         </table>
                                     </div>
                                 </div>
-                                
+
                                 {/* <div className="simple_box no-padding mb-20 selected">
                                     <h3><i className="fa fa-money mr-5" aria-hidden="true" />Hình thức thanh toán</h3>
                                     <div className="pd-15" style={{ "padding": "15px" }}>
@@ -1327,7 +1305,7 @@ class YourInfoContent extends Component {
                                                 <tbody>
                                                     <tr>
                                                         <td>Chi phí</td>
-                                                        <td className="amount"><span>{ticketchoosed.subtotal.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)}</span> VNĐ</td>
+                                                        <td className="amount"><span>{(ticketchoosed.subtotal - (((priceAdultOrigin - priceAdult) * adultnum) + ((priceChildOrigin - priceChild) * childnum) + ((priceInfOrigin - priceInf) * infnum))).toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)}</span> VNĐ</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -1384,7 +1362,7 @@ class YourInfoContent extends Component {
                                                         <tbody>
                                                             <tr>
                                                                 <td>Chi phí</td>
-                                                                <td className="amount"><span>{ticketchoosedKhuHoi.subtotal.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)}</span> VNĐ</td>
+                                                                <td className="amount"><span>{(ticketchoosedKhuHoi.subtotal - (((priceAdultOrigin - priceAdult) * adultnum) + ((priceChildOrigin - priceChild) * childnum) + ((priceInfOrigin - priceInf) * infnum))).toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)}</span> VNĐ</td>
                                                             </tr>
                                                         </tbody>
                                                     </table>

@@ -23,6 +23,16 @@ const get_full_day_format_vietnam = (custom_date) => {
   return fulldayformatvietnam;
 }
 
+var priceAdultOrigin = 65000;
+var priceChildOrigin = 65000;
+var priceInfOrigin = 40000;
+var priceAdult = 50000;
+var priceChild = 50000;
+var priceInf = 40000;
+var adultnum = localStorage.getItem("adult") ? parseInt(localStorage.getItem("adult")) : 1;
+var childnum = localStorage.getItem("child") ? parseInt(localStorage.getItem("child")) : 0;
+var infnum = localStorage.getItem("inf") ? parseInt(localStorage.getItem("inf")) : 0;
+
 class MyLargeModal extends Component {
   constructor(props, context) {
     super(props, context);
@@ -39,8 +49,8 @@ class MyLargeModal extends Component {
   }
 
   redirectToInputInfo() {
-    localStorage.setItem("ticketchoosed",JSON.stringify(this.props.fullinfo));
-    localStorage.setItem("ticketchoosedkhuhoi",JSON.stringify(this.props.fullinfoKhuHoi));
+    localStorage.setItem("ticketchoosed", JSON.stringify(this.props.fullinfo));
+    localStorage.setItem("ticketchoosedkhuhoi", JSON.stringify(this.props.fullinfoKhuHoi));
     window.location.replace("/yourinfo");
   }
   handleAnhieninfo() {
@@ -56,7 +66,7 @@ class MyLargeModal extends Component {
   }
 
   render() {
-    var totalall = this.props.fullinfo.subtotal + (this.props.fullinfoKhuHoi !== null ? this.props.fullinfoKhuHoi.subtotal : 0);
+    var totalall = (this.props.fullinfo.subtotal - (((priceAdultOrigin - priceAdult) * adultnum) + ((priceChildOrigin - priceChild) * childnum) + ((priceInfOrigin - priceInf) * infnum))) + (this.props.fullinfoKhuHoi !== null ? (this.props.fullinfoKhuHoi.subtotal - (((priceAdultOrigin - priceAdult) * adultnum) + ((priceChildOrigin - priceChild) * childnum) + ((priceInfOrigin - priceInf) * infnum))) : 0);
     var logo = this.props.fullinfo.airline === "Vietjet" ? vietjetlogo : this.props.fullinfo.airline === "Jetstar" ? jetstarlogo : vietnamairlinelogo;
     var logokhuhoi = this.props.fullinfoKhuHoi !== null ? this.props.fullinfoKhuHoi.airline === "Vietjet" ? vietjetlogo : this.props.fullinfoKhuHoi.airline === "Jetstar" ? jetstarlogo : vietnamairlinelogo : "";
     var showModalForTotalTable = (this.props.fullinfo !== null && this.props.fullinfoKhuHoi !== null) ?
@@ -68,8 +78,9 @@ class MyLargeModal extends Component {
             <tr>
               <td className="ItemHeader">Hành khách</td>
               <td className="ItemHeader">Số lượng</td>
-              <td className="ItemHeader">Giá vé</td>
+              <td className="ItemHeader">Giá hãng</td>
               <td className="ItemHeader">Thuế và phí</td>
+              <td className="ItemHeader">Giá 1 vé</td>
               <td className="ItemHeader">Thành tiền</td>
             </tr>
           </thead>
@@ -78,48 +89,53 @@ class MyLargeModal extends Component {
               <td>Người lớn <small>(&gt; 12 tuổi)</small></td>
               <td><strong>{localStorage.getItem("adult") ? localStorage.getItem("adult") : "1"}</strong></td>
               <td><strong className="ItemPrice">{this.props.fullinfo.baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
-              <td><strong className="ItemPrice">{this.props.fullinfo.adult.taxfee.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
-              <td><strong className="ItemPrice">{this.props.fullinfo.adult.total.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
+              <td><strong className="ItemPrice">{(this.props.fullinfo.adult.taxfee - (priceAdultOrigin) + (priceAdult)).toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
+              <td><strong className="ItemPrice">{((this.props.fullinfo.adult.taxfee - (priceAdultOrigin) + (priceAdult)) + this.props.fullinfo.baseprice).toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
+              <td><strong className="ItemPrice">{(((this.props.fullinfo.adult.taxfee - (priceAdultOrigin) + (priceAdult)) + this.props.fullinfo.baseprice) * adultnum).toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
             </tr>
             {
-              Array.isArray(this.props.fullinfo.child) ? "" :
+              Array.isArray(this.props.fullinfo.child) ? null :
                 <tr style={{ "textAlign": 'center' }}>
                   <td>Trẻ em <small>(2-12 tuổi)</small></td>
                   <td><strong>{localStorage.getItem("child") ? localStorage.getItem("child") : "0"}</strong></td>
                   <td><strong className="ItemPrice">{this.props.fullinfo.child.baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
-                  <td><strong className="ItemPrice">{this.props.fullinfo.child.taxfee.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
-                  <td><strong className="ItemPrice">{this.props.fullinfo.child.total.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
+                  <td><strong className="ItemPrice">{(this.props.fullinfo.child.taxfee - (priceChildOrigin) + (priceChild)).toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
+                  <td><strong className="ItemPrice">{((this.props.fullinfo.child.taxfee - (priceChildOrigin) + (priceChild)) + this.props.fullinfo.child.baseprice).toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
+                  <td><strong className="ItemPrice">{(((this.props.fullinfo.child.taxfee - (priceChildOrigin) + (priceChild)) + this.props.fullinfo.child.baseprice) * childnum).toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
                 </tr>
             }
             {
-              Array.isArray(this.props.fullinfo.inf) ? "" :
+              Array.isArray(this.props.fullinfo.inf) ? null :
                 <tr style={{ "textAlign": 'center' }}>
                   <td>Em bé <small>(&lt; 2 tuổi)</small></td>
                   <td><strong>{localStorage.getItem("inf") ? localStorage.getItem("inf") : "0"}</strong></td>
                   <td><strong className="ItemPrice">{this.props.fullinfo.inf.baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
-                  <td><strong className="ItemPrice">{this.props.fullinfo.inf.total.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
-                  <td><strong className="ItemPrice">{this.props.fullinfo.inf.total.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
+                  <td><strong className="ItemPrice">{(parseInt(this.props.fullinfo.inf.taxfee) - (priceInfOrigin) + (priceInf)).toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
+                  <td><strong className="ItemPrice">{((parseInt(this.props.fullinfo.inf.taxfee) - (priceInfOrigin) + (priceInf)) + this.props.fullinfo.inf.baseprice).toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
+                  <td><strong className="ItemPrice">{(((parseInt(this.props.fullinfo.inf.taxfee) - (priceInfOrigin) + (priceInf)) + this.props.fullinfo.inf.baseprice) * infnum).toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
                 </tr>
             }
             <tr style={{ "textAlign": 'center' }}>
               <td></td>
               <td></td>
               <td></td>
+              <td></td>
               <td>TỔNG TIỀN:</td>
-              <td><strong className="ItemPrice" style={{ "color": "#0770cd" }}>{this.props.fullinfo.subtotal.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
+              <td><strong className="ItemPrice" style={{ "color": "#0770cd" }}>{(this.props.fullinfo.subtotal - (((priceAdultOrigin - priceAdult) * adultnum) + ((priceChildOrigin - priceChild) * childnum) + ((priceInfOrigin - priceInf) * infnum))).toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
             </tr>
           </tbody>
         </table>
 
         <h3>Khứ hồi:</h3>
 
-        <table className="TablePrice" style={{ width: '100%' }} cellSpacing={5} cellPadding={5} border={0}>
+        <table className="TablePrice" style={{ "width": '100%' }} cellSpacing={5} cellPadding={5} border={0}>
           <thead>
             <tr>
               <td className="ItemHeader">Hành khách</td>
               <td className="ItemHeader">Số lượng</td>
-              <td className="ItemHeader">Giá vé</td>
+              <td className="ItemHeader">Giá hãng</td>
               <td className="ItemHeader">Thuế và phí</td>
+              <td className="ItemHeader">Giá 1 vé</td>
               <td className="ItemHeader">Thành tiền</td>
             </tr>
           </thead>
@@ -128,37 +144,40 @@ class MyLargeModal extends Component {
               <td>Người lớn <small>(&gt; 12 tuổi)</small></td>
               <td><strong>{localStorage.getItem("adult") ? localStorage.getItem("adult") : "1"}</strong></td>
               <td><strong className="ItemPrice">{this.props.fullinfoKhuHoi.baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
-              <td><strong className="ItemPrice">{this.props.fullinfoKhuHoi.adult.taxfee.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
-              <td><strong className="ItemPrice">{this.props.fullinfoKhuHoi.adult.total.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
+              <td><strong className="ItemPrice">{(this.props.fullinfoKhuHoi.adult.taxfee - (priceAdultOrigin) + (priceAdult)).toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
+              <td><strong className="ItemPrice">{((this.props.fullinfoKhuHoi.adult.taxfee - (priceAdultOrigin) + (priceAdult)) + this.props.fullinfoKhuHoi.baseprice).toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
+              <td><strong className="ItemPrice">{(((this.props.fullinfoKhuHoi.adult.taxfee - (priceAdultOrigin) + (priceAdult)) + this.props.fullinfoKhuHoi.baseprice) * adultnum).toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
             </tr>
             {
-              Array.isArray(this.props.fullinfoKhuHoi.child) ? "" :
+              Array.isArray(this.props.fullinfoKhuHoi.child) ? null :
                 <tr style={{ "textAlign": 'center' }}>
                   <td>Trẻ em <small>(2-12 tuổi)</small></td>
                   <td><strong>{localStorage.getItem("child") ? localStorage.getItem("child") : "0"}</strong></td>
                   <td><strong className="ItemPrice">{this.props.fullinfoKhuHoi.child.baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
-                  <td><strong className="ItemPrice">{this.props.fullinfoKhuHoi.child.taxfee.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
-                  <td><strong className="ItemPrice">{this.props.fullinfoKhuHoi.child.total.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
+                  <td><strong className="ItemPrice">{(this.props.fullinfoKhuHoi.child.taxfee - (priceChildOrigin) + (priceChild)).toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
+                  <td><strong className="ItemPrice">{((this.props.fullinfoKhuHoi.child.taxfee - (priceChildOrigin) + (priceChild)) + this.props.fullinfoKhuHoi.child.baseprice).toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
+                  <td><strong className="ItemPrice">{(((this.props.fullinfoKhuHoi.child.taxfee - (priceChildOrigin) + (priceChild)) + this.props.fullinfoKhuHoi.child.baseprice) * childnum).toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
                 </tr>
             }
             {
-              Array.isArray(this.props.fullinfoKhuHoi.inf) ? "" :
+              Array.isArray(this.props.fullinfoKhuHoi.inf) ? null :
                 <tr style={{ "textAlign": 'center' }}>
                   <td>Em bé <small>(&lt; 2 tuổi)</small></td>
                   <td><strong>{localStorage.getItem("inf") ? localStorage.getItem("inf") : "0"}</strong></td>
                   <td><strong className="ItemPrice">{this.props.fullinfoKhuHoi.inf.baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
-                  <td><strong className="ItemPrice">{this.props.fullinfoKhuHoi.inf.total.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
-                  <td><strong className="ItemPrice">{this.props.fullinfoKhuHoi.inf.total.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
+                  <td><strong className="ItemPrice">{(parseInt(this.props.fullinfoKhuHoi.inf.taxfee) - (priceInfOrigin) + (priceInf)).toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
+                  <td><strong className="ItemPrice">{((parseInt(this.props.fullinfoKhuHoi.inf.taxfee) - (priceInfOrigin) + (priceInf)) + this.props.fullinfoKhuHoi.inf.baseprice).toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
+                  <td><strong className="ItemPrice">{(((parseInt(this.props.fullinfoKhuHoi.inf.taxfee) - (priceInfOrigin) + (priceInf)) + this.props.fullinfoKhuHoi.inf.baseprice) * infnum).toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
                 </tr>
             }
             <tr style={{ "textAlign": 'center' }}>
               <td></td>
               <td></td>
               <td></td>
+              <td></td>
               <td>TỔNG TIỀN:</td>
-              <td><strong className="ItemPrice" style={{ "color": "#0770cd" }}>{this.props.fullinfoKhuHoi.subtotal.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
+              <td><strong className="ItemPrice" style={{ "color": "#0770cd" }}>{(this.props.fullinfoKhuHoi.subtotal - (((priceAdultOrigin - priceAdult) * adultnum) + ((priceChildOrigin - priceChild) * childnum) + ((priceInfOrigin - priceInf) * infnum))).toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
             </tr>
-
           </tbody>
         </table>
 
@@ -167,13 +186,14 @@ class MyLargeModal extends Component {
       : <React.Fragment>
         <h3>Khởi hành:</h3>
 
-        <table className="TablePrice" style={{ width: '100%' }} cellSpacing={5} cellPadding={5} border={0}>
+        <table className="TablePrice" style={{ "width": '100%' }} cellSpacing={5} cellPadding={5} border={0}>
           <thead>
             <tr>
               <td className="ItemHeader">Hành khách</td>
               <td className="ItemHeader">Số lượng</td>
-              <td className="ItemHeader">Giá vé</td>
+              <td className="ItemHeader">Giá hãng</td>
               <td className="ItemHeader">Thuế và phí</td>
+              <td className="ItemHeader">Giá 1 vé</td>
               <td className="ItemHeader">Thành tiền</td>
             </tr>
           </thead>
@@ -182,37 +202,40 @@ class MyLargeModal extends Component {
               <td>Người lớn <small>(&gt; 12 tuổi)</small></td>
               <td><strong>{localStorage.getItem("adult") ? localStorage.getItem("adult") : "1"}</strong></td>
               <td><strong className="ItemPrice">{this.props.fullinfo.baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
-              <td><strong className="ItemPrice">{this.props.fullinfo.adult.taxfee.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
-              <td><strong className="ItemPrice">{this.props.fullinfo.adult.total.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
+              <td><strong className="ItemPrice">{(this.props.fullinfo.adult.taxfee - (priceAdultOrigin) + (priceAdult)).toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
+              <td><strong className="ItemPrice">{((this.props.fullinfo.adult.taxfee - (priceAdultOrigin) + (priceAdult)) + this.props.fullinfo.baseprice).toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
+              <td><strong className="ItemPrice">{(((this.props.fullinfo.adult.taxfee - (priceAdultOrigin) + (priceAdult)) + this.props.fullinfo.baseprice) * adultnum).toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
             </tr>
             {
-              Array.isArray(this.props.fullinfo.child) ? "" :
+              Array.isArray(this.props.fullinfo.child) ? null :
                 <tr style={{ "textAlign": 'center' }}>
                   <td>Trẻ em <small>(2-12 tuổi)</small></td>
                   <td><strong>{localStorage.getItem("child") ? localStorage.getItem("child") : "0"}</strong></td>
                   <td><strong className="ItemPrice">{this.props.fullinfo.child.baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
-                  <td><strong className="ItemPrice">{this.props.fullinfo.child.taxfee.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
-                  <td><strong className="ItemPrice">{this.props.fullinfo.child.total.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
+                  <td><strong className="ItemPrice">{(this.props.fullinfo.child.taxfee - (priceChildOrigin) + (priceChild)).toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
+                  <td><strong className="ItemPrice">{((this.props.fullinfo.child.taxfee - (priceChildOrigin) + (priceChild)) + this.props.fullinfo.child.baseprice).toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
+                  <td><strong className="ItemPrice">{(((this.props.fullinfo.child.taxfee - (priceChildOrigin) + (priceChild)) + this.props.fullinfo.child.baseprice) * childnum).toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
                 </tr>
             }
             {
-              Array.isArray(this.props.fullinfo.inf) ? "" :
+              Array.isArray(this.props.fullinfo.inf) ? null :
                 <tr style={{ "textAlign": 'center' }}>
                   <td>Em bé <small>(&lt; 2 tuổi)</small></td>
                   <td><strong>{localStorage.getItem("inf") ? localStorage.getItem("inf") : "0"}</strong></td>
                   <td><strong className="ItemPrice">{this.props.fullinfo.inf.baseprice.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
-                  <td><strong className="ItemPrice">{this.props.fullinfo.inf.total.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
-                  <td><strong className="ItemPrice">{this.props.fullinfo.inf.total.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
+                  <td><strong className="ItemPrice">{(parseInt(this.props.fullinfo.inf.taxfee) - (priceInfOrigin) + (priceInf)).toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
+                  <td><strong className="ItemPrice">{((parseInt(this.props.fullinfo.inf.taxfee) - (priceInfOrigin) + (priceInf)) + this.props.fullinfo.inf.baseprice).toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
+                  <td><strong className="ItemPrice">{(((parseInt(this.props.fullinfo.inf.taxfee) - (priceInfOrigin) + (priceInf)) + this.props.fullinfo.inf.baseprice) * infnum).toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
                 </tr>
             }
             <tr style={{ "textAlign": 'center' }}>
               <td></td>
               <td></td>
               <td></td>
+              <td></td>
               <td>TỔNG TIỀN:</td>
-              <td><strong className="ItemPrice" style={{ "color": "#0770cd" }}>{this.props.fullinfo.subtotal.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
+              <td><strong className="ItemPrice" style={{ "color": "#0770cd" }}>{(this.props.fullinfo.subtotal - (((priceAdultOrigin - priceAdult) * adultnum) + ((priceChildOrigin - priceChild) * childnum) + ((priceInfOrigin - priceInf) * infnum))).toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></td>
             </tr>
-
           </tbody>
         </table>
 
@@ -301,7 +324,10 @@ class MyLargeModal extends Component {
 
             {this.state.anhieninfo === true ? showModalForTotalTable : ""}
 
-            <p style={{ "float": "right", "fontSize": "18px", "color": "black" }}>TỔNG THÀNH TIỀN:<strong style={{ "fontSize": "25px", "color": "#0770cd" }} className="ItemPrice"> {totalall.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND</strong></p>
+            <p style={{ "float": "right", "fontSize": "18px", "color": "black" }}>TỔNG THÀNH TIỀN: <strong style={{ "fontSize": "25px", "color": "#0770cd" }} className="ItemPrice">
+                {totalall.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND
+            </strong>
+            </p>
 
           </Modal.Body>
           <Modal.Footer>
