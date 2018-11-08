@@ -452,7 +452,7 @@ class Slider extends Component {
                                         </div>
                                         <div className="col-xs-12 col-sm-12 col-md-12">
                                             <div className="iw-search-now">
-                                                <button onClick={(event) => this.handleClick(event)} className="theme-bg"><i className="ion-paper-airplane" /> Search</button>
+                                                <button onClick={(event) => this.handleClick(event)} className="theme-bg"><i className="ion-paper-airplane" /> TÌM CHUYẾN BAY</button>
                                             </div>
                                         </div>
                                     </div>

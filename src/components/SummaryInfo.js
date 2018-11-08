@@ -75,7 +75,7 @@ class SummaryInfo extends Component {
             if (this.state.datahoadon.data[0].hinhthucthanhtoan === null) {
                 return (
                     <HinhThucThanhToan
-
+                        idhoadon={this.state.idhoadon}
                     />
                 )
             } else {

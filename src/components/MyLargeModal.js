@@ -247,6 +247,7 @@ class MyLargeModal extends Component {
             <tr>
               <td className="ItemHeader" style={{ "textAlign": 'center', "color": "red" }}>Khởi hành</td>
               <td className="ItemHeader" style={{ "textAlign": 'center' }}>Hãng bay</td>
+              <td className="ItemHeader" style={{ "textAlign": 'center' }}>Chặng bay</td>
               <td className="ItemHeader" style={{ "textAlign": 'center' }}>Thời gian đi</td>
               <td className="ItemHeader" style={{ "textAlign": 'center' }}>Thời gian đến</td>
             </tr>
@@ -255,6 +256,7 @@ class MyLargeModal extends Component {
             <tr style={{ "textAlign": 'center' }}>
               <td>{get_day_name(this.props.fullinfo.datefull)}, {get_full_day_format_vietnam(this.props.fullinfo.datefull)}</td>
               <td><img className="airlineResultLogo" src={logo} />{this.props.fullinfo.airline}</td>
+              <td>{this.props.depfull ? this.props.depfull.ten : null} → {this.props.desfull ? this.props.desfull.ten : null}</td>
               <td>{this.props.fullinfo.deptime}</td>
               <td>{this.props.fullinfo.destime}</td>
             </tr>
@@ -267,6 +269,7 @@ class MyLargeModal extends Component {
             <tr>
               <td className="ItemHeader" style={{ "textAlign": 'center', "color": "red" }}>Khứ hồi</td>
               <td className="ItemHeader" style={{ "textAlign": 'center' }}>Hãng bay</td>
+              <td className="ItemHeader" style={{ "textAlign": 'center' }}>Chặng bay</td>
               <td className="ItemHeader" style={{ "textAlign": 'center' }}>Thời gian đi</td>
               <td className="ItemHeader" style={{ "textAlign": 'center' }}>Thời gian đến</td>
             </tr>
@@ -275,6 +278,7 @@ class MyLargeModal extends Component {
             <tr style={{ "textAlign": 'center' }}>
               <td>{get_day_name(this.props.fullinfoKhuHoi.datefull)}, {get_full_day_format_vietnam(this.props.fullinfoKhuHoi.datefull)}</td>
               <td><img className="airlineResultLogo" src={logokhuhoi} />{this.props.fullinfoKhuHoi.airline}</td>
+              <td>{this.props.desfull ? this.props.desfull.ten : null} → {this.props.depfull ? this.props.depfull.ten : null}</td>
               <td>{this.props.fullinfoKhuHoi.deptime}</td>
               <td>{this.props.fullinfoKhuHoi.destime}</td>
             </tr>
@@ -325,14 +329,14 @@ class MyLargeModal extends Component {
             {this.state.anhieninfo === true ? showModalForTotalTable : ""}
 
             <p style={{ "float": "right", "fontSize": "18px", "color": "black" }}>TỔNG THÀNH TIỀN: <strong style={{ "fontSize": "25px", "color": "#0770cd" }} className="ItemPrice">
-                {totalall.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND
+              {totalall.toFixed(1).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.").slice(0, -2)} VND
             </strong>
             </p>
 
           </Modal.Body>
           <Modal.Footer>
             <Button bsStyle="primary" onClick={this.redirectToInputInfo}>Tiếp tục</Button>
-            <Button onClick={this.handleClose}>Close</Button>
+            <Button onClick={this.handleClose}>Đóng</Button>
           </Modal.Footer>
         </Modal>
       </div>

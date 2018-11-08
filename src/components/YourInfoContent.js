@@ -12,6 +12,11 @@ const getAllHanhLy = () =>
     axios.post('/getallhanhly', {
     }).then((res) => res.data)
 
+const getsanbayByCode = (code) =>
+    axios.post('/getsanbayByCode', {
+        code: code
+    }).then((res) => res.data)
+
 const get_day_name = (custom_date) => {
     var myDate = custom_date;
     myDate = myDate.split("-");
@@ -146,6 +151,10 @@ class YourInfoContent extends Component {
             danhsachhanhlyKhuHoi: null,
             nganhangchoosed: null,
             subtotal: null,
+            depcode: null,
+            descode: null,
+            desfull: null,
+            desfull: null,
             thongtinvedi: localStorage.getItem("ticketchoosed") ? JSON.parse(localStorage.getItem("ticketchoosed")) : null,
             thongtinveKhuHoi: localStorage.getItem("ticketchoosedkhuhoi") ? JSON.parse(localStorage.getItem("ticketchoosedkhuhoi")) : null
         };
@@ -189,6 +198,8 @@ class YourInfoContent extends Component {
         let adult = (localStorage.getItem("adult")) ? localStorage.getItem("adult") : 0;
         let child = (localStorage.getItem("child")) ? localStorage.getItem("child") : 0;
         let inf = (localStorage.getItem("inf")) ? localStorage.getItem("inf") : 0;
+        let dep = localStorage.getItem("dep");
+        let des = localStorage.getItem("des");
         var objquydanhadult = {};
         var objhanhlyadult = {};
         var objhoadult = {};
@@ -203,6 +214,22 @@ class YourInfoContent extends Component {
         var objquydanhinf = {};
         var objngaysinhinf = {};
         var hasKhuHoi = localStorage.getItem("ticketchoosedkhuhoi") ? true : false;
+
+        getsanbayByCode(dep).then((result) => {
+            var tempdata = result.data[0];
+            this.setState({
+                depfull: tempdata,
+                depcode: dep,
+            });
+        })
+        getsanbayByCode(des).then((result) => {
+            var tempdata = result.data[0];
+            this.setState({
+                desfull: tempdata,
+                descode: des,
+            });
+        })
+
         ///////adult
         for (let i = 1; i <= adult; i++) {
             objquydanhadult = { "id": i, "quydanhadult": "ong" };
@@ -638,6 +665,111 @@ class YourInfoContent extends Component {
         });
     }
 
+    printDataDieuKienVe = () => {
+        return (
+            this.state.thongtinvedi.air_code === "BL" ?
+                <p style={{ color: "#0000cd" }}>
+                    <span style={{ color: "#ff6600", fontSize: "18px", fontWeight: "bold" }}>
+                        * Điều kiện giá vé đi ({this.state.thongtinvedi.airline}):
+                                    </span><br />
+                    - Đổi Ngày Giờ Chuyến Bay: Được phép - Thu phí 360,000 VNĐ + Giá vé chênh lệch (nếu có)<br />
+                    - Nâng Hạng: Được phép - Thu phí 360,000 VNĐ + Phí nâng hạng + Giá vé chênh lệch của hạng cao hơn<br />
+                    - Đổi Hành Trình: Không được phép.<br />
+                    - Đổi Tên Hành Khách: Được phép - Thu phí 360,000 VNĐ + Giá vé chênh lệch (nếu có)<br />
+                    - Thời hạn thay đổi (bao gồm thay đổi tên, ngày/chuyến bay): Trước giờ khởi hành 12 tiếng.<br />
+                    - Thời Hạn Dừng Tối Đa: Không được phép<br />
+                </p>
+                : this.state.thongtinvedi.air_code === "VJ" ?
+                    <p style={{ color: "#0000cd" }}>
+                        <span style={{ color: "#ff6600", fontSize: "18px", fontWeight: "bold" }}>
+                            * Điều kiện giá vé đi ({this.state.thongtinvedi.airline}):
+                                            </span><br />
+                        Hoàn Vé: Không được phép
+
+Đổi Tên Hành Khách: Được phép - Thu phí: 495,000 VND
+
+Đổi Hành Trình: Được phép - Thu phí: 374.000 VND + Giá vé chênh lệch (nếu có). Đổi đồng hạng hoặc nâng hạng tương ứng của hành trình mới.
+
+Đổi Ngày Giờ Chuyến Bay: Được phép - Thu phí: 374.000 VND + Giá vé chênh lệch (nếu có).
+
+Bảo lưu: Không được phép
+
+Thời hạn thay đổi (bao gồm thay đổi tên, ngày/chuyến bay): Trước giờ khởi hành 12 tiếng.<br />
+                    </p>
+                    :
+                    <p style={{ color: "#0000cd" }}>
+                        <span style={{ color: "#ff6600", fontSize: "18px", fontWeight: "bold" }}>
+                            * Điều kiện giá vé đi ({this.state.thongtinvedi.airline}):
+                                            </span><br />
+                        Hoàn Vé: Được phép - thu phí: 350.000 VNĐ (Giai đoạn Tết Nguyên đán: 650.000 VNĐ).
+
+Đổi Ngày Giờ Chuyến Bay: - Miễn phí (Trừ giai đoạn tết Nguyên Đán áp dụng phí theo quy định). - Thu chênh lệch giá vé (nếu có).
+
+Đổi Hành Trình: - Miễn phí (Trừ giai đoạn tết Nguyên Đán áp dụng phí theo quy định). - Thu chênh lệch giá vé (nếu có).
+
+Đổi Tên Hành Khách: Không được phép
+
+Điểm Cộng Dặm: 1.10/dặm<br />
+                    </p>
+        )
+
+
+    }
+
+    printDataDieuKienVeKhuHoi = () => {
+        if (localStorage.getItem('ticketchoosedkhuhoi') !== "null") {
+            return (
+                this.state.thongtinveKhuHoi.air_code === "BL" ?
+                    <p style={{ color: "#0000cd" }}>
+                        <span style={{ color: "#ff6600", fontSize: "18px", fontWeight: "bold" }}>
+                            * Điều kiện giá vé khứ hồi ({this.state.thongtinveKhuHoi.airline}):
+                                        </span><br />
+                        - Đổi Ngày Giờ Chuyến Bay: Được phép - Thu phí 360,000 VNĐ + Giá vé chênh lệch (nếu có)<br />
+                        - Nâng Hạng: Được phép - Thu phí 360,000 VNĐ + Phí nâng hạng + Giá vé chênh lệch của hạng cao hơn<br />
+                        - Đổi Hành Trình: Không được phép.<br />
+                        - Đổi Tên Hành Khách: Được phép - Thu phí 360,000 VNĐ + Giá vé chênh lệch (nếu có)<br />
+                        - Thời hạn thay đổi (bao gồm thay đổi tên, ngày/chuyến bay): Trước giờ khởi hành 12 tiếng.<br />
+                        - Thời Hạn Dừng Tối Đa: Không được phép<br />
+                    </p>
+                    : this.state.thongtinveKhuHoi.air_code === "VJ" ?
+                        <p style={{ color: "#0000cd" }}>
+                            <span style={{ color: "#ff6600", fontSize: "18px", fontWeight: "bold" }}>
+                                * Điều kiện giá vé khứ hồi ({this.state.thongtinveKhuHoi.airline}):
+                                                </span><br />
+                            Hoàn Vé: Không được phép
+
+    Đổi Tên Hành Khách: Được phép - Thu phí: 495,000 VND
+
+    Đổi Hành Trình: Được phép - Thu phí: 374.000 VND + Giá vé chênh lệch (nếu có). Đổi đồng hạng hoặc nâng hạng tương ứng của hành trình mới.
+
+    Đổi Ngày Giờ Chuyến Bay: Được phép - Thu phí: 374.000 VND + Giá vé chênh lệch (nếu có).
+
+    Bảo lưu: Không được phép
+
+    Thời hạn thay đổi (bao gồm thay đổi tên, ngày/chuyến bay): Trước giờ khởi hành 12 tiếng.<br />
+                        </p>
+                        :
+                        <p style={{ color: "#0000cd" }}>
+                            <span style={{ color: "#ff6600", fontSize: "18px", fontWeight: "bold" }}>
+                                * Điều kiện giá vé khứ hồi ({this.state.thongtinveKhuHoi.airline}):
+                                                </span><br />
+                            Hoàn Vé: Được phép - thu phí: 350.000 VNĐ (Giai đoạn Tết Nguyên đán: 650.000 VNĐ).
+
+    Đổi Ngày Giờ Chuyến Bay: - Miễn phí (Trừ giai đoạn tết Nguyên Đán áp dụng phí theo quy định). - Thu chênh lệch giá vé (nếu có).
+
+    Đổi Hành Trình: - Miễn phí (Trừ giai đoạn tết Nguyên Đán áp dụng phí theo quy định). - Thu chênh lệch giá vé (nếu có).
+
+    Đổi Tên Hành Khách: Không được phép
+
+    Điểm Cộng Dặm: 1.10/dặm<br />
+                        </p>
+            )
+        }
+
+
+
+    }
+
     printDataNganHang = () => {
         if (this.state.danhsachnganhang !== null) {
             return this.state.danhsachnganhang.map((value, key) =>
@@ -704,6 +836,10 @@ class YourInfoContent extends Component {
                 address: this.state.address,
                 email: this.state.email,
                 yeucau: this.state.message,
+                depcode: this.state.depcode,
+                descode: this.state.descode,
+                depfull: this.state.depfull.ten,
+                desfull: this.state.desfull.ten,
                 nganhangchoosed: this.state.nganhangchoosed,
                 subtotaloriginal: this.state.subtotaloriginal,
                 subtotalwithhanhly: this.state.subtotal,
@@ -789,7 +925,7 @@ class YourInfoContent extends Component {
                   </strong>
                                 <div className="row" style={{ "marginRight": "0px", "marginLeft": "0px" }}>
                                     <div className="col-xs-12 col-sm-6 col-md-6">
-                                        <span>Mỗi hành khách được mang tối đa {ticketchoosed.air_code === "VN" ? 20 : 7} Kg hành lý xách tay.</span>
+                                        <span>Mỗi hành khách được mang tối đa 7 Kg hành lý xách tay.</span>
                                     </div>
 
 
@@ -898,7 +1034,7 @@ class YourInfoContent extends Component {
                   </strong>
                                 <div className="row" style={{ "marginRight": "0px", "marginLeft": "0px" }}>
                                     <div className="col-xs-12 col-sm-6 col-md-6">
-                                        <span>Mỗi hành khách được mang tối đa {ticketchoosed.air_code === "VN" ? 20 : 7} Kg hành lý xách tay.</span>
+                                        <span>Mỗi hành khách được mang tối đa 7 Kg hành lý xách tay.</span>
                                     </div>
 
 
@@ -1245,7 +1381,12 @@ class YourInfoContent extends Component {
                                         <div className="col-xs-4 col-md-3 pull-right">
                                             <button onClick={(event) => { this.handleSubmit(event) }} className="full-width coolButton">
                                                 <i aria-hidden="true" className="fa fa-send mr-5" />Đặt vé
-          </button>
+                                                </button>
+
+                                        </div>
+                                        <div className="col-xs-5 col-md-4 pull-left">
+                                            <button type="button" onClick={() => { window.location.replace("/booking") }} className="full-width coolButton" style={{ "float": "left", "marginRight": "35px" }}>Chọn lại chuyến bay</button>
+
                                         </div>
                                     </div>
                                 </div>
@@ -1256,7 +1397,7 @@ class YourInfoContent extends Component {
                                     <div className="content">
                                         <div className="basket_container">
                                             <div className="leg dep_leg">
-                                                <strong>{ticketchoosed.depcode} -> {ticketchoosed.descode}</strong>
+                                                <strong>{this.state.depfull ? this.state.depfull.ten : null} ({this.state.depfull ? this.state.depfull.code : null}) → {this.state.desfull ? this.state.desfull.ten : null} ({this.state.desfull ? this.state.desfull.code : null})</strong>
                                                 <table>
                                                     <tbody>
                                                         <tr>
@@ -1313,7 +1454,7 @@ class YourInfoContent extends Component {
                                             {ticketchoosedKhuHoi !== null ?
                                                 <React.Fragment>
                                                     <div className="leg dep_leg">
-                                                        <strong>{ticketchoosedKhuHoi.depcode} -> {ticketchoosedKhuHoi.descode}</strong>
+                                                        <strong>{this.state.desfull ? this.state.desfull.ten : null} ({this.state.desfull ? this.state.desfull.code : null}) → {this.state.depfull ? this.state.depfull.ten : null} ({this.state.depfull ? this.state.depfull.code : null})</strong>
                                                         <table>
                                                             <tbody>
                                                                 <tr>
@@ -1386,6 +1527,16 @@ class YourInfoContent extends Component {
                                         </table>
                                     </div>
                                 </div>
+
+                                <div id="special_basket_box" className="sideBox">
+                                    <h3>Điều kiện vé</h3>
+                                    <div className="content">
+                                        {this.printDataDieuKienVe()}
+                                        {this.printDataDieuKienVeKhuHoi()}
+
+                                    </div>
+                                </div>
+
                             </aside>
                         </div>
 

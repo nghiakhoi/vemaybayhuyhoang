@@ -18,6 +18,11 @@ const postTicket = (airlinecode, dep, des, adult = 1, direction = 0, datedep, da
         direction: direction,
     }).then((res) => res.data)
 
+const getsanbayByCode = (code) =>
+    axios.post('/getsanbayByCode', {
+        code: code
+    }).then((res) => res.data)
+
 const formatDate = function formatDate(date) {
     var d = date.getUTCDate().toString(),
         m = (date.getUTCMonth() + 1).toString(),
@@ -111,7 +116,9 @@ class BookingContent extends Component {
             anhienbtngiave: true,
             ticketchoosed: null,
             anhienbtngiavekhuhoi: true,
-            ticketchoosedkhuhoi: null
+            ticketchoosedkhuhoi: null,
+            depfull: null,
+            desfull: null,
 
         }
     }
@@ -2783,6 +2790,18 @@ class BookingContent extends Component {
         this.setState({
             direction: direction
         });
+        getsanbayByCode(dep).then((result) => {
+            var tempdata = result.data[0];
+            this.setState({
+                depfull: tempdata
+            });
+        })
+        getsanbayByCode(des).then((result) => {
+            var tempdata = result.data[0];
+            this.setState({
+                desfull: tempdata
+            });
+        })
         if (this.state.data === null) {
             //get data from day choosen
             this.getJsonTicketFromAPI(dep, des, adult, direction, datedep, datedes, child, inf);
@@ -3032,7 +3051,8 @@ class BookingContent extends Component {
                                 {
                                     localStorage.getItem("direction") === "0" ?
                                         <React.Fragment>
-                                            <h3 style={{ "color": "black" }} className="">Chặng bay {localStorage.getItem("dep")} → {localStorage.getItem("des")} ngày {localStorage.getItem("datedep")}</h3>
+                                            <h3 style={{ "color": "black" }} className="">Chặng bay {this.state.depfull ? this.state.depfull.ten : null} → {this.state.desfull ? this.state.desfull.ten : null} ngày {localStorage.getItem("datedep")}</h3>
+                                            <p style={{ "color": "#bb0301", "fontWeight": "bold" }}>Giá hiển thị CHƯA BAO GỒM thuế và phí</p>
                                             <div className="tour-order-layout-form">
                                                 <form >
                                                     <div className="col-sm-12 col-xs-12 col-lg-12 col-md-12" style={{ "marginBottom": "5px" }}>
@@ -3135,13 +3155,14 @@ class BookingContent extends Component {
                                                 </form>
                                             </div>
                                             <div className="tour-listing-row">
-                                                {this.state.data !== null && this.state.data.length !== 0 ? this.printData() : this.state.notData}
+                                                {this.state.data !== null && this.state.data.length !== 0 ? this.printData() : (this.state.vj === true && this.state.vn === true && this.state.js === true) ? "Đã hết vé, xin vui lòng chọn ngày khác !" : this.state.notData}
                                                 {choosedticket}
                                             </div>
                                         </React.Fragment>
                                         :
                                         <React.Fragment>
-                                            <h3 style={{ "color": "black" }} className="">Chặng bay {localStorage.getItem("dep")} → {localStorage.getItem("des")} ngày {localStorage.getItem("datedep")}</h3>
+                                            <h3 style={{ "color": "black" }} className="">Chặng bay {this.state.depfull ? this.state.depfull.ten : null} → {this.state.desfull ? this.state.desfull.ten : null} ngày {localStorage.getItem("datedep")}</h3>
+                                            <p style={{ "color": "#bb0301", "fontWeight": "bold" }}>Giá hiển thị CHƯA BAO GỒM thuế và phí</p>
                                             <div className="tour-order-layout-form">
                                                 <form >
                                                     <div className="col-sm-12 col-xs-12 col-lg-12 col-md-12" style={{ "marginBottom": "5px" }}>
@@ -3224,7 +3245,7 @@ class BookingContent extends Component {
                                                                             } else {
                                                                                 return (
                                                                                     <div key={k} className=" col-md-1-chia7" >
-                                                                                        <button type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn disabled"  >{i}<br />&nbsp;<span style={{ "color": "red", "fontWeight": "bold" }}>{this.state.datasmallestprice2 !== null ? this.state.datasmallestprice2 + " VND" : ""}</span></button>
+                                                                                        <button type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn disabled"  >{i}<br />&nbsp;<span style={{ "color": "red", "fontWeight": "bold" }}>{this.state.datasmallestprice5 !== null ? this.state.datasmallestprice5 + " VND" : ""}</span></button>
                                                                                     </div>
                                                                                 )
                                                                             }
@@ -3240,7 +3261,7 @@ class BookingContent extends Component {
                                                                             } else {
                                                                                 return (
                                                                                     <div key={k} className=" col-md-1-chia7" >
-                                                                                        <button type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn disabled"  >{i}<br />&nbsp;<span style={{ "color": "red", "fontWeight": "bold" }}>{this.state.datasmallestprice4 !== null ? this.state.datasmallestprice4 + " VND" : ""}</span></button>
+                                                                                        <button type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn disabled"  >{i}<br />&nbsp;<span style={{ "color": "red", "fontWeight": "bold" }}>{this.state.datasmallestprice6 !== null ? this.state.datasmallestprice6 + " VND" : ""}</span></button>
                                                                                     </div>
                                                                                 )
                                                                             }
@@ -3254,7 +3275,7 @@ class BookingContent extends Component {
                                                                             } else {
                                                                                 return (
                                                                                     <div key={k} className=" col-md-1-chia7" >
-                                                                                        <button type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn disabled"  >{i}<br />&nbsp;<span style={{ "color": "red", "fontWeight": "bold" }}>{this.state.datasmallestprice4 !== null ? this.state.datasmallestprice4 + " VND" : ""}</span></button>
+                                                                                        <button type="button" style={{ "padding": "6px 12px" }} className="btn btn-block btn-info newlinebtn disabled"  >{i}<br />&nbsp;<span style={{ "color": "red", "fontWeight": "bold" }}>{this.state.datasmallestprice6 !== null ? this.state.datasmallestprice6 + " VND" : ""}</span></button>
                                                                                     </div>
                                                                                 )
                                                                             }
@@ -3275,11 +3296,11 @@ class BookingContent extends Component {
                                                 </form>
                                             </div>
                                             <div className="tour-listing-row">
-                                                {this.state.data !== null && this.state.data.length !== 0 ? this.printData() : this.state.notData}
+                                                {this.state.data !== null && this.state.data.length !== 0 ? this.printData() : (this.state.vj === true && this.state.vn === true && this.state.js === true) ? "Đã hết vé, xin vui lòng chọn ngày khác !" : this.state.notData}
                                                 {choosedticket}
                                             </div>
 
-                                            <h3 style={{ "color": "black" }} className="">Chặng bay khứ hồi {localStorage.getItem("des")} → {localStorage.getItem("dep")} ngày {localStorage.getItem("datedes")}</h3>
+                                            <h3 style={{ "color": "black" }} className="">Chặng bay khứ hồi {this.state.desfull ? this.state.desfull.ten : null} → {this.state.depfull ? this.state.depfull.ten : null} ngày {localStorage.getItem("datedes")}</h3>
                                             <div className="tour-order-layout-form">
                                                 <form >
                                                     <div className="col-sm-12 col-xs-12 col-lg-12 col-md-12" style={{ "marginBottom": "5px" }}>
@@ -3452,7 +3473,7 @@ class BookingContent extends Component {
                                                 </form>
                                             </div>
                                             <div className="tour-listing-row">
-                                                {this.state.datakhuhoi !== null && this.state.datakhuhoi.length !== 0 ? this.printDataKhuHoi() : this.state.notData}
+                                                {this.state.datakhuhoi !== null && this.state.datakhuhoi.length !== 0 ? this.printDataKhuHoi() : (this.state.vj === true && this.state.vn === true && this.state.js === true) ? "Đã hết vé, xin vui lòng chọn ngày khác !" : this.state.notData}
                                                 {choosedticketKhuHoi}
                                             </div>
                                         </React.Fragment>
@@ -3461,15 +3482,14 @@ class BookingContent extends Component {
 
                                 {localStorage.getItem("direction") === "1" ?
                                     (this.state.ticketchoosed !== null && this.state.ticketchoosedkhuhoi !== null) ?
-                                        <MyLargeModal fullinfo={this.state.ticketchoosed} fullinfoKhuHoi={this.state.ticketchoosedkhuhoi} />
+                                        <MyLargeModal depfull={this.state.depfull} desfull={this.state.desfull} fullinfo={this.state.ticketchoosed} fullinfoKhuHoi={this.state.ticketchoosedkhuhoi} />
                                         : ""
                                     :
                                     (this.state.ticketchoosed !== null) ?
-                                        <MyLargeModal fullinfo={this.state.ticketchoosed} fullinfoKhuHoi={this.state.ticketchoosedkhuhoi} />
+                                        <MyLargeModal depfull={this.state.depfull} desfull={this.state.desfull} fullinfo={this.state.ticketchoosed} fullinfoKhuHoi={this.state.ticketchoosedkhuhoi} />
                                         : ""
                                 }
-
-
+                                
 
                             </div>
 
