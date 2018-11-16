@@ -150,7 +150,7 @@ class DanhSachTinTucContent extends Component {
                                                         return (
                                                             <li key={key} className="recent-blog-post">
                                                                 <a className="recent-blog-post-thumnail" href={"/tin-chi-tiet/" + value.slug + "." + value.id + ".html"}>
-                                                                    <img src={"images/" + value.hinhdaidien} />
+                                                                    <img src={value.hinhdaidien} />
                                                                 </a>
                                                                 <div className="recent-blog-post-detail">
                                                                     <h3 className="recent-blog-post-title"><a className="theme-color-hover" href={"/tin-chi-tiet/" + value.slug + "." + value.id + ".html"}>

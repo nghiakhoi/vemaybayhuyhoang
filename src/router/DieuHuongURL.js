@@ -12,6 +12,9 @@ import ChiTietDanhMuc from '../components/ChiTietDanhMuc';
 import HuongDanThanhToan from '../components/HuongDanThanhToan';
 import Contact from '../components/Contact';
 import ChiTietTinTucKhuyenMai from '../components/ChiTietTinTucKhuyenMai';
+import LoginPage from '../components/LoginPage';
+import Admin from '../components/Admin/Admin';
+import AddTinTuc from '../components/Admin/AddTinTuc';
 
 class DieuHuongURL extends Component {
     render() {
@@ -29,6 +32,9 @@ class DieuHuongURL extends Component {
                     <Route exact path="/tin-chi-tiet/:slug.:id.html" component={ChiTietTinTuc} />
                     <Route exact path="/tin-khuyen-mai/:slug.:id.html" component={ChiTietTinTucKhuyenMai} />
                     <Route exact path="/danh-muc/:slug.:id.html" component={ChiTietDanhMuc} />
+                    <Route exact path="/login" component={LoginPage} />
+                    <Route exact path="/admin" component={Admin} />
+                    <Route exact path="/admin/addtintuc" component={AddTinTuc} />
                     <Route exact path="/admin/hoadon" component={HoaDon} />
                 </div>
             </Router>

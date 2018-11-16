@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import draftToHtml from 'draftjs-to-html';
 import axios from 'axios';
 import HeaderBooking from './HeaderBooking';
 import Footer from './Footer';
@@ -58,7 +59,7 @@ class ChiTietTinTuc extends Component {
                                                         <article id="post-29" className="post-29 post type-post status-publish format-link has-post-thumbnail hentry category-food-and-drink tag-link post_format-post-format-link">
                                                             <div className="post-item fit-video">
                                                                 <div className="featured-image">
-                                                                    <img width={870} height={370} src={"../images/" + value.hinhdaidien} className="attachment-post-thumbnail size-post-thumbnail wp-post-image" sizes="(max-width: 870px) 100vw, 870px" />      </div>
+                                                                    <img width={870} height={370} src={value.hinhdaidien} className="attachment-post-thumbnail size-post-thumbnail wp-post-image" sizes="(max-width: 870px) 100vw, 870px" />      </div>
                                                                 <div className="post-content">
                                                                     <div className="post-content-head">
                                                                         <div className="post-head-detail">
@@ -69,7 +70,8 @@ class ChiTietTinTuc extends Component {
                                                                     </div>
                                                                     <div className="post-content-desc">
                                                                         <div className="post-text">
-                                                                            {value.noidung}
+                                                                        <div dangerouslySetInnerHTML={{ __html: (draftToHtml(JSON.parse(value.noidung))) }} />
+                                                                            
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -107,7 +109,7 @@ class ChiTietTinTuc extends Component {
                                                                 return (
                                                                     <li key={key} className="recent-blog-post">
                                                                         <a className="recent-blog-post-thumnail" href={"/tin-chi-tiet/" + value.slug + "." + value.id + ".html"}>
-                                                                            <img src={"../images/" + value.hinhdaidien} />
+                                                                            <img src={value.hinhdaidien} />
                                                                         </a>
                                                                         <div className="recent-blog-post-detail">
                                                                             <h3 className="recent-blog-post-title"><a className="theme-color-hover" href={"/tin-chi-tiet/" + value.slug + "." + value.id + ".html"}>

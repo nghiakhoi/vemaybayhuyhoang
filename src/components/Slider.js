@@ -402,7 +402,7 @@ class Slider extends Component {
                                         <div className="iw-departure">
                                             <input id="datedep" name="datedep" type="text" readOnly placeholder="Ngày đi" className="iw-search-arrival has-date-picker" />
                                         </div>
-                                        <label>
+                                        <label style={{ color: "white" }}>
                                             Khứ hồi :
                                         <input
                                                 name="direction"

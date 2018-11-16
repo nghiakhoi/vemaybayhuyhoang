@@ -23,6 +23,10 @@ const getsanbayByCode = (code) =>
         code: code
     }).then((res) => res.data)
 
+const getInfoMoney = () =>
+    axios.post('/getallinfomoney', {
+    }).then((res) => res.data)
+
 const formatDate = function formatDate(date) {
     var d = date.getUTCDate().toString(),
         m = (date.getUTCMonth() + 1).toString(),
@@ -3489,7 +3493,7 @@ class BookingContent extends Component {
                                         <MyLargeModal depfull={this.state.depfull} desfull={this.state.desfull} fullinfo={this.state.ticketchoosed} fullinfoKhuHoi={this.state.ticketchoosedkhuhoi} />
                                         : ""
                                 }
-                                
+
 
                             </div>
 

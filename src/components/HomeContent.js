@@ -194,12 +194,12 @@ class HomeContent extends Component {
                                             <div key={key} className="col-md-4 col-sm-6 col-xs-12 element-item">
                                                 <div className="iw-tour-item">
                                                     <div className="image-wrap">
-                                                        <img src={"images/" + value.hinhdaidien} />
+                                                        <img src={value.hinhdaidien} />
                                                     </div>
                                                     <div className="info-wrap">
                                                         <div className="info-left">
                                                             <h3 className="title">
-                                                                <a className="theme-color-hover" href={"/tin-khuyen-mai/" + value.slug + "." + value.id + ".html"}>{value.tieude}</a>
+                                                                <a className="theme-color-hover" href={"/tin-chi-tiet/" + value.slug + "." + value.id + ".html"}>{value.tieude}</a>
                                                             </h3>
                                                         </div>
                                                     </div>
