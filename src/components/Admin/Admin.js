@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Footer from '../Footer';
 import HeaderBooking from '../HeaderBooking';
+import domain from '../../router/domain';
 
 const checkUser = (token) =>
-    axios.post('/checktoken', {
+    axios.post(domain + '/checktoken', {
         token: token,
     }).then((res) => res.data)
 

@@ -3,13 +3,14 @@ import draftToHtml from 'draftjs-to-html';
 import axios from 'axios';
 import HeaderBooking from './HeaderBooking';
 import Footer from './Footer';
+import domain from '../router/domain';
 
 const getAllTintuc = (limit) =>
-    axios.post('/getalltintuc', {
+    axios.post(domain + '/getalltintuc', {
         limit: limit
     }).then((res) => res.data)
 const getAllDanhmuc = () =>
-    axios.post('/getalldanhmuc', {
+    axios.post(domain + '/getalldanhmuc', {
     }).then((res) => res.data)
 var limititemcheck = 0;
 
@@ -70,8 +71,8 @@ class ChiTietTinTuc extends Component {
                                                                     </div>
                                                                     <div className="post-content-desc">
                                                                         <div className="post-text">
-                                                                        <div dangerouslySetInnerHTML={{ __html: (draftToHtml(JSON.parse(value.noidung))) }} />
-                                                                            
+                                                                            <div dangerouslySetInnerHTML={{ __html: (draftToHtml(JSON.parse(value.noidung))) }} />
+
                                                                         </div>
                                                                     </div>
                                                                 </div>

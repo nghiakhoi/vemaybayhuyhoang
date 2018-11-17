@@ -3,13 +3,14 @@ import axios from 'axios';
 import HeaderBooking from './HeaderBooking';
 import Footer from './Footer';
 import TinTucItem from './TinTucItem';
+import domain from '../router/domain';
 
 const getAllTintucByDanhMuc = (iddanhmuc) =>
-    axios.post('/getalltintucbydanhmuc', {
+    axios.post(domain + '/getalltintucbydanhmuc', {
         iddanhmuc: iddanhmuc
     }).then((res) => res.data)
 const getAllDanhmuc = () =>
-    axios.post('/getalldanhmuc', {
+    axios.post(domain + '/getalldanhmuc', {
     }).then((res) => res.data)
 var limititemcheck = 0;
 

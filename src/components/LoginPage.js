@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Footer from './Footer';
 import HeaderBooking from './HeaderBooking';
+import domain from '../router/domain';
 
 const submitLogin = (user, pass) =>
-    axios.post('/userlogin', {
+    axios.post(domain+'/userlogin', {
         username: user,
         password: pass
     }).then((res) => res.data)

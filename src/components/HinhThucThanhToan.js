@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import domain from '../router/domain';
 
 const updatehinhthucthanhtoan = (iddonhang, hinhthucthanhtoan) =>
-    axios.post('/updatehinhthucthanhtoan', {
+    axios.post(domain + '/updatehinhthucthanhtoan', {
         iddonhang: iddonhang,
         hinhthucthanhtoan: hinhthucthanhtoan,
     }).then((res) => res.data)

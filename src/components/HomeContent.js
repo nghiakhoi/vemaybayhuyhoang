@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import moment from 'moment';
+import domain from '../router/domain';
 
 const getAllTintucKhuyenMai = (limit) =>
-    axios.post('/getalltinkhuyenmai', {
+    axios.post(domain + '/getalltinkhuyenmai', {
         limit: limit
     }).then((res) => res.data)
 const getAllTintuc = (limit) =>
-    axios.post('/getalltintuc', {
+    axios.post(domain + '/getalltintuc', {
         limit: limit
     }).then((res) => res.data)
 var limititemcheck = 0;

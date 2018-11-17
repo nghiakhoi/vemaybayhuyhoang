@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import EditableCell from './EditableCell';
 import MyLargeModal from '../Admin/MyLargeModal';
 import TextCell from './TextCell';
 

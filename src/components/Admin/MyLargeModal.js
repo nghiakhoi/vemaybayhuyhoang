@@ -4,13 +4,14 @@ import FieldGroup from './FieldGroup';
 import PeopleItem from '../PeopleItem';
 import SummaryChuyenBayItem from '../SummaryChuyenBayItem';
 import axios from 'axios';
+import domain from '../../router/domain';
 
 const getInvoiceById = (iddonhang) =>
-  axios.post('/getinvoicebyid', {
+  axios.post(domain + '/getinvoicebyid', {
     iddonhang: iddonhang
   }).then((res) => res.data)
 const editInvoiceById = (iddonhang) =>
-  axios.post('/editinvoicebyid', {
+  axios.post(domain + '/editinvoicebyid', {
     iddonhang: iddonhang
   }).then((res) => res.data)
 

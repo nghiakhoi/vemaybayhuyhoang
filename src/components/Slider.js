@@ -3,9 +3,10 @@ import moment from 'moment';
 import axios from 'axios';
 import jQuery from 'jquery';
 import SanBay from './SanBay';
+import domain from '../router/domain';
 
 const getAllSanBay = () =>
-    axios.post('/getallsanbay', {
+    axios.post(domain + '/getallsanbay', {
     }).then((res) => res.data)
 
 const resortArray = (array, key, value) => {

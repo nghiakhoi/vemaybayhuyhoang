@@ -3,13 +3,14 @@ import ProductTable from './ProductTable';
 import HeaderBooking from '../HeaderBooking';
 import Footer from '../Footer';
 import axios from 'axios';
+import domain from '../../router/domain';
 
 const getAllInvoice = () =>
-    axios.post('/getallinvoice', {
+    axios.post(domain + '/getallinvoice', {
     }).then((res) => res.data)
 
-const editStatusInvoiceById = (idhoadon,status) =>
-    axios.post('/editstatusinvoicebyid', {
+const editStatusInvoiceById = (idhoadon, status) =>
+    axios.post(domain + '/editstatusinvoicebyid', {
         id: idhoadon,
         status: status
     }).then((res) => res.data)
@@ -45,7 +46,7 @@ class HoaDon extends Component {
 
 
     handleProductTable(evt) {
-        var mangtemp= this.state.products;
+        var mangtemp = this.state.products;
         var item = {
             id: evt.target.id,
             name: evt.target.name,
@@ -58,7 +59,7 @@ class HoaDon extends Component {
             for (var key in product) {
                 if (key === item.name && product.id === item.id) {
                     product[key] = item.value;
-                    editStatusInvoiceById(item.id,item.value);
+                    editStatusInvoiceById(item.id, item.value);
                 }
             }
             return product;

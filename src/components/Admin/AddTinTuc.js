@@ -9,14 +9,15 @@ import { Editor } from 'react-draft-wysiwyg';
 // import htmlToDraft from 'html-to-draftjs';
 import FileBase64 from 'react-file-base64';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import domain from '../../router/domain';
 
 const checkUser = (token) =>
-    axios.post('/checktoken', {
+    axios.post(domain + '/checktoken', {
         token: token,
     }).then((res) => res.data)
 
 const getAllDanhmuc = () =>
-    axios.post('/getalldanhmuc', {
+    axios.post(domain + '/getalldanhmuc', {
     }).then((res) => res.data)
 
 function uploadImageCallBack(file) {
@@ -91,7 +92,7 @@ class AddTinTuc extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        axios.post("/addtintuc", {
+        axios.post(domain + "/addtintuc", {
             tieude: this.state.tieude,
             des: this.state.des,
             contentStateTomTat: JSON.stringify(this.state.contentStateTomTat, null, 4),

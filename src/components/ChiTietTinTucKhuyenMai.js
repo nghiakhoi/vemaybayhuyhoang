@@ -2,15 +2,16 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import HeaderBooking from './HeaderBooking';
 import Footer from './Footer';
+import domain from '../router/domain';
 
 const getAllTintuc = () =>
-    axios.post('/getalltintuc', {
+    axios.post(domain + '/getalltintuc', {
     }).then((res) => res.data)
 const getAllDanhmuc = () =>
-    axios.post('/getalldanhmuc', {
+    axios.post(domain + '/getalldanhmuc', {
     }).then((res) => res.data)
 const getAllTintucKhuyenmai = (limit) =>
-    axios.post('/getalltinkhuyenmai', {
+    axios.post(domain + '/getalltinkhuyenmai', {
         limit: limit
     }).then((res) => res.data)
 var limititemcheck = 0;

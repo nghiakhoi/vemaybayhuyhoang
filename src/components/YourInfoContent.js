@@ -7,13 +7,14 @@ import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
 import IconCalendar from './IconCalendar';
+import domain from '../router/domain';
 
 const getAllHanhLy = () =>
-    axios.post('/getallhanhly', {
+    axios.post(domain + '/getallhanhly', {
     }).then((res) => res.data)
 
 const getsanbayByCode = (code) =>
-    axios.post('/getsanbayByCode', {
+    axios.post(domain + '/getsanbayByCode', {
         code: code
     }).then((res) => res.data)
 
@@ -828,7 +829,7 @@ Thời hạn thay đổi (bao gồm thay đổi tên, ngày/chuyến bay): Trư�
         }
 
         if (testOKadult === 0 && testOKchild === 0 && testOKinf === 0 && testOKINFO === 0) {
-            axios.post("/infobooking", {
+            axios.post(domain + "/infobooking", {
                 thongtinvedi: this.state.thongtinvedi,
                 thongtinveKhuHoi: this.state.thongtinveKhuHoi,
                 fullname: this.state.fullname,

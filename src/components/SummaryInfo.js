@@ -5,11 +5,12 @@ import Footer from './Footer';
 import PeopleItem from './PeopleItem';
 import SummaryChuyenBayItem from './SummaryChuyenBayItem';
 import HinhThucThanhToan from './HinhThucThanhToan';
+import domain from '../router/domain';
 
 var idhoadonDone = "";
 
 const getInvoiceById = (iddonhang) =>
-    axios.post('/getinvoicebyid', {
+    axios.post(domain + '/getinvoicebyid', {
         iddonhang: iddonhang
     }).then((res) => res.data)
 

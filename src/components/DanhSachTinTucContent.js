@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import moment from 'moment';
 import TinTucItem from './TinTucItem';
+import domain from '../router/domain';
 
 const getAllTintuc = (limit) =>
-    axios.post('/getalltintuc', {
+    axios.post(domain + '/getalltintuc', {
         limit: limit
     }).then((res) => res.data)
 const getAllDanhmuc = () =>
-    axios.post('/getalldanhmuc', {
+    axios.post(domain + '/getalldanhmuc', {
     }).then((res) => res.data)
 var limititemcheck = 0;
 

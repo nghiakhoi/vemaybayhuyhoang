@@ -5,6 +5,7 @@ import BookingItemKhuHoi from './BookingItemKhuHoi';
 import BookingItemChoosed from './BookingItemChoosed';
 import MyLargeModal from './MyLargeModal';
 import BookingItemChoosedKhuHoi from './BookingItemChoosedKhuHoi';
+import domain from '../router/domain';
 
 const postTicket = (airlinecode, dep, des, adult = 1, direction = 0, datedep, datedes, child = 0, inf = 0) =>
     axios.post(airlinecode, {
@@ -19,12 +20,12 @@ const postTicket = (airlinecode, dep, des, adult = 1, direction = 0, datedep, da
     }).then((res) => res.data)
 
 const getsanbayByCode = (code) =>
-    axios.post('/getsanbayByCode', {
+    axios.post(domain + '/getsanbayByCode', {
         code: code
     }).then((res) => res.data)
 
 const getInfoMoney = () =>
-    axios.post('/getallinfomoney', {
+    axios.post(domain + '/getallinfomoney', {
     }).then((res) => res.data)
 
 const formatDate = function formatDate(date) {
@@ -129,7 +130,7 @@ class BookingContent extends Component {
 
     getJsonTicketFromAPI = (dep, des, adult, direction, datedep, datedes, child, inf) => {
         let mangjson = [];
-        postTicket("/vn", dep, des, adult, direction, datedep, datedes, child, inf).then((kq) => {
+        postTicket(domain + "/vn", dep, des, adult, direction, datedep, datedes, child, inf).then((kq) => {
             var tempflyno = "";
             var tempprice = 0;
             var tempdeptime = "";
@@ -191,7 +192,7 @@ class BookingContent extends Component {
                 vn: true
             });
         });
-        postTicket("/js", dep, des, adult, direction, datedep, datedes, child, inf).then((kq) => {
+        postTicket(domain + "/js", dep, des, adult, direction, datedep, datedes, child, inf).then((kq) => {
             //mangjson.push(kq[0]);
             var tempflyno = "";
             var tempprice = 0;
@@ -254,7 +255,7 @@ class BookingContent extends Component {
                 js: true
             });
         });
-        postTicket("/vj", dep, des, adult, direction, datedep, datedes, child, inf).then((kq) => {
+        postTicket(domain + "/vj", dep, des, adult, direction, datedep, datedes, child, inf).then((kq) => {
             //mangjson.push(kq[0]);
             var tempflyno = "";
             var tempprice = 0;
@@ -320,7 +321,7 @@ class BookingContent extends Component {
     }
     getJsonTicketFromAPIKhuHoi = (dep, des, adult, direction, datedep, datedes, child, inf) => {
         let mangjson = [];
-        postTicket("/vn", dep, des, adult, direction, datedep, datedes, child, inf).then((kq) => {
+        postTicket(domain + "/vn", dep, des, adult, direction, datedep, datedes, child, inf).then((kq) => {
             var tempflyno = "";
             var tempprice = 0;
             var tempdeptime = "";
@@ -382,7 +383,7 @@ class BookingContent extends Component {
                 vnkhuhoi: true
             });
         });
-        postTicket("/js", dep, des, adult, direction, datedep, datedes, child, inf).then((kq) => {
+        postTicket(domain + "/js", dep, des, adult, direction, datedep, datedes, child, inf).then((kq) => {
             //mangjson.push(kq[0]);
             var tempflyno = "";
             var tempprice = 0;
@@ -445,7 +446,7 @@ class BookingContent extends Component {
                 jskhuhoi: true
             });
         });
-        postTicket("/vj", dep, des, adult, direction, datedep, datedes, child, inf).then((kq) => {
+        postTicket(domain + "/vj", dep, des, adult, direction, datedep, datedes, child, inf).then((kq) => {
             //mangjson.push(kq[0]);
             var tempflyno = "";
             var tempprice = 0;
@@ -511,7 +512,7 @@ class BookingContent extends Component {
     }
     getJsonTicketFromAPIPosition1 = (dep, des, adult, direction, datedep, datedes, child, inf) => {
         let mangjson = [];
-        postTicket("/vn", dep, des, adult, direction, datedep, datedes, child, inf).then((kq) => {
+        postTicket(domain + "/vn", dep, des, adult, direction, datedep, datedes, child, inf).then((kq) => {
             var tempflyno = "";
             var tempprice = 0;
             var tempdeptime = "";
@@ -572,7 +573,7 @@ class BookingContent extends Component {
                 vn1: true
             });
         });
-        postTicket("/js", dep, des, adult, direction, datedep, datedes, child, inf).then((kq) => {
+        postTicket(domain + "/js", dep, des, adult, direction, datedep, datedes, child, inf).then((kq) => {
             //mangjson.push(kq[0]);
             var tempflyno = "";
             var tempprice = 0;
@@ -634,7 +635,7 @@ class BookingContent extends Component {
                 js1: true
             });
         });
-        postTicket("/vj", dep, des, adult, direction, datedep, datedes, child, inf).then((kq) => {
+        postTicket(domain + "/vj", dep, des, adult, direction, datedep, datedes, child, inf).then((kq) => {
             //mangjson.push(kq[0]);
             var tempflyno = "";
             var tempprice = 0;
@@ -699,7 +700,7 @@ class BookingContent extends Component {
     }
     getJsonTicketFromAPIPosition2 = (dep, des, adult, direction, datedep, datedes, child, inf) => {
         let mangjson = [];
-        postTicket("/vn", dep, des, adult, direction, datedep, datedes, child, inf).then((kq) => {
+        postTicket(domain + "/vn", dep, des, adult, direction, datedep, datedes, child, inf).then((kq) => {
             var tempflyno = "";
             var tempprice = 0;
             var tempdeptime = "";
@@ -761,7 +762,7 @@ class BookingContent extends Component {
                 vn2: true
             });
         });
-        postTicket("/js", dep, des, adult, direction, datedep, datedes, child, inf).then((kq) => {
+        postTicket(domain + "/js", dep, des, adult, direction, datedep, datedes, child, inf).then((kq) => {
             //mangjson.push(kq[0]);
             var tempflyno = "";
             var tempprice = 0;
@@ -824,7 +825,7 @@ class BookingContent extends Component {
                 js2: true
             });
         });
-        postTicket("/vj", dep, des, adult, direction, datedep, datedes, child, inf).then((kq) => {
+        postTicket(domain + "/vj", dep, des, adult, direction, datedep, datedes, child, inf).then((kq) => {
             //mangjson.push(kq[0]);
             var tempflyno = "";
             var tempprice = 0;
@@ -890,7 +891,7 @@ class BookingContent extends Component {
     }
     getJsonTicketFromAPIPosition3 = (dep, des, adult, direction, datedep, datedes, child, inf) => {
         let mangjson = [];
-        postTicket("/vn", dep, des, adult, direction, datedep, datedes, child, inf).then((kq) => {
+        postTicket(domain + "/vn", dep, des, adult, direction, datedep, datedes, child, inf).then((kq) => {
             var tempflyno = "";
             var tempprice = 0;
             var tempdeptime = "";
@@ -952,7 +953,7 @@ class BookingContent extends Component {
                 vn3: true
             });
         });
-        postTicket("/js", dep, des, adult, direction, datedep, datedes, child, inf).then((kq) => {
+        postTicket(domain + "/js", dep, des, adult, direction, datedep, datedes, child, inf).then((kq) => {
             //mangjson.push(kq[0]);
             var tempflyno = "";
             var tempprice = 0;
@@ -1015,7 +1016,7 @@ class BookingContent extends Component {
                 js3: true
             });
         });
-        postTicket("/vj", dep, des, adult, direction, datedep, datedes, child, inf).then((kq) => {
+        postTicket(domain + "/vj", dep, des, adult, direction, datedep, datedes, child, inf).then((kq) => {
             //mangjson.push(kq[0]);
             var tempflyno = "";
             var tempprice = 0;
@@ -1081,7 +1082,7 @@ class BookingContent extends Component {
     }
     getJsonTicketFromAPIPosition4 = (dep, des, adult, direction, datedep, datedes, child, inf) => {
         let mangjson = [];
-        postTicket("/vn", dep, des, adult, direction, datedep, datedes, child, inf).then((kq) => {
+        postTicket(domain + "/vn", dep, des, adult, direction, datedep, datedes, child, inf).then((kq) => {
             var tempflyno = "";
             var tempprice = 0;
             var tempdeptime = "";
@@ -1143,7 +1144,7 @@ class BookingContent extends Component {
                 vn4: true
             });
         });
-        postTicket("/js", dep, des, adult, direction, datedep, datedes, child, inf).then((kq) => {
+        postTicket(domain + "/js", dep, des, adult, direction, datedep, datedes, child, inf).then((kq) => {
             //mangjson.push(kq[0]);
             var tempflyno = "";
             var tempprice = 0;
@@ -1206,7 +1207,7 @@ class BookingContent extends Component {
                 js4: true
             });
         });
-        postTicket("/vj", dep, des, adult, direction, datedep, datedes, child, inf).then((kq) => {
+        postTicket(domain + "/vj", dep, des, adult, direction, datedep, datedes, child, inf).then((kq) => {
             //mangjson.push(kq[0]);
             var tempflyno = "";
             var tempprice = 0;
@@ -1272,7 +1273,7 @@ class BookingContent extends Component {
     }
     getJsonTicketFromAPIPosition5 = (dep, des, adult, direction, datedep, datedes, child, inf) => {
         let mangjson = [];
-        postTicket("/vn", dep, des, adult, direction, datedep, datedes, child, inf).then((kq) => {
+        postTicket(domain + "/vn", dep, des, adult, direction, datedep, datedes, child, inf).then((kq) => {
             var tempflyno = "";
             var tempprice = 0;
             var tempdeptime = "";
@@ -1334,7 +1335,7 @@ class BookingContent extends Component {
                 vn5: true
             });
         });
-        postTicket("/js", dep, des, adult, direction, datedep, datedes, child, inf).then((kq) => {
+        postTicket(domain + "/js", dep, des, adult, direction, datedep, datedes, child, inf).then((kq) => {
             //mangjson.push(kq[0]);
             var tempflyno = "";
             var tempprice = 0;
@@ -1397,7 +1398,7 @@ class BookingContent extends Component {
                 js5: true
             });
         });
-        postTicket("/vj", dep, des, adult, direction, datedep, datedes, child, inf).then((kq) => {
+        postTicket(domain + "/vj", dep, des, adult, direction, datedep, datedes, child, inf).then((kq) => {
             //mangjson.push(kq[0]);
             var tempflyno = "";
             var tempprice = 0;
@@ -1463,7 +1464,7 @@ class BookingContent extends Component {
     }
     getJsonTicketFromAPIPosition6 = (dep, des, adult, direction, datedep, datedes, child, inf) => {
         let mangjson = [];
-        postTicket("/vn", dep, des, adult, direction, datedep, datedes, child, inf).then((kq) => {
+        postTicket(domain + "/vn", dep, des, adult, direction, datedep, datedes, child, inf).then((kq) => {
             var tempflyno = "";
             var tempprice = 0;
             var tempdeptime = "";
@@ -1525,7 +1526,7 @@ class BookingContent extends Component {
                 vn6: true
             });
         });
-        postTicket("/js", dep, des, adult, direction, datedep, datedes, child, inf).then((kq) => {
+        postTicket(domain + "/js", dep, des, adult, direction, datedep, datedes, child, inf).then((kq) => {
             //mangjson.push(kq[0]);
             var tempflyno = "";
             var tempprice = 0;
@@ -1588,7 +1589,7 @@ class BookingContent extends Component {
                 js6: true
             });
         });
-        postTicket("/vj", dep, des, adult, direction, datedep, datedes, child, inf).then((kq) => {
+        postTicket(domain + "/vj", dep, des, adult, direction, datedep, datedes, child, inf).then((kq) => {
             //mangjson.push(kq[0]);
             var tempflyno = "";
             var tempprice = 0;
@@ -1654,7 +1655,7 @@ class BookingContent extends Component {
     }
     getJsonTicketFromAPIPosition1KhuHoi = (des, dep, adult, direction, datedep, datedes, child, inf) => {
         let mangjson = [];
-        postTicket("/vn", des, dep, adult, direction, datedep, datedes, child, inf).then((kq) => {
+        postTicket(domain + "/vn", des, dep, adult, direction, datedep, datedes, child, inf).then((kq) => {
             var tempflyno = "";
             var tempprice = 0;
             var tempdeptime = "";
@@ -1715,7 +1716,7 @@ class BookingContent extends Component {
                 vn1khuhoi: true
             });
         });
-        postTicket("/js", des, dep, adult, direction, datedep, datedes, child, inf).then((kq) => {
+        postTicket(domain + "/js", des, dep, adult, direction, datedep, datedes, child, inf).then((kq) => {
             //mangjson.push(kq[0]);
             var tempflyno = "";
             var tempprice = 0;
@@ -1777,7 +1778,7 @@ class BookingContent extends Component {
                 js1khuhoi: true
             });
         });
-        postTicket("/vj", des, dep, adult, direction, datedep, datedes, child, inf).then((kq) => {
+        postTicket(domain + "/vj", des, dep, adult, direction, datedep, datedes, child, inf).then((kq) => {
             //mangjson.push(kq[0]);
             var tempflyno = "";
             var tempprice = 0;
@@ -1842,7 +1843,7 @@ class BookingContent extends Component {
     }
     getJsonTicketFromAPIPosition2KhuHoi = (des, dep, adult, direction, datedep, datedes, child, inf) => {
         let mangjson = [];
-        postTicket("/vn", des, dep, adult, direction, datedep, datedes, child, inf).then((kq) => {
+        postTicket(domain + "/vn", des, dep, adult, direction, datedep, datedes, child, inf).then((kq) => {
             var tempflyno = "";
             var tempprice = 0;
             var tempdeptime = "";
@@ -1903,7 +1904,7 @@ class BookingContent extends Component {
                 vn2khuhoi: true
             });
         });
-        postTicket("/js", des, dep, adult, direction, datedep, datedes, child, inf).then((kq) => {
+        postTicket(domain + "/js", des, dep, adult, direction, datedep, datedes, child, inf).then((kq) => {
             //mangjson.push(kq[0]);
             var tempflyno = "";
             var tempprice = 0;
@@ -1965,7 +1966,7 @@ class BookingContent extends Component {
                 js2khuhoi: true
             });
         });
-        postTicket("/vj", des, dep, adult, direction, datedep, datedes, child, inf).then((kq) => {
+        postTicket(domain + "/vj", des, dep, adult, direction, datedep, datedes, child, inf).then((kq) => {
             //mangjson.push(kq[0]);
             var tempflyno = "";
             var tempprice = 0;
@@ -2030,7 +2031,7 @@ class BookingContent extends Component {
     }
     getJsonTicketFromAPIPosition3KhuHoi = (des, dep, adult, direction, datedep, datedes, child, inf) => {
         let mangjson = [];
-        postTicket("/vn", des, dep, adult, direction, datedep, datedes, child, inf).then((kq) => {
+        postTicket(domain + "/vn", des, dep, adult, direction, datedep, datedes, child, inf).then((kq) => {
             var tempflyno = "";
             var tempprice = 0;
             var tempdeptime = "";
@@ -2091,7 +2092,7 @@ class BookingContent extends Component {
                 vn3khuhoi: true
             });
         });
-        postTicket("/js", des, dep, adult, direction, datedep, datedes, child, inf).then((kq) => {
+        postTicket(domain + "/js", des, dep, adult, direction, datedep, datedes, child, inf).then((kq) => {
             //mangjson.push(kq[0]);
             var tempflyno = "";
             var tempprice = 0;
@@ -2153,7 +2154,7 @@ class BookingContent extends Component {
                 js3khuhoi: true
             });
         });
-        postTicket("/vj", des, dep, adult, direction, datedep, datedes, child, inf).then((kq) => {
+        postTicket(domain + "/vj", des, dep, adult, direction, datedep, datedes, child, inf).then((kq) => {
             //mangjson.push(kq[0]);
             var tempflyno = "";
             var tempprice = 0;
@@ -2218,7 +2219,7 @@ class BookingContent extends Component {
     }
     getJsonTicketFromAPIPosition4KhuHoi = (des, dep, adult, direction, datedep, datedes, child, inf) => {
         let mangjson = [];
-        postTicket("/vn", des, dep, adult, direction, datedep, datedes, child, inf).then((kq) => {
+        postTicket(domain + "/vn", des, dep, adult, direction, datedep, datedes, child, inf).then((kq) => {
             var tempflyno = "";
             var tempprice = 0;
             var tempdeptime = "";
@@ -2279,7 +2280,7 @@ class BookingContent extends Component {
                 vn4khuhoi: true
             });
         });
-        postTicket("/js", des, dep, adult, direction, datedep, datedes, child, inf).then((kq) => {
+        postTicket(domain + "/js", des, dep, adult, direction, datedep, datedes, child, inf).then((kq) => {
             //mangjson.push(kq[0]);
             var tempflyno = "";
             var tempprice = 0;
@@ -2341,7 +2342,7 @@ class BookingContent extends Component {
                 js4khuhoi: true
             });
         });
-        postTicket("/vj", des, dep, adult, direction, datedep, datedes, child, inf).then((kq) => {
+        postTicket(domain + "/vj", des, dep, adult, direction, datedep, datedes, child, inf).then((kq) => {
             //mangjson.push(kq[0]);
             var tempflyno = "";
             var tempprice = 0;
@@ -2406,7 +2407,7 @@ class BookingContent extends Component {
     }
     getJsonTicketFromAPIPosition5KhuHoi = (des, dep, adult, direction, datedep, datedes, child, inf) => {
         let mangjson = [];
-        postTicket("/vn", des, dep, adult, direction, datedep, datedes, child, inf).then((kq) => {
+        postTicket(domain + "/vn", des, dep, adult, direction, datedep, datedes, child, inf).then((kq) => {
             var tempflyno = "";
             var tempprice = 0;
             var tempdeptime = "";
@@ -2467,7 +2468,7 @@ class BookingContent extends Component {
                 vn5khuhoi: true
             });
         });
-        postTicket("/js", des, dep, adult, direction, datedep, datedes, child, inf).then((kq) => {
+        postTicket(domain + "/js", des, dep, adult, direction, datedep, datedes, child, inf).then((kq) => {
             //mangjson.push(kq[0]);
             var tempflyno = "";
             var tempprice = 0;
@@ -2529,7 +2530,7 @@ class BookingContent extends Component {
                 js5khuhoi: true
             });
         });
-        postTicket("/vj", des, dep, adult, direction, datedep, datedes, child, inf).then((kq) => {
+        postTicket(domain + "/vj", des, dep, adult, direction, datedep, datedes, child, inf).then((kq) => {
             //mangjson.push(kq[0]);
             var tempflyno = "";
             var tempprice = 0;
@@ -2594,7 +2595,7 @@ class BookingContent extends Component {
     }
     getJsonTicketFromAPIPosition6KhuHoi = (des, dep, adult, direction, datedep, datedes, child, inf) => {
         let mangjson = [];
-        postTicket("/vn", des, dep, adult, direction, datedep, datedes, child, inf).then((kq) => {
+        postTicket(domain + "/vn", des, dep, adult, direction, datedep, datedes, child, inf).then((kq) => {
             var tempflyno = "";
             var tempprice = 0;
             var tempdeptime = "";
@@ -2655,7 +2656,7 @@ class BookingContent extends Component {
                 vn6khuhoi: true
             });
         });
-        postTicket("/js", des, dep, adult, direction, datedep, datedes, child, inf).then((kq) => {
+        postTicket(domain + "/js", des, dep, adult, direction, datedep, datedes, child, inf).then((kq) => {
             //mangjson.push(kq[0]);
             var tempflyno = "";
             var tempprice = 0;
@@ -2717,7 +2718,7 @@ class BookingContent extends Component {
                 js6khuhoi: true
             });
         });
-        postTicket("/vj", des, dep, adult, direction, datedep, datedes, child, inf).then((kq) => {
+        postTicket(domain + "/vj", des, dep, adult, direction, datedep, datedes, child, inf).then((kq) => {
             //mangjson.push(kq[0]);
             var tempflyno = "";
             var tempprice = 0;
