@@ -7,6 +7,10 @@ import MyLargeModal from './MyLargeModal';
 import BookingItemChoosedKhuHoi from './BookingItemChoosedKhuHoi';
 import domain from '../router/domain';
 
+const getallinfomoney = () =>
+    axios.post(domain + '/getallinfomoney', {
+    }).then((res) => res.data)
+
 const postTicket = (airlinecode, dep, des, adult = 1, direction = 0, datedep, datedes, child = 0, inf = 0) =>
     axios.post(airlinecode, {
         dep: dep,
@@ -22,10 +26,6 @@ const postTicket = (airlinecode, dep, des, adult = 1, direction = 0, datedep, da
 const getsanbayByCode = (code) =>
     axios.post(domain + '/getsanbayByCode', {
         code: code
-    }).then((res) => res.data)
-
-const getInfoMoney = () =>
-    axios.post(domain + '/getallinfomoney', {
     }).then((res) => res.data)
 
 const formatDate = function formatDate(date) {

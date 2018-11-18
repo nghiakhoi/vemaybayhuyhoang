@@ -8,6 +8,7 @@ import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
 import IconCalendar from './IconCalendar';
 import domain from '../router/domain';
+import { priceAdultOrigin, priceChildOrigin, priceInfOrigin, priceAdult, priceChild, priceInf } from '../router/settingmoney';
 
 const getAllHanhLy = () =>
     axios.post(domain + '/getallhanhly', {
@@ -121,12 +122,6 @@ var ngayve = (localStorage.getItem("datedes")) ? localStorage.getItem("datedes")
 var ticketchoosed = localStorage.getItem("ticketchoosed") ? JSON.parse(localStorage.getItem("ticketchoosed")) : null;
 var ticketchoosedKhuHoi = localStorage.getItem("ticketchoosedkhuhoi") ? JSON.parse(localStorage.getItem("ticketchoosedkhuhoi")) : null;
 
-var priceAdultOrigin = 65000;
-var priceChildOrigin = 65000;
-var priceInfOrigin = 40000;
-var priceAdult = 50000;
-var priceChild = 50000;
-var priceInf = 40000;
 var adultnum = localStorage.getItem("adult") ? parseInt(localStorage.getItem("adult")) : 1;
 var childnum = localStorage.getItem("child") ? parseInt(localStorage.getItem("child")) : 0;
 var infnum = localStorage.getItem("inf") ? parseInt(localStorage.getItem("inf")) : 0;

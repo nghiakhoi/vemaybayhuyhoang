@@ -3,14 +3,8 @@ import jetstarlogo from '../images/jetstarsmall.png';
 import vietjetlogo from '../images/vietjetsmall.png';
 import vietnamairlinelogo from '../images/vietnamairlinesmall.png';
 import iconfly from '../images/iconfly.png';
+import { priceAdultOrigin, priceChildOrigin, priceInfOrigin, priceAdult, priceChild, priceInf } from '../router/settingmoney';
 
-
-var priceAdultOrigin = 65000;
-var priceChildOrigin = 65000;
-var priceInfOrigin = 40000;
-var priceAdult = 50000;
-var priceChild = 50000;
-var priceInf = 40000;
 var adultnum = localStorage.getItem("adult") ? parseInt(localStorage.getItem("adult")) : 1;
 var childnum = localStorage.getItem("child") ? parseInt(localStorage.getItem("child")) : 0;
 var infnum = localStorage.getItem("inf") ? parseInt(localStorage.getItem("inf")) : 0;

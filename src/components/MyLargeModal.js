@@ -3,6 +3,7 @@ import { Button, Modal } from 'react-bootstrap';
 import jetstarlogo from '../images/jetstarmini.png';
 import vietjetlogo from '../images/vietjetmini.png';
 import vietnamairlinelogo from '../images/vietnamairlinemini.png';
+import { priceAdultOrigin, priceChildOrigin, priceInfOrigin, priceAdult, priceChild, priceInf } from '../router/settingmoney';
 
 const get_day_name = (custom_date) => {
   var myDate = custom_date;
@@ -23,12 +24,6 @@ const get_full_day_format_vietnam = (custom_date) => {
   return fulldayformatvietnam;
 }
 
-var priceAdultOrigin = 65000;
-var priceChildOrigin = 65000;
-var priceInfOrigin = 40000;
-var priceAdult = 50000;
-var priceChild = 50000;
-var priceInf = 40000;
 var adultnum = localStorage.getItem("adult") ? parseInt(localStorage.getItem("adult")) : 1;
 var childnum = localStorage.getItem("child") ? parseInt(localStorage.getItem("child")) : 0;
 var infnum = localStorage.getItem("inf") ? parseInt(localStorage.getItem("inf")) : 0;
