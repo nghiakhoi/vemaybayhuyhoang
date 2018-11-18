@@ -72,7 +72,7 @@ class Admin extends Component {
                                                                 <div className="iw-item-info  style2 vc_custom_1473751689652">
                                                                     <div className="icon theme-bg" style={{ fontSize: 30 }}><i className="ion-headphone" /></div>
                                                                     <div className="item-info-content">
-                                                                        <h3 className="title"><a href="#">Thêm Tin tức</a></h3>
+                                                                        <h3 className="title"><a href="/admin/listdanhmuc">Danh mục tin tức</a></h3>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -84,7 +84,67 @@ class Admin extends Component {
                                                                 <div className="iw-item-info  style2 vc_custom_1473751689652">
                                                                     <div className="icon theme-bg" style={{ fontSize: 30 }}><i className="ion-headphone" /></div>
                                                                     <div className="item-info-content">
-                                                                        <h3 className="title"><a href="#">Danh Sách Tin Tức</a></h3>
+                                                                        <h3 className="title"><a href="/admin/listtintuc">Danh sách tin tức</a></h3>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="wpb_column vc_column_container vc_col-sm-2">
+                                                        <div className="vc_column-inner ">
+                                                            <div className="wpb_wrapper">
+                                                                <div className="iw-item-info  style2 vc_custom_1473751689652">
+                                                                    <div className="icon theme-bg" style={{ fontSize: 30 }}><i className="ion-headphone" /></div>
+                                                                    <div className="item-info-content">
+                                                                        <h3 className="title"><a href="/admin/listtinkhuyenmai">Tin khuyến mãi</a></h3>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="wpb_column vc_column_container vc_col-sm-2">
+                                                        <div className="vc_column-inner ">
+                                                            <div className="wpb_wrapper">
+                                                                <div className="iw-item-info  style2 vc_custom_1473751689652">
+                                                                    <div className="icon theme-bg" style={{ fontSize: 30 }}><i className="ion-headphone" /></div>
+                                                                    <div className="item-info-content">
+                                                                        <h3 className="title"><a href="/admin/listchangbay">Danh sách chặng bay</a></h3>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="wpb_column vc_column_container vc_col-sm-2">
+                                                        <div className="vc_column-inner ">
+                                                            <div className="wpb_wrapper">
+                                                                <div className="iw-item-info  style2 vc_custom_1473751689652">
+                                                                    <div className="icon theme-bg" style={{ fontSize: 30 }}><i className="ion-headphone" /></div>
+                                                                    <div className="item-info-content">
+                                                                        <h3 className="title"><a href="/admin/listdonhang">Danh sách đơn hàng</a></h3>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="wpb_column vc_column_container vc_col-sm-2">
+                                                        <div className="vc_column-inner ">
+                                                            <div className="wpb_wrapper">
+                                                                <div className="iw-item-info  style2 vc_custom_1473751689652">
+                                                                    <div className="icon theme-bg" style={{ fontSize: 30 }}><i className="ion-headphone" /></div>
+                                                                    <div className="item-info-content">
+                                                                        <h3 className="title"><a href="/admin/listhanhly">Tùy chọn hành lý</a></h3>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="wpb_column vc_column_container vc_col-sm-2">
+                                                        <div className="vc_column-inner ">
+                                                            <div className="wpb_wrapper">
+                                                                <div className="iw-item-info  style2 vc_custom_1473751689652">
+                                                                    <div className="icon theme-bg" style={{ fontSize: 30 }}><i className="ion-headphone" /></div>
+                                                                    <div className="item-info-content">
+                                                                        <h3 className="title"><a href="/admin/optionsetting">Setting</a></h3>
                                                                     </div>
                                                                 </div>
                                                             </div>

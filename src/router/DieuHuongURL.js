@@ -15,6 +15,7 @@ import ChiTietTinTucKhuyenMai from '../components/ChiTietTinTucKhuyenMai';
 import LoginPage from '../components/LoginPage';
 import Admin from '../components/Admin/Admin';
 import AddTinTuc from '../components/Admin/AddTinTuc';
+import ListTinTuc from '../components/Admin/ListTinTuc';
 
 class DieuHuongURL extends Component {
     render() {
@@ -35,6 +36,7 @@ class DieuHuongURL extends Component {
                     <Route exact path="/login" component={LoginPage} />
                     <Route exact path="/admin" component={Admin} />
                     <Route exact path="/admin/addtintuc" component={AddTinTuc} />
+                    <Route exact path="/admin/listtintuc" component={ListTinTuc} />
                     <Route exact path="/admin/hoadon" component={HoaDon} />
                 </div>
             </Router>

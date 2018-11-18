@@ -6,7 +6,7 @@ class FieldGroup extends Component {
         return (
             <FormGroup controlId={this.props.id}>
                 <ControlLabel>{this.props.label}</ControlLabel>
-                <FormControl {...this.props} />
+                <FormControl componentClass="textarea" {...this.props} />
                 {this.propshelp && <HelpBlock>{this.propshelp}</HelpBlock>}
             </FormGroup>
         );

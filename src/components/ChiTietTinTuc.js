@@ -5,6 +5,10 @@ import HeaderBooking from './HeaderBooking';
 import Footer from './Footer';
 import domain from '../router/domain';
 
+const getTintucById = (id) =>
+    axios.post(domain + '/getalltintucbyid', {
+        id: id
+    }).then((res) => res.data)
 const getAllTintuc = (limit) =>
     axios.post(domain + '/getalltintuc', {
         limit: limit
@@ -19,6 +23,7 @@ class ChiTietTinTuc extends Component {
         super(props);
         this.state = {
             todos: null,
+            todosforID: null,
             currentPage: 1,
             todosPerPage: 1,
             danhmuctintuc: null,
@@ -28,6 +33,12 @@ class ChiTietTinTuc extends Component {
 
     componentWillMount() {
         limititemcheck = 0;
+        getTintucById(this.props.match.params.id).then((result) => {
+            var tempdata = result.data;
+            this.setState({
+                todosforID: tempdata
+            });
+        })
         getAllTintuc(50).then((result) => {
             var tempdata = result.data;
             this.setState({
@@ -52,38 +63,31 @@ class ChiTietTinTuc extends Component {
                         <div className="main-content">
                             <div className="container">
                                 <div className="row">
-                                    {this.state.todos !== null ? this.state.todos.map((value, key) => {
-                                        if (value.id == this.props.match.params.id) {
-                                            return (
-                                                <React.Fragment key={key}>
-                                                    <div className="col-sm-12 col-xs-12 col-lg-9 col-md-8 blog-content single-content">
-                                                        <article id="post-29" className="post-29 post type-post status-publish format-link has-post-thumbnail hentry category-food-and-drink tag-link post_format-post-format-link">
-                                                            <div className="post-item fit-video">
-                                                                <div className="featured-image">
-                                                                    <img width={870} height={370} src={value.hinhdaidien} className="attachment-post-thumbnail size-post-thumbnail wp-post-image" sizes="(max-width: 870px) 100vw, 870px" />      </div>
-                                                                <div className="post-content">
-                                                                    <div className="post-content-head">
-                                                                        <div className="post-head-detail">
-                                                                            <h3 className="post-title">
-                                                                                <a href="#">{value.tieude}</a>
-                                                                            </h3>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div className="post-content-desc">
-                                                                        <div className="post-text">
-                                                                            <div dangerouslySetInnerHTML={{ __html: (draftToHtml(JSON.parse(value.noidung))) }} />
-
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                {/* .entry-footer */}
+                                    {this.state.todosforID !== null ?
+                                        <div className="col-sm-12 col-xs-12 col-lg-9 col-md-8 blog-content single-content">
+                                            <article id="post-29" className="post-29 post type-post status-publish format-link has-post-thumbnail hentry category-food-and-drink tag-link post_format-post-format-link">
+                                                <div className="post-item fit-video">
+                                                    <div className="featured-image">
+                                                        <img width={870} height={370} src={this.state.todosforID[0].hinhdaidien} className="attachment-post-thumbnail size-post-thumbnail wp-post-image" sizes="(max-width: 870px) 100vw, 870px" />      </div>
+                                                    <div className="post-content">
+                                                        <div className="post-content-head">
+                                                            <div className="post-head-detail">
+                                                                <h3 className="post-title">
+                                                                    <a href="#">{this.state.todosforID[0].tieude}</a>
+                                                                </h3>
                                                             </div>
-                                                        </article>
+                                                        </div>
+                                                        <div className="post-content-desc">
+                                                            <div className="post-text">
+                                                                <div dangerouslySetInnerHTML={{ __html: (draftToHtml(JSON.parse(this.state.todosforID[0].noidung))) }} />
+
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </React.Fragment>
-                                            )
-                                        }
-                                    }) : ""}
+                                                    {/* .entry-footer */}
+                                                </div>
+                                            </article>
+                                        </div> : ""}
                                     <div className="col-sm-12 col-xs-12 col-lg-3 col-md-4 default-sidebar">
                                         <div id="secondary" className="widget-area" role="complementary">
                                             <aside id="categories-2" className="widget widget_categories">
