@@ -2,14 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Footer from '../Footer';
 import HeaderBooking from '../HeaderBooking';
-import { Editor } from 'react-draft-wysiwyg';
-// import { EditorState } from 'draft-js';
-// import { convertFromHTML, convertFromRaw } from 'draft-js';
-// import draftToHtml from 'draftjs-to-html';
-// import htmlToDraft from 'html-to-draftjs';
-import FileBase64 from 'react-file-base64';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import domain from '../../router/domain';
+import CKEditor from "../Admin/CKEditor";
 
 const checkUser = (token) =>
     axios.post(domain + '/checktoken', {
@@ -20,29 +14,12 @@ const getAllDanhmuc = () =>
     axios.post(domain + '/getalldanhmuc', {
     }).then((res) => res.data)
 
-function uploadImageCallBack(file) {
-    return new Promise(
-        (resolve, reject) => {
-            const reader = new FileReader(); // eslint-disable-line no-undef
-            reader.onload = e => resolve({ data: { link: e.target.result } });
-            reader.onerror = e => reject(e);
-            reader.readAsDataURL(file);
-        });
-}
-
 class AddTinTuc extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            contentStateTomTat: {},
-            contentStateNoiDung: {},
             danhmuctintuc: null,
-            files: [],
         }
-    }
-
-    getFiles = (files) => {
-        this.setState({ files: files })
     }
 
     componentWillMount() {
@@ -72,22 +49,21 @@ class AddTinTuc extends Component {
         }
     }
 
-    onContentStateChangeTomTat = (contentStateTomTat) => {
-        this.setState({
-            contentStateTomTat,
-        });
-    };
-    onContentStateChangeNoiDung = (contentStateNoiDung) => {
-        this.setState({
-            contentStateNoiDung,
-        });
-    };
     handleChangeText = (event) => {
         let name = event.target.name;
         let value = event.target.value;
         this.setState({
             [name]: value
         });
+    }
+
+    handleChangeTextEditor = (data) => {
+        console.log(data);
+        // let name = event.target.name;
+        // let value = event.target.value;
+        // this.setState({
+        //     [name]: value
+        // });
     }
 
     handleSubmit(e) {
@@ -125,37 +101,11 @@ class AddTinTuc extends Component {
 
                                         <div className="form-group">
                                             Mô tả ngắn
-                                            <Editor
-                                                toolbarClassName="toolbarClassName"
-                                                wrapperClassName="wrapperClassName"
-                                                editorClassName="editorClassName"
-                                                onContentStateChange={this.onContentStateChangeTomTat}
-                                                toolbar={{
-                                                    image: {
-                                                        uploadCallback: uploadImageCallBack,
-                                                        previewImage: true,
-                                                    },
-                                                }}
-                                            />
+                                            <CKEditor id="motangan" value={this.props.value} onChange={this.handleChangeTextEditor} />
                                         </div>
                                         <div className="form-group">
                                             Nội dung
-                                            <Editor
-                                                toolbarClassName="toolbarClassName"
-                                                wrapperClassName="wrapperClassName"
-                                                editorClassName="editorClassName"
-                                                onContentStateChange={this.onContentStateChangeNoiDung}
-                                                toolbar={{
-                                                    image: {
-                                                        uploadCallback: uploadImageCallBack,
-                                                        previewImage: true,
-                                                    },
-                                                }}
-                                            />
-
-                                            {/* <div>{(draftToHtml(this.state.contentState))}</div>
-                                            {`<p><span style=\"font-size: 10px;font-family: Georgia;\">ss111111ssssss</span></p>\n`}
-                                            <div dangerouslySetInnerHTML={{ __html: (draftToHtml(this.state.contentState)) }} /> */}
+                                            <CKEditor id="noidung" value={this.props.value} onChange={this.handleChangeTextEditor} />
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="exampleInputEmail1">Keyword</label>
@@ -175,9 +125,7 @@ class AddTinTuc extends Component {
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="exampleInputFile">Hình đại diện</label>
-                                            <FileBase64
-                                                multiple={false}
-                                                onDone={this.getFiles.bind(this)} />
+
                                         </div>
                                         <button onClick={(event) => { this.handleSubmit(event) }} type="button" className="btn btn-default">Submit</button>
                                     </form>
