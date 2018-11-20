@@ -1,11 +1,6 @@
 import React, { Component } from 'react';
-import { Editor } from 'react-draft-wysiwyg';
-import FileBase64 from 'react-file-base64';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { Button, Modal, Checkbox, Radio, FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
 import FieldGroup from './FieldGroup';
-import PeopleItem from '../PeopleItem';
-import SummaryChuyenBayItem from '../SummaryChuyenBayItem';
 import axios from 'axios';
 import domain from '../../router/domain';
 
@@ -189,34 +184,10 @@ class MyLargeModalTinTuc extends Component {
                 <FormControl name="des" defaultValue={this.state.donhang.length !== 0 ? this.state.donhang[0].des : ""} componentClass="textarea" onChange={(evt) => { this.handleProductTable(evt) }} />
               </FormGroup>
               Mô tả ngắn
-              <Editor
-                initialContentState={this.state.donhang.length !== 0 ? JSON.parse(this.state.donhang[0].motangan) : ""}
-                toolbarClassName="toolbarClassName"
-                wrapperClassName="wrapperClassName"
-                editorClassName="editorClassName"
-                onContentStateChange={this.onContentStateChangeTomTat}
-                toolbar={{
-                  image: {
-                    uploadCallback: uploadImageCallBack,
-                    previewImage: true,
-                  },
-                }}
-              />
+              
               <br />
               Nội dung
-              <Editor
-                initialContentState={this.state.donhang.length !== 0 ? JSON.parse(this.state.donhang[0].noidung) : ""}
-                toolbarClassName="toolbarClassName"
-                wrapperClassName="wrapperClassName"
-                editorClassName="editorClassName"
-                onContentStateChange={this.onContentStateChangeNoiDung}
-                toolbar={{
-                  image: {
-                    uploadCallback: uploadImageCallBack,
-                    previewImage: true,
-                  },
-                }}
-              />
+              
 
               <FieldGroup
                 id={this.state.donhang.length !== 0 ? this.state.donhang[0].id : ""}
@@ -241,9 +212,7 @@ class MyLargeModalTinTuc extends Component {
               </FormGroup>
               <FormGroup controlId="hinhdaidien" controlname="hinhdaidien">
                 <ControlLabel>Hình đại diện</ControlLabel>
-                <FileBase64
-                  multiple={false}
-                  onDone={this.getFiles.bind(this)} />
+                
               </FormGroup>
             </form>
 

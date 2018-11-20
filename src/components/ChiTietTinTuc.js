@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import draftToHtml from 'draftjs-to-html';
 import axios from 'axios';
 import HeaderBooking from './HeaderBooking';
 import Footer from './Footer';
@@ -79,8 +78,7 @@ class ChiTietTinTuc extends Component {
                                                         </div>
                                                         <div className="post-content-desc">
                                                             <div className="post-text">
-                                                                <div dangerouslySetInnerHTML={{ __html: (draftToHtml(JSON.parse(this.state.todosforID[0].noidung))) }} />
-
+                                                                <div dangerouslySetInnerHTML={{ __html: this.state.todosforID[0].noidung }} />
                                                             </div>
                                                         </div>
                                                     </div>

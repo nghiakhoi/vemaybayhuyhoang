@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import draftToHtml from 'draftjs-to-html';
 
 class TinTucItem extends Component {
     render() {
@@ -27,7 +26,7 @@ class TinTucItem extends Component {
                                 </div>
                                 <div className="post-content-desc">
                                     <div className="post-text" >
-                                    <div dangerouslySetInnerHTML={{ __html: (draftToHtml(JSON.parse(this.props.motangan))) }} />
+                                        <div dangerouslySetInnerHTML={{ __html: this.props.motangan }} />
                                         <div className="clearfix" />
                                     </div>
                                     <div className="post-content-readmore">

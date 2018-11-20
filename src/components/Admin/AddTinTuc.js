@@ -14,11 +14,33 @@ const getAllDanhmuc = () =>
     axios.post(domain + '/getalldanhmuc', {
     }).then((res) => res.data)
 
+function selectFileWithCKFinder(elementId) {
+    window.CKFinder.popup({
+        chooseFiles: true,
+        width: 800,
+        height: 600,
+        onInit: function (finder) {
+            finder.on('files:choose', function (evt) {
+                var file = evt.data.files.first();
+                var output = document.getElementById(elementId);
+                console.log(file.getUrl());
+                output.value = file.getUrl();
+            });
+
+            finder.on('file:choose:resizedImage', function (evt) {
+                var output = document.getElementById(elementId);
+                output.value = evt.data.resizedUrl;
+            });
+        }
+    });
+}
+
 class AddTinTuc extends Component {
     constructor(props) {
         super(props);
         this.state = {
             danhmuctintuc: null,
+            image: null
         }
     }
 
@@ -125,7 +147,11 @@ class AddTinTuc extends Component {
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="exampleInputFile">Hình đại diện</label>
-
+                                            <input id="ckfinder-input-1" type="text" style={{ "width": "60%" }} />
+                                            <button onClick={function (event) {
+                                                event.preventDefault();
+                                                selectFileWithCKFinder('ckfinder-input-1');
+                                            }} id="ckfinder-popup-1" className="button-a button-a-background">Browse Server</button>
                                         </div>
                                         <button onClick={(event) => { this.handleSubmit(event) }} type="button" className="btn btn-default">Submit</button>
                                     </form>
