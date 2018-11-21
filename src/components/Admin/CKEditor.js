@@ -21,7 +21,7 @@ class CKEditor extends Component {
         };
         window.CKEDITOR.replace(this.elementName, configuration);
         var byThis = window.CKEDITOR.instances[this.elementName];
-        window.CKEDITOR.instances[this.elementName].on("change", function () {            
+        window.CKEDITOR.instances[this.elementName].on("change", function () {
             let data = byThis.getData();
             this.props.onChange(data);
         }.bind(this));

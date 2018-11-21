@@ -33,7 +33,7 @@ class HeaderBooking extends Component {
                                 <h1 className="iw-logo">
                                     <a href="/" title="InTravel">
                                         <img className="main-logo" src="../images/logo.png" alt="InTravel" />
-                                        <img className="sticky-logo" src="../images/logo_sticky.png" alt="InTravel" />
+                                        <img className="sticky-logo" src="../images/logo.png" alt="InTravel" />
                                     </a>
                                 </h1>
                             </div>

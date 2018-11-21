@@ -18,8 +18,9 @@ class DanhSachTinTucContent extends Component {
         super(props);
         this.state = {
             todos: null,
+            todosRecent: null,
             currentPage: 1,
-            todosPerPage: 1,
+            todosPerPage: 10,
             danhmuctintuc: null,
             limititem: 10,
         };
@@ -31,6 +32,11 @@ class DanhSachTinTucContent extends Component {
             currentPage: Number(event.target.id)
         });
     }
+    recentTintuc() {
+        let limititemchecker = 0;
+
+
+    }
 
     componentWillMount() {
         limititemcheck = 0;
@@ -38,6 +44,13 @@ class DanhSachTinTucContent extends Component {
             var tempdata = result.data;
             this.setState({
                 todos: tempdata
+            }, function () {
+                if (this.state.todos !== null) {
+                    var itemtintucrecent = this.state.todos.slice(0, 11);
+                    this.setState({
+                        todosRecent: itemtintucrecent
+                    })
+                }
             });
         })
         getAllDanhmuc().then((result) => {
@@ -112,11 +125,7 @@ class DanhSachTinTucContent extends Component {
                     <div className="container">
                         <div className="row">
                             <div className="col-sm-12 col-xs-12 col-lg-9 col-md-8 blog-content">
-                                {/* {this.state.todos !== null ? this.state.todos.map((value, key) => {
-                                    return (<TinTucItem
-                                        key={key}
-                                    />)
-                                }) : ""} */}
+
                                 {todos !== null ? renderTodos : ""}
 
                                 <div className="page-nav">
@@ -145,9 +154,8 @@ class DanhSachTinTucContent extends Component {
                                         <h3 className="widget-title"><span>TIN GẦN ĐÂY</span></h3>
                                         <ul className="recent-blog-posts recent-blog-posts-default">
                                             {
-                                                todos !== null ? todos.map((value, key) => {
-                                                    if (limititemcheck <= this.state.limititem) {
-                                                        limititemcheck++
+                                                this.state.todosRecent !== null ?
+                                                    this.state.todosRecent.map((value, key) => {
                                                         return (
                                                             <li key={key} className="recent-blog-post">
                                                                 <a className="recent-blog-post-thumnail" href={"/tin-chi-tiet/" + value.slug + "." + value.id + ".html"}>
@@ -162,10 +170,9 @@ class DanhSachTinTucContent extends Component {
                                                                 <div className="clearfix" />
                                                             </li>
                                                         )
-                                                    }
-                                                }) : ""
-                                            }
 
+                                                    }) : ""
+                                            }
                                         </ul>
                                     </aside>
                                 </div>

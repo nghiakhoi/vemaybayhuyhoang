@@ -43,7 +43,7 @@ class HomeContent extends Component {
     }
 
     render() {
-        const { todos, todostinthuong, currentPage, todosPerPage } = this.state;
+        const { todos, todostinthuong } = this.state;
         return (
             <div className="contents-main" id="contents-main">
                 <article id="post-948" className="post-948 page type-page status-publish hentry">
@@ -195,11 +195,11 @@ class HomeContent extends Component {
                                             <div key={key} className="col-md-4 col-sm-6 col-xs-12 element-item">
                                                 <div className="iw-tour-item">
                                                     <div className="image-wrap">
-                                                        <img src={value.hinhdaidien} />
+                                                        <img style={{ width: "200px", height: "130px" }} src={value.hinhdaidien} />
                                                     </div>
                                                     <div className="info-wrap">
                                                         <div className="info-left">
-                                                            <h3 className="title">
+                                                            <h3 style={{ fontSize: "15px" }} className="title">
                                                                 <a className="theme-color-hover" href={"/tin-chi-tiet/" + value.slug + "." + value.id + ".html"}>{value.tieude}</a>
                                                             </h3>
                                                         </div>
