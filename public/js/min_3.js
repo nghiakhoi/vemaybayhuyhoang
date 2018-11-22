@@ -1703,6 +1703,11 @@ function iwaveCheckCookie() {
     }
 };
 (function ($) {
+    $(window).load(function() {
+        var search_form_container = $('.destination-menu-search-form .destination-search-form');
+        search_form_container.find('.tour-type-field select').val('SGN')
+        search_form_container.find('.destination-field select').val('HAN')
+  });
     $.fn.itmenuscroll = function () {
         var self = $(this);
         var total = self.find('li').length;
@@ -1713,7 +1718,6 @@ function iwaveCheckCookie() {
         var view_height = self.height();
         var active_top = (view_height / 2) - (item_height / 2);
         var search_form_container = $('.destination-menu-search-form .destination-search-form');
-        
         self.on('click', 'li', function () {
             var index = self.find('li').index($(this)) + 1;
             var count = active - index;
@@ -1781,7 +1785,7 @@ function iwaveCheckCookie() {
         }
     };
     $(document).ready(function () {
-        $(".destination-search-form .js-selected, .search-tour-style-2 .js-selected, .search-tour-style2 .iw-destination-tour .js-selected, .intravel-search-tour .js-selected").select2();
+        
         $('.destination-menu-search-form ul').itmenuscroll();
     });
 })(jQuery);;

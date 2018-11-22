@@ -169,14 +169,16 @@
                 var select_val = jQuery(e.currentTarget).val();
                 localStorage.setItem("dep", select_val);
             });
+            jQuery("#dep").select2({
+                placeholder: "Destination",
+            });
+            jQuery("#des").select2({
+                placeholder: "Destination",
+            });
             jQuery("#datedep").on("change", function (e) {
-                //var select_val = jQuery(e.currentTarget).val();
-                //console.log(select_val);
                 localStorage.setItem("datedep", jQuery(this).val());
             });
             jQuery("#datedes").on("change", function (e) {
-                //var select_val = jQuery(e.currentTarget).val();
-                //console.log(select_val);
                 localStorage.setItem("datedes", jQuery(this).val());
             });
 

@@ -8,6 +8,9 @@ import domain from '../router/domain';
 const getAllSanBay = () =>
     axios.post(domain + '/getallsanbay', {
     }).then((res) => res.data)
+const getAllVungMien = () =>
+    axios.post(domain + '/getallvungmien', {
+    }).then((res) => res.data)
 
 const resortArray = (array, key, value) => {
     var active = Math.floor(array.length / 2);
@@ -60,19 +63,58 @@ class Slider extends Component {
         super(props);
         this.state = {
             isRedirect: false,
-            des: '',
-            dep: '',
+            des: localStorage.getItem('des'),
+            dep: localStorage.getItem('dep'),
             datedes: '',
             datedep: '',
             adult: '',
             direction: false,
             setvalue: 0,
             danhsachsanbay: null,
+            danhsachsanbayBanner: null,
+            danhsachvungmien: null,
             danhsachsanbaydi: null,
             danhsachsanbayve: null,
             positionimage: null
         }
         this.handleInputChange = this.handleInputChange.bind(this);
+    }
+
+    componentWillMount() {
+        localStorage.setItem("direction", 0);
+        getAllSanBay().then((result) => {
+            var tempdata = result.data;
+            var resortarray = resortArray(tempdata, 'code', localStorage.getItem('des'));
+            var positionimage = findObjectByKey(tempdata, 'code', localStorage.getItem('des'));
+            var danhsachsanbayBanner = tempdata.filter(function (data) {
+                return data.show !== "0";
+            });
+            var danhsachsanbayBannerResorted = resortArray(danhsachsanbayBanner, 'code', localStorage.getItem('des'));
+            this.setState({
+                danhsachsanbay: resortarray,
+                positionimage: positionimage,
+                danhsachsanbayBanner: danhsachsanbayBannerResorted
+            });
+            return tempdata;
+        }).then((result) => {
+            var resortarraydi = resortArraydive(result.slice(), 'code', localStorage.getItem('dep'));
+            this.setState({
+                danhsachsanbaydi: resortarraydi,
+            });
+            return result;
+        }).then((result) => {
+            var resortarrayve = resortArraydive(result.slice(), 'code', localStorage.getItem('des'));
+            this.setState({
+                danhsachsanbayve: resortarrayve,
+            });
+        });
+
+        getAllVungMien().then((result) => {
+            var tempdata1 = result.data;
+            this.setState({
+                danhsachvungmien: tempdata1
+            });
+        });
     }
 
     handleInputChange(event) {
@@ -191,6 +233,7 @@ class Slider extends Component {
                     self.find('li').removeClass('active');
                     $(this).addClass('active');
                     search_form_container.find('.destination-field select').val($(this).data('destination-slug')).trigger("change");
+                    search_form_container.find('.tour-type-field select').val($(this).data('BMV')).trigger("change");
                     localStorage.setItem("des", $(this).data('destination-slug'));
                     var background_image = $(this).data('destination-backgroundimg');
                     if (background_image) {
@@ -259,45 +302,15 @@ class Slider extends Component {
                 var total1 = jQuery('.destination-menu-search-form ul').find('li').length;
                 var active1 = Math.round(total1 / 2);
                 jQuery('.destination-menu-search-form ul').find('li:eq(' + (active1 - 1) + ')').addClass('active');
-
-                // jQuery('.destination-menu-search-form ul').find('li').each(function () {
-                //     var itemhere = jQuery(this).attr('data-destination-slug');
-                //     if (itemhere == localStorage.getItem('des')) {
-                //         jQuery(this).addClass('active');
-                //     }
-                // });
+                $('#select2-dep-container')[0].innerHTML = "Hồ Chí Minh";
+                $('#select2-des-container')[0].innerHTML = "Hà Nội";
             });
         })(jQuery);
     }
 
-    componentWillMount() {
-        localStorage.setItem("direction", 0);
-        getAllSanBay().then((result) => {
-            var tempdata = result.data;
-            var resortarray = resortArray(tempdata, 'code', localStorage.getItem('des'));
-            var positionimage = findObjectByKey(tempdata, 'code', localStorage.getItem('des'));
-            this.setState({
-                danhsachsanbay: resortarray,
-                positionimage: positionimage
-            });
-            return tempdata;
-        }).then((result) => {
-            var resortarraydi = resortArraydive(result.slice(), 'code', localStorage.getItem('dep'));
-            this.setState({
-                danhsachsanbaydi: resortarraydi,
-            });
-            return result;
-        }).then((result) => {
-            var resortarrayve = resortArraydive(result.slice(), 'code', localStorage.getItem('des'));
-            this.setState({
-                danhsachsanbayve: resortarrayve,
-            });
-        });
-    }
-
     printData = () => {
-        if (this.state.danhsachsanbay !== null) {
-            return this.state.danhsachsanbay.map((value, key) =>
+        if (this.state.danhsachsanbayBanner !== null) {
+            return this.state.danhsachsanbayBanner.map((value, key) =>
                 (
                     value.show === "1" ?
                         <SanBay
@@ -313,10 +326,19 @@ class Slider extends Component {
     }
     printDataselectdi = () => {
         if (this.state.danhsachsanbaydi !== null) {
-            return this.state.danhsachsanbaydi.map((value, key) =>
-                (
-                    <option key={key} value={value.code}>{value.ten}</option>
+            this.state.danhsachsanbaydi.map((value, key) => {
+                return (
+                    this.state.danhsachsanbaydi.map((value, key) => {
+                        return (
+                            <optgroup label="Vietnam">
+                                <option key={key} value={value.code}>{value.ten}</option>
+                            </optgroup>
+                        )
+                    })
+
+
                 )
+            }
             );
         }
     }
@@ -381,16 +403,46 @@ class Slider extends Component {
                                         <label htmlFor="dep" style={{ "color": "white" }} >Điểm khởi hành</label>
                                         <div className="tour-type-field">
 
-                                            <select className="form-control js-selected " defaultValue="SGN" id="dep" name="dep">
+                                            <select className="form-control js-selected " id="dep" name="dep">
 
-                                                {this.printDataselectdi()}
+
+                                                {this.state.danhsachvungmien !== null ? this.state.danhsachvungmien.map((value, key) => {
+                                                    var idvungmien = value.id;
+                                                    return (
+                                                        <optgroup key={key} label={value.tenvungmien}>
+                                                            {this.state.danhsachsanbay !== null ? this.state.danhsachsanbay.map((value, key) => {
+                                                                if (value.idvungmien == idvungmien) {
+                                                                    return (
+                                                                        <option key={key} value={value.code}>{value.ten}</option>
+                                                                    )
+                                                                }
+                                                            }) : ""}
+                                                        </optgroup>
+                                                    )
+                                                }
+                                                ) : ""}
                                             </select>
                                         </div>
                                         <label htmlFor="des" style={{ "color": "white" }} >Điểm đến</label>
                                         <div className="destination-field">
-                                            <select className="form-control js-selected" defaultValue="HAN" id="des" name="des">
+                                            <select className="form-control js-selected" id="des" name="des">
 
-                                                {this.printDataselectve()}
+                                                {this.state.danhsachvungmien !== null ? this.state.danhsachvungmien.map((value, key) => {
+                                                    var idvungmien = value.id;
+                                                    return (
+                                                        <optgroup key={key} label={value.tenvungmien}>
+                                                            {this.state.danhsachsanbay !== null ? this.state.danhsachsanbay.map((value, key) => {
+                                                                if (value.idvungmien == idvungmien) {
+                                                                    return (
+                                                                        <option key={key} value={value.code}>{value.ten}</option>
+                                                                    )
+                                                                }
+
+                                                            }) : ""}
+                                                        </optgroup>
+                                                    )
+                                                }
+                                                ) : ""}
                                             </select>
                                         </div>
                                     </div>

@@ -55,7 +55,8 @@ class HomeContent extends Component {
                                     <div className="vc_column-inner ">
                                         <div className="wpb_wrapper">
                                             <div className="iw-heading  style4 vc_custom_1473841127609 text-center" style={{ width: '100%' }}>
-                                                <h3 className="iwh-title" style={{ color: '#282828', fontSize: 29, fontWeight: 300, lineHeight: 1 }}>Tin khuyến mãi
+                                                <h3 className="iwh-title" style={{ color: '#282828', fontSize: 29, fontWeight: 300, lineHeight: 1 }}>
+                                                    Tin khuyến mãi
                                                 </h3>
                                             </div>
                                         </div>
@@ -77,7 +78,7 @@ class HomeContent extends Component {
                                                                 <div key={key} className="col-md-4 col-sm-6 col-xs-12 element-item">
                                                                     <div className="iw-tour-item">
                                                                         <div className="image-wrap">
-                                                                            <img src={"images/" + value.hinhdaidien} />
+                                                                            <img src={value.hinhdaidien} />
                                                                             <div className="booking-action">
                                                                                 <a className="link-to-detail theme-bg" href={"/tin-khuyen-mai/" + value.slug + "." + value.id + ".html"}>
                                                                                     Xem thêm </a>
@@ -91,7 +92,7 @@ class HomeContent extends Component {
                                                                                 <div className="post-meta">
                                                                                     <ul>
                                                                                         <li>
-                                                                                            <span className="duration">{value.motangan}</span>
+                                                                                            <span className="duration"> <div dangerouslySetInnerHTML={{ __html: value.motangan }} /></span>
                                                                                         </li>
                                                                                     </ul>
                                                                                 </div>

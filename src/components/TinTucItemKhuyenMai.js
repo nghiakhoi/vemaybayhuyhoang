@@ -7,7 +7,7 @@ class TinTucItem extends Component {
                 <div className="post-item">
                     <div className="post-content">
                         <div className="featured-image">
-                            <img width={870} height={370} src={this.props.hasdanhmuc === false ? "images/" + this.props.hinhdaidien : "../images/" + this.props.hinhdaidien} className="attachment-post-thumbnail size-post-thumbnail wp-post-image" sizes="(max-width: 870px) 100vw, 870px" />
+                            <img width={870} height={370} src={this.props.hasdanhmuc === false ? this.props.hinhdaidien : this.props.hinhdaidien} className="attachment-post-thumbnail size-post-thumbnail wp-post-image" sizes="(max-width: 870px) 100vw, 870px" />
                         </div>
                         <div className="post-content-detail">
                             <div className="post-content-head">

@@ -62,18 +62,18 @@ class ChiTietTinTucKhuyenMai extends Component {
                                                         <article id="post-29" className="post-29 post type-post status-publish format-link has-post-thumbnail hentry category-food-and-drink tag-link post_format-post-format-link">
                                                             <div className="post-item fit-video">
                                                                 <div className="featured-image">
-                                                                    <img width={870} height={370} src={"../images/" + value.hinhdaidien} className="attachment-post-thumbnail size-post-thumbnail wp-post-image" sizes="(max-width: 870px) 100vw, 870px" />      </div>
+                                                                    <img width={870} height={370} src={value.hinhdaidien} className="attachment-post-thumbnail size-post-thumbnail wp-post-image" sizes="(max-width: 870px) 100vw, 870px" />      </div>
                                                                 <div className="post-content">
                                                                     <div className="post-content-head">
                                                                         <div className="post-head-detail">
                                                                             <h3 className="post-title">
-                                                                                <a href="#">{value.tieude}</a>
+                                                                                {value.tieude}
                                                                             </h3>
                                                                         </div>
                                                                     </div>
                                                                     <div className="post-content-desc">
                                                                         <div className="post-text">
-                                                                            {value.noidung}
+                                                                            <div dangerouslySetInnerHTML={{ __html: value.noidung }} />
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -98,7 +98,7 @@ class ChiTietTinTucKhuyenMai extends Component {
                                                                 return (
                                                                     <li key={key} className="recent-blog-post">
                                                                         <a className="recent-blog-post-thumnail" href={"/tin-khuyen-mai/" + value.slug + "." + value.id + ".html"}>
-                                                                            <img src={"../images/" + value.hinhdaidien} />
+                                                                            <img src={value.hinhdaidien} />
                                                                         </a>
                                                                         <div className="recent-blog-post-detail">
                                                                             <h3 className="recent-blog-post-title"><a className="theme-color-hover" href={"/tin-khuyen-mai/" + value.slug + "." + value.id + ".html"}>
