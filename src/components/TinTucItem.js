@@ -7,9 +7,9 @@ class TinTucItem extends Component {
                 <div className="tour-listing-row" style={{ marginBottom: "20px" }}>
                     <div className="tour-item">
                         <div className="row">
-                            <div className="col-sm-12 col-xs-12 col-lg-12 col-md-12">
+                            <div className="col-sm-12 col-xs-12 col-lg-12 col-md-12 text-left">
                                 <div className=" col-lg-3" >
-                                    <img style={{ width: "200px", height: "130px" }} className="img" src={this.props.hasdanhmuc === false ? this.props.hinhdaidien : this.props.hinhdaidien} />
+                                    <img style={{ width: "200px", height: "130px", margin: "0 auto", display: "block" }} className="img" src={this.props.hasdanhmuc === false ? this.props.hinhdaidien : this.props.hinhdaidien} />
 
                                 </div>
                                 <div className="col-lg-9 pull-right">
@@ -25,6 +25,7 @@ class TinTucItem extends Component {
                         </div>
                     </div>
                 </div>
+                <hr />
             </React.Fragment>
         );
     }
