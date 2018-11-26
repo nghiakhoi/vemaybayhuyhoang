@@ -15,9 +15,11 @@ import ChiTietTinTucKhuyenMai from '../components/ChiTietTinTucKhuyenMai';
 import LoginPage from '../components/LoginPage';
 import Admin from '../components/Admin/Admin';
 import AddTinTuc from '../components/Admin/AddTinTuc';
+import AddSanBay from '../components/Admin/AddSanBay';
 import ListTinTuc from '../components/Admin/ListTinTuc';
 import AddTinKhuyenMai from '../components/Admin/AddTinKhuyenMai';
 import ListTinKhuyenMai from '../components/Admin/ListTinKhuyenMai';
+import ListSanBay from '../components/Admin/ListSanBay';
 
 class DieuHuongURL extends Component {
     render() {
@@ -39,8 +41,10 @@ class DieuHuongURL extends Component {
                     <Route exact path="/admin" component={Admin} />
                     <Route exact path="/admin/addtintuc" component={AddTinTuc} />
                     <Route exact path="/admin/addtinkhuyenmai" component={AddTinKhuyenMai} />
+                    <Route exact path="/admin/addsanbay" component={AddSanBay} />
                     <Route exact path="/admin/listtintuc" component={ListTinTuc} />
                     <Route exact path="/admin/listtinkhuyenmai" component={ListTinKhuyenMai} />
+                    <Route exact path="/admin/listsanbay" component={ListSanBay} />
                     <Route exact path="/admin/hoadon" component={HoaDon} />
                 </div>
             </Router>
