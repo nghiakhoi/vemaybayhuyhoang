@@ -291,6 +291,14 @@ class Slider extends Component {
             };
 
         })(jQuery);
+
+        (function ($) {
+
+            $(document).ready(function () {
+                $('#select2-dep-container')[0].innerHTML = "Hồ Chí Minh (SGN)";
+                $('#select2-des-container')[0].innerHTML = "Hà Nội (HAN)";
+            });
+        })(jQuery);
     }
 
     componentDidUpdate() {
@@ -302,8 +310,8 @@ class Slider extends Component {
                 var total1 = jQuery('.destination-menu-search-form ul').find('li').length;
                 var active1 = Math.round(total1 / 2);
                 jQuery('.destination-menu-search-form ul').find('li:eq(' + (active1 - 1) + ')').addClass('active');
-                $('#select2-dep-container')[0].innerHTML = "Hồ Chí Minh (SGN)";
-                $('#select2-des-container')[0].innerHTML = "Hà Nội (HAN)";
+                // $('#select2-dep-container')[0].innerHTML = "Hồ Chí Minh (SGN)";
+                // $('#select2-des-container')[0].innerHTML = "Hà Nội (HAN)";
             });
         })(jQuery);
     }
