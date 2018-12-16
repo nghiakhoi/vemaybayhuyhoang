@@ -163,17 +163,17 @@
         jQuery(document).ready(function () {
             jQuery("#des").on("select2:select", function (e) {
                 var select_val = jQuery(e.currentTarget).val();
-                localStorage.setItem("des", select_val);
+                localStorage.setItem("destemp", select_val);
             });
             jQuery("#dep").on("select2:select", function (e) {
                 var select_val = jQuery(e.currentTarget).val();
-                localStorage.setItem("dep", select_val);
+                localStorage.setItem("deptemp", select_val);
             });
             jQuery("#dep").select2({
-                placeholder: "Destination",
+                placeholder: "Khởi Hành",
             });
             jQuery("#des").select2({
-                placeholder: "Destination",
+                placeholder: "Nơi Đến",
             });
             jQuery("#datedep").on("change", function (e) {
                 localStorage.setItem("datedep", jQuery(this).val());

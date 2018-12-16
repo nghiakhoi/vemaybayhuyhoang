@@ -4,6 +4,7 @@ import axios from 'axios';
 import jQuery from 'jquery';
 import SanBay from './SanBay';
 import domain from '../router/domain';
+import LiComponentAir from './LiComponentAir';
 
 const getAllSanBay = () =>
     axios.post(domain + '/getallsanbay', {
@@ -63,8 +64,12 @@ class Slider extends Component {
         super(props);
         this.state = {
             isRedirect: false,
-            des: localStorage.getItem('des'),
-            dep: localStorage.getItem('dep'),
+            dep: "SGN",
+            depfullname: "Hồ Chí Minh",
+            depshow: false,
+            des: "HAN",
+            desfullname: "Hà Nội",
+            desshow: false,
             datedes: '',
             datedep: '',
             adult: '',
@@ -72,6 +77,7 @@ class Slider extends Component {
             setvalue: 0,
             danhsachsanbay: null,
             danhsachsanbayBanner: null,
+            danhsachsanbayInMenu: null,
             danhsachvungmien: null,
             danhsachsanbaydi: null,
             danhsachsanbayve: null,
@@ -89,11 +95,15 @@ class Slider extends Component {
             var danhsachsanbayBanner = tempdata.filter(function (data) {
                 return data.show !== "0";
             });
+            var danhsachsanbayInMenu = tempdata.filter(function (data) {
+                return data.showinmenu !== "1";
+            });
             var danhsachsanbayBannerResorted = resortArray(danhsachsanbayBanner, 'code', localStorage.getItem('des'));
             this.setState({
                 danhsachsanbay: resortarray,
                 positionimage: positionimage,
-                danhsachsanbayBanner: danhsachsanbayBannerResorted
+                danhsachsanbayBanner: danhsachsanbayBannerResorted,
+                danhsachsanbayInMenu: danhsachsanbayInMenu
             });
             return tempdata;
         }).then((result) => {
@@ -138,6 +148,28 @@ class Slider extends Component {
         localStorage.setItem(name, this.state.setvalue === 0 ? 1 : 0);
 
     }
+
+
+    handleInputChangeDiemKhoiHanh(name, fullname) {
+
+        this.setState({
+            dep: name,
+            depfullname: fullname,
+            depshow: false
+        });
+
+    }
+
+    handleInputChangeDiemDen(name, fullname) {
+
+        this.setState({
+            des: name,
+            desfullname: fullname,
+            desshow: false
+        });
+
+    }
+
 
     isChange = (event) => {
         //console.log(event.target.value);
@@ -197,8 +229,10 @@ class Slider extends Component {
         localStorage.removeItem("ticketchoosedkhuhoi");
         localStorage.removeItem("idhoadon");
         localStorage.setItem("datedep", moment().format("DD-MM-YYYY"));
-        localStorage.setItem("dep", "SGN");
-        localStorage.setItem("des", "HAN");
+        localStorage.setItem("dep", this.state.dep);
+        localStorage.setItem("deptemp", this.state.depfullname + "-" + this.state.dep);
+        localStorage.setItem("des", this.state.des);
+        localStorage.setItem("destemp", this.state.desfullname + "-" + this.state.des);
         (function ($) {
             $.fn.itmenuscroll = function () {
                 var self = $(this);
@@ -312,8 +346,14 @@ class Slider extends Component {
                 jQuery('.destination-menu-search-form ul').find('li:eq(' + (active1 - 1) + ')').addClass('active');
                 // $('#select2-dep-container')[0].innerHTML = "Hồ Chí Minh (SGN)";
                 // $('#select2-des-container')[0].innerHTML = "Hà Nội (HAN)";
+
+                var search_form_container = $('.destination-menu-search-form .destination-search-form');
+                search_form_container.find('.tour-type-field select').val('SGN')
+                search_form_container.find('.destination-field select').val('HAN')
             });
         })(jQuery);
+        localStorage.setItem("dep", this.state.dep);
+        localStorage.setItem("des", this.state.des);
     }
 
     printData = () => {
@@ -382,7 +422,87 @@ class Slider extends Component {
                                             1. Hành trình bay
                                         </legend>
                                         <label htmlFor="dep" style={{ "color": "white" }} >Điểm khởi hành</label>
-                                        <div className="tour-type-field">
+                                        <div className="search-field">
+                                            <input onClick={() => {
+                                                this.setState({
+                                                    depshow: true,
+                                                    desshow: false
+                                                })
+                                            }} type="text" placeholder="Nhập điểm khởi hành" name="s" value={this.state.depfullname + " (" + this.state.dep + ")"} readOnly />
+
+
+                                            <div style={this.state.depshow === true ? { position: 'absolute', height: 'auto', width: '580px', top: '70px', left: '0px', display: 'block', backgroundColor: "#fcfbbb", textAlign: "left", padding: "15px", zIndex: "999" } : { position: 'absolute', height: 'auto', width: '580px', top: '70px', left: '0px', display: 'none', backgroundColor: "#fcfbbb", textAlign: "left", padding: "15px", zIndex: "999" }} className="ui-dialog ui-widget ui-widget-content ui-corner-all ui-front ui-draggable ui-resizable" tabIndex={-1} role="dialog" aria-describedby="list-departure" aria-labelledby="ui-id-1" >
+                                                <div className="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix">
+
+                                                    <span id="ui-id-1" className="ui-dialog-title">Lựa chọn thành phố hoặc sân bay xuất phát</span>
+
+                                                </div>
+                                                <div id="list-departure" className="dialog listCity ui-dialog-content ui-widget-content" style={{ width: 'auto', minHeight: '128px', maxHeight: 'none', height: 'auto' }}>
+                                                    <p style={{ fontSize: '20px', color: 'green', fontWeight: 'bold' }}>NƠI ĐI</p>
+                                                    {this.state.danhsachvungmien !== null ? this.state.danhsachvungmien.map((value, key) => {
+                                                        var idvungmien = value.id;
+                                                        return (
+                                                            <div key={key} className="domestic-col">
+                                                                <ul>
+                                                                    <li className="title" style={{ color: 'red' }}>{value.tenvungmien}</li>
+                                                                    {this.state.danhsachsanbayInMenu !== null ? this.state.danhsachsanbayInMenu.map((value, key) => {
+                                                                        if (value.idvungmien == idvungmien) {
+                                                                            return (
+                                                                                <LiComponentAir key={key} depname={value.code} depfullname={value.ten} clickLiComponent={this.handleInputChangeDiemKhoiHanh.bind(this)} />
+                                                                            )
+                                                                        }
+                                                                    }) : ""}
+                                                                </ul>
+                                                            </div>
+                                                        )
+                                                    }
+                                                    ) : ""}
+                                                </div>
+                                                <div className="domestic-col" style={{ width: "50%" }}>
+                                                    <b style={{ color: 'black', fontWeight: 'bold' }}>Chọn Thành Phố Khác</b>
+                                                    <select className="form-control js-selected " id="dep" name="dep">
+
+
+                                                        {this.state.danhsachvungmien !== null ? this.state.danhsachvungmien.map((value, key) => {
+                                                            var idvungmien = value.id;
+                                                            return (
+                                                                <optgroup key={key} label={value.tenvungmien}>
+                                                                    {this.state.danhsachsanbay !== null ? this.state.danhsachsanbay.map((value, key) => {
+                                                                        if (value.idvungmien == idvungmien) {
+                                                                            return (
+                                                                                <option key={key} value={value.ten + "-" + value.code}>{value.ten} ({value.code})</option>
+                                                                            )
+                                                                        }
+                                                                    }) : ""}
+                                                                </optgroup>
+                                                            )
+                                                        }
+                                                        ) : ""}
+                                                    </select>
+                                                    <input onClick={() => {
+                                                        var tachchuoi = localStorage.getItem('deptemp').split("-");
+                                                        localStorage.setItem('dep', tachchuoi[1]);
+                                                        this.setState({
+                                                            dep: tachchuoi[1],
+                                                            depfullname: tachchuoi[0],
+                                                            depshow: false
+                                                        });
+                                                    }} type="button" className="btn btn-primary" name="choosebutton" value="Chọn" />
+                                                    <input onClick={(e) => {
+                                                        e.preventDefault();
+                                                        this.setState({
+                                                            depshow: false
+                                                        })
+                                                    }} type="button" style={{ color: "black" }} className="btn btn-default" name="choosebutton" value="Đóng" />
+
+                                                </div>
+                                                <div className="ui-resizable-handle ui-resizable-n" style={{ zIndex: 90 }} /><div className="ui-resizable-handle ui-resizable-e" style={{ zIndex: 90 }} /><div className="ui-resizable-handle ui-resizable-s" style={{ zIndex: 90 }} /><div className="ui-resizable-handle ui-resizable-w" style={{ zIndex: 90 }} /><div className="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se" style={{ zIndex: 90 }} /><div className="ui-resizable-handle ui-resizable-sw" style={{ zIndex: 90 }} /><div className="ui-resizable-handle ui-resizable-ne" style={{ zIndex: 90 }} /><div className="ui-resizable-handle ui-resizable-nw" style={{ zIndex: 90 }} />
+                                            </div>
+
+
+                                        </div>
+
+                                        {/* <div className="tour-type-field">
 
                                             <select className="form-control js-selected " id="dep" name="dep">
 
@@ -403,10 +523,12 @@ class Slider extends Component {
                                                 }
                                                 ) : ""}
                                             </select>
-                                        </div>
+
+
+                                        </div> */}
                                         <label htmlFor="des" style={{ "color": "white" }} >Điểm đến</label>
                                         <div className="destination-field">
-                                            <select className="form-control js-selected" id="des" name="des">
+                                            {/* <select className="form-control js-selected" id="des" name="des">
 
                                                 {this.state.danhsachvungmien !== null ? this.state.danhsachvungmien.map((value, key) => {
                                                     var idvungmien = value.id;
@@ -424,7 +546,82 @@ class Slider extends Component {
                                                     )
                                                 }
                                                 ) : ""}
-                                            </select>
+                                            </select> */}
+
+                                            <input onClick={() => {
+                                                this.setState({
+                                                    desshow: true,
+                                                    depshow: false
+                                                })
+                                            }} type="text" placeholder="Nhập điểm đến" name="s" value={this.state.desfullname + " (" + this.state.des + ")"} readOnly />
+
+
+                                            <div style={this.state.desshow === true ? { position: 'absolute', height: 'auto', width: '580px', top: '40px', left: '0px', display: 'block', backgroundColor: "#fcfbbb", textAlign: "left", padding: "15px", zIndex: "999" } : { position: 'absolute', height: 'auto', width: '580px', top: '40px', left: '0px', display: 'none', backgroundColor: "#fcfbbb", textAlign: "left", padding: "15px", zIndex: "999" }} className="ui-dialog ui-widget ui-widget-content ui-corner-all ui-front ui-draggable ui-resizable" tabIndex={-1} role="dialog" aria-describedby="list-departure" aria-labelledby="ui-id-1" >
+                                                <div className="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix">
+                                                    <span id="ui-id-1" className="ui-dialog-title">Lựa chọn thành phố hoặc sân bay đích đến</span>
+
+                                                </div>
+                                                <div id="list-departure" className="dialog listCity ui-dialog-content ui-widget-content" style={{ width: 'auto', minHeight: '128px', maxHeight: 'none', height: 'auto' }}>
+                                                    <p style={{ fontSize: '20px', color: 'green', fontWeight: 'bold' }}>NƠI ĐẾN</p>
+                                                    {this.state.danhsachvungmien !== null ? this.state.danhsachvungmien.map((value, key) => {
+                                                        var idvungmien = value.id;
+                                                        return (
+                                                            <div key={key} className="domestic-col">
+                                                                <ul>
+                                                                    <li className="title" style={{ color: 'red' }}>{value.tenvungmien}</li>
+                                                                    {this.state.danhsachsanbayInMenu !== null ? this.state.danhsachsanbayInMenu.map((value, key) => {
+                                                                        if (value.idvungmien == idvungmien) {
+                                                                            return (
+                                                                                <LiComponentAir key={key} depname={value.code} depfullname={value.ten} clickLiComponent={this.handleInputChangeDiemDen.bind(this)} />
+                                                                            )
+                                                                        }
+                                                                    }) : ""}
+                                                                </ul>
+                                                            </div>
+                                                        )
+                                                    }
+                                                    ) : ""}
+                                                </div>
+                                                <div className="domestic-col" style={{ width: "50%" }}>
+                                                    <b style={{ color: 'black', fontWeight: 'bold' }}>Chọn Thành Phố Khác</b>
+                                                    <select className="form-control js-selected " id="des" name="des">
+
+
+                                                        {this.state.danhsachvungmien !== null ? this.state.danhsachvungmien.map((value, key) => {
+                                                            var idvungmien = value.id;
+                                                            return (
+                                                                <optgroup key={key} label={value.tenvungmien}>
+                                                                    {this.state.danhsachsanbay !== null ? this.state.danhsachsanbay.map((value, key) => {
+                                                                        if (value.idvungmien == idvungmien) {
+                                                                            return (
+                                                                                <option key={key} value={value.ten + "-" + value.code}>{value.ten} ({value.code})</option>
+                                                                            )
+                                                                        }
+                                                                    }) : ""}
+                                                                </optgroup>
+                                                            )
+                                                        }
+                                                        ) : ""}
+                                                    </select>
+                                                    <input onClick={() => {
+                                                        var tachchuoi = localStorage.getItem('destemp').split("-");
+                                                        localStorage.setItem('des', tachchuoi[1]);
+                                                        this.setState({
+                                                            des: tachchuoi[1],
+                                                            desfullname: tachchuoi[0],
+                                                            desshow: false
+                                                        });
+                                                    }} type="button" style={{ marginTop: "10px" }} className="btn btn-primary" name="choosebutton" value="Chọn" />
+                                                    <input onClick={(e) => {
+                                                        e.preventDefault();
+                                                        this.setState({
+                                                            desshow: false
+                                                        })
+                                                    }} type="button" style={{ color: "black", marginTop: "10px" }} className="btn btn-default" name="choosebutton" value="Đóng" />
+                                                </div>
+                                                <div className="ui-resizable-handle ui-resizable-n" style={{ zIndex: 90 }} /><div className="ui-resizable-handle ui-resizable-e" style={{ zIndex: 90 }} /><div className="ui-resizable-handle ui-resizable-s" style={{ zIndex: 90 }} /><div className="ui-resizable-handle ui-resizable-w" style={{ zIndex: 90 }} /><div className="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se" style={{ zIndex: 90 }} /><div className="ui-resizable-handle ui-resizable-sw" style={{ zIndex: 90 }} /><div className="ui-resizable-handle ui-resizable-ne" style={{ zIndex: 90 }} /><div className="ui-resizable-handle ui-resizable-nw" style={{ zIndex: 90 }} />
+                                            </div>
+
                                         </div>
                                     </div>
 

@@ -38,3 +38,99 @@
 
 .content_image img{display:block; margin:auto auto; max-width:600px; padding:5px; border:1px solid #CCC; border-radius:7px; box-shadow:0 0 5px 5px #F2ECEC;}
 
+.domestic-col
+    {
+        float: left;
+        padding-right: 0px;
+        width: 150px;
+    }
+    .listCity td
+    {
+        vertical-align: top;
+    }
+    .listCity ul
+    {
+        list-style: none;
+        float: left;
+        clear: both;
+        width:120px;
+    }
+    .listCity ul li
+    {
+        float: left;
+        clear: both;
+        padding: 0 5px 0 0;
+        width: 120px;
+        height: auto;
+        margin: 2px 0px;
+    }
+    .listCity ul li.title
+    {
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+    .listCity ul li a
+    {
+        float: left;
+        width: 120px;
+        padding: 0px 5px !important;
+        line-height: initial;
+    }
+    .listCity ul li a:hover
+    {
+        background: #CD0202;
+    }
+    .listCity ul li a:hover *
+    {
+        color: #fff;
+    }
+    .listCity ul li a:hover b
+    {
+        font-weight: bold;
+    }
+    .listCity ul li a b
+    {
+        float: left;
+        font-weight: normal;
+    }
+    .listCity ul li a span
+    {
+        float: right;
+        font-weight: bold;
+        font-size: 10px;
+        color: #999;
+        display: none;
+    }
+    .internation-city
+    {
+        float: left;
+        width: 260px;
+    }
+    .internation-city h3
+    {
+        font-size: 13px;
+        padding: 5px 0;
+        margin: 0;
+        color: #860707;
+        text-transform: uppercase;
+    }
+    .internation-city p
+    {
+        font-size: 11px;
+        color: #888;
+    }
+    .internation-city input
+    {
+        height: 24px;
+        width: 250px;
+        border: 1px solid #ccc;
+        padding: 2px 5px;
+        margin: 7px 0;
+    }
+    .ui-dialog .ui-dialog-content{position:relative;border:0;padding:.5em 1em;background:0;overflow:auto;}
+    .ui-widget-header{border:1px solid #e78f08;background:#f6a828 50% 50% repeat-x;color:#ffffff;font-weight:bold;}
+    .ui-dialog .ui-dialog-titlebar-close{/* position:absolute; *//* right: 25px; */width:19px;margin: 5px 0 0 0;padding:1px;height:18px;}
+    .ui-dialog .ui-dialog-titlebar-close span{display:block;margin:1px;}
+    .ui-widget-header .ui-icon{background-image:url('https://www.abay.vn/Styles/images/ui-icons_ffffff_256x240.png');}
+    .ui-icon-closethick{background-position: -99px -132px;}
+    .ui-icon{width:16px;height:16px;background-image:url(images/ui-icons_222222_256x240.png);}
