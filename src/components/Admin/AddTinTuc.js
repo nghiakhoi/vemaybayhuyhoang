@@ -128,7 +128,7 @@ class AddTinTuc extends Component {
                                         </div>
                                         <div className="form-group">
                                             <label htmlFor="exampleInputEmail1">Description</label>
-                                            <textarea onChange={this.handleChangeText.bind(this)} className="form-control" id="des" name="des"></textarea>
+                                            <textarea onChange={this.handleChangeText.bind(this)} className="form-control" id="description" name="des"></textarea>
                                         </div>
 
                                         <div className="form-group">

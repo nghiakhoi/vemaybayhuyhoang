@@ -75,7 +75,7 @@ function uri_for($uri)
  * @return StreamInterface
  * @throws \InvalidArgumentException if the $resource arg is not valid.
  */
-function stream_for($resource = '', array $options = [])
+function stream_for($resource = '', array $options = array())
 {
     if (is_scalar($resource)) {
         $stream = fopen('php://temp', 'r+');
